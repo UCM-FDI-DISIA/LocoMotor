@@ -6,7 +6,7 @@
 [Bb]in/*.lib
 [Bb]in/*.exp
 [Ll]ib/
-!Dependecies/FMod/core/lib/
+!Dependencies/FMod/core/lib/
 [Oo]bj/
 
 .vs/
@@ -48,4 +48,4 @@
 *.app
 
 # Builds
-[Dd]ependecies/Ogre/[Bb]uild/
+[Dd]ependencies/Ogre/[Bb]uild/
