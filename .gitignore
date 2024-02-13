@@ -46,3 +46,6 @@
 *.exe
 *.out
 *.app
+
+# Builds
+[Dd]ependecies/Ogre/[Bb]uild/
