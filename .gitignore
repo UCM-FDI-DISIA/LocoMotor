@@ -1,18 +1,8 @@
-[Tt]emp/
-[Bb]in/*.exe
-[Bb]in/*.pdb
-[Bb]in/*.dll
-[Bb]in/*.log
-[Bb]in/*.lib
-[Bb]in/*.exp
-[Ll]ib/
-[Oo]bj/
+./[Tt]emp/
+./[Ll]ib/
+./[Oo]bj/
 
 .vs/
-
-# .dll, .exe, etc. de bibliotecas externas
-!Dependencies/FMod/core/lib/
-!Dependencies/CMake/
 
 *.user
 *.tlog
@@ -20,32 +10,13 @@
 # Prerequisites
 *.d
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-
-# Executables
-*.out
-*.app
+# Todo lo generable de la carpeta bin
+[Bb]in/*.exe
+[Bb]in/*.pdb
+[Bb]in/*.dll
+[Bb]in/*.log
+[Bb]in/*.lib
+[Bb]in/*.exp
 
 # Builds
 [Dd]ependencies/Ogre/[Bb]uild/
