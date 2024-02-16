@@ -6,10 +6,13 @@
 [Bb]in/*.lib
 [Bb]in/*.exp
 [Ll]ib/
-!Dependencies/FMod/core/lib/
 [Oo]bj/
 
 .vs/
+
+# .dll, .exe, etc. de bibliotecas externas
+!Dependencies/FMod/core/lib/
+!Dependencies/CMake/
 
 *.user
 *.tlog
@@ -30,7 +33,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -40,10 +42,8 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
-*.exe
 *.out
 *.app
 
