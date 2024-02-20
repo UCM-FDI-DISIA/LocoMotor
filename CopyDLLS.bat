@@ -2,6 +2,9 @@
 set BIN=.\bin\
 set OgreBuild=.\Dependencies\Ogre\build
 set FmodDir=.\Dependencies\FMOD
+mkdir %BIN%
+
+mkdir %BIN%
 
 COPY /y %OgreBuild%\bin\debug\Codec_STBI_d.dll %BIN%
 COPY /y %OgreBuild%\bin\debug\OgreMain_d.dll %BIN%
