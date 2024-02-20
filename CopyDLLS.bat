@@ -1,6 +1,7 @@
 :: OGRE
 set BIN=.\bin\
-set OgreBuild=.\Dependencies\Ogre\build\
+set OgreBuild=.\Dependencies\Ogre\build
+set FmodDir=.\Dependencies\FMOD
 
 COPY /y %OgreBuild%\bin\debug\Codec_STBI_d.dll %BIN%
 COPY /y %OgreBuild%\bin\debug\OgreMain_d.dll %BIN%
@@ -19,3 +20,6 @@ COPY /y %OgreBuild%\bin\release\SDL2.dll %BIN%
 COPY /y %OgreBuild%\bin\release\OgreRTShaderSystem.dll %BIN%
 COPY /y %OgreBuild%\bin\release\Plugin_ParticleFX.dll %BIN%
 COPY /y %OgreBuild%\bin\release\OgreOverlay.dll %BIN%
+
+COPY /y %FmodDir%\core\lib\fmod.dll %BIN%
+COPY /y %FmodDir%\core\lib\fmodL.dll %BIN%
