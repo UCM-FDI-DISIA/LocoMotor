@@ -2,6 +2,7 @@
 set BIN=.\bin\
 set OgreBuild=.\Dependencies\Ogre\build
 set FmodDir=.\Dependencies\FMOD
+mkdir %BIN%
 
 mkdir %BIN%
 
