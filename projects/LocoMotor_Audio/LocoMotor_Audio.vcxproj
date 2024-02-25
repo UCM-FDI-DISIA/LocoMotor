@@ -11,10 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\LocoMotor_Audio\include\AudioListener.h" />
     <ClInclude Include="..\..\src\LocoMotor_Audio\include\AudioManager.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Audio\include\AudioSource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\AudioListener.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\AudioManager.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\AudioSource.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -66,7 +70,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc;$(SolutionDir)src\LocoMotor_Audio\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -90,7 +94,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc;$(SolutionDir)src\LocoMotor_Audio\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
