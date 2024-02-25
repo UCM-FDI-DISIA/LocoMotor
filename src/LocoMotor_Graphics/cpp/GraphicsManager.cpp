@@ -12,26 +12,26 @@
 //Std include
 #include <iostream>
 //Graphics includes
+#include "GraphicsManager.h"
 #include "RenderScene.h"
 #include "SGTechniqueResolverListener.h"
-#include "GraphicsManager.h"
 
-using namespace LocoMotor;
+using namespace LocoMotor::Graphics;
 
-Graphics::GraphicsManager* Singleton<Graphics::GraphicsManager>::_instance = nullptr;
+GraphicsManager* Singleton<GraphicsManager>::_instance = nullptr;
 
-Graphics::GraphicsManager::GraphicsManager() {
+GraphicsManager::GraphicsManager() {
 	_activeScene = nullptr;
 	_mShaderGenerator = nullptr;
 	_root = nullptr;
 	_ovrSys = nullptr;
 }
 
-Graphics::GraphicsManager::~GraphicsManager() {
+GraphicsManager::~GraphicsManager() {
 	Shutdown();
 }
 
-std::string Graphics::GraphicsManager::Initialize(std::string name) {
+std::string GraphicsManager::Initialize(std::string name) {
 	try {
 		_root = new Ogre::Root();
 		_ovrSys = new Ogre::OverlaySystem();
@@ -62,51 +62,51 @@ std::string Graphics::GraphicsManager::Initialize(std::string name) {
 	return "";
 }
 
-Graphics::RenderScene* Graphics::GraphicsManager::CreateScene(std::string name) {
+RenderScene* GraphicsManager::CreateScene(std::string name) {
 	if (_scenes.count(name) > 0) {
 		std::cerr << "ERROR: Ya hay una escena con el nombre \"" << name << "\". Elige otro nombre por favor\n";
 		return _scenes[name];
 	}
-	Graphics::RenderScene* sc;
+	RenderScene* sc;
 	Ogre::SceneManager* sM = _root->createSceneManager();
 	sM->addRenderQueueListener(_ovrSys);
-	sc = new Graphics::RenderScene(sM);
+	sc = new RenderScene(sM);
 	_scenes.insert({ name, sc });
 	if (_activeScene == nullptr) _activeScene = sc;
 	_mShaderGenerator->addSceneManager(sc->GetMan());
 	return sc;
 }
 
-Graphics::RenderScene* Graphics::GraphicsManager::GetScene(std::string name) {
+RenderScene* GraphicsManager::GetScene(std::string name) {
 	if (_scenes.count(name) == 0)
 		return nullptr;
 
 	return _scenes[name];
 }
 
-void Graphics::GraphicsManager::Render() {
+void GraphicsManager::Render() {
 	if (_activeScene == nullptr) return;
 	_activeScene->Render();
 	_root->renderOneFrame();
 }
 
-Ogre::RenderWindow* Graphics::GraphicsManager::GetRenderWindow() {
+Ogre::RenderWindow* GraphicsManager::GetRenderWindow() {
 	return _mWindow.render;
 }
 
-void Graphics::GraphicsManager::SetActiveScene(Graphics::RenderScene* s) {
+void GraphicsManager::SetActiveScene(Graphics::RenderScene* s) {
 	_activeScene = s;
 }
 
-int Graphics::GraphicsManager::GetWindowHeight() {
+int GraphicsManager::GetWindowHeight() {
 	return _mWindow.render->getHeight();
 }
 
-int Graphics::GraphicsManager::GetWindowWidth() {
+int GraphicsManager::GetWindowWidth() {
 	return _mWindow.render->getWidth();
 }
 
-void Graphics::GraphicsManager::LoadResources() {
+void GraphicsManager::LoadResources() {
 	Ogre::ConfigFile cf;
 	cf.load("resources.cfg");
 
@@ -147,7 +147,7 @@ void Graphics::GraphicsManager::LoadResources() {
 
 		// Create and register the material manager listener if it doesn't exist yet.
 		if (!_mMaterialMgrListener) {
-			_mMaterialMgrListener = new Graphics::SGTechniqueResolverListener(_mShaderGenerator);
+			_mMaterialMgrListener = new SGTechniqueResolverListener(_mShaderGenerator);
 			Ogre::MaterialManager::getSingleton().addListener(_mMaterialMgrListener);
 		}
 	}
@@ -155,7 +155,7 @@ void Graphics::GraphicsManager::LoadResources() {
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
-Graphics::NativeWindowPair Graphics::GraphicsManager::InitWindow(std::string name) {
+NativeWindowPair GraphicsManager::InitWindow(std::string name) {
 	uint32_t w , h;
 	Ogre::NameValuePairList miscParams;
 
@@ -197,7 +197,7 @@ Graphics::NativeWindowPair Graphics::GraphicsManager::InitWindow(std::string nam
 }
 
 
-void Graphics::GraphicsManager::Shutdown() {
+void GraphicsManager::Shutdown() {
 
 	// Restore default scheme.
 	Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
