@@ -14,9 +14,9 @@ namespace FMOD {
 
 namespace LocoMotor {
 
-	namespace Audio {
+	class AudioListener;
 
-		class AudioListener;
+	namespace Audio {
 
 		class AudioManager {
 

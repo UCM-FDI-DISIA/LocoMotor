@@ -9,9 +9,6 @@ namespace LocoMotor {
 	class Component {
 		friend class GameObject;
 	public:
-		Component() = delete;
-		Component(Component& c) = delete;
-		Component& operator=(const Component&) = delete;
 		/// @brief This method checks for the enabled state of the component
 		/// @return true if the component is enabled
 		bool isEnabled();
@@ -22,8 +19,7 @@ namespace LocoMotor {
 	protected:
 		/// @brief This function is called on every frame 
 		/// @param dt The time elapsed since the last update, measured in ms
-		virtual void update(float dt) {
-		};
+		virtual void update(float dt) = 0;
 		/// @brief This function is called on every fixed time update (by default each 16ms)
 		virtual void fixedUpdate() {
 		};
@@ -37,8 +33,7 @@ namespace LocoMotor {
 		};
 		/// @brief This function is called when the component is enabled for the first time
 		/// @remarks On scene startup, if the component is enabled, onEnable() is called before start() but after awake()
-		virtual void start() {
-		};
+		virtual void start() = 0;
 		/// @brief This function is ALWAYS called only once on scene startup
 		/// @remarks On scene startup, if the component is enabled, onEnable() is called before start() but after awake()
 		virtual void awake() {

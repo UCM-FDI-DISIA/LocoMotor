@@ -7,17 +7,14 @@
 #include <iostream>
 #endif // _DEBUG
 
-using namespace LocoMotor::Audio;
+using namespace LocoMotor;
 using namespace FMOD;
 
-AudioSource::AudioSource() : _man(AudioManager::GetInstance()) {
+AudioSource::AudioSource() : _man(nullptr) {
 	_chMap = std::unordered_map<const char*, ChannelData>();
 	_volumeMult = 1.f;
-	_posRemember = new FMOD_VECTOR();
-	_posRemember->x = 0;
-	_posRemember->y = 0;
-	_posRemember->z = 0;
-	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
+	_posRemember = nullptr;
+	_mode = 0;
 }
 
 AudioSource::~AudioSource() {
@@ -37,7 +34,7 @@ unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned 
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG
-		std::cerr << "Sound " << fileName << " is not added to the manager, adding it now\n";
+		std::cerr << "Sound '" << fileName << "' is not added to the manager, adding it now\n";
 	#endif // _DEBUG
 		addSound(fileName);
 		snd = _man->getSound(fileName);
@@ -251,6 +248,13 @@ void AudioSource::setMode2D() {
 	_mode = FMOD_2D;
 }
 
-AudioManager* AudioSource::getManager() {
-	return _man;
+void LocoMotor::AudioSource::init() {
+	_man = Audio::AudioManager::GetInstance();
+	_chMap = std::unordered_map<const char*, ChannelData>();
+	_volumeMult = 1.f;
+	_posRemember = new FMOD_VECTOR();
+	_posRemember->x = 0;
+	_posRemember->y = 0;
+	_posRemember->z = 0;
+	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
 }

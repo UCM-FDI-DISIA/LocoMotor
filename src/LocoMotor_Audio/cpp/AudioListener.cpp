@@ -6,14 +6,35 @@
 #include <iostream>
 #endif // _DEBUG
 
-using namespace LocoMotor::Audio;
+using namespace LocoMotor;
 
-AudioListener::AudioListener() : _man(AudioManager::GetInstance()) {
+void LocoMotor::AudioListener::init() {
+	_man = Audio::AudioManager::GetInstance();
+	_fSys = _man->getSystem();
+}
+
+void AudioListener::onEnable() {
 	_thisIT = _man->addListener(this, _fIndex);
 }
 
-AudioListener::~AudioListener() {
+void AudioListener::update(float dT) {
+	FMOD_VECTOR lastPosition;
+	_fSys->get3DListenerAttributes(_fIndex, &lastPosition, NULL, NULL, NULL);
+
+	//Pasar de datos del transform a los atributos necesarios
+
+	//_fSys->set3DListenerAttributes(_fIndex, transformPosition, velcidadCalculada, transformForward, transformUp);
+
+}
+
+void AudioListener::onDisable() {
 	_man->removeListener(_thisIT, _fIndex);
+}
+
+AudioListener::AudioListener() : _fIndex(0), _man(nullptr), _fSys(nullptr), _thisIT() {
+}
+
+AudioListener::~AudioListener() {
 }
 
 unsigned short AudioListener::setTransform(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel, const FMOD_VECTOR& forward, const FMOD_VECTOR& up) {

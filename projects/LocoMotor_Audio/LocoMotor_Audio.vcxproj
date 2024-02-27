@@ -70,7 +70,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc;$(SolutionDir)src\LocoMotor_Audio\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Core\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -94,7 +94,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc;$(SolutionDir)src\LocoMotor_Audio\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\FMOD\core\inc;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Core\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
