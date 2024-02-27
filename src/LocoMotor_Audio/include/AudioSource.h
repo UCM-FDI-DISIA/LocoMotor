@@ -95,16 +95,6 @@ namespace LocoMotor {
 			/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
 			unsigned short setFrequency(const float freqMult);
 
-			/// @brief Set the position and velocity of this source. It will be applied to all sounds that are currently playing
-			/// @param newPos The new position of the source
-			/// @param newVel The new velocity of the source
-			void setPositionAndVelocity(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel);
-
-			/// @brief Set the position of this source and automatically update its velocity. It will be applied to all sounds that are currently playing
-			/// @param newPos The new position of the source
-			/// @param delta The delta time used to calculate the velocity
-			void setPositionAndVelocity(const FMOD_VECTOR& newPos, float delta);
-
 			/// @brief Set the source to play sounds in world space
 			void setMode3D();
 
@@ -123,9 +113,15 @@ namespace LocoMotor {
 
 			int _mode;
 
-			/// @brief Get the AudioManager instance associated with this source
-			/// @return The instance of the AudioManager
-			AudioManager* getManager();
+			/// @brief Set the position and velocity of this source. It will be applied to all sounds that are currently playing
+			/// @param newPos The new position of the source
+			/// @param newVel The new velocity of the source
+			void setPositionAndVelocity(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel);
+
+			/// @brief Set the position of this source and automatically update its velocity. It will be applied to all sounds that are currently playing
+			/// @param newPos The new position of the source
+			/// @param delta The delta time used to calculate the velocity
+			void setPositionAndVelocity(const FMOD_VECTOR& newPos, float delta);
 		};
 	}
 }

@@ -18,12 +18,7 @@ namespace LocoMotor {
 
 		class AudioListener /*: public Component*/ {
 
-		public:
-
-			/// @brief Change the index this listener is associated with in the manager
-			/// @param index The new index of the listener
-			/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
-			unsigned short changeIndex(int index); //TODO cabrones esto no se puede quedar aqui
+			friend class AudioManager;
 
 		private:
 
@@ -35,6 +30,11 @@ namespace LocoMotor {
 
 			AudioListener();
 			~AudioListener();
+
+			/// @brief Change the index this listener is associated with in the manager
+			/// @param index The new index of the listener
+			/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
+			unsigned short changeIndex(int index);
 
 			/// @brief Set the world attributes of the listener
 			/// @param newPos The new position of the listener (pass NULL or 0 to not update position)
