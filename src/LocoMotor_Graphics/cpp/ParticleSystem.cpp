@@ -36,6 +36,16 @@ LocoMotor::Graphics::ParticleSystem::ParticleSystem() {}
 
 LocoMotor::Graphics::ParticleSystem::~ParticleSystem() {}
 
+Ogre::ParticleEmitter* LocoMotor::Graphics::ParticleSystem::GetEmitter(std::string name) {
+	if (_emitters.find(name) != _emitters.end())
+		return _emitters[name];
+}
+
+Ogre::Vector3 LocoMotor::Graphics::ParticleSystem::LmVectorToOgreVector(const LMVector3 lmVector) {
+	// Conversion a un vector de ogre
+	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
+}
+
 
 
 void LocoMotor::Graphics::ParticleSystem::AddEmitter(std::string name, const LMVector3 position) {
@@ -56,4 +66,19 @@ void LocoMotor::Graphics::ParticleSystem::RemoveEmitter(std::string name) {
 		_particleSystem->removeEmitter(_emitters[name]);
 		_emitters.erase(name);
 	}
+}
+
+void LocoMotor::Graphics::ParticleSystem::MoveEmitter(std::string name, const LMVector3 position) {
+	Ogre::ParticleEmitter* emitter = GetEmitter(name);
+	emitter->setPosition(LmVectorToOgreVector(position));
+}
+
+void LocoMotor::Graphics::ParticleSystem::RotateEmitter(std::string name, const LMVector3 rotation) {
+	Ogre::ParticleEmitter* emitter = GetEmitter(name);
+	emitter->setDirection(LmVectorToOgreVector(rotation));
+}
+
+void LocoMotor::Graphics::ParticleSystem::SetEmitting(std::string name, bool emitting) {
+	Ogre::ParticleEmitter* emitter = GetEmitter(name);
+	emitter->setEnabled(emitting);
 }

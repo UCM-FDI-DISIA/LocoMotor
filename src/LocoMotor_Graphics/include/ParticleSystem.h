@@ -56,6 +56,8 @@ namespace LocoMotor{
 			/// @brief Gets an emmiter with a name
 			Ogre::ParticleEmitter* GetEmitter(std::string name);
 
+			Ogre::Vector3 LmVectorToOgreVector(const LMVector3 lmVector);
+
 		public:
 
 			/// @brief Adds an emmiter with a name in a position
@@ -63,6 +65,15 @@ namespace LocoMotor{
 
 			/// @brief Removes an emmiter with a name
 			void RemoveEmitter(std::string name);
+
+			/// @brief Moves an emmiter with a name to a position
+			void MoveEmitter(std::string name, const LMVector3 position);
+
+			/// @brief Rotates an emmiter with a name to a rotation
+			void RotateEmitter(std::string name, const LMVector3 position);
+
+			/// @brief Sets the emitter with a name, emmiting boolean
+			void SetEmitting(std::string name, bool emitting);
 		};
 	}
 }
