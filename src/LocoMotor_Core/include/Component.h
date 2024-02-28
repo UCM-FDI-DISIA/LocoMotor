@@ -42,9 +42,10 @@ namespace LocoMotor {
 		/// @remarks On scene termination or component destruction, onDisable() is called before onDestroy()
 		virtual void onDestroy() {
 		};
+
+		GameObject* _gameObject;
 	private:
 		void _init(GameObject* gameObject, bool enable);
-		GameObject* _gameObject;
 		bool _started;
 		bool _active;
 	};

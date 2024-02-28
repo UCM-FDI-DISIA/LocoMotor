@@ -22,14 +22,12 @@ namespace LocoMotor{
 			void onDisable() override;
 
 		private:
-// 
+
 			GameObject* _target;
 			LMVector3 _offset;
 
-			// 
 			Ogre::Camera* _mCamera;
 			Ogre::Viewport* _vp;
-
 
 			Camera();
 			~Camera();
