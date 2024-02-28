@@ -47,6 +47,13 @@ namespace LocoMotor{
 			void SetFOV(float newFov);
 
 			void SetViewportRatio(int viewportIndex, int modeIndex);
+
+			/// @brief Set the clipping plane of a camera object.
+			/// @param nearPlane The distance from the camera to the nearest visible object in the scene. Any object
+			/// closer than this distance will not be visible in the rendered image.
+			/// @param farPlane The far clipping plane is the maximum distance from the camera at which objects will
+			/// be rendered. Any objects beyond this distance will not be visible in the rendered image.
+			void SetClippingPlane(int nearPlane, int farPlane);
 		};
 	}
 }

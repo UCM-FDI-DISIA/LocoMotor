@@ -45,6 +45,11 @@ void LocoMotor::Graphics::Camera::SetViewportRatio(int viewportIndex, int modeIn
 	}
 }
 
+void LocoMotor::Graphics::Camera::SetClippingPlane(int nearPlane, int farPlane) {
+	_mCamera->setNearClipDistance(nearPlane);
+	_mCamera->setFarClipDistance(farPlane);
+}
+
 
 // Funcionalidad componentes
 

@@ -42,21 +42,15 @@ Ogre::ParticleEmitter* LocoMotor::Graphics::ParticleSystem::GetEmitter(std::stri
 }
 
 Ogre::Vector3 LocoMotor::Graphics::ParticleSystem::LmVectorToOgreVector(const LMVector3 lmVector) {
-	// Conversion a un vector de ogre
 	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
 }
 
-
-
 void LocoMotor::Graphics::ParticleSystem::AddEmitter(std::string name, const LMVector3 position) {
-
-	// Conversion a un vector de ogre
-	Ogre::Vector3 ogreVector = Ogre::Vector3(position.GetX(), position.GetY(), position.GetZ());
 
 	// Comprobar que no se ha creado un emitter anterior con el mismo nombre
 	if (_emitters.find(name) == _emitters.end()) {
 		_emitters.insert({ name, _particleSystem->addEmitter(name) });
-		_emitters[name]->setPosition(ogreVector);
+		_emitters[name]->setPosition(LmVectorToOgreVector(position));
 	}
 }
 
