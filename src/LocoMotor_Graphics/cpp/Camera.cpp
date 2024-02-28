@@ -1,4 +1,12 @@
 #include "Camera.h"
+#include <OgreCamera.h>
+#include <OgreViewport.h>
+
+//#include <OgreSceneNode.h>
+//#include <OgreSceneManager.h>
+//#include <OgreRenderWindow.h>
+//#include <OgreVector3.h>
+
 
 LocoMotor::Graphics::Camera::Camera() {
 }
@@ -7,19 +15,53 @@ LocoMotor::Graphics::Camera::~Camera() {
 }
 
 
-void LocoMotor::Graphics::Camera::init()
+
+void LocoMotor::Graphics::Camera::SetTarget(GameObject* target, LMVector3 offset)
 {
+	_target = target;
+	_offset = offset;
 }
 
+void LocoMotor::Graphics::Camera::SetFOV(float newFov)
+{
+	_mCamera->setFOVy(Ogre::Radian(newFov * 3.14f / 180));
+}
+
+void LocoMotor::Graphics::Camera::SetViewportRatio(int viewportIndex, int modeIndex)
+{
+	if (modeIndex == 0) {
+		_vp->setDimensions(0.0f, 0.0f, 1.0f, 1.0f);
+		_mCamera->setAspectRatio(Ogre::Real(_vp->getActualWidth()) / Ogre::Real(_vp->getActualHeight()));
+	}
+	else if (modeIndex == 1) {
+		_vp->setDimensions(0.0f, 0.0f, 1.0f, 0.5f);
+		_vp->update();
+		_mCamera->setAspectRatio(Ogre::Real(_vp->getActualWidth()) / Ogre::Real(_vp->getActualHeight()));
+	}
+	else if (modeIndex == 2) {
+		_vp->setDimensions(0.0f, 0.5f, 1.0f, 0.5f);
+		_vp->update();
+		_mCamera->setAspectRatio(Ogre::Real(_vp->getActualWidth()) / Ogre::Real(_vp->getActualHeight()));
+	}
+}
+
+
+// Funcionalidad componentes
+
+void LocoMotor::Graphics::Camera::init()
+{
+	_mCamera = nullptr;
+	//_scene = nullptr;
+	//_renderScn = nullptr;
+	_target = nullptr;
+	_offset = LMVector3(0, 0, 0);
+}
 void LocoMotor::Graphics::Camera::onEnable()
 {
 }
-
-
 void LocoMotor::Graphics::Camera::update(float dT)
 {
 }
-
 void LocoMotor::Graphics::Camera::onDisable()
 {
 }

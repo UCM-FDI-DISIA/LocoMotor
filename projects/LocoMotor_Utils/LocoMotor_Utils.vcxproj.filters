@@ -18,5 +18,8 @@
     <ClInclude Include="..\..\src\LocoMotor_Utils\include\Singleton.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Utils\include\LMVector.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
