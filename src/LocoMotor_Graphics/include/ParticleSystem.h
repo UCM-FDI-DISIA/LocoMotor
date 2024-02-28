@@ -1,9 +1,14 @@
-#include "Component.h"
-#include <string>
+#pragma once
 
+#include "Component.h"
+#include "LMVector.h"
+#include <string>
+#include <unordered_map>
+
+//#include <OgreParticleSystem.h>
 
 namespace Ogre {
-	class ParticleHelper;
+	class ParticleEmitter;
 	class Node;
 	class RenderScene;
 }
@@ -30,18 +35,34 @@ namespace LocoMotor{
 
 			// Nodo de ogre
 			Ogre::Node* _node;
+
+			// Referencia a la escena de render
 			//OgreWrapper::RenderScene* _renderScn;
 			//OgreWrapper::ParticleHelper* _particleHelper;
 
 			std::string _filename;
 			std::string _name;
 
+			// Emitidores de particulas de Ogre
+			std::unordered_map <std::string, Ogre::ParticleEmitter*> _emitters;
+
+			// Sistema de particulas de Ogre
+			Ogre::ParticleSystem* _particleSystem;
+
 
 			ParticleSystem();
 			~ParticleSystem();
 
+			/// @brief Gets an emmiter with a name
+			Ogre::ParticleEmitter* GetEmitter(std::string name);
+
 		public:
 
+			/// @brief Adds an emmiter with a name in a position
+			void AddEmitter(std::string name, const LMVector3 position);
+
+			/// @brief Removes an emmiter with a name
+			void RemoveEmitter(std::string name);
 		};
 	}
 }

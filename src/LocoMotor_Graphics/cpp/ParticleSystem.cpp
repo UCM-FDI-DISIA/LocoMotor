@@ -1,6 +1,16 @@
 #include "ParticleSystem.h"
 
-void LocoMotor::Graphics::ParticleSystem::init() {}
+#include <OgreParticleEmitter.h>
+
+
+void LocoMotor::Graphics::ParticleSystem::init() {
+
+	//_renderScn = nullptr;
+	//_particleHelper = nullptr;
+
+	_filename = "";
+	_name = "";
+}
 
 void LocoMotor::Graphics::ParticleSystem::onEnable() {}
 
@@ -20,6 +30,30 @@ void LocoMotor::Graphics::ParticleSystem::update(float dT) {
 
 void LocoMotor::Graphics::ParticleSystem::onDisable() {}
 
+
+
 LocoMotor::Graphics::ParticleSystem::ParticleSystem() {}
 
 LocoMotor::Graphics::ParticleSystem::~ParticleSystem() {}
+
+
+
+void LocoMotor::Graphics::ParticleSystem::AddEmitter(std::string name, const LMVector3 position) {
+
+	// Conversion a un vector de ogre
+	Ogre::Vector3 ogreVector = Ogre::Vector3(position.GetX(), position.GetY(), position.GetZ());
+
+	// Comprobar que no se ha creado un emitter anterior con el mismo nombre
+	if (_emitters.find(name) == _emitters.end()) {
+		_emitters.insert({ name, _particleSystem->addEmitter(name) });
+		_emitters[name]->setPosition(ogreVector);
+	}
+}
+
+void LocoMotor::Graphics::ParticleSystem::RemoveEmitter(std::string name) {
+
+	if (_emitters.find(name) != _emitters.end()) {
+		_particleSystem->removeEmitter(_emitters[name]);
+		_emitters.erase(name);
+	}
+}
