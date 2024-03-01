@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <string>
 
 #ifndef LOCOMOTOR_COMPONENT
 #define LOCOMOTOR_COMPONENT
@@ -42,6 +44,9 @@ namespace LocoMotor {
 		/// @remarks On scene termination or component destruction, onDisable() is called before onDestroy()
 		virtual void onDestroy() {
 		};
+
+		/// @brief This function is called when the scene loads the parameters of the components
+		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) = 0;
 
 		GameObject* _gameObject;
 	private:

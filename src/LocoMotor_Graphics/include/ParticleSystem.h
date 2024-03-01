@@ -58,6 +58,8 @@ namespace LocoMotor{
 
 			Ogre::Vector3 LmVectorToOgreVector(const LMVector3 lmVector);
 
+			virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+
 		public:
 
 			/// @brief Adds an emmiter with a name in a position
