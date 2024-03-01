@@ -47,6 +47,14 @@ Ogre::Vector3 LocoMotor::Graphics::ParticleSystem::LmVectorToOgreVector(const LM
 
 void LocoMotor::Graphics::ParticleSystem::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 
+	for (int i = 0; i < params.size(); i++) {
+		if (params[i].first == "name") {
+			_name = params[i].second;
+		}
+		else if (params[i].first == "file") {
+			_filename = params[i].second;
+		}
+	}
 }
 
 void LocoMotor::Graphics::ParticleSystem::AddEmitter(std::string name, const LMVector3 position) {
