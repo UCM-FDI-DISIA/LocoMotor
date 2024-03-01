@@ -4,10 +4,11 @@
 #include <map>
 #include <OgreMaterialManager.h>
 
-#include "Singleton.h"
 namespace Ogre {
 	class Root;
 	class RenderWindow;
+	class SceneManager;
+	class SceneNode;
 	class OverlaySystem;
 	namespace RTShader {
 		class ShaderGenerator;
@@ -17,63 +18,70 @@ namespace Ogre {
 struct SDL_Window;
 namespace LocoMotor {
 	namespace Graphics {
-		class RenderScene;
+
+		class Camera;
 
 		struct NativeWindowPair {
 			Ogre::RenderWindow* render = nullptr;
 			SDL_Window* native = nullptr;
 		};
-		class GraphicsManager : public LocoMotor::Singleton<GraphicsManager> {
-			friend LocoMotor::Singleton<GraphicsManager>;
+		class GraphicsManager {
 		public:
 			/// @brief Initializes the OgreManager singleton with a name for the new window
 			/// @param name Name for the window.
 			/// @return whether the initialize went well or not.
 			///	If the name is already taken, the scene with that name will be returned instead.
-			std::string Initialize(std::string name);
+			std::string initialize(std::string name);
 
 
 			/// @brief Creates a scene, if you try to create a scene with an already used name, the method will return that scene instead.
 			/// @param name Name for the new scene.
 			/// @return The newly created scene.
 			///	If the name is already taken, the scene with that name will be returned instead.
-			Graphics::RenderScene* CreateScene(std::string name);
+			void createScene(std::string name);
 
-			/// @brief Returns a created scene, searched by name in the list of scenes
-			/// @param name Name of the scene.
-			/// @return A pointer to the scene with the indicated name
-			/// If the name doesn't exist, getScene returns nullptr.
-			Graphics::RenderScene* GetScene(std::string name);
 
 			/// @brief Renders a frame.
-			void Render();
+			void render();
 
 			/// @brief 
 			/// Returns RenderWindow
 			/// @return Render window of Ogre
-			Ogre::RenderWindow* GetRenderWindow();
+			Ogre::RenderWindow* getRenderWindow();
 
 			/// @brief
 			/// Sets the active scene for the manager
-			/// @param s The scene to become active
-			void SetActiveScene(Graphics::RenderScene* s);
+			/// @param name The name of the scene to become active
+			void setActiveScene(std::string name);
 			/// @brief Returns the render window height
-			int GetWindowHeight();
+			int getWindowHeight();
 			/// @brief Returns the render window width
-			int GetWindowWidth();
+			int getWindowWidth();
+
+			GraphicsManager* getInstance();
+
+			void setActiveCamera(Camera* cam);
+
+			Camera* getMainCamera();
+
+			Camera* createCamera(std::string name);
+
+			void deactivateScene(std::string name);
 		protected:
 			Ogre::Root* _root;
 			NativeWindowPair _mWindow;
 
-			std::map<std::string , Graphics::RenderScene*> _scenes;
+			std::map<std::string , Ogre::SceneManager*> _scenes;
 
 			Ogre::MaterialManager::Listener* _mMaterialMgrListener = nullptr;
 
-			Graphics::RenderScene* _activeScene;
+			Ogre::SceneManager* _activeScene;
 
 			Ogre::RTShader::ShaderGenerator* _mShaderGenerator;
 
 			Ogre::OverlaySystem* _ovrSys;
+
+			Camera* _mainCamera;
 
 			/// @brief Creates a new OgreManager.
 			/// @param name The name for the window
@@ -81,16 +89,16 @@ namespace LocoMotor {
 			~GraphicsManager();
 
 			/// @brief Loads the resouces and initializes the RTShaderSytem
-			void LoadResources();
+			void loadResources();
 
 			/// @brief Initializes the window
 			/// @param name The Window title
 			/// @return
-			NativeWindowPair InitWindow(std::string name);
+			NativeWindowPair initWindow(std::string name);
 
 			/// @brief
 			/// Shuts down Ogre and releases all the memory related to it
-			void Shutdown();
+			void shutdown();
 
 		};
 	}

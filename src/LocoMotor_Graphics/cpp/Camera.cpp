@@ -78,6 +78,8 @@ void LocoMotor::Graphics::Camera::setParameters(std::vector<std::pair<std::strin
 			//gameObject->GetScene()->SetCamObj(gameObject);
 		}
 	}
+void LocoMotor::Graphics::Camera::updateViewport() {
+	_vp->update();
 }
 
 

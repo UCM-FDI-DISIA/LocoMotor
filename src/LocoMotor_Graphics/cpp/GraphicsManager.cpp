@@ -13,25 +13,26 @@
 #include <iostream>
 //Graphics includes
 #include "GraphicsManager.h"
-#include "RenderScene.h"
-#include "SGTechniqueResolverListener.h"
+#include "Camera.h"
+//#include "SGTechniqueResolverListener.h"
 
 using namespace LocoMotor::Graphics;
 
-GraphicsManager* Singleton<GraphicsManager>::_instance = nullptr;
+static GraphicsManager* _instance = nullptr;
 
 GraphicsManager::GraphicsManager() {
 	_activeScene = nullptr;
 	_mShaderGenerator = nullptr;
 	_root = nullptr;
 	_ovrSys = nullptr;
+	_mainCamera = nullptr;
 }
 
 GraphicsManager::~GraphicsManager() {
-	Shutdown();
+	shutdown();
 }
 
-std::string GraphicsManager::Initialize(std::string name) {
+std::string GraphicsManager::initialize(std::string name) {
 	try {
 		_root = new Ogre::Root();
 		_ovrSys = new Ogre::OverlaySystem();
@@ -48,13 +49,13 @@ std::string GraphicsManager::Initialize(std::string name) {
 		return "Error while initializing internal ogre library";
 	}
 	try {
-		InitWindow(name);
+		initWindow(name);
 	}
 	catch (...) {
 		return "Error while initializing window";
 	}
 	try {
-		LoadResources();
+		loadResources();
 	}
 	catch (...) {
 		return "Error while loading resources: make sure all .fontdef, .material, .particle, etc have no duplicates/are correctly written";
@@ -62,51 +63,81 @@ std::string GraphicsManager::Initialize(std::string name) {
 	return "";
 }
 
-RenderScene* GraphicsManager::CreateScene(std::string name) {
+void GraphicsManager::createScene(std::string name) {
 	if (_scenes.count(name) > 0) {
 		std::cerr << "ERROR: Ya hay una escena con el nombre \"" << name << "\". Elige otro nombre por favor\n";
-		return _scenes[name];
+		return;
 	}
-	RenderScene* sc;
 	Ogre::SceneManager* sM = _root->createSceneManager();
 	sM->addRenderQueueListener(_ovrSys);
-	sc = new RenderScene(sM);
-	_scenes.insert({ name, sc });
-	if (_activeScene == nullptr) _activeScene = sc;
-	_mShaderGenerator->addSceneManager(sc->GetMan());
-	return sc;
+	_scenes.insert({ name, sM });
+	if (_activeScene == nullptr) _activeScene = sM;
+	_mShaderGenerator->addSceneManager(sM);
 }
 
-RenderScene* GraphicsManager::GetScene(std::string name) {
-	if (_scenes.count(name) == 0)
-		return nullptr;
-
-	return _scenes[name];
-}
-
-void GraphicsManager::Render() {
+void GraphicsManager::render() {
 	if (_activeScene == nullptr) return;
-	_activeScene->Render();
+	_mainCamera->updateViewport();
 	_root->renderOneFrame();
 }
 
-Ogre::RenderWindow* GraphicsManager::GetRenderWindow() {
+Ogre::RenderWindow* GraphicsManager::getRenderWindow() {
 	return _mWindow.render;
 }
 
-void GraphicsManager::SetActiveScene(Graphics::RenderScene* s) {
-	_activeScene = s;
+void GraphicsManager::setActiveScene(std::string name) {
+	if (_scenes.count(name) == 0) {
+		std::cerr << "ERROR: No existe una escena con el nombre \"" << name << "\".\n";
+		return;
+	}
+	for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
+		if (it->first == name) {
+			_activeScene = it->second;
+			return;
+		}
+	}
 }
 
-int GraphicsManager::GetWindowHeight() {
+int GraphicsManager::getWindowHeight() {
 	return _mWindow.render->getHeight();
 }
 
-int GraphicsManager::GetWindowWidth() {
+int GraphicsManager::getWindowWidth() {
 	return _mWindow.render->getWidth();
 }
 
-void GraphicsManager::LoadResources() {
+GraphicsManager* LocoMotor::Graphics::GraphicsManager::getInstance() {
+	
+	return _instance;
+}
+
+void LocoMotor::Graphics::GraphicsManager::setActiveCamera(Camera* cam) {
+	_mainCamera = cam;
+}
+
+Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
+	return _mainCamera;
+}
+
+Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
+	return new Camera(_manager->createCamera(name));
+}
+
+void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
+	if (_scenes.count(name) == 0) {
+		std::cerr << "ERROR: No existe una escena con el nombre \"" << name << "\".\n";
+		return;
+	}
+	for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
+		if (it->first == name) {
+			it->second->destroyAllCameras();
+			it->second->destroyAllParticleSystems();
+			return;
+		}
+	}
+}
+
+void GraphicsManager::loadResources() {
 	Ogre::ConfigFile cf;
 	cf.load("resources.cfg");
 
@@ -155,7 +186,7 @@ void GraphicsManager::LoadResources() {
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
-NativeWindowPair GraphicsManager::InitWindow(std::string name) {
+NativeWindowPair GraphicsManager::initWindow(std::string name) {
 	uint32_t w , h;
 	Ogre::NameValuePairList miscParams;
 
@@ -197,7 +228,7 @@ NativeWindowPair GraphicsManager::InitWindow(std::string name) {
 }
 
 
-void GraphicsManager::Shutdown() {
+void GraphicsManager::shutdown() {
 
 	// Restore default scheme.
 	Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
@@ -219,8 +250,8 @@ void GraphicsManager::Shutdown() {
 		if (it->second == _activeScene) {
 			_activeScene = nullptr;
 		}
-		it->second->GetMan()->removeRenderQueueListener(_ovrSys);
-		_root->destroySceneManager(it->second->GetMan());
+		it->second->removeRenderQueueListener(_ovrSys);
+		_root->destroySceneManager(it->second);
 		delete it->second;
 	}
 
