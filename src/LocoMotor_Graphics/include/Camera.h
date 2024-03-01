@@ -57,9 +57,10 @@ namespace LocoMotor{
 			/// be rendered. Any objects beyond this distance will not be visible in the rendered image.
 			void SetClippingPlane(int nearPlane, int farPlane);
 
+			void updateViewport();
+
 			// Heredado v�a Component
 			virtual void start() override;
-			void updateViewport();
 		};
 	}
 }
