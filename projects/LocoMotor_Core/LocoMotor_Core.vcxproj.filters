@@ -18,9 +18,21 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
