@@ -22,6 +22,8 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -34,6 +36,8 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>

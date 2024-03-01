@@ -58,7 +58,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -73,7 +73,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,7 +93,6 @@
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp" />
-    
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
