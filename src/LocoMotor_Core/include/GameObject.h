@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include "ComponentsFactory.h"
+#include "Component.h"
 
 namespace LocoMotor {
 	class Component;
@@ -23,11 +24,11 @@ namespace LocoMotor {
 		T* addComponent(const std::string& name) {
 			ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
 			if (_components.count(name) > 0 && factory->isUnique(name)) {
-				return (T*) components[name];
+				return (T*) _components[name];
 			}
 			else {
 				Component* comp = factory->createComponent(name);
-				comp->_init(this, true);
+				comp->init(this, true);
 				_toStart.push(comp);
 				_components.insert({ name, comp });
 				return (T*) comp;

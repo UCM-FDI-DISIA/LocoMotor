@@ -18,12 +18,12 @@
     <ClCompile Include="..\..\src\LocoMotor_Main\cpp\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LocoMotor_Main\cpp\LocoMotorInitializer.cpp">
+    <ClCompile Include="..\..\src\LocoMotor_Main\cpp\Initializer.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\LocoMotor_Main\include\LocoMotorInitializer.h">
+    <ClInclude Include="..\..\src\LocoMotor_Main\include\Initializer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

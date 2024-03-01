@@ -106,9 +106,8 @@ namespace LocoMotor {
 
 	protected:
 
-		void init()/* override*/;
-
-		void start() override;
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void start() override {};
 		void update(float dT) override;
 
 	private:

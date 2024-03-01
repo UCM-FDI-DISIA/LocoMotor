@@ -2,11 +2,13 @@
 #ifndef LOCOMOTOR_INITIALIZER
 #define LOCOMOTOR_INITIALIZER
 
+/*
 #ifdef _MOTORDLL
 #define MOTOR_API __declspec(dllexport)
 #else
 #define MOTOR_API __declspec(dllimport)
 #endif
+*/
 
 #include <string>
 
@@ -14,16 +16,22 @@ namespace LocoMotor {
 	class SceneManager;
 	class GameObject;
 
-	class LocoMotorInitializer {
+	class Initializer {
 	public:
-		MOTOR_API LocoMotorInitializer();
-		MOTOR_API void Init();
+		Initializer();
 
-		MOTOR_API void RegisterGame(const char* gameName);
+		/// @brief Method to call before calling the InitGame Function in the game dll
+		/// @return if false, abort
+		bool Init();
+
+		/// @brief Method to call from the InitGame function in the game dll
+		/// @param gameName 
+		/// @return 
+		/*MOTOR_API*/ bool StartGameWindow(const char* gameName);
 
 		/// @brief Dont use it
 		/// @return please
-		MOTOR_API void MainLoop();
+		bool MainLoop();
 	private:
 
 		std::string _gameName;

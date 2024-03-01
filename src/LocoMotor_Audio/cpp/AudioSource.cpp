@@ -248,7 +248,7 @@ void AudioSource::setMode2D() {
 	_mode = FMOD_2D;
 }
 
-void LocoMotor::AudioSource::init() {
+void LocoMotor::AudioSource::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 	_man = Audio::AudioManager::GetInstance();
 	_chMap = std::unordered_map<const char*, ChannelData>();
 	_volumeMult = 1.f;

@@ -11,11 +11,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\LocoMotor_Main\cpp\LocoMotorInitializer.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Main\cpp\Initializer.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Main\cpp\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\LocoMotor_Main\include\LocoMotorInitializer.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Main\include\Initializer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LocoMotor_Audio\LocoMotor_Audio.vcxproj">
+      <Project>{60ebcdd9-3ae2-4ddd-a63c-ab95675f0697}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LocoMotor_Core\LocoMotor_Core.vcxproj">
+      <Project>{66dd82b0-69b5-48e0-a5ce-c0cbc7bb8a59}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LocoMotor_Graphics\LocoMotor_Graphics.vcxproj">
+      <Project>{66fa21bd-b342-43a6-9f62-0d6909f2857a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LocoMotor_Physics\LocoMotor_Physics.vcxproj">
+      <Project>{68171d82-d291-41a3-b9ff-99131b236bd3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LocoMotor_Scripting\LocoMotor_Scripting.vcxproj">
+      <Project>{49a74130-272f-4b27-ab4f-be54a177941e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LocoMotor_Utils\LocoMotor_Utils.vcxproj">
+      <Project>{3b319b41-10b1-417f-9504-9b1ceb15f5c6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -65,7 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

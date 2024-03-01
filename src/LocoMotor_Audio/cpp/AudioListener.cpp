@@ -8,7 +8,7 @@
 
 using namespace LocoMotor;
 
-void LocoMotor::AudioListener::init() {
+void LocoMotor::AudioListener::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 	_man = Audio::AudioManager::GetInstance();
 	_fSys = _man->getSystem();
 }
@@ -16,6 +16,8 @@ void LocoMotor::AudioListener::init() {
 void AudioListener::onEnable() {
 	_thisIT = _man->addListener(this, _fIndex);
 }
+
+void LocoMotor::AudioListener::start() {}
 
 void AudioListener::update(float dT) {
 	FMOD_VECTOR lastPosition;
