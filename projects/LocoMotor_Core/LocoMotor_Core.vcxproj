@@ -84,9 +84,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -32,6 +32,8 @@ namespace LocoMotor{
 			Camera();
 			~Camera();
 
+			virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+
 		public:
 			/// @brief Set the target and offset for the camera of a LocoMotor object.
 			/// @param target A pointer to a GameObject that the camera will follow as its target.
@@ -54,6 +56,9 @@ namespace LocoMotor{
 			/// @param farPlane The far clipping plane is the maximum distance from the camera at which objects will
 			/// be rendered. Any objects beyond this distance will not be visible in the rendered image.
 			void SetClippingPlane(int nearPlane, int farPlane);
+
+			// Heredado vía Component
+			virtual void start() override;
 		};
 	}
 }

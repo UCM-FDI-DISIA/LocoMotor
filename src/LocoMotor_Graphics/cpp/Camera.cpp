@@ -50,6 +50,36 @@ void LocoMotor::Graphics::Camera::SetClippingPlane(int nearPlane, int farPlane) 
 	_mCamera->setFarClipDistance(farPlane);
 }
 
+void LocoMotor::Graphics::Camera::start() {}
+
+void LocoMotor::Graphics::Camera::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+
+	for (auto& param : params) {
+		if (param.first == "CameraMode") {
+			try {
+				int modeIndex = std::stoi(param.second);
+				SetViewportRatio(1, modeIndex); //ViewportIndex = 1 TEMPORAL
+			}
+			catch (...) {
+			}
+		}
+		else if (param.first == "FOV" || param.first == "fov") {
+			try {
+				float fov = std::stof(param.second);
+				SetFOV(fov);
+			}
+			catch (...) {
+			}
+		}
+		else if (param.first == "target") {
+			//_target = param.second;
+		}
+		else if (param.first == "main") {
+			//gameObject->GetScene()->SetCamObj(gameObject);
+		}
+	}
+}
+
 
 // Funcionalidad componentes
 

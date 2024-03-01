@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <string>
 
 #ifndef LOCOMOTOR_COMPONENT
 #define LOCOMOTOR_COMPONENT
@@ -43,9 +45,15 @@ namespace LocoMotor {
 		virtual void onDestroy() {
 		};
 
+		/// @brief This function is called when the scene loads the parameters of the components
+		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) = 0;
+
 		GameObject* _gameObject;
 	private:
-		void _init(GameObject* gameObject, bool enable);
+		/// @brief Initializes the component with its context (GameObject) and enabled state
+		/// @param gameObject The GameObject which the components belongs to
+		/// @param enable The initial enabled state of the component.
+		void init(GameObject* gameObject, bool enable);
 		bool _started;
 		bool _active;
 	};

@@ -9,7 +9,7 @@ void LocoMotor::Component::setEnabled(bool enable) {
 	this->_active = enable;
 }
 
-void LocoMotor::Component::_init(GameObject* gameObject, bool enable) {
+void LocoMotor::Component::init(GameObject* gameObject, bool enable) {
 	_gameObject = gameObject;
 	_active = enable;
 }
