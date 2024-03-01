@@ -83,7 +83,7 @@ namespace LocoMotor {
 
 			std::unordered_map<std::string, FMOD::Sound*> _soundLib;
 
-			std::list<AudioListener*> _listeners;
+			std::list<::LocoMotor::AudioListener*> _listeners;
 
 			/// @brief Constructor is set to private, use the 'GetInstance' method for access to the instance of this object
 			AudioManager();

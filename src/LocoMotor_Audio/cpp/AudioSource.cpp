@@ -258,3 +258,10 @@ void LocoMotor::AudioSource::init() {
 	_posRemember->z = 0;
 	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
 }
+
+void LocoMotor::AudioSource::update(float dT) {
+	FMOD_VECTOR newPosition = FMOD_VECTOR();
+	// Inicializar con la posicion del transform...
+
+	setPositionAndVelocity(newPosition, dT);
+}

@@ -3,6 +3,7 @@
 #define AUDIOSOURCE
 
 #include <unordered_map>
+#include "Component.h"
 
 struct FMOD_VECTOR;
 namespace FMOD {
@@ -19,7 +20,7 @@ namespace LocoMotor {
 		float ogFrec;
 	};
 
-	class AudioSource {
+	class AudioSource : public Component {
 	public:
 
 		AudioSource();
@@ -44,9 +45,9 @@ namespace LocoMotor {
 		/// @param position Position where the sound will come from
 		/// @param volume Volume modifier of the sound
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
-		unsigned short playOneShot(const char* fileName, const FMOD_VECTOR& position, const float volume = 1.f);
+		unsigned short playOneShot(const char* fileName, const FMOD_VECTOR& position, const float volume = 1.f); //TODO a vectores de locomotor
 
-		/// @brief Plays a sound independently of this source, meaning i won´t update its position
+		/// @brief Plays a sound independently of this source, meaning it won´t update its position
 		/// @param fileName The sound to play
 		/// @param position Position where the sound will come from
 		/// @param volume Volume modifier of the sound
@@ -106,6 +107,9 @@ namespace LocoMotor {
 	protected:
 
 		void init()/* override*/;
+
+		void start() override;
+		void update(float dT) override;
 
 	private:
 

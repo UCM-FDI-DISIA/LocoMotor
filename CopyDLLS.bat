@@ -1,6 +1,7 @@
 :: OGRE
 set BIN=.\bin\
 set OgreBuild=.\Dependencies\Ogre\build
+set LuaBuild=.\Dependencies\Lua\build
 set FmodDir=.\Dependencies\FMOD
 
 mkdir %BIN%
@@ -25,3 +26,6 @@ COPY /y %OgreBuild%\bin\release\OgreOverlay.dll %BIN%
 
 COPY /y %FmodDir%\core\lib\fmod.dll %BIN%
 COPY /y %FmodDir%\core\lib\fmodL.dll %BIN%
+
+COPY /y %LuaBuild%\Lua.dll %BIN%
+COPY /y %LuaBuild%\Lua_d.dll %BIN%

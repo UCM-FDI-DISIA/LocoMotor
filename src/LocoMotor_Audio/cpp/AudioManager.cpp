@@ -9,6 +9,7 @@
 
 #include <cassert>
 
+using namespace LocoMotor;
 using namespace LocoMotor::Audio;
 
 AudioManager* AudioManager::_instance = nullptr;

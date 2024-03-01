@@ -13,18 +13,13 @@ namespace FMOD {
 
 namespace LocoMotor {
 
-	class AudioManager;
+	namespace Audio {
+		class AudioManager;
+	}
 
 	class AudioListener : public Component {
 
-		friend class AudioManager;
-
-	protected:
-
-		void init()/* override*/;
-		void onEnable() override;
-		void update(float dT) override;
-		void onDisable() override;
+		friend class Audio::AudioManager;
 
 	private:
 
@@ -51,6 +46,14 @@ namespace LocoMotor {
 		/// @param up The new upwards direction of the listener MUST ALSO BE NORMALIZED (pass NULL or 0 to not update)
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
 		unsigned short setTransform(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel, const FMOD_VECTOR& forward, const FMOD_VECTOR& up);
+
+
+	protected:
+
+		void init()/* override*/;
+		void onEnable() override;
+		void update(float dT) override;
+		void onDisable() override;
 	};
 }
 
