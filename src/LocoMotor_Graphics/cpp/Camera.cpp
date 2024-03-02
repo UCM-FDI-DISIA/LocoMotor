@@ -84,9 +84,6 @@ void LocoMotor::Graphics::Camera::setParameters(std::vector<std::pair<std::strin
 		}
 	}
 }
-void LocoMotor::Graphics::Camera::updateViewport() {
-	_vp->update();
-}
 
 // Funcionalidad componentes
 
