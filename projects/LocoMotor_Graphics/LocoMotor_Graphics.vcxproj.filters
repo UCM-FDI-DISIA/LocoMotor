@@ -16,6 +16,12 @@
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\MeshRenderer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\SGTechniqueResolverListener.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Node.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Archivos de encabezado">
@@ -39,6 +45,12 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\MeshRenderer.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\SGTechniqueResolverListener.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Node.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

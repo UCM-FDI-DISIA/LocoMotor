@@ -20,6 +20,7 @@ namespace LocoMotor {
 	namespace Graphics {
 
 		class Camera;
+		class Node;
 
 		struct NativeWindowPair {
 			Ogre::RenderWindow* render = nullptr;
@@ -32,6 +33,8 @@ namespace LocoMotor {
 			/// @return whether the initialize went well or not.
 			///	If the name is already taken, the scene with that name will be returned instead.
 			std::string initialize(std::string name);
+
+			void init();
 
 
 			/// @brief Creates a scene, if you try to create a scene with an already used name, the method will return that scene instead.
@@ -58,7 +61,7 @@ namespace LocoMotor {
 			/// @brief Returns the render window width
 			int getWindowWidth();
 
-			GraphicsManager* getInstance();
+			static GraphicsManager* getInstance();
 
 			void setActiveCamera(Camera* cam);
 
@@ -67,11 +70,23 @@ namespace LocoMotor {
 			Camera* createCamera(std::string name);
 
 			void deactivateScene(std::string name);
+
+			Node* createNode(std::string name);
+
+			Node* createNode(std::string name, std::string parent);
+
+			Node* getNode(std::string name);
+
+			void destroyNode(std::string name);
 		protected:
 			Ogre::Root* _root;
 			NativeWindowPair _mWindow;
 
+			Node* _nodeRoot;
+
 			std::map<std::string , Ogre::SceneManager*> _scenes;
+
+			std::map<std::string, Node*> _sceneNodes;
 
 			Ogre::MaterialManager::Listener* _mMaterialMgrListener = nullptr;
 
@@ -99,6 +114,8 @@ namespace LocoMotor {
 			/// @brief
 			/// Shuts down Ogre and releases all the memory related to it
 			void shutdown();
+
+
 
 		};
 	}

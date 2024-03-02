@@ -61,6 +61,8 @@ namespace LocoMotor{
 
 			// Heredado v�a Component
 			virtual void start() override;
+
+			Ogre::Camera* getOgreCamera();
 		};
 	}
 }

@@ -12,7 +12,7 @@ void LocoMotor::GameObject::removeComponents(const std::string& name) {
 	_components.erase(comps.first, comps.second);
 }
 
-LocoMotor::GameObject::GameObject() : _components(), _toEnable(), _toDisable(), _toStart(), _toDestroy(), _scene(nullptr), _transform(nullptr), _active(true) {}
+LocoMotor::GameObject::GameObject(std::string name) : _components(), _toEnable(), _toDisable(), _toStart(), _toDestroy(), _scene(nullptr), _transform(nullptr), _active(true), _gobjName(name) {}
 
 LocoMotor::GameObject::~GameObject() {
 	for (auto& pair : _components) {
@@ -62,4 +62,8 @@ void LocoMotor::GameObject::fixedUpdate() {
 void LocoMotor::GameObject::init(LocoMotor::Scene* scene, bool active) {
 	_scene = scene;
 	_active = active;
+}
+
+std::string LocoMotor::GameObject::getName() {
+	return _gobjName;
 }

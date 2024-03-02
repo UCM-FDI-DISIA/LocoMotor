@@ -50,6 +50,9 @@ namespace LocoMotor {
 		inline bool isActive() {
 			return _active;
 		};
+
+		/// @brief Gets the gameobject name
+		std::string getName();
 	private:
 		
 		std::multimap<std::string, Component*> _components;
@@ -60,8 +63,9 @@ namespace LocoMotor {
 		LocoMotor::Scene* _scene;
 		LocoMotor::Transform* _transform;
 		bool _active;
+		std::string _gobjName;
 
-		GameObject();
+		GameObject(std::string name);
 		~GameObject();
 		/// @brief This method is called every frame 
 		/// @param dt The time elapsed since the last frame, measured in ms

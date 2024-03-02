@@ -14,7 +14,8 @@
 //Graphics includes
 #include "GraphicsManager.h"
 #include "Camera.h"
-//#include "SGTechniqueResolverListener.h"
+#include "SGTechniqueResolverListener.h"
+#include "Node.h"
 
 using namespace LocoMotor::Graphics;
 
@@ -25,7 +26,8 @@ GraphicsManager::GraphicsManager() {
 	_mShaderGenerator = nullptr;
 	_root = nullptr;
 	_ovrSys = nullptr;
-	_mainCamera = nullptr;
+	_mainCamera = nullptr; 
+	_nodeRoot = nullptr;
 }
 
 GraphicsManager::~GraphicsManager() {
@@ -63,6 +65,12 @@ std::string GraphicsManager::initialize(std::string name) {
 	return "";
 }
 
+void GraphicsManager::init() {
+	if (_instance == nullptr) {
+		_instance = new GraphicsManager();
+	}
+}
+
 void GraphicsManager::createScene(std::string name) {
 	if (_scenes.count(name) > 0) {
 		std::cerr << "ERROR: Ya hay una escena con el nombre \"" << name << "\". Elige otro nombre por favor\n";
@@ -73,6 +81,7 @@ void GraphicsManager::createScene(std::string name) {
 	_scenes.insert({ name, sM });
 	if (_activeScene == nullptr) _activeScene = sM;
 	_mShaderGenerator->addSceneManager(sM);
+	_nodeRoot = new Node(sM->getRootSceneNode(), "root");
 }
 
 void GraphicsManager::render() {
@@ -107,7 +116,9 @@ int GraphicsManager::getWindowWidth() {
 }
 
 GraphicsManager* LocoMotor::Graphics::GraphicsManager::getInstance() {
-	
+	if (_instance == nullptr) {
+		_instance = new GraphicsManager();
+	}
 	return _instance;
 }
 
@@ -120,7 +131,11 @@ Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
 }
 
 Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
-	return new Camera(_manager->createCamera(name));
+	Node* node = createNode(name);
+	Camera* cam = new Camera();
+	node->Attach(cam->getOgreCamera());
+	if (_mainCamera == nullptr)_mainCamera = cam;
+	return cam;
 }
 
 void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
@@ -268,4 +283,59 @@ void GraphicsManager::shutdown() {
 	delete Ogre::OverlaySystem::getSingletonPtr();
 	delete _root;
 	_root = nullptr;
+
+	delete _instance;
+	_instance = nullptr;
+
+	delete _nodeRoot;
+	_nodeRoot = nullptr;
+}
+
+
+Node* GraphicsManager::createNode(std::string name) {
+	if (_sceneNodes.count(name) > 0 || name == "Root") {
+		std::cerr << "A node with the name " << name << " is already created\n";
+		return nullptr;
+	}
+	Node* node = _nodeRoot->CreateChild(name);
+	_sceneNodes.insert({ name,node });
+	return node;
+}
+
+Node* GraphicsManager::createNode(std::string name, std::string parent) {
+	if (_sceneNodes.count(name) > 0 || name == "Root") {
+		std::cerr << "A node with the name " << name << " is already created\n";
+		return nullptr;
+	}
+	else if (_sceneNodes.count(parent) == 0) {
+		std::cerr << "No node with name " << name << " found. Could not create child\n";
+		return nullptr;
+	}
+	else if (parent == "Root") {
+		return createNode(name);
+	}
+	Node* node = getNode(name)->CreateChild(name);
+	return node;
+}
+
+Node* GraphicsManager::getNode(std::string name) {
+	if (_sceneNodes.count(name) == 0) {
+		std::cerr << "No node with the name " << name << " found\n";
+		return nullptr;
+	}
+	if (name == "Root") {
+		return _nodeRoot;
+	}
+
+	return _sceneNodes.at(name);
+}
+
+void GraphicsManager::destroyNode(std::string name) {
+	if (_sceneNodes.count(name) == 0 || name == "Root") {
+		std::cerr << "No node with the name " << name << " found\n";
+	}
+	else {
+		_nodeRoot->DestroyChild(_sceneNodes[name]);
+		_sceneNodes.erase(name);
+	}
 }

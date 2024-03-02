@@ -84,7 +84,9 @@ void LocoMotor::Graphics::Camera::setParameters(std::vector<std::pair<std::strin
 		}
 	}
 }
-
+void LocoMotor::Graphics::Camera::updateViewport() {
+	_vp->update();
+}
 
 // Funcionalidad componentes
 
@@ -104,4 +106,8 @@ void LocoMotor::Graphics::Camera::update(float dT)
 }
 void LocoMotor::Graphics::Camera::onDisable()
 {
+}
+
+Ogre::Camera* LocoMotor::Graphics::Camera::getOgreCamera() {
+	return _mCamera;
 }
