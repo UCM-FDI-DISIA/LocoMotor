@@ -20,6 +20,8 @@ namespace LocoMotor {
 		void init(std::string name, std::string file,bool istatic);
 		void start();
 		void update(float dt);
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
+		/// @brief Sets the Mesh renderer visible/invisible
 	    void setVisible(bool visible);
 
 	private:

@@ -14,10 +14,11 @@ void LocoMotor::Light::start() {
 }
 
 void LocoMotor::Light::update(float dt) {
-
+	//to do: hacer que la luz pueda moverse con el transform
 }
 
 LocoMotor::Light::~Light() {
+	//buscar destructora de luz en ogre
 }
 
 Ogre::MovableObject* LocoMotor::Light::GetMovObj() {

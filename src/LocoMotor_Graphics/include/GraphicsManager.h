@@ -10,6 +10,7 @@ namespace Ogre {
 	class SceneManager;
 	class SceneNode;
 	class OverlaySystem;
+	class Entity;
 	namespace RTShader {
 		class ShaderGenerator;
 	}
@@ -17,6 +18,7 @@ namespace Ogre {
 
 struct SDL_Window;
 namespace LocoMotor {
+	class Light;
 	namespace Graphics {
 
 		class Camera;
@@ -60,6 +62,9 @@ namespace LocoMotor {
 			int getWindowHeight();
 			/// @brief Returns the render window width
 			int getWindowWidth();
+
+			Ogre::Entity* createRenderer(std::string src);
+			LocoMotor::Light* createLight();
 
 			static GraphicsManager* getInstance();
 

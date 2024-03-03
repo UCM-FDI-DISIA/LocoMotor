@@ -16,6 +16,7 @@
 #include "Camera.h"
 #include "SGTechniqueResolverListener.h"
 #include "Node.h"
+#include "Light.h"
 
 using namespace LocoMotor::Graphics;
 
@@ -105,6 +106,22 @@ void GraphicsManager::setActiveScene(std::string name) {
 			return;
 		}
 	}
+}
+
+Ogre::Entity* GraphicsManager::createRenderer(std::string src) {
+
+	return _activeScene->createEntity(src);
+
+}
+
+LocoMotor::Light* GraphicsManager::createLight() {
+
+	LocoMotor::Light* light = new Light();
+
+	light->init(_activeScene->createLight(), Ogre::Light::LT_DIRECTIONAL);
+
+	return light;
+
 }
 
 int GraphicsManager::getWindowHeight() {
