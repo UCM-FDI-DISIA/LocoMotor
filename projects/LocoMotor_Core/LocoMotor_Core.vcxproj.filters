@@ -27,6 +27,9 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="U:\hlocal\LocoMotor\src\LocoMotor_Core\include\SceneManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp">
@@ -39,6 +42,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="U:\hlocal\LocoMotor\src\LocoMotor_Core\cpp\SceneManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
