@@ -7,7 +7,8 @@ namespace LocoMotor {
 	public:
 		Light();
 		~Light();
-		Ogre::MovableObject* GetMovObj();
+		//Ogre::MovableObject* getMovObj();
+		Ogre::Light* getLight();
 		/// @brief Sets the diffuse value of the light
 		void setDiffuse(float x, float y, float z);
 		/// @brief Sets the specular value of the light

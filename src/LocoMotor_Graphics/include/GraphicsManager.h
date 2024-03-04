@@ -87,6 +87,8 @@ namespace LocoMotor {
 			Ogre::Root* _root;
 			NativeWindowPair _mWindow;
 
+			Light* _mLight;
+
 			Node* _nodeRoot;
 
 			std::map<std::string , Ogre::SceneManager*> _scenes;

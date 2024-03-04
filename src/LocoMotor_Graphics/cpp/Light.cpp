@@ -21,7 +21,10 @@ LocoMotor::Light::~Light() {
 	//buscar destructora de luz en ogre
 }
 
-Ogre::MovableObject* LocoMotor::Light::GetMovObj() {
+//Ogre::MovableObject* LocoMotor::Light::getMovObj() {
+//	return _light;
+//}
+Ogre::Light* LocoMotor::Light::getLight() {
 	return _light;
 }
 

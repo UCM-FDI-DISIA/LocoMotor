@@ -29,6 +29,7 @@ GraphicsManager::GraphicsManager() {
 	_ovrSys = nullptr;
 	_mainCamera = nullptr; 
 	_nodeRoot = nullptr;
+	_mLight = nullptr;
 }
 
 GraphicsManager::~GraphicsManager() {
@@ -116,11 +117,11 @@ Ogre::Entity* GraphicsManager::createRenderer(std::string src) {
 
 LocoMotor::Light* GraphicsManager::createLight() {
 
-	LocoMotor::Light* light = new Light();
+	_mLight = new Light();
 
-	light->init(_activeScene->createLight(), Ogre::Light::LT_DIRECTIONAL);
+	_mLight->init(_activeScene->createLight(), Ogre::Light::LT_DIRECTIONAL);
 
-	return light;
+	return _mLight;
 
 }
 
@@ -297,6 +298,12 @@ void GraphicsManager::shutdown() {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 		_mWindow.native = nullptr;
 	}
+
+	if (_mLight != nullptr) {
+		_activeScene->destroyLight(_mLight->getLight());
+		_mLight = nullptr;
+	}
+
 	delete Ogre::OverlaySystem::getSingletonPtr();
 	delete _root;
 	_root = nullptr;
