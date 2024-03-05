@@ -1,5 +1,6 @@
 #include "MeshRenderer.h"
 #include "OgreEntity.h"
+#include <OgreMovableObject.h>
 
 LocoMotor::MeshRenderer::MeshRenderer() {
 	_gObj = nullptr;

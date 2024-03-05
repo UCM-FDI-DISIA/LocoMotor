@@ -10,9 +10,7 @@
 
 
 namespace LocoMotor {
-	namespace Graphics {
-		class Camera;
-	}
+
 	class GameObject;
 	class MOTOR_API Scene {
 	public:
@@ -37,10 +35,6 @@ namespace LocoMotor {
 		/// @return scene name
 		std::string getSceneName();
 
-		/// @brief Set the camera of a scene.
-		/// @param cam A camera to set as the active camera of the scene.
-		void setSceneCam(Graphics::Camera* cam);
-
 		/// @brief Adds a new game object to the scene or returns an existing one with the same name.
 		/// @param name A string representing the name of the GameObject to be added to the Scene.
 		/// @return the pointer of the new GameObject.
@@ -58,13 +52,7 @@ namespace LocoMotor {
 		/// @return pointer to a GameObject. If the GameObject with the given name exists in the _gameObjList
 		/// map, then a pointer to that GameObject is returned.Otherwise, a null pointer is returned.
 		GameObject* getObjectByName(std::string name);
-		/// @brief Returns a pointer to the camera GameObject in the Scene.
-		/// @return Pointer to a GameObject object, specifically the camera_gObj object.
-		GameObject* getCamera();
 
-		/// @brief Sets the GameObject for the camera
-		/// @param cam GameObject with the camera
-		void setCamObj(GameObject* cam);
 		/// @brief Returns if the scene has to be destroyed
 		/// @return _toDestroy 
 		bool toDestroy();
@@ -72,8 +60,6 @@ namespace LocoMotor {
 		void destroy();
 
 	private:
-
-		Graphics::Camera* _cam;
 
 		std::string _name;
 

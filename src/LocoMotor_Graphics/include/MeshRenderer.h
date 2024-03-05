@@ -1,10 +1,10 @@
 #pragma once
 
-#include <OgreMovableObject.h>
 #include "Component.h"
 
 namespace Ogre {
 	class Entity;
+	class MovableObject;
 }
 
 namespace LocoMotor {
