@@ -6,6 +6,7 @@
 #include <OgreShaderGenerator.h>
 #include <OgreOverlaySystem.h>
 #include <OgreViewport.h>
+#include <OgreMaterialManager.h>
 //SDL includes
 #include <SDL.h>
 #include <SDL_video.h>
@@ -198,7 +199,7 @@ void GraphicsManager::loadResources() {
 		// Create and register the material manager listener if it doesn't exist yet.
 		if (!_mMaterialMgrListener) {
 			_mMaterialMgrListener = new SGTechniqueResolverListener(_mShaderGenerator);
-			Ogre::MaterialManager::getSingleton().addListener(_mMaterialMgrListener);
+			Ogre::MaterialManager::getSingleton().addListener((Ogre::MaterialManager::Listener*) _mMaterialMgrListener);
 		}
 	}
 
@@ -254,7 +255,7 @@ void GraphicsManager::shutdown() {
 
 	// Unregister the material manager listener.
 	if (_mMaterialMgrListener != nullptr) {
-		Ogre::MaterialManager::getSingleton().removeListener(_mMaterialMgrListener);
+		Ogre::MaterialManager::getSingleton().removeListener((Ogre::MaterialManager::Listener*) _mMaterialMgrListener);
 		delete _mMaterialMgrListener;
 		_mMaterialMgrListener = nullptr;
 	}

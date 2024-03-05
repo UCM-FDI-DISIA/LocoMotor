@@ -270,6 +270,11 @@ LMVector3 LMVector3::StringToVector(std::string s) {
 	return result;
 }
 
+Ogre::Vector3* LocoMotor::LMVector3::LmVectorToOgreVector(const LMVector3 lmVector) {
+
+	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
+}
+
 
 
 //Quaternion class to be used with LocoMotor
