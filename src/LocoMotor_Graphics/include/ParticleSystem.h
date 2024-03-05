@@ -24,8 +24,11 @@ namespace LocoMotor{
 		friend class GraphicsManager;
 
 	protected:
+
 		void init()/* override*/;
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 		void onEnable() override;
+		void start() override;
 		void update(float dT) override;
 		void onDisable() override;
 
@@ -48,18 +51,15 @@ namespace LocoMotor{
 		// Sistema de particulas de Ogre
 		Ogre::ParticleSystem* _particleSystem;
 
-
-		ParticleSystem();
-		~ParticleSystem();
-
 		/// @brief Gets an emmiter with a name
 		Ogre::ParticleEmitter* GetEmitter(std::string name);
 
 		//Ogre::Vector3* LmVectorToOgreVector(const LMVector3 lmVector);
 
-		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
-
 	public:
+
+		ParticleSystem();
+		~ParticleSystem();
 
 		/// @brief Adds an emmiter with a name in a position
 		void AddEmitter(std::string name, const LMVector3 position);

@@ -11,6 +11,14 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 	_isStatic = false;
 }
 
+LocoMotor::MeshRenderer::~MeshRenderer()
+{
+}
+
+void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params)
+{
+}
+
 void LocoMotor::MeshRenderer::init(std::string name, std::string file,bool istatic) {
 	_name = name;
 	_src = file;

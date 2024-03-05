@@ -17,6 +17,10 @@ void LocoMotor::ParticleSystem::init() {
 
 void LocoMotor::ParticleSystem::onEnable() {}
 
+void LocoMotor::ParticleSystem::start()
+{
+}
+
 void LocoMotor::ParticleSystem::update(float dT) {
 
 	// Actualizar la posicion del nodo asignado al ParticleSystem para que siga al GameObject asignado

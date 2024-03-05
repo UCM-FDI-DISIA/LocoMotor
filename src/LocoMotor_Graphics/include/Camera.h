@@ -19,6 +19,10 @@ namespace LocoMotor{
 		friend class Graphics::GraphicsManager;
 
 	public:
+
+		Camera();
+		~Camera();
+
 		/// @brief Set the target and offset for the camera of a LocoMotor object.
 		/// @param target A pointer to a GameObject that the camera will follow as its target.
 		/// @param offset The offset is a vector that represents the distance and direction from the target
@@ -63,12 +67,7 @@ namespace LocoMotor{
 
 		Graphics::GraphicsManager* _man;
 
-		Camera();
-		~Camera();
-
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
-
-		Ogre::Camera* getOgreCamera();
 
 		void render();
 	};

@@ -1,10 +1,11 @@
 #pragma once
-#include <vector>
-#include <string>
-
 #ifndef LOCOMOTOR_COMPONENT
 #define LOCOMOTOR_COMPONENT
 
+#include <vector>
+#include <string>
+
+#include "CheckML.h"
 
 namespace LocoMotor {
 	class GameObject;

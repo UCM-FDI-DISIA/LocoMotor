@@ -17,8 +17,9 @@ namespace LocoMotor {
 	class MeshRenderer :public LocoMotor::Component {
 		friend class Graphics::GraphicsManager;
 	public:
-		//MeshRenderer(Ogre::Entity* rend);
-		
+
+		MeshRenderer();
+		~MeshRenderer();
 		
 		void setMaterial(std::string mat);
 		
@@ -27,6 +28,8 @@ namespace LocoMotor {
 
 	protected:
 
+
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
 		void init(std::string name, std::string file, bool istatic);
 		void start();
 		void update(float dt);
@@ -39,10 +42,6 @@ namespace LocoMotor {
 		bool _isStatic;
 
 		GameObject* _gObj;
-
-		MeshRenderer();
-		~MeshRenderer();
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
 
 		Ogre::MovableObject* getMovObj();
 	};

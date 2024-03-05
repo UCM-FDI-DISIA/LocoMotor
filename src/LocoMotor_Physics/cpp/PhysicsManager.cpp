@@ -48,7 +48,16 @@ void LocoMotor::Physics::PhysicsManager::setContactEndedCallback(ContactEndedCal
 }
 
 
+LocoMotor::Physics::PhysicsManager::PhysicsManager() : _dynamicWorld(nullptr), _solver(nullptr), _overlappingPairCache(nullptr), _dispatcher(nullptr), _collisionConfiguration(nullptr) {
+
+}
+
 LocoMotor::Physics::PhysicsManager::~PhysicsManager() {
+	delete _dynamicWorld;
+	delete _solver;
+	delete _overlappingPairCache;
+	delete _dispatcher;
+	delete _collisionConfiguration;
 }
 
 bool LocoMotor::Physics::PhysicsManager::init() {

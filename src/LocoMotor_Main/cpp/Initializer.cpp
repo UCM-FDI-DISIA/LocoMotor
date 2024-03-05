@@ -6,9 +6,10 @@
 
 #include "AudioSource.h"
 #include "AudioListener.h"
-//#include "Camera.h"
-//#include "MeshRenderer.h"
-//#include "ParticleSystem.h"
+#include "Camera.h"
+#include "MeshRenderer.h"
+#include "ParticleSystem.h"
+#include "Rigidbody.h"
 
 using namespace LocoMotor;
 
@@ -60,11 +61,11 @@ bool Initializer::Init() {
 
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
-	//cmpFac->registerComponent<Camera>("Camera", true);
-	//cmpFac->registerComponent<MeshRenderer>("MeshRenderer", false);
-	//cmpFac->registerComponent<ParticleSystem>("ParticleSystem", false);
-	//cmpFac->registerComponent<RigidBody>("RigidBodyComponent", true);
-	//cmpFac->registerComponent<Transform>("Transform", true);
+	cmpFac->registerComponent<Camera>("Camera");
+	cmpFac->registerComponent<MeshRenderer>("MeshRenderer");
+	cmpFac->registerComponent<ParticleSystem>("ParticleSystem");
+	cmpFac->registerComponent<RigidBody>("RigidBodyComponent");
+	//cmpFac->registerComponent<Transform>("Transform");
 	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
 	//cmpFac->registerComponent<UIImageLM>("UIImageLM", false);
 

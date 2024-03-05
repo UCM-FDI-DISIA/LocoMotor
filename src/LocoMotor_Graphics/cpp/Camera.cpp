@@ -90,6 +90,10 @@ void LocoMotor::Camera::setParameters(std::vector<std::pair<std::string, std::st
 	}
 }
 
+void LocoMotor::Camera::render() {
+	_vp->update();
+}
+
 // Funcionalidad componentes
 
 void LocoMotor::Camera::init()
