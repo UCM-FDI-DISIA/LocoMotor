@@ -5,6 +5,7 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreShaderGenerator.h>
 #include <OgreOverlaySystem.h>
+#include <OgreMaterialManager.h>
 //SDL includes
 #include <SDL.h>
 #include <SDL_video.h>
@@ -22,6 +23,7 @@ using namespace LocoMotor;
 using namespace Graphics;
 
 static GraphicsManager* _instance = nullptr;
+Ogre::MaterialManager::Listener* _mMaterialMgrListener = nullptr;
 
 GraphicsManager::GraphicsManager() {
 	_activeScene = nullptr;

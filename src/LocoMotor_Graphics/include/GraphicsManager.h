@@ -2,7 +2,6 @@
 #define _GRAPHICS_MANAGER_H
 
 #include <map>
-#include <OgreMaterialManager.h>
 
 namespace Ogre {
 	class Root;
@@ -11,6 +10,7 @@ namespace Ogre {
 	class SceneNode;
 	class OverlaySystem;
 	class Entity;
+
 	namespace RTShader {
 		class ShaderGenerator;
 	}
@@ -96,8 +96,6 @@ namespace LocoMotor {
 			std::map<std::string , Ogre::SceneManager*> _scenes;
 
 			std::map<std::string, Node*> _sceneNodes;
-
-			Ogre::MaterialManager::Listener* _mMaterialMgrListener = nullptr;
 
 			Ogre::SceneManager* _activeScene;
 
