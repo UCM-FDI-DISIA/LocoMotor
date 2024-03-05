@@ -10,7 +10,7 @@ namespace Ogre {
 	class SceneNode;
 	class OverlaySystem;
 	class Entity;
-
+	
 	namespace RTShader {
 		class ShaderGenerator;
 	}
@@ -104,6 +104,8 @@ namespace LocoMotor {
 			Ogre::OverlaySystem* _ovrSys;
 
 			Camera* _mainCamera;
+			void* _mMaterialMgrListener = nullptr;
+			//Ogre::MaterialManager::Listener
 
 			/// @brief Creates a new OgreManager.
 			/// @param name The name for the window
