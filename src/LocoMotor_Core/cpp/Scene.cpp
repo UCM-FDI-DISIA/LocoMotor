@@ -9,7 +9,7 @@
 using namespace LocoMotor;
 Scene::Scene(std::string name) {
 	_name = name;
-	Graphics::GraphicsManager::getInstance()->createScene(_name);
+	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 }
 
 Scene::~Scene() {
@@ -50,7 +50,7 @@ void Scene::update(float dt) {
 }
 
 void Scene::render() {
-	Graphics::GraphicsManager::getInstance()->render();
+	Graphics::GraphicsManager::GetInstance()->render();
 }
 
 
@@ -67,10 +67,10 @@ void Scene::destroy() {
 	_isActiveScene = false;
 	std::unordered_map<std::string, GameObject*>::iterator it;
 	for (it = _gameObjList.begin(); it != _gameObjList.end(); it = _gameObjList.erase(it)) {
-		Graphics::GraphicsManager::getInstance()->destroyNode(it->second->getName());
+		Graphics::GraphicsManager::GetInstance()->destroyNode(it->second->getName());
 		delete it->second;
 	}
-	Graphics::GraphicsManager::getInstance()->deactivateScene(_name);
+	Graphics::GraphicsManager::GetInstance()->deactivateScene(_name);
 }
 
 
@@ -119,7 +119,7 @@ void LocoMotor::Scene::removeGameobject(std::string name) {
 	}
 	delete _gameObjList[name];
 	_gameObjList.erase(name);
-	Graphics::GraphicsManager::getInstance()->destroyNode(name);
+	Graphics::GraphicsManager::GetInstance()->destroyNode(name);
 }
 
 

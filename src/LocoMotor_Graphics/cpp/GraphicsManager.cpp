@@ -32,13 +32,41 @@ GraphicsManager::GraphicsManager() {
 	_ovrSys = nullptr;
 	_nodeRoot = nullptr;
 	_mLight = nullptr;
+	_camera = nullptr;
 }
 
 GraphicsManager::~GraphicsManager() {
 	shutdown();
 }
 
-std::string GraphicsManager::initialize(std::string name) {
+bool LocoMotor::Graphics::GraphicsManager::Init() {
+	assert(_instance == nullptr);
+	_instance = new GraphicsManager();
+
+	std::string result = _instance->initialize();
+
+	if (result != "") {
+		std::cerr << "\033[1;31m" << result << "\033[0m" << std::endl;
+		delete _instance;
+		_instance = nullptr;
+		return false;
+	}
+
+	return true;
+}
+
+GraphicsManager* LocoMotor::Graphics::GraphicsManager::GetInstance() {
+	assert(_instance != nullptr);
+	return _instance;
+}
+
+void LocoMotor::Graphics::GraphicsManager::Release() {
+	assert(_instance != nullptr);
+	delete _instance;
+	_instance = nullptr;
+}
+
+std::string GraphicsManager::initialize() {
 	try {
 		_root = new Ogre::Root();
 		_ovrSys = new Ogre::OverlaySystem();
@@ -54,25 +82,7 @@ std::string GraphicsManager::initialize(std::string name) {
 	catch (...) {
 		return "Error while initializing internal ogre library";
 	}
-	try {
-		initWindow(name);
-	}
-	catch (...) {
-		return "Error while initializing window";
-	}
-	try {
-		loadResources();
-	}
-	catch (...) {
-		return "Error while loading resources: make sure all .fontdef, .material, .particle, etc have no duplicates/are correctly written";
-	}
 	return "";
-}
-
-void GraphicsManager::init() {
-	if (_instance == nullptr) {
-		_instance = new GraphicsManager();
-	}
 }
 
 void GraphicsManager::createScene(std::string name) {
@@ -134,13 +144,6 @@ int GraphicsManager::getWindowHeight() {
 
 int GraphicsManager::getWindowWidth() {
 	return _mWindow.render->getWidth();
-}
-
-GraphicsManager* LocoMotor::Graphics::GraphicsManager::getInstance() {
-	if (_instance == nullptr) {
-		_instance = new GraphicsManager();
-	}
-	return _instance;
 }
 
 void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
@@ -206,7 +209,7 @@ void GraphicsManager::loadResources() {
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
-NativeWindowPair GraphicsManager::initWindow(std::string name) {
+bool GraphicsManager::initWindow(std::string name) {
 	uint32_t w , h;
 	Ogre::NameValuePairList miscParams;
 
@@ -244,7 +247,16 @@ NativeWindowPair GraphicsManager::initWindow(std::string name) {
 	miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.win.window));
 
 	_mWindow.render = _root->createRenderWindow(name , w , h , false , &miscParams);
-	return _mWindow;
+
+
+	try {
+		loadResources();
+	}
+	catch (...) {
+		return "Error while loading resources: make sure all .fontdef, .material, .particle, etc have no duplicates/are correctly written";
+	}
+
+	return true;
 }
 
 
@@ -294,9 +306,6 @@ void GraphicsManager::shutdown() {
 	delete Ogre::OverlaySystem::getSingletonPtr();
 	delete _root;
 	_root = nullptr;
-
-	delete _instance;
-	_instance = nullptr;
 
 	delete _nodeRoot;
 	_nodeRoot = nullptr;

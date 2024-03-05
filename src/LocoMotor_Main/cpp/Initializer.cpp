@@ -1,5 +1,5 @@
 #include "Initializer.h"
-//#include "GraphicsManager.h"
+#include "GraphicsManager.h"
 #include "ComponentsFactory.h"
 #include "PhysicsManager.h"
 #include "AudioManager.h"
@@ -21,22 +21,18 @@ Initializer::Initializer() {
 }
 
 bool Initializer::StartGameWindow(const char* gameName) {
-	/*
-	_gameName = gameName;
-	std::string err = OgreWrapper::OgreManager::GetInstance()->Initialize(gameName);
-	if (err != "") {
-		LogSystem::GetInstance()->Save(0, err);
-		_exit = true;
-	}
-	*/
-	return true;
+	
+	return Graphics::GraphicsManager::GetInstance()->initWindow(gameName);
 }
 
 bool Initializer::Init() {
-	//Graphics::GraphicsManager::Init();
+
+	if (!Graphics::GraphicsManager::Init()) {
+		return false;
+	}
 
 	if (!Audio::AudioManager::Init()) {
-		//Graphics::GraphicsManager::Release();
+		Graphics::GraphicsManager::Release();
 		return false;
 	}
 
@@ -49,7 +45,7 @@ bool Initializer::Init() {
 	//ScriptManager::Init();
 
 	if (!ComponentsFactory::Init()) {
-		//Graphics::GraphicsManager::Release();
+		Graphics::GraphicsManager::Release();
 		Audio::AudioManager::Release();
 		//Physics::PhysicsManager::Release();
 		//InputManager::Release();
@@ -84,21 +80,6 @@ bool Initializer::MainLoop() {
 		}
 	}
 	//OgreWrapper::OgreManager::GetInstance()->FadeMaterial("m_Test00");
-	while (!_exit) {
-		if (_scnManager->GetCurrentScene() == nullptr) {
-			LogSystem::GetInstance()->Save(0, "No scene has been loaded. Exiting now");
-			break;
-		}
-
-		FmodWrapper::AudioManager::GetInstance()->Update(_scnManager->GetDelta());
-		OgreWrapper::OgreManager::GetInstance()->Render();
-
-		PhysicsManager::GetInstance()->Update(_scnManager->GetDelta());
-
-		if (LocoMotor::InputManager::GetInstance()->RegisterEvents())
-			break;
-		_scnManager->Update();
-	}
 	SceneManager::Clear();
 	PhysicsManager::Clear();
 	FmodWrapper::AudioManager::Clear();
@@ -107,9 +88,10 @@ bool Initializer::MainLoop() {
 	InputManager::Clear();
 	ComponentsFactory::Clear();
 	LogSystem::Clear();
-	return;
 	*/
-	Audio::AudioManager::Release();
+
 	ComponentsFactory::Release();
+	Audio::AudioManager::Release();
+	Graphics::GraphicsManager::Release();
 	return true;
 }

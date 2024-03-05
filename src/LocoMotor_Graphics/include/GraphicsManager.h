@@ -33,13 +33,18 @@ namespace LocoMotor {
 		};
 		class GraphicsManager {
 		public:
+
+
+			static bool Init();
+			static GraphicsManager* GetInstance();
+			static void Release();
+
+
 			/// @brief Initializes the OgreManager singleton with a name for the new window
 			/// @param name Name for the window.
 			/// @return whether the initialize went well or not.
 			///	If the name is already taken, the scene with that name will be returned instead.
-			std::string initialize(std::string name);
-
-			void init();
+			std::string initialize();
 
 
 			/// @brief Creates a scene, if you try to create a scene with an already used name, the method will return that scene instead.
@@ -71,8 +76,6 @@ namespace LocoMotor {
 			Ogre::Light* createMainLight();
 			Ogre::Light* getMainLight();
 
-			static GraphicsManager* getInstance();
-
 			void deactivateScene(std::string name);
 
 			Node* createNode(std::string name);
@@ -84,6 +87,13 @@ namespace LocoMotor {
 			void destroyNode(std::string name);
 
 			Ogre::SceneManager* getSceneManager();
+
+
+			/// @brief Initializes the window
+			/// @param name The Window title
+			/// @return
+			bool initWindow(std::string name);
+
 		protected:
 			Ogre::Root* _root;
 			NativeWindowPair _mWindow;
@@ -114,11 +124,6 @@ namespace LocoMotor {
 
 			/// @brief Loads the resouces and initializes the RTShaderSytem
 			void loadResources();
-
-			/// @brief Initializes the window
-			/// @param name The Window title
-			/// @return
-			NativeWindowPair initWindow(std::string name);
 
 			/// @brief
 			/// Shuts down Ogre and releases all the memory related to it
