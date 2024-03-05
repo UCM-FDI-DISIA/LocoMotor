@@ -87,14 +87,14 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h" />
-    <ClInclude Include="U:\hlocal\LocoMotor\src\LocoMotor_Core\include\SceneManager.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp" />
-    <ClCompile Include="U:\hlocal\LocoMotor\src\LocoMotor_Core\cpp\SceneManager.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
