@@ -2,7 +2,7 @@
 #ifndef LOCOMOTOR_GAME_OBJECT
 #define LOCOMOTOR_GAME_OBJECT
 #include <queue>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "ComponentsFactory.h"
 #include "Component.h"
@@ -11,7 +11,7 @@ namespace LocoMotor {
 	class Component;
 	class Transform;
 	class Scene;
-	typedef std::vector<std::pair<std::string, std::string>> params_t
+	typedef std::vector<std::pair<std::string, std::string>> params_t;
 	class GameObject {
 		friend class Scene;
 	public:
@@ -24,14 +24,14 @@ namespace LocoMotor {
 		Component* addComponent(const std::string& name) {
 			ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
 			if (_components.count(name) > 0) {
-				return (T*) _components[name];
+				return _components[name];
 			}
 			else {
 				Component* comp = factory->createComponent(name);
 				comp->init(this, true);
 				_toStart.push(comp);
 				_components.insert({ name, comp });
-				return (T*) comp;
+				return comp;
 			}
 		}
 
@@ -43,9 +43,9 @@ namespace LocoMotor {
 
 		template <typename T>
 		T** getComponent() {
-			auto it = _componentsByName.begin();
+			auto it = _components.begin();
 			T* comp = nullptr;
-			while (it != _componentsByName.end() && comp == nullptr) {
+			while (it != _components.end() && comp == nullptr) {
 				comp = dynamic_cast<T*>(it->second);
 				it++;
 			}
@@ -68,7 +68,7 @@ namespace LocoMotor {
 		std::string getName();
 	private:
 		
-		std::multimap<std::string, Component*> _components;
+		std::unordered_map<std::string, Component*> _components;
 		std::queue<LocoMotor::Component*> _toEnable;
 		std::queue<LocoMotor::Component*> _toDisable;
 		std::queue<LocoMotor::Component*> _toStart;

@@ -41,7 +41,6 @@ namespace LocoMotor {
 				return static_cast<Component*>(new T());
 			};
 			_factories.insert({ name,fac });
-			_unique.insert({ name,unique });
 		}
 	private:
 		ComponentsFactory() {

@@ -21,6 +21,8 @@ namespace Ogre {
 struct SDL_Window;
 namespace LocoMotor {
 
+	class Camera;
+
 	namespace Graphics {
 
 		class Node;

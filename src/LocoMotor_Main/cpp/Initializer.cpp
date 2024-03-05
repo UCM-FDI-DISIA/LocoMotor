@@ -58,8 +58,8 @@ bool Initializer::Init() {
 	}
 	ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
 
-	cmpFac->registerComponent<AudioSource>("AudioSource", false);
-	cmpFac->registerComponent<AudioListener>("AudioListener", true);
+	cmpFac->registerComponent<AudioSource>("AudioSource");
+	cmpFac->registerComponent<AudioListener>("AudioListener");
 	//cmpFac->registerComponent<Camera>("Camera", true);
 	//cmpFac->registerComponent<MeshRenderer>("MeshRenderer", false);
 	//cmpFac->registerComponent<ParticleSystem>("ParticleSystem", false);

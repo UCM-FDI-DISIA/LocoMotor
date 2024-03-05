@@ -11,6 +11,7 @@ namespace LocoMotor{
 
 	namespace Graphics {
 		class GraphicsManager;
+		class Node;
 	}
 	
 	class Camera : public Component {

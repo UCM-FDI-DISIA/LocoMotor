@@ -65,7 +65,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependecies\Ogre\build\SDL2-build\RelWithDebInfo;$(SolutionDir)Dependecies\Ogre\build\lib\$(ConfigurationName)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Ogre\build\SDL2-build\RelWithDebInfo;$(SolutionDir)Dependencies\Ogre\build\lib\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Codec_STBI_d.lib;OgreMain_d.lib;RenderSystem_Direct3D11_d.lib;OgreRTShaderSystem_d.lib;SDL2.lib;OgreOverlay_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
