@@ -1,9 +1,5 @@
 #pragma once
-#ifdef _MOTORDLL
-#define MOTOR_API __declspec(dllexport)
-#else
-#define MOTOR_API __declspec(dllimport)
-#endif
+
 #include <string>
 #include <unordered_map>
 
@@ -12,7 +8,7 @@
 namespace LocoMotor {
 
 	class GameObject;
-	class MOTOR_API Scene {
+	class Scene {
 	public:
 		Scene(std::string name);
 		~Scene();

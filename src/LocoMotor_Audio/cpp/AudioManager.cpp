@@ -46,7 +46,7 @@ void AudioManager::Release()
 	_instance = nullptr;
 }
 
-unsigned short AudioManager::update(float deltaTime)
+unsigned short AudioManager::update()
 {
 	return _sys->update();
 }

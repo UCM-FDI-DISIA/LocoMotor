@@ -19,7 +19,7 @@ namespace LocoMotor {
 		/// @param name Name of the scene
 		void changeScene(const std::string& name);
 		/// @brief updates the state of the scenes
-		void update();
+		void update(float dT);
 	private:
 		static SceneManager* _instance;
 		SceneManager();

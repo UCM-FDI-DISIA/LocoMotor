@@ -34,7 +34,7 @@ namespace LocoMotor {
 			/// @brief Updates the Fmod API to change channel output depending on positions and velocity
 			/// @param deltaTime Bruh
 			/// @return A number that by passing it to GetError(unsigned short) you can get more info if there was an error
-			unsigned short update(float deltaTime);
+			unsigned short update();
 
 			/// @brief Adds a sound to the system, for later use
 			/// @param Name that will be used to refer to this sound upon being created

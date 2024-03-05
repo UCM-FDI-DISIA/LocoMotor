@@ -3,6 +3,7 @@
 #include "ComponentsFactory.h"
 #include "PhysicsManager.h"
 #include "AudioManager.h"
+#include "SceneManager.h"
 
 #include "AudioSource.h"
 #include "AudioListener.h"
@@ -10,6 +11,8 @@
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
+
+#include <iostream>
 
 using namespace LocoMotor;
 
@@ -45,8 +48,8 @@ bool Initializer::Init() {
 	//ScriptManager::Init();
 
 	if (!ComponentsFactory::Init()) {
-		Graphics::GraphicsManager::Release();
 		Audio::AudioManager::Release();
+		Graphics::GraphicsManager::Release();
 		//Physics::PhysicsManager::Release();
 		//InputManager::Release();
 		//SceneManager::Release();
@@ -54,6 +57,14 @@ bool Initializer::Init() {
 		return false;
 	}
 	ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
+
+	if (!SceneManager::Init()) {
+		ComponentsFactory::Release();
+		cmpFac = nullptr;
+		Audio::AudioManager::Release();
+		Graphics::GraphicsManager::Release();
+	}
+	_scnManager = SceneManager::GetInstance();
 
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
@@ -90,6 +101,36 @@ bool Initializer::MainLoop() {
 	LogSystem::Clear();
 	*/
 
+	float _dt;
+	float _lastFrameTime = 0.f;
+
+	while (!_exit) {
+		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
+			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
+			_exit = true;
+		}
+
+		float time = clock() / (float) CLOCKS_PER_SEC;
+		_dt = time - _lastFrameTime;
+		_dt *= 1000.0;
+		_lastFrameTime = time;
+
+		_scnManager->update(_dt);
+
+		Audio::AudioManager::GetInstance()->update();
+
+		//Physics::PhysicsManager::GetInstance()->update(_dt);
+
+		Graphics::GraphicsManager::GetInstance()->render();
+
+		//if (LocoMotor::InputManager::GetInstance()->RegisterEvents())
+		//	break;
+
+		if (time > 1.f)
+			_exit = true;
+	}
+
+	SceneManager::Release();
 	ComponentsFactory::Release();
 	Audio::AudioManager::Release();
 	Graphics::GraphicsManager::Release();

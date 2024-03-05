@@ -41,7 +41,7 @@ void LocoMotor::SceneManager::changeScene(const std::string& name) {
     }
 }
 
-void LocoMotor::SceneManager::update() {
+void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
         _activeScene->destroy();
         _toStart->start();
@@ -49,11 +49,7 @@ void LocoMotor::SceneManager::update() {
         _toStart = nullptr;
     }
     if (_activeScene == nullptr) return; 
-    _activeScene->update(_dt);
-    float time =  clock() / (float)CLOCKS_PER_SEC;
-    _dt = time - _lastFrameTime;
-    _dt *= 1000.0;
-    _lastFrameTime = time;
+    _activeScene->update(dT);
  
 
 }
