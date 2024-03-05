@@ -7,8 +7,10 @@ class btDefaultCollisionConfiguration;
 class btCollisionDispatcher;
 class btBroadphaseInterface;
 class btSequentialImpulseConstraintSolver;
+
 class btPersistentManifold;
 class btManifoldPoint;
+
 typedef void(*ContactStartedCallback)(btPersistentManifold* const&);
 typedef bool(*ContactProcessedCallback)(btManifoldPoint&, void*, void*);
 typedef void(*ContactEndedCallback)(btPersistentManifold* const&);

@@ -1,6 +1,10 @@
 #include "Camera.h"
 #include <OgreCamera.h>
 #include <OgreViewport.h>
+#include "GraphicsManager.h"
+#include "OgreSceneManager.h"
+#include "Node.h"
+#include "GameObject.h"
 
 //#include <OgreSceneNode.h>
 //#include <OgreSceneManager.h>
@@ -8,7 +12,8 @@
 //#include <OgreVector3.h>
 
 
-LocoMotor::Camera::Camera() {
+LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr) {
+	_offset = LMVector3(0, 0, 0);
 }
 
 LocoMotor::Camera::~Camera() {
@@ -89,9 +94,10 @@ void LocoMotor::Camera::setParameters(std::vector<std::pair<std::string, std::st
 
 void LocoMotor::Camera::init()
 {
-	_mCamera = nullptr;
-	//_scene = nullptr;
-	//_renderScn = nullptr;
+	_man = Graphics::GraphicsManager::getInstance();
+	_node = _man->createNode(_gameObject->getName());
+	_mCamera = _man->getSceneManager()->createCamera(_gameObject->getName());
+	_node->Attach(_mCamera);
 	_target = nullptr;
 	_offset = LMVector3(0, 0, 0);
 }
@@ -103,8 +109,4 @@ void LocoMotor::Camera::update(float dT)
 }
 void LocoMotor::Camera::onDisable()
 {
-}
-
-Ogre::Camera* LocoMotor::Camera::getOgreCamera() {
-	return _mCamera;
 }

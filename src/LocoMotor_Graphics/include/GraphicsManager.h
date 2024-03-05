@@ -11,6 +11,8 @@ namespace Ogre {
 	class SceneNode;
 	class OverlaySystem;
 	class Entity;
+	class Camera;
+	class Light;
 	namespace RTShader {
 		class ShaderGenerator;
 	}
@@ -18,11 +20,9 @@ namespace Ogre {
 
 struct SDL_Window;
 namespace LocoMotor {
-	class Light;
-	class Camera;
+
 	namespace Graphics {
 
-		
 		class Node;
 
 		struct NativeWindowPair {
@@ -65,16 +65,11 @@ namespace LocoMotor {
 			int getWindowWidth();
 
 			Ogre::Entity* createRenderer(std::string src);
-			LocoMotor::Light* createMainLight();
-			LocoMotor::Light* getMainLight();
+
+			Ogre::Light* createMainLight();
+			Ogre::Light* getMainLight();
 
 			static GraphicsManager* getInstance();
-
-			void setActiveCamera(Camera* cam);
-
-			Camera* getMainCamera();
-
-			Camera* createCamera(std::string name);
 
 			void deactivateScene(std::string name);
 
@@ -85,11 +80,13 @@ namespace LocoMotor {
 			Node* getNode(std::string name);
 
 			void destroyNode(std::string name);
+
+			Ogre::SceneManager* getSceneManager();
 		protected:
 			Ogre::Root* _root;
 			NativeWindowPair _mWindow;
 
-			Light* _mLight;
+			Ogre::Light* _mLight;
 
 			Node* _nodeRoot;
 
@@ -105,7 +102,7 @@ namespace LocoMotor {
 
 			Ogre::OverlaySystem* _ovrSys;
 
-			Camera* _mainCamera;
+			LocoMotor::Camera* _camera;
 
 			/// @brief Creates a new OgreManager.
 			/// @param name The name for the window

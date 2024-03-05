@@ -5,6 +5,7 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreShaderGenerator.h>
 #include <OgreOverlaySystem.h>
+#include <OgreViewport.h>
 //SDL includes
 #include <SDL.h>
 #include <SDL_video.h>
@@ -28,7 +29,6 @@ GraphicsManager::GraphicsManager() {
 	_mShaderGenerator = nullptr;
 	_root = nullptr;
 	_ovrSys = nullptr;
-	_mainCamera = nullptr; 
 	_nodeRoot = nullptr;
 	_mLight = nullptr;
 }
@@ -89,7 +89,7 @@ void GraphicsManager::createScene(std::string name) {
 
 void GraphicsManager::render() {
 	if (_activeScene == nullptr) return;
-	_mainCamera->updateViewport();
+	_camera->render();
 	_root->renderOneFrame();
 }
 
@@ -116,17 +116,14 @@ Ogre::Entity* GraphicsManager::createRenderer(std::string src) {
 
 }
 
-LocoMotor::Light* GraphicsManager::createMainLight() {
+Ogre::Light* GraphicsManager::createMainLight() {
 
-	_mLight = new Light();
-
-	_mLight->init(_activeScene->createLight(), Ogre::Light::LT_DIRECTIONAL);
-
+	_mLight = _activeScene->createLight();
 	return _mLight;
 
 }
 
-LocoMotor::Light* GraphicsManager::getMainLight() {
+Ogre::Light* GraphicsManager::getMainLight() {
 	return _mLight;
 }
 
@@ -143,22 +140,6 @@ GraphicsManager* LocoMotor::Graphics::GraphicsManager::getInstance() {
 		_instance = new GraphicsManager();
 	}
 	return _instance;
-}
-
-void LocoMotor::Graphics::GraphicsManager::setActiveCamera(Camera* cam) {
-	_mainCamera = cam;
-}
-
-LocoMotor::Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
-	return _mainCamera;
-}
-
-LocoMotor::Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
-	Node* node = createNode(name);
-	Camera* cam = new Camera();
-	node->Attach(cam->getOgreCamera());
-	if (_mainCamera == nullptr)_mainCamera = cam;
-	return cam;
 }
 
 void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
@@ -305,7 +286,7 @@ void GraphicsManager::shutdown() {
 	}
 
 	if (_mLight != nullptr) {
-		_activeScene->destroyLight(_mLight->getLight());
+		_activeScene->destroyLight(_mLight);
 		_mLight = nullptr;
 	}
 
@@ -367,4 +348,8 @@ void GraphicsManager::destroyNode(std::string name) {
 		_nodeRoot->DestroyChild(_sceneNodes[name]);
 		_sceneNodes.erase(name);
 	}
+}
+
+Ogre::SceneManager* LocoMotor::Graphics::GraphicsManager::getSceneManager() {
+	return _activeScene;
 }

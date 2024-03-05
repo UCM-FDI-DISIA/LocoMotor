@@ -17,28 +17,6 @@ namespace LocoMotor{
 
 		friend class Graphics::GraphicsManager;
 
-	protected:
-
-		
-
-		void init()/* override*/;
-		void onEnable() override;
-		void update(float dT) override;
-		void onDisable() override;
-
-	private:
-
-		GameObject* _target;
-		LMVector3 _offset;
-
-		Ogre::Camera* _mCamera;
-		Ogre::Viewport* _vp;
-
-		Camera();
-		~Camera();
-
-		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
-
 	public:
 		/// @brief Set the target and offset for the camera of a LocoMotor object.
 		/// @param target A pointer to a GameObject that the camera will follow as its target.
@@ -64,10 +42,34 @@ namespace LocoMotor{
 
 		void updateViewport();
 
+	protected:
+		void init()/* override*/;
+		void onEnable() override;
+		void update(float dT) override;
 		// Heredado v�a Component
-		virtual void start() override;
+		void start() override;
+		void onDisable() override;
+
+	private:
+
+		GameObject* _target;
+		LMVector3 _offset;
+
+		Ogre::Camera* _mCamera;
+		Ogre::Viewport* _vp;
+
+		Graphics::Node* _node;
+
+		Graphics::GraphicsManager* _man;
+
+		Camera();
+		~Camera();
+
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 
 		Ogre::Camera* getOgreCamera();
+
+		void render();
 	};
 
 }
