@@ -9,12 +9,18 @@ namespace Ogre {
 
 namespace LocoMotor{
 
+	namespace Graphics {
+		class GraphicsManager;
+	}
 	
 	class Camera : public Component {
 
-		friend class GraphicsManager;
+		friend class Graphics::GraphicsManager;
 
 	protected:
+
+		
+
 		void init()/* override*/;
 		void onEnable() override;
 		void update(float dT) override;

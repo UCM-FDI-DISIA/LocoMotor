@@ -18,7 +18,8 @@
 #include "Node.h"
 #include "Light.h"
 
-using namespace LocoMotor::Graphics;
+using namespace LocoMotor;
+using namespace Graphics;
 
 static GraphicsManager* _instance = nullptr;
 
@@ -154,7 +155,7 @@ LocoMotor::Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
 
 LocoMotor::Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
 	Node* node = createNode(name);
-	LocoMotor::Camera* cam = new LocoMotor::Camera();
+	Camera* cam = new Camera();
 	node->Attach(cam->getOgreCamera());
 	if (_mainCamera == nullptr)_mainCamera = cam;
 	return cam;
