@@ -48,7 +48,7 @@ unsigned short AudioListener::setTransform(const FMOD_VECTOR& newPos, const FMOD
 	}
 	return err;
 #else
-	return _man->GetSystem()->set3DListenerAttributes((int)_fIndex, &newPos, &newVel, &forward, &up);
+	return _man->getSystem()->set3DListenerAttributes((int)_fIndex, &newPos, &newVel, &forward, &up);
 #endif // _DEBUG
 }
 
