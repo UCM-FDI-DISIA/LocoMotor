@@ -5,7 +5,6 @@
 #include "LMVector.h"
 class btRigidBody;
 namespace LocoMotor{
-	namespace Physics{
 		//class MeshStrider;
 		
 		/// @brief Info to create a RigidBody
@@ -49,6 +48,5 @@ namespace LocoMotor{
 			bool _raycast = false;
 			bool _beATrigger = false;
 		};
-	}
 }
 #endif // !1

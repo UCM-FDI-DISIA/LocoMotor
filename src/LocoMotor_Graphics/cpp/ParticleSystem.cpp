@@ -1,9 +1,12 @@
 #include "ParticleSystem.h"
 
+
 #include <OgreParticleEmitter.h>
+#include <OgreParticleSystem.h>
 
 
-void LocoMotor::Graphics::ParticleSystem::init() {
+
+void LocoMotor::ParticleSystem::init() {
 
 	//_renderScn = nullptr;
 	//_particleHelper = nullptr;
@@ -12,9 +15,9 @@ void LocoMotor::Graphics::ParticleSystem::init() {
 	_name = "";
 }
 
-void LocoMotor::Graphics::ParticleSystem::onEnable() {}
+void LocoMotor::ParticleSystem::onEnable() {}
 
-void LocoMotor::Graphics::ParticleSystem::update(float dT) {
+void LocoMotor::ParticleSystem::update(float dT) {
 
 	// Actualizar la posicion del nodo asignado al ParticleSystem para que siga al GameObject asignado
 
@@ -28,24 +31,23 @@ void LocoMotor::Graphics::ParticleSystem::update(float dT) {
 	}
 }
 
-void LocoMotor::Graphics::ParticleSystem::onDisable() {}
+void LocoMotor::ParticleSystem::onDisable() {}
 
 
+LocoMotor::ParticleSystem::ParticleSystem() {}
 
-LocoMotor::Graphics::ParticleSystem::ParticleSystem() {}
+LocoMotor::ParticleSystem::~ParticleSystem() {}
 
-LocoMotor::Graphics::ParticleSystem::~ParticleSystem() {}
-
-Ogre::ParticleEmitter* LocoMotor::Graphics::ParticleSystem::GetEmitter(std::string name) {
+Ogre::ParticleEmitter* LocoMotor::ParticleSystem::GetEmitter(std::string name) {
 	if (_emitters.find(name) != _emitters.end())
 		return _emitters[name];
 }
 
-Ogre::Vector3 LocoMotor::Graphics::ParticleSystem::LmVectorToOgreVector(const LMVector3 lmVector) {
-	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
-}
+//Ogre::Vector3 LocoMotor::ParticleSystem::LmVectorToOgreVector(const LMVector3 lmVector) {
+//	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
+//}
 
-void LocoMotor::Graphics::ParticleSystem::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::ParticleSystem::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 
 	for (int i = 0; i < params.size(); i++) {
 		if (params[i].first == "name") {
@@ -57,16 +59,16 @@ void LocoMotor::Graphics::ParticleSystem::setParameters(std::vector<std::pair<st
 	}
 }
 
-void LocoMotor::Graphics::ParticleSystem::AddEmitter(std::string name, const LMVector3 position) {
+void LocoMotor::ParticleSystem::AddEmitter(std::string name, const LMVector3 position) {
 
 	// Comprobar que no se ha creado un emitter anterior con el mismo nombre
 	if (_emitters.find(name) == _emitters.end()) {
 		_emitters.insert({ name, _particleSystem->addEmitter(name) });
-		_emitters[name]->setPosition(LmVectorToOgreVector(position));
+		//_emitters[name]->setPosition(LmVectorToOgreVector(position));
 	}
 }
 
-void LocoMotor::Graphics::ParticleSystem::RemoveEmitter(std::string name) {
+void LocoMotor::ParticleSystem::RemoveEmitter(std::string name) {
 
 	if (_emitters.find(name) != _emitters.end()) {
 		_particleSystem->removeEmitter(_emitters[name]);
@@ -74,17 +76,17 @@ void LocoMotor::Graphics::ParticleSystem::RemoveEmitter(std::string name) {
 	}
 }
 
-void LocoMotor::Graphics::ParticleSystem::MoveEmitter(std::string name, const LMVector3 position) {
+void LocoMotor::ParticleSystem::MoveEmitter(std::string name, const LMVector3 position) {
 	Ogre::ParticleEmitter* emitter = GetEmitter(name);
-	emitter->setPosition(LmVectorToOgreVector(position));
+	//emitter->setPosition(LmVectorToOgreVector(position));
 }
 
-void LocoMotor::Graphics::ParticleSystem::RotateEmitter(std::string name, const LMVector3 rotation) {
+void LocoMotor::ParticleSystem::RotateEmitter(std::string name, const LMVector3 rotation) {
 	Ogre::ParticleEmitter* emitter = GetEmitter(name);
-	emitter->setDirection(LmVectorToOgreVector(rotation));
+	//emitter->setDirection(LmVectorToOgreVector(rotation));
 }
 
-void LocoMotor::Graphics::ParticleSystem::SetEmitting(std::string name, bool emitting) {
+void LocoMotor::ParticleSystem::SetEmitting(std::string name, bool emitting) {
 	Ogre::ParticleEmitter* emitter = GetEmitter(name);
 	emitter->setEnabled(emitting);
 }

@@ -1,16 +1,19 @@
 #pragma once
 #ifndef _PHYSICS_MANAGER_H
 #define _PHYSICS_MANAGER_H
-#include <btBulletDynamicsCommon.h>
-//class btVector3;
-//class ContactStartedCallback;
-//class ContactProcessedCallback;
-//class ContactEndedCallback;
-//class btDynamicsWorld;
-//class btDefaultCollisionConfiguration;
-//class btCollisionDispatcher;
-//class btBroadphaseInterface;
-//class btSequentialImpulseConstraintSolver;
+class btVector3;
+class btDynamicsWorld;
+class btDefaultCollisionConfiguration;
+class btCollisionDispatcher;
+class btBroadphaseInterface;
+class btSequentialImpulseConstraintSolver;
+
+class btPersistentManifold;
+class btManifoldPoint;
+
+typedef void(*ContactStartedCallback)(btPersistentManifold* const&);
+typedef bool(*ContactProcessedCallback)(btManifoldPoint&, void*, void*);
+typedef void(*ContactEndedCallback)(btPersistentManifold* const&);
 namespace LocoMotor{
 	namespace Physics{
 

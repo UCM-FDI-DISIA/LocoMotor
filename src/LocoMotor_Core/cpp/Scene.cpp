@@ -20,7 +20,6 @@ Scene::~Scene() {
 	for (it = _gameObjBufferList.cbegin(); it != _gameObjBufferList.end(); it = _gameObjBufferList.erase(it)) {
 		delete it->second;
 	}
-	_cam = nullptr;
 
 }
 
@@ -85,12 +84,6 @@ std::string Scene::getSceneName() {
 }
 
 
-void Scene::setSceneCam(Graphics::Camera* camera) {
-	_cam = camera;
-	Graphics::GraphicsManager::getInstance()->setActiveCamera(_cam);
-}
-
-
 GameObject* LocoMotor::Scene::addGameobject(std::string name) {
 	if (_gameObjList.count(name) > 0) {
 	#ifdef DEBUG
@@ -134,14 +127,5 @@ GameObject* LocoMotor::Scene::getObjectByName(std::string name) {
 	if (_gameObjList.count(name) == 0)
 		return nullptr;
 	return _gameObjList[name];
-}
-
-
-GameObject* LocoMotor::Scene::getCamera() {
-	return _camera_gObj;
-}
-
-void LocoMotor::Scene::setCamObj(GameObject* cam) {
-	_camera_gObj = cam;
 }
 

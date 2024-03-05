@@ -1,6 +1,10 @@
 #include "Camera.h"
 #include <OgreCamera.h>
 #include <OgreViewport.h>
+#include "GraphicsManager.h"
+#include "OgreSceneManager.h"
+#include "Node.h"
+#include "GameObject.h"
 
 //#include <OgreSceneNode.h>
 //#include <OgreSceneManager.h>
@@ -8,26 +12,27 @@
 //#include <OgreVector3.h>
 
 
-LocoMotor::Graphics::Camera::Camera() {
+LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr) {
+	_offset = LMVector3(0, 0, 0);
 }
 
-LocoMotor::Graphics::Camera::~Camera() {
+LocoMotor::Camera::~Camera() {
 }
 
 
 
-void LocoMotor::Graphics::Camera::SetTarget(GameObject* target, LMVector3 offset)
+void LocoMotor::Camera::SetTarget(GameObject* target, LMVector3 offset)
 {
 	_target = target;
 	_offset = offset;
 }
 
-void LocoMotor::Graphics::Camera::SetFOV(float newFov)
+void LocoMotor::Camera::SetFOV(float newFov)
 {
 	_mCamera->setFOVy(Ogre::Radian(newFov * 3.14f / 180));
 }
 
-void LocoMotor::Graphics::Camera::SetViewportRatio(int viewportIndex, int modeIndex)
+void LocoMotor::Camera::SetViewportRatio(int viewportIndex, int modeIndex)
 {
 	if (modeIndex == 0) {
 		_vp->setDimensions(0.0f, 0.0f, 1.0f, 1.0f);
@@ -45,19 +50,19 @@ void LocoMotor::Graphics::Camera::SetViewportRatio(int viewportIndex, int modeIn
 	}
 }
 
-void LocoMotor::Graphics::Camera::SetClippingPlane(int nearPlane, int farPlane) {
+void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
 	_mCamera->setNearClipDistance(nearPlane);
 	_mCamera->setFarClipDistance(farPlane);
 }
 
 
-void LocoMotor::Graphics::Camera::updateViewport() {
+void LocoMotor::Camera::updateViewport() {
 	_vp->update();
 }
 
-void LocoMotor::Graphics::Camera::start() {}
+void LocoMotor::Camera::start() {}
 
-void LocoMotor::Graphics::Camera::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::Camera::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 
 	for (auto& param : params) {
 		if (param.first == "CameraMode") {
@@ -87,24 +92,21 @@ void LocoMotor::Graphics::Camera::setParameters(std::vector<std::pair<std::strin
 
 // Funcionalidad componentes
 
-void LocoMotor::Graphics::Camera::init()
+void LocoMotor::Camera::init()
 {
-	_mCamera = nullptr;
-	//_scene = nullptr;
-	//_renderScn = nullptr;
+	_man = Graphics::GraphicsManager::getInstance();
+	_node = _man->createNode(_gameObject->getName());
+	_mCamera = _man->getSceneManager()->createCamera(_gameObject->getName());
+	_node->Attach(_mCamera);
 	_target = nullptr;
 	_offset = LMVector3(0, 0, 0);
 }
-void LocoMotor::Graphics::Camera::onEnable()
+void LocoMotor::Camera::onEnable()
 {
 }
-void LocoMotor::Graphics::Camera::update(float dT)
+void LocoMotor::Camera::update(float dT)
 {
 }
-void LocoMotor::Graphics::Camera::onDisable()
+void LocoMotor::Camera::onDisable()
 {
-}
-
-Ogre::Camera* LocoMotor::Graphics::Camera::getOgreCamera() {
-	return _mCamera;
 }

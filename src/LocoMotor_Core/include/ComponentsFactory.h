@@ -38,7 +38,7 @@ namespace LocoMotor {
 		void registerComponent(const std::string& name) {
 			assert(_factories.count(name) == 0, "That component name is already registered");
 			CmpFactory fac = (CmpFactory)[]() {
-				return new T();
+				return static_cast<Component*>(new T());
 			};
 			_factories.insert({ name,fac });
 			_unique.insert({ name,unique });

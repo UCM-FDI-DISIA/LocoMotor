@@ -1,12 +1,13 @@
 #include "RigidBody.h"
 #include <iostream>
 #include "PhysicsManager.h"
+#include "btBulletDynamicsCommon.h"
 
-LocoMotor::Physics::RigidBody::RigidBody() {}
+LocoMotor::RigidBody::RigidBody() {}
 
-LocoMotor::Physics::RigidBody::~RigidBody() {}
+LocoMotor::RigidBody::~RigidBody() {}
 
-void LocoMotor::Physics::RigidBody::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::RigidBody::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 	for (int i = 0; i < params.size(); i++) {
 		if (params[i].first == "mass") {
 			float num = 0.;
@@ -57,7 +58,7 @@ void LocoMotor::Physics::RigidBody::setParameters(std::vector<std::pair<std::str
 	}
 }
 
-void LocoMotor::Physics::RigidBody::awake() {
+void LocoMotor::RigidBody::awake() {
 	RigidBodyInfo info;
 	info.mass = _mass;
 	info.boxSize = LMVector3(1, 1, 1);
@@ -84,11 +85,11 @@ void LocoMotor::Physics::RigidBody::awake() {
 	//if (_beATrigger) BeATrigger();
 }
 
-void LocoMotor::Physics::RigidBody::start() {}
+void LocoMotor::RigidBody::start() {}
 
-void LocoMotor::Physics::RigidBody::update(float dt) {}
+void LocoMotor::RigidBody::update(float dt) {}
 
-btRigidBody* LocoMotor::Physics::RigidBody::CreateRigidBody(RigidBodyInfo info) {
+btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	btCollisionShape* shape = nullptr;
 	if (false){//ms != nullptr) {
 		//shape = new btBvhTriangleMeshShape(ms, true, true);
@@ -131,6 +132,6 @@ btRigidBody* LocoMotor::Physics::RigidBody::CreateRigidBody(RigidBodyInfo info) 
 	return rigidbody;
 }
 
-LocoMotor::Physics::RigidBodyInfo::RigidBodyInfo() {
+LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 
 }

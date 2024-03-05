@@ -1,28 +1,35 @@
 #pragma once
 
-#include <OgreMovableObject.h>
 #include "Component.h"
 
 namespace Ogre {
 	class Entity;
+	class MovableObject;
 }
 
 namespace LocoMotor {
 	class GameObject;
+
+	namespace Graphics {
+		class GraphicsManager;
+	}
+
 	class MeshRenderer :public LocoMotor::Component {
+		friend class Graphics::GraphicsManager;
 	public:
 		//MeshRenderer(Ogre::Entity* rend);
-		MeshRenderer();
-		~MeshRenderer();
 		
-		Ogre::MovableObject* getMovObj();
+		
 		void setMaterial(std::string mat);
-		void init(std::string name, std::string file,bool istatic);
-		void start();
-		void update(float dt);
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
+		
 		/// @brief Sets the Mesh renderer visible/invisible
 	    void setVisible(bool visible);
+
+	protected:
+
+		void init(std::string name, std::string file, bool istatic);
+		void start();
+		void update(float dt);
 
 	private:
 		Ogre::Entity* _mesh;
@@ -32,9 +39,12 @@ namespace LocoMotor {
 		bool _isStatic;
 
 		GameObject* _gObj;
-		//RenderScene*
 
+		MeshRenderer();
+		~MeshRenderer();
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
 
+		Ogre::MovableObject* getMovObj();
 	};
 	
 }

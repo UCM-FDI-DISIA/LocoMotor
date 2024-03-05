@@ -10,6 +10,10 @@
 
 #include <string>
 
+//namespace Ogre {
+//	typedef Vector<3, Real> Vector3;
+//}
+
 namespace LocoMotor {
 	class LMQuaternion;
 	//Vector class to be used with LocoMotor
@@ -121,6 +125,8 @@ namespace LocoMotor {
 
 	private:
 		double _x = 0, _y = 0, _z = 0;
+
+		Ogre::Vector3* LmVectorToOgreVector(const LMVector3 lmVector);
 	};
 
 	//Quaternion class to be used with LocoMotor

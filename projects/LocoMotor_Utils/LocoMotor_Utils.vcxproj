@@ -11,11 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\LocoMotor_Utils\include\LMVector.h" />
     <ClInclude Include="..\..\src\LocoMotor_Utils\include\Singleton.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\LocoMotor_Utils\cpp\LMVector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

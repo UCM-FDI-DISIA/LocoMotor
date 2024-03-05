@@ -5,6 +5,8 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreShaderGenerator.h>
 #include <OgreOverlaySystem.h>
+#include <OgreViewport.h>
+#include <OgreMaterialManager.h>
 //SDL includes
 #include <SDL.h>
 #include <SDL_video.h>
@@ -18,7 +20,8 @@
 #include "Node.h"
 #include "Light.h"
 
-using namespace LocoMotor::Graphics;
+using namespace LocoMotor;
+using namespace Graphics;
 
 static GraphicsManager* _instance = nullptr;
 
@@ -27,7 +30,6 @@ GraphicsManager::GraphicsManager() {
 	_mShaderGenerator = nullptr;
 	_root = nullptr;
 	_ovrSys = nullptr;
-	_mainCamera = nullptr; 
 	_nodeRoot = nullptr;
 	_mLight = nullptr;
 }
@@ -88,7 +90,7 @@ void GraphicsManager::createScene(std::string name) {
 
 void GraphicsManager::render() {
 	if (_activeScene == nullptr) return;
-	_mainCamera->updateViewport();
+	_camera->render();
 	_root->renderOneFrame();
 }
 
@@ -115,14 +117,15 @@ Ogre::Entity* GraphicsManager::createRenderer(std::string src) {
 
 }
 
-LocoMotor::Light* GraphicsManager::createLight() {
+Ogre::Light* GraphicsManager::createMainLight() {
 
-	_mLight = new Light();
-
-	_mLight->init(_activeScene->createLight(), Ogre::Light::LT_DIRECTIONAL);
-
+	_mLight = _activeScene->createLight();
 	return _mLight;
 
+}
+
+Ogre::Light* GraphicsManager::getMainLight() {
+	return _mLight;
 }
 
 int GraphicsManager::getWindowHeight() {
@@ -138,22 +141,6 @@ GraphicsManager* LocoMotor::Graphics::GraphicsManager::getInstance() {
 		_instance = new GraphicsManager();
 	}
 	return _instance;
-}
-
-void LocoMotor::Graphics::GraphicsManager::setActiveCamera(Camera* cam) {
-	_mainCamera = cam;
-}
-
-Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
-	return _mainCamera;
-}
-
-Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
-	Node* node = createNode(name);
-	Camera* cam = new Camera();
-	node->Attach(cam->getOgreCamera());
-	if (_mainCamera == nullptr)_mainCamera = cam;
-	return cam;
 }
 
 void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
@@ -212,7 +199,7 @@ void GraphicsManager::loadResources() {
 		// Create and register the material manager listener if it doesn't exist yet.
 		if (!_mMaterialMgrListener) {
 			_mMaterialMgrListener = new SGTechniqueResolverListener(_mShaderGenerator);
-			Ogre::MaterialManager::getSingleton().addListener(_mMaterialMgrListener);
+			Ogre::MaterialManager::getSingleton().addListener((Ogre::MaterialManager::Listener*) _mMaterialMgrListener);
 		}
 	}
 
@@ -268,7 +255,7 @@ void GraphicsManager::shutdown() {
 
 	// Unregister the material manager listener.
 	if (_mMaterialMgrListener != nullptr) {
-		Ogre::MaterialManager::getSingleton().removeListener(_mMaterialMgrListener);
+		Ogre::MaterialManager::getSingleton().removeListener((Ogre::MaterialManager::Listener*) _mMaterialMgrListener);
 		delete _mMaterialMgrListener;
 		_mMaterialMgrListener = nullptr;
 	}
@@ -300,7 +287,7 @@ void GraphicsManager::shutdown() {
 	}
 
 	if (_mLight != nullptr) {
-		_activeScene->destroyLight(_mLight->getLight());
+		_activeScene->destroyLight(_mLight);
 		_mLight = nullptr;
 	}
 
@@ -362,4 +349,8 @@ void GraphicsManager::destroyNode(std::string name) {
 		_nodeRoot->DestroyChild(_sceneNodes[name]);
 		_sceneNodes.erase(name);
 	}
+}
+
+Ogre::SceneManager* LocoMotor::Graphics::GraphicsManager::getSceneManager() {
+	return _activeScene;
 }

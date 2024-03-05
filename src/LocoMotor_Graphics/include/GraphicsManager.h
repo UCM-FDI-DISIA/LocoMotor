@@ -2,7 +2,6 @@
 #define _GRAPHICS_MANAGER_H
 
 #include <map>
-#include <OgreMaterialManager.h>
 
 namespace Ogre {
 	class Root;
@@ -11,6 +10,9 @@ namespace Ogre {
 	class SceneNode;
 	class OverlaySystem;
 	class Entity;
+	class Camera;
+	class Light;
+
 	namespace RTShader {
 		class ShaderGenerator;
 	}
@@ -18,10 +20,9 @@ namespace Ogre {
 
 struct SDL_Window;
 namespace LocoMotor {
-	class Light;
+
 	namespace Graphics {
 
-		class Camera;
 		class Node;
 
 		struct NativeWindowPair {
@@ -64,15 +65,11 @@ namespace LocoMotor {
 			int getWindowWidth();
 
 			Ogre::Entity* createRenderer(std::string src);
-			LocoMotor::Light* createLight();
+
+			Ogre::Light* createMainLight();
+			Ogre::Light* getMainLight();
 
 			static GraphicsManager* getInstance();
-
-			void setActiveCamera(Camera* cam);
-
-			Camera* getMainCamera();
-
-			Camera* createCamera(std::string name);
 
 			void deactivateScene(std::string name);
 
@@ -83,11 +80,13 @@ namespace LocoMotor {
 			Node* getNode(std::string name);
 
 			void destroyNode(std::string name);
+
+			Ogre::SceneManager* getSceneManager();
 		protected:
 			Ogre::Root* _root;
 			NativeWindowPair _mWindow;
 
-			Light* _mLight;
+			Ogre::Light* _mLight;
 
 			Node* _nodeRoot;
 
@@ -95,15 +94,16 @@ namespace LocoMotor {
 
 			std::map<std::string, Node*> _sceneNodes;
 
-			Ogre::MaterialManager::Listener* _mMaterialMgrListener = nullptr;
-
 			Ogre::SceneManager* _activeScene;
 
 			Ogre::RTShader::ShaderGenerator* _mShaderGenerator;
 
 			Ogre::OverlaySystem* _ovrSys;
 
-			Camera* _mainCamera;
+			LocoMotor::Camera* _camera;
+
+			void* _mMaterialMgrListener = nullptr;
+			//Ogre::MaterialManager::Listener
 
 			/// @brief Creates a new OgreManager.
 			/// @param name The name for the window
