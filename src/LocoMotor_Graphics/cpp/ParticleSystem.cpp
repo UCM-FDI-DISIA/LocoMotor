@@ -1,6 +1,9 @@
 #include "ParticleSystem.h"
 
+
 #include <OgreParticleEmitter.h>
+#include <OgreParticleSystem.h>
+
 
 
 void LocoMotor::ParticleSystem::init() {
@@ -41,9 +44,9 @@ Ogre::ParticleEmitter* LocoMotor::ParticleSystem::GetEmitter(std::string name) {
 		return _emitters[name];
 }
 
-Ogre::Vector3 LocoMotor::ParticleSystem::LmVectorToOgreVector(const LMVector3 lmVector) {
-	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
-}
+//Ogre::Vector3 LocoMotor::ParticleSystem::LmVectorToOgreVector(const LMVector3 lmVector) {
+//	return Ogre::Vector3(lmVector.GetX(), lmVector.GetY(), lmVector.GetZ());
+//}
 
 void LocoMotor::ParticleSystem::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 
@@ -62,7 +65,7 @@ void LocoMotor::ParticleSystem::AddEmitter(std::string name, const LMVector3 pos
 	// Comprobar que no se ha creado un emitter anterior con el mismo nombre
 	if (_emitters.find(name) == _emitters.end()) {
 		_emitters.insert({ name, _particleSystem->addEmitter(name) });
-		_emitters[name]->setPosition(LmVectorToOgreVector(position));
+		//_emitters[name]->setPosition(LmVectorToOgreVector(position));
 	}
 }
 
@@ -76,12 +79,12 @@ void LocoMotor::ParticleSystem::RemoveEmitter(std::string name) {
 
 void LocoMotor::ParticleSystem::MoveEmitter(std::string name, const LMVector3 position) {
 	Ogre::ParticleEmitter* emitter = GetEmitter(name);
-	emitter->setPosition(LmVectorToOgreVector(position));
+	//emitter->setPosition(LmVectorToOgreVector(position));
 }
 
 void LocoMotor::ParticleSystem::RotateEmitter(std::string name, const LMVector3 rotation) {
 	Ogre::ParticleEmitter* emitter = GetEmitter(name);
-	emitter->setDirection(LmVectorToOgreVector(rotation));
+	//emitter->setDirection(LmVectorToOgreVector(rotation));
 }
 
 void LocoMotor::ParticleSystem::SetEmitting(std::string name, bool emitting) {

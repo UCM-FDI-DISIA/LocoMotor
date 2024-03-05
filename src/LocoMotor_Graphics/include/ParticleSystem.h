@@ -8,6 +8,7 @@
 //#include <OgreParticleSystem.h>
 
 namespace Ogre {
+	class ParticleSystem;
 	class ParticleEmitter;
 	class Node;
 	class RenderScene;
@@ -54,7 +55,7 @@ namespace LocoMotor{
 		/// @brief Gets an emmiter with a name
 		Ogre::ParticleEmitter* GetEmitter(std::string name);
 
-		Ogre::Vector3 LmVectorToOgreVector(const LMVector3 lmVector);
+		//Ogre::Vector3* LmVectorToOgreVector(const LMVector3 lmVector);
 
 		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 
@@ -75,7 +76,4 @@ namespace LocoMotor{
 		/// @brief Sets the emitter with a name, emmiting boolean
 		void SetEmitting(std::string name, bool emitting);
 	};
-
-		
-	
 }
