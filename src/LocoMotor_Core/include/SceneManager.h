@@ -12,8 +12,13 @@ namespace LocoMotor {
 		static void Release();
 		static SceneManager* GetInstance();
 
-		void createScene(const std::string& name);
+		/// @brief Creates a new scene with the name provided. Method created for testing pursposes
+		/// @param name Name for the scene
+		Scene* createScene(const std::string& name);
+		/// @brief Changes to the scene with the given name, if it is not found, nothing will happen.
+		/// @param name Name of the scene
 		void changeScene(const std::string& name);
+		/// @brief updates the state of the scenes
 		void update();
 	private:
 		static SceneManager* _instance;

@@ -13,7 +13,7 @@ namespace LocoMotor {
 	class ComponentsFactory {
 	public:
 		/// @brief Initializes the Components Factory instance
-		/// @return This method always returna true.
+		/// @return This method always returns true.
 		static bool Init();
 		/// @brief Relases the memory allocated by the Components Factory. This should always be called after init.
 		static void Release();
@@ -25,21 +25,17 @@ namespace LocoMotor {
 		/// @tparam T Typename of the component type
 		/// @param name Name of the component type
 		/// @return A newly created Component with sufficient memory allocated for the asked type. You must cast the returned value to the desired type.
-		template <class T>
-		Component* createComponent(const std::string& name) {
+		inline Component* createComponent(const std::string& name) {
 			assert(_factories.count(name) > 0, "That component name is not registered");
 			return _factories[name]();
 		};
 
-		/// @param name Name of the component type
-		/// @return true if the given component type is unique, false if not
-		inline bool isUnique(const std::string& name) {
-			assert(_unique.count(name) > 0, "That component name is not registered");
-			return _unique[name];
-		}
-
+		/// @brief Register a component so it can be instantiated by the factory
+		/// @tparam T Type of the component
+		/// @param name Typename of the component
+		/// @param unique If the component is unique (a component is unique if a given GameObject can only have one instance of it)
 		template <typename T>
-		void registerComponent(const std::string& name, bool unique) {
+		void registerComponent(const std::string& name) {
 			assert(_factories.count(name) == 0, "That component name is already registered");
 			CmpFactory fac = (CmpFactory)[]() {
 				return new T();
@@ -53,7 +49,6 @@ namespace LocoMotor {
 		~ComponentsFactory() {
 		};
 		static ComponentsFactory* _instance;
-		std::map<std::string, bool> _unique;
 		std::map<std::string, CmpFactory> _factories;
 	};
 }

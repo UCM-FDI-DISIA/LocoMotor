@@ -3,6 +3,7 @@
 inline bool LocoMotor::ComponentsFactory::Init() {
 	assert(_instance == nullptr);
 	_instance = new ComponentsFactory();
+	return true;
 }
 
 inline void LocoMotor::ComponentsFactory::Release() {

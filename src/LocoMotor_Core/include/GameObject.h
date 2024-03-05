@@ -11,7 +11,7 @@ namespace LocoMotor {
 	class Component;
 	class Transform;
 	class Scene;
-
+	typedef std::vector<std::pair<std::string, std::string>> params_t
 	class GameObject {
 		friend class Scene;
 	public:
@@ -20,10 +20,10 @@ namespace LocoMotor {
 		/// @param name Name of the Component type
 		/// @return returns the Component created. If the component was unique and already on the GameObject
 		/// the already created Component will be returned. 
-		template<class T>
-		T* addComponent(const std::string& name) {
+		
+		Component* addComponent(const std::string& name) {
 			ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
-			if (_components.count(name) > 0 && factory->isUnique(name)) {
+			if (_components.count(name) > 0) {
 				return (T*) _components[name];
 			}
 			else {
@@ -35,9 +35,22 @@ namespace LocoMotor {
 			}
 		}
 
+		void addComponent(const std::string& name, const params_t& params);
+
 		/// @brief This method erases all the components with the given name on the GameObject
 		/// @param name The name of the component to erase
 		void removeComponents(const std::string& name);
+
+		template <typename T>
+		T** getComponent() {
+			auto it = _componentsByName.begin();
+			T* comp = nullptr;
+			while (it != _componentsByName.end() && comp == nullptr) {
+				comp = dynamic_cast<T*>(it->second);
+				it++;
+			}
+			return comp;
+		}
 		
 		/// @brief This method sets the active state of the GameObject. 
 		/// @param active The new active state of the GameObject

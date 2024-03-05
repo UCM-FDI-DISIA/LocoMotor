@@ -23,11 +23,12 @@ LocoMotor::SceneManager* LocoMotor::SceneManager::GetInstance() {
     return _instance;
 }
 
-void LocoMotor::SceneManager::createScene(const std::string& name) {
-    if (_scenes.count(name) > 0) return;
+LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name) {
+    if (_scenes.count(name) > 0) return _scenes[name];
     Scene* newScene = new Scene(name);
     if (_activeScene == nullptr) _toStart = newScene;
     _scenes.insert({ name,newScene });
+    return newScene;
 }
 
 void LocoMotor::SceneManager::changeScene(const std::string& name) {
