@@ -9,60 +9,59 @@ namespace Ogre {
 
 namespace LocoMotor{
 
-	namespace Graphics{
+	
+	class Camera : public Component {
 
-		class Camera : public Component {
+		friend class GraphicsManager;
 
-			friend class GraphicsManager;
+	protected:
+		void init()/* override*/;
+		void onEnable() override;
+		void update(float dT) override;
+		void onDisable() override;
 
-		protected:
-			void init()/* override*/;
-			void onEnable() override;
-			void update(float dT) override;
-			void onDisable() override;
+	private:
 
-		private:
+		GameObject* _target;
+		LMVector3 _offset;
 
-			GameObject* _target;
-			LMVector3 _offset;
+		Ogre::Camera* _mCamera;
+		Ogre::Viewport* _vp;
 
-			Ogre::Camera* _mCamera;
-			Ogre::Viewport* _vp;
+		Camera();
+		~Camera();
 
-			Camera();
-			~Camera();
+		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 
-			virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+	public:
+		/// @brief Set the target and offset for the camera of a LocoMotor object.
+		/// @param target A pointer to a GameObject that the camera will follow as its target.
+		/// @param offset The offset is a vector that represents the distance and direction from the target
+		/// object's position where the camera should be positioned. It is used to adjust the camera's position
+		/// relative to the target object.
+		void SetTarget(GameObject* target, LMVector3 offset);
 
-		public:
-			/// @brief Set the target and offset for the camera of a LocoMotor object.
-			/// @param target A pointer to a GameObject that the camera will follow as its target.
-			/// @param offset The offset is a vector that represents the distance and direction from the target
-			/// object's position where the camera should be positioned. It is used to adjust the camera's position
-			/// relative to the target object.
-			void SetTarget(GameObject* target, LMVector3 offset);
+		/// @brief Sets the field of view (FOV) of a camera object.
+		/// @param newFov newFov is a float variable representing the new field of view (FOV) value that will be
+		/// set for the camera. FOV is the extent of the observable world that is seen at any given moment
+		/// through the camera lens. It is usually measured in degrees and determines how much of the scene
+		void SetFOV(float newFov);
 
-			/// @brief Sets the field of view (FOV) of a camera object.
-			/// @param newFov newFov is a float variable representing the new field of view (FOV) value that will be
-			/// set for the camera. FOV is the extent of the observable world that is seen at any given moment
-			/// through the camera lens. It is usually measured in degrees and determines how much of the scene
-			void SetFOV(float newFov);
+		void SetViewportRatio(int viewportIndex, int modeIndex);
 
-			void SetViewportRatio(int viewportIndex, int modeIndex);
+		/// @brief Set the clipping plane of a camera object.
+		/// @param nearPlane The distance from the camera to the nearest visible object in the scene. Any object
+		/// closer than this distance will not be visible in the rendered image.
+		/// @param farPlane The far clipping plane is the maximum distance from the camera at which objects will
+		/// be rendered. Any objects beyond this distance will not be visible in the rendered image.
+		void SetClippingPlane(int nearPlane, int farPlane);
 
-			/// @brief Set the clipping plane of a camera object.
-			/// @param nearPlane The distance from the camera to the nearest visible object in the scene. Any object
-			/// closer than this distance will not be visible in the rendered image.
-			/// @param farPlane The far clipping plane is the maximum distance from the camera at which objects will
-			/// be rendered. Any objects beyond this distance will not be visible in the rendered image.
-			void SetClippingPlane(int nearPlane, int farPlane);
+		void updateViewport();
 
-			void updateViewport();
+		// Heredado v�a Component
+		virtual void start() override;
 
-			// Heredado v�a Component
-			virtual void start() override;
+		Ogre::Camera* getOgreCamera();
+	};
 
-			Ogre::Camera* getOgreCamera();
-		};
-	}
 }

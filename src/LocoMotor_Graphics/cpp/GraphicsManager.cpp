@@ -115,7 +115,7 @@ Ogre::Entity* GraphicsManager::createRenderer(std::string src) {
 
 }
 
-LocoMotor::Light* GraphicsManager::createLight() {
+LocoMotor::Light* GraphicsManager::createMainLight() {
 
 	_mLight = new Light();
 
@@ -123,6 +123,10 @@ LocoMotor::Light* GraphicsManager::createLight() {
 
 	return _mLight;
 
+}
+
+LocoMotor::Light* GraphicsManager::getMainLight() {
+	return _mLight;
 }
 
 int GraphicsManager::getWindowHeight() {
@@ -144,13 +148,13 @@ void LocoMotor::Graphics::GraphicsManager::setActiveCamera(Camera* cam) {
 	_mainCamera = cam;
 }
 
-Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
+LocoMotor::Camera* LocoMotor::Graphics::GraphicsManager::getMainCamera() {
 	return _mainCamera;
 }
 
-Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
+LocoMotor::Camera* LocoMotor::Graphics::GraphicsManager::createCamera(std::string name) {
 	Node* node = createNode(name);
-	Camera* cam = new Camera();
+	LocoMotor::Camera* cam = new LocoMotor::Camera();
 	node->Attach(cam->getOgreCamera());
 	if (_mainCamera == nullptr)_mainCamera = cam;
 	return cam;

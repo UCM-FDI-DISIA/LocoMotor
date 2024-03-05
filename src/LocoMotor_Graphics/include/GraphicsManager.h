@@ -19,9 +19,10 @@ namespace Ogre {
 struct SDL_Window;
 namespace LocoMotor {
 	class Light;
+	class Camera;
 	namespace Graphics {
 
-		class Camera;
+		
 		class Node;
 
 		struct NativeWindowPair {
@@ -64,7 +65,8 @@ namespace LocoMotor {
 			int getWindowWidth();
 
 			Ogre::Entity* createRenderer(std::string src);
-			LocoMotor::Light* createLight();
+			LocoMotor::Light* createMainLight();
+			LocoMotor::Light* getMainLight();
 
 			static GraphicsManager* getInstance();
 
