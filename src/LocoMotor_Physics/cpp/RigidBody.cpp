@@ -1,6 +1,7 @@
 #include "RigidBody.h"
 #include <iostream>
 #include "PhysicsManager.h"
+#include "btBulletDynamicsCommon.h"
 
 LocoMotor::RigidBody::RigidBody() {}
 
