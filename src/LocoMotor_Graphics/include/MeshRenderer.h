@@ -11,7 +11,7 @@ namespace LocoMotor {
 	class GameObject;
 
 	namespace Graphics {
-		class GraphicsManager
+		class GraphicsManager;
 	}
 
 	class MeshRenderer :public LocoMotor::Component {
