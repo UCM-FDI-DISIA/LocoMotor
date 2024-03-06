@@ -112,7 +112,8 @@ bool Initializer::MainLoop() {
 	ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
 	//cmpFac->createComponent("Camera");
 	GameObject* camGO = scn->addGameobject("camera");
-	camGO->addComponent("Camera");
+	Camera* cam = (Camera*) camGO->addComponent("Camera");
+	cam->init();
 	GameObject* cubeGO = scn->addGameobject("cube");
 	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
 	mesh->setMesh("Assets/Mesh/Cubeman.mesh");
@@ -134,6 +135,8 @@ bool Initializer::MainLoop() {
 		Audio::AudioManager::GetInstance()->update();
 
 		//Physics::PhysicsManager::GetInstance()->update(_dt);
+
+		cam->updateViewport();
 
 		Graphics::GraphicsManager::GetInstance()->render();
 

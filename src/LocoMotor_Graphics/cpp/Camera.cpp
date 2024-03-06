@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "GameObject.h"
 #include <OgreRenderWindow.h>
+#include <iostream>
 
 //#include <OgreSceneNode.h>
 //#include <OgreSceneManager.h>
@@ -58,7 +59,12 @@ void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
 
 
 void LocoMotor::Camera::updateViewport() {
-	_vp->update();
+	try {
+		_vp->update();
+	}
+	catch (std::exception e) {
+		std::cout << e.what() << "\n";
+	}
 }
 
 void LocoMotor::Camera::start() {}

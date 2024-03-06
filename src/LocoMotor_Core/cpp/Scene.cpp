@@ -73,6 +73,10 @@ void Scene::destroy() {
 	Graphics::GraphicsManager::GetInstance()->deactivateScene(_name);
 }
 
+void LocoMotor::Scene::setCameraObj(GameObject* cam) {
+	_camera_gObj = cam;
+}
+
 
 bool Scene::getActiveStatus() {
 	return _isActiveScene;

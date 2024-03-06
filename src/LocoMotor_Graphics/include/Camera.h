@@ -47,8 +47,8 @@ namespace LocoMotor{
 
 		void updateViewport();
 
-	protected:
 		void init()/* override*/;
+	protected:
 		void onEnable() override;
 		void update(float dT) override;
 		// Heredado v�a Component

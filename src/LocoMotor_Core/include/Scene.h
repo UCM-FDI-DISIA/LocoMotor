@@ -55,6 +55,8 @@ namespace LocoMotor {
 		/// @brief Destroys all the gameObjects on the scene
 		void destroy();
 
+		void setCameraObj(GameObject* cam);
+
 	private:
 
 		std::string _name;
