@@ -43,7 +43,7 @@ void LocoMotor::SceneManager::changeScene(const std::string& name) {
 
 void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
-        _activeScene->destroy();
+        if (_activeScene != nullptr)_activeScene->destroy();
         _toStart->start();
         _activeScene = _toStart;
         _toStart = nullptr;

@@ -5,6 +5,7 @@
 #include "OgreSceneManager.h"
 #include "Node.h"
 #include "GameObject.h"
+#include <OgreRenderWindow.h>
 
 //#include <OgreSceneNode.h>
 //#include <OgreSceneManager.h>
@@ -104,6 +105,8 @@ void LocoMotor::Camera::init()
 	_node->Attach(_mCamera);
 	_target = nullptr;
 	_offset = LMVector3(0, 0, 0);
+	_vp = LocoMotor::Graphics::GraphicsManager::GetInstance()->getRenderWindow()->addViewport(_mCamera, 0);
+	_vp->setBackgroundColour(Ogre::ColourValue(0.6f, 0.7f, 0.8f));
 }
 void LocoMotor::Camera::onEnable()
 {

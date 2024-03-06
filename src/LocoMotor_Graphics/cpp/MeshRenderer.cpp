@@ -1,6 +1,8 @@
 #include "MeshRenderer.h"
 #include "OgreEntity.h"
 #include <OgreMovableObject.h>
+#include "GraphicsManager.h"
+#include <OgreSceneManager.h>
 
 LocoMotor::MeshRenderer::MeshRenderer() {
 	_gObj = nullptr;
@@ -43,6 +45,11 @@ void LocoMotor::MeshRenderer::setMaterial(std::string mat) {
 	if (_mesh != nullptr) {
 		_mesh->setMaterialName(mat);
 	}
+}
+
+void LocoMotor::MeshRenderer::setMesh(std::string mesh) {
+	if (Ogre::ResourceGroupManager::getSingleton().resourceExistsInAnyGroup(mesh))
+		_mesh = LocoMotor::Graphics::GraphicsManager::GetInstance()->createRenderer(mesh);
 }
 
 Ogre::MovableObject* LocoMotor::MeshRenderer::getMovObj() {

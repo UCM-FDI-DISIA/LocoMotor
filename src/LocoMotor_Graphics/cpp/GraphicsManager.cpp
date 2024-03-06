@@ -100,7 +100,7 @@ void GraphicsManager::createScene(std::string name) {
 
 void GraphicsManager::render() {
 	if (_activeScene == nullptr) return;
-	_camera->render();
+	//_camera->render();
 	_root->renderOneFrame();
 }
 

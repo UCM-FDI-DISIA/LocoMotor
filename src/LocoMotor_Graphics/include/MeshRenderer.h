@@ -22,6 +22,8 @@ namespace LocoMotor {
 		~MeshRenderer();
 		
 		void setMaterial(std::string mat);
+
+		void setMesh(std::string mesh);
 		
 		/// @brief Sets the Mesh renderer visible/invisible
 	    void setVisible(bool visible);

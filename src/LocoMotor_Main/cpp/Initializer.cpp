@@ -11,6 +11,8 @@
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
+#include "Scene.h"
+#include "GameObject.h"
 
 #include <iostream>
 
@@ -65,6 +67,7 @@ bool Initializer::Init() {
 		Graphics::GraphicsManager::Release();
 	}
 	_scnManager = SceneManager::GetInstance();
+	
 
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
@@ -75,6 +78,7 @@ bool Initializer::Init() {
 	//cmpFac->registerComponent<Transform>("Transform");
 	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
 	//cmpFac->registerComponent<UIImageLM>("UIImageLM", false);
+	
 
 	return true;
 }
@@ -104,6 +108,16 @@ bool Initializer::MainLoop() {
 	float _dt;
 	float _lastFrameTime = 0.f;
 
+	Scene* scn = _scnManager->createScene("prueba");
+	ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
+	//cmpFac->createComponent("Camera");
+	GameObject* camGO = scn->addGameobject("camera");
+	camGO->addComponent("Camera");
+	GameObject* cubeGO = scn->addGameobject("cube");
+	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
+	mesh->setMesh("Assets/Mesh/Cubeman.mesh");
+	mesh->setMaterial("Assets/Material/Shaped&Guns.material");
+
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
@@ -126,8 +140,8 @@ bool Initializer::MainLoop() {
 		//if (LocoMotor::InputManager::GetInstance()->RegisterEvents())
 		//	break;
 
-		if (time > 1.f)
-			_exit = true;
+		/*if (time > 1.f)
+			_exit = true;*/
 	}
 
 	SceneManager::Release();
