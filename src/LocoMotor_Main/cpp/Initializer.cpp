@@ -117,8 +117,8 @@ bool Initializer::MainLoop() {
 	GameObject* cubeGO = scn->addGameobject("cube");
 	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
 	mesh->init("cubeMesh", "", false);
-	mesh->setMesh("Cubeman.mesh");
-	//mesh->setMaterial("CustomMaterial");
+	mesh->setMesh("cube.mesh");
+	mesh->setMaterial("CustomMaterial");
 	mesh->setVisible(true);
 
 	while (!_exit) {
