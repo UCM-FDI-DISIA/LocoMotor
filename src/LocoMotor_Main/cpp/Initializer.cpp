@@ -116,8 +116,10 @@ bool Initializer::MainLoop() {
 	cam->init();
 	GameObject* cubeGO = scn->addGameobject("cube");
 	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
+	mesh->init("cubeMesh", "", false);
 	mesh->setMesh("Cubeman.mesh");
-	mesh->setMaterial("CustomMaterial");
+	//mesh->setMaterial("CustomMaterial");
+	mesh->setVisible(true);
 
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {

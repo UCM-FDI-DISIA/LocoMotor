@@ -12,6 +12,7 @@ namespace LocoMotor {
 
 	namespace Graphics {
 		class GraphicsManager;
+		class Node;
 	}
 
 	class MeshRenderer :public LocoMotor::Component {
@@ -28,11 +29,11 @@ namespace LocoMotor {
 		/// @brief Sets the Mesh renderer visible/invisible
 	    void setVisible(bool visible);
 
+		void init(std::string name, std::string file, bool istatic);
 	protected:
 
 
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
-		void init(std::string name, std::string file, bool istatic);
 		void start();
 		void update(float dt);
 
@@ -44,6 +45,8 @@ namespace LocoMotor {
 		bool _isStatic;
 
 		GameObject* _gObj;
+
+		Graphics::Node* _node;
 
 		Ogre::MovableObject* getMovObj();
 	};

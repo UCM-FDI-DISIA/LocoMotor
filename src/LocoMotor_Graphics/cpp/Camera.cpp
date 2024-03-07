@@ -14,7 +14,7 @@
 //#include <OgreVector3.h>
 
 
-LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr) {
+LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr), _node(nullptr) {
 	_offset = LMVector3(0, 0, 0);
 }
 
@@ -61,6 +61,8 @@ void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
 void LocoMotor::Camera::updateViewport() {
 	try {
 		_vp->update();
+		//_node->Translate(0,0, 0.01);
+		std::cout << _node->GetPosition_X() << " " << _node->GetPosition_Y() << " " << _node->GetPosition_Z() << std::endl;
 	}
 	catch (std::exception e) {
 		std::cout << e.what() << "\n";
@@ -113,6 +115,8 @@ void LocoMotor::Camera::init()
 	_offset = LMVector3(0, 0, 0);
 	_vp = LocoMotor::Graphics::GraphicsManager::GetInstance()->getRenderWindow()->addViewport(_mCamera, 0);
 	_vp->setBackgroundColour(Ogre::ColourValue(0.6f, 0.7f, 0.8f));
+	// PARA HITO 1	
+	_node->Translate(0, 0, 100);
 }
 void LocoMotor::Camera::onEnable()
 {
