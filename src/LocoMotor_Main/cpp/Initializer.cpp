@@ -9,6 +9,7 @@
 #include "AudioListener.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
+#include "Light.h"
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
 #include "Scene.h"
@@ -75,6 +76,8 @@ bool Initializer::Init() {
 	cmpFac->registerComponent<MeshRenderer>("MeshRenderer");
 	cmpFac->registerComponent<ParticleSystem>("ParticleSystem");
 	cmpFac->registerComponent<RigidBody>("RigidBodyComponent");
+	cmpFac->registerComponent<Light>("Light");
+
 	//cmpFac->registerComponent<Transform>("Transform");
 	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
 	//cmpFac->registerComponent<UIImageLM>("UIImageLM", false);
@@ -117,9 +120,14 @@ bool Initializer::MainLoop() {
 	GameObject* cubeGO = scn->addGameobject("cube");
 	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
 	mesh->init("cubeMesh", "", false);
-	mesh->setMesh("cube.mesh");
+	mesh->setMesh("Cubeman.mesh");
 	mesh->setMaterial("CustomMaterial");
 	mesh->setVisible(true);
+
+	GameObject* lightGO = scn->addGameobject("light");
+	Light* light = (Light*) lightGO->addComponent("Light");
+
+	light->init("FLight", 1);
 
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
