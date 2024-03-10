@@ -30,6 +30,7 @@ void Scene::start() {
 		//obj.second->StartComp();
 	}
 	_isActiveScene = true;
+	Graphics::GraphicsManager::GetInstance()->setActiveScene(_name);
 }
 
 

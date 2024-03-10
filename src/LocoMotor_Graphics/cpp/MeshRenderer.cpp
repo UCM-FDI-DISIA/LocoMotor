@@ -4,7 +4,6 @@
 #include "GraphicsManager.h"
 #include <OgreSceneManager.h>
 
-#include <iostream>
 #include "GameObject.h"
 #include "Node.h"
 
@@ -35,12 +34,16 @@ void LocoMotor::MeshRenderer::init(std::string name, std::string file,bool istat
 }
 
 void LocoMotor::MeshRenderer::start() {
-
+	// PROVISIONAL
+	_node->Translate(0, 0, -150);
+	_node->Scale(20, 20, 20);
+	_node->Rotate(20, 240, 80);
 }
 
 
 void LocoMotor::MeshRenderer::update(float dt) {
-
+	// PROVISIONAL
+	_node->Rotate(0, 0.1 * dt, 0);
 }
 
 void LocoMotor::MeshRenderer::setVisible(bool visible) {
@@ -51,17 +54,14 @@ void LocoMotor::MeshRenderer::setVisible(bool visible) {
 void LocoMotor::MeshRenderer::setMaterial(std::string mat) {
 	if (_mesh != nullptr) {
 		_mesh->setMaterialName(mat);
-		//std::cout << _mesh->getParentNode()->getPosition().x << _mesh->getParentNode()->getPosition().y << _mesh->getParentNode()->getPosition().z << std::endl;
-		//_node->Translate(0, 0, -100);
-		_node->Scale(20, 20, 20);
-		_node->Rotate(20, 240, 80);
-		std::cout << _node->GetPosition_X()<<" " << _node->GetPosition_Y() <<" "<< _node->GetPosition_Z() << std::endl;
 	}
 }
 
 void LocoMotor::MeshRenderer::setMesh(std::string mesh) {
+	if (Graphics::GraphicsManager::GetInstance()->getOgreSceneManager() == nullptr)
+		return;
 	if (Ogre::ResourceGroupManager::getSingleton().resourceExistsInAnyGroup(mesh)) {
-		_mesh = LocoMotor::Graphics::GraphicsManager::GetInstance()->createRenderer(mesh);
+		_mesh = LocoMotor::Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createEntity(mesh);
 		if (_mesh != nullptr) {
 			_node->Attach(_mesh);
 		}

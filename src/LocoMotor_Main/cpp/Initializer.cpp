@@ -14,6 +14,7 @@
 #include "Rigidbody.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "Node.h"
 
 #include <iostream>
 
@@ -145,8 +146,6 @@ bool Initializer::MainLoop() {
 		Audio::AudioManager::GetInstance()->update();
 
 		//Physics::PhysicsManager::GetInstance()->update(_dt);
-
-		cam->updateViewport();
 
 		Graphics::GraphicsManager::GetInstance()->render();
 

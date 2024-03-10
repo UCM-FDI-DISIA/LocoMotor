@@ -8,11 +8,6 @@
 #include <OgreRenderWindow.h>
 #include <iostream>
 
-//#include <OgreSceneNode.h>
-//#include <OgreSceneManager.h>
-//#include <OgreRenderWindow.h>
-//#include <OgreVector3.h>
-
 
 LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr), _node(nullptr) {
 	_offset = LMVector3(0, 0, 0);
@@ -57,19 +52,6 @@ void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
 	_mCamera->setFarClipDistance(farPlane);
 }
 
-
-void LocoMotor::Camera::updateViewport() {
-	/*try {
-		
-	}
-	catch (std::exception e) {
-		std::cout << e.what() << "\n";
-	}*/
-	_vp->update();
-	//_node->Translate(0,0, 0.01);
-	//std::cout << _node->GetPosition_X() << " " << _node->GetPosition_Y() << " " << _node->GetPosition_Z() << std::endl;
-}
-
 void LocoMotor::Camera::start() {}
 
 void LocoMotor::Camera::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
@@ -110,14 +92,12 @@ void LocoMotor::Camera::init()
 {
 	_man = Graphics::GraphicsManager::GetInstance();
 	_node = _man->createNode(_gameObject->getName());
-	_mCamera = _man->getSceneManager()->createCamera(_gameObject->getName());
+	_mCamera = _man->getOgreSceneManager()->createCamera(_gameObject->getName());
 	_node->Attach(_mCamera);
 	_target = nullptr;
 	_offset = LMVector3(0, 0, 0);
-	_vp = LocoMotor::Graphics::GraphicsManager::GetInstance()->getRenderWindow()->addViewport(_mCamera, 0);
+	_vp = _man->getRenderWindow()->addViewport(_mCamera, 0);
 	_vp->setBackgroundColour(Ogre::ColourValue(0.6f, 0.7f, 0.8f));
-	// PARA HITO 1	
-	_node->Translate(0, 0, 150);
 }
 void LocoMotor::Camera::onEnable()
 {

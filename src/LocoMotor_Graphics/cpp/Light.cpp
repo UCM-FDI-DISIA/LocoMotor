@@ -1,9 +1,9 @@
-
 #include "Light.h"
 #include "GraphicsManager.h"
 #include "GameObject.h"
 #include "Node.h"
 #include <OgreLight.h>
+#include <OgreSceneManager.h>
 
 LocoMotor::Light::Light() {
 	_light = nullptr;
@@ -11,11 +11,13 @@ LocoMotor::Light::Light() {
 }
 
 void LocoMotor::Light::init(std::string name, int type) {
+	if (Graphics::GraphicsManager::GetInstance()->getOgreSceneManager() == nullptr)
+		return;
+
 	_name = name;
-	_light = Graphics::GraphicsManager::GetInstance()->createMainLight();
+	_light = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createLight();
 	_light->setType(Ogre::Light::LT_DIRECTIONAL);
-	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
-	_node = man->createNode(_gameObject->getName());
+	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());
 	_node->Attach(_light);
 	setDiffuse(1, 1, 1);
 	_node->SetDirection(-1, -1, -1);

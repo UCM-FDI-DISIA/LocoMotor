@@ -21,8 +21,6 @@ namespace Ogre {
 struct SDL_Window;
 namespace LocoMotor {
 
-	class Camera;
-
 	namespace Graphics {
 
 		class Node;
@@ -34,34 +32,28 @@ namespace LocoMotor {
 		class GraphicsManager {
 		public:
 
-
+			/// @brief Initializes the GraphicsManager singleton
+			/// @return Whether the initialize went well or not.
 			static bool Init();
+			/// @brief Returns the instance of the GraphicsManager singleton
 			static GraphicsManager* GetInstance();
+			/// @brief Deletes the instance of the GraphicsManager singleton
 			static void Release();
-
-
-			/// @brief Initializes the OgreManager singleton with a name for the new window
-			/// @param name Name for the window.
-			/// @return whether the initialize went well or not.
-			///	If the name is already taken, the scene with that name will be returned instead.
-			std::string initialize();
-
-
 			/// @brief Creates a scene, if you try to create a scene with an already used name, the method will return that scene instead.
 			/// @param name Name for the new scene.
 			/// @return The newly created scene.
 			///	If the name is already taken, the scene with that name will be returned instead.
 			void createScene(std::string name);
-
-
 			/// @brief Renders a frame.
 			void render();
-
+			/// @brief Initializes the window
+			/// @param name The Window title
+			/// @return
+			bool initWindow(std::string name);
 			/// @brief 
 			/// Returns RenderWindow
 			/// @return Render window of Ogre
 			Ogre::RenderWindow* getRenderWindow();
-
 			/// @brief
 			/// Sets the active scene for the manager
 			/// @param name The name of the scene to become active
@@ -70,35 +62,26 @@ namespace LocoMotor {
 			int getWindowHeight();
 			/// @brief Returns the render window width
 			int getWindowWidth();
-
-			Ogre::Entity* createRenderer(std::string src);
-
-			Ogre::Light* createMainLight();
-			Ogre::Light* getMainLight();
-
+			/// @brief Deactivates a scene
+			/// @param name The name of the scene
 			void deactivateScene(std::string name);
-
+			/// @brief Creates a node with a name
 			Node* createNode(std::string name);
-
+			/// @brief Creates a node with a name using the parent
 			Node* createNode(std::string name, std::string parent);
-
+			/// @brief Returns a LocoMotor node
+			/// @param name The name of the node
 			Node* getNode(std::string name);
-
+			/// @brief Destroys a node
+			/// @param name The name of the node to be destroyed
 			void destroyNode(std::string name);
-
-			Ogre::SceneManager* getSceneManager();
-
-
-			/// @brief Initializes the window
-			/// @param name The Window title
-			/// @return
-			bool initWindow(std::string name);
+			/// @brief Returns the SceneManager of Ogre
+			Ogre::SceneManager* getOgreSceneManager();
 
 		protected:
 			Ogre::Root* _root;
-			NativeWindowPair _mWindow;
 
-			Ogre::Light* _mLight;
+			NativeWindowPair _mWindow;
 
 			Node* _nodeRoot;
 
@@ -112,19 +95,17 @@ namespace LocoMotor {
 
 			Ogre::OverlaySystem* _ovrSys;
 
-			LocoMotor::Camera* _camera;
-
 			void* _mMaterialMgrListener = nullptr;
-			//Ogre::MaterialManager::Listener
 
 			/// @brief Creates a new OgreManager.
 			/// @param name The name for the window
 			GraphicsManager();
 			~GraphicsManager();
-
+			/// @brief Initializes the Ogre library
+			/// @return Empty string if success, error message in any other case
+			std::string initialize();
 			/// @brief Loads the resouces and initializes the RTShaderSytem
 			void loadResources();
-
 			/// @brief
 			/// Shuts down Ogre and releases all the memory related to it
 			void shutdown();

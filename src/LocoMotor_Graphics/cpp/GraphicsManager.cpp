@@ -15,10 +15,8 @@
 #include <iostream>
 //Graphics includes
 #include "GraphicsManager.h"
-#include "Camera.h"
 #include "SGTechniqueResolverListener.h"
 #include "Node.h"
-#include "Light.h"
 
 using namespace LocoMotor;
 using namespace Graphics;
@@ -31,8 +29,6 @@ GraphicsManager::GraphicsManager() {
 	_root = nullptr;
 	_ovrSys = nullptr;
 	_nodeRoot = nullptr;
-	_mLight = nullptr;
-	_camera = nullptr;
 }
 
 GraphicsManager::~GraphicsManager() {
@@ -100,7 +96,6 @@ void GraphicsManager::createScene(std::string name) {
 
 void GraphicsManager::render() {
 	if (_activeScene == nullptr) return;
-	//_camera->render();
 	_root->renderOneFrame();
 }
 
@@ -119,23 +114,6 @@ void GraphicsManager::setActiveScene(std::string name) {
 			return;
 		}
 	}
-}
-
-Ogre::Entity* GraphicsManager::createRenderer(std::string src) {
-
-	return _activeScene->createEntity(src);
-
-}
-
-Ogre::Light* GraphicsManager::createMainLight() {
-
-	_mLight = _activeScene->createLight();
-	return _mLight;
-
-}
-
-Ogre::Light* GraphicsManager::getMainLight() {
-	return _mLight;
 }
 
 int GraphicsManager::getWindowHeight() {
@@ -298,11 +276,6 @@ void GraphicsManager::shutdown() {
 		_mWindow.native = nullptr;
 	}
 
-	if (_mLight != nullptr) {
-		_activeScene->destroyLight(_mLight);
-		_mLight = nullptr;
-	}
-
 	delete Ogre::OverlaySystem::getSingletonPtr();
 	delete _root;
 	_root = nullptr;
@@ -360,6 +333,11 @@ void GraphicsManager::destroyNode(std::string name) {
 	}
 }
 
-Ogre::SceneManager* LocoMotor::Graphics::GraphicsManager::getSceneManager() {
+Ogre::SceneManager* LocoMotor::Graphics::GraphicsManager::getOgreSceneManager() {
+	if (_activeScene == nullptr) {
+		std::cerr << "No active scene\n";
+		return nullptr;
+	}
 	return _activeScene;
 }
+
