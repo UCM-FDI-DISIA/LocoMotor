@@ -4,6 +4,7 @@
 #include "PhysicsManager.h"
 #include "AudioManager.h"
 #include "SceneManager.h"
+#include "InputManager.h"
 
 #include "AudioSource.h"
 #include "AudioListener.h"
@@ -69,6 +70,17 @@ bool Initializer::Init() {
 		Graphics::GraphicsManager::Release();
 	}
 	_scnManager = SceneManager::GetInstance();
+
+	//// Inicializar inputManager
+	//if (!Input::InputManager::Init()) {
+	//	SceneManager::Release();
+	//	ComponentsFactory::Release();
+	//	cmpFac = nullptr;
+	//	Audio::AudioManager::Release();
+	//	Graphics::GraphicsManager::Release();
+	//}
+
+
 	
 
 	cmpFac->registerComponent<AudioSource>("AudioSource");

@@ -1,6 +1,10 @@
-#include <cstdint>
 #ifndef _INPUT_MANAGER_H
 #define _INPUT_MANAGER_H
+
+#include <cstdint>
+#include <utility>
+#include <vector>
+#include <array>
 
 //#include "SDL.h"
 
@@ -15,6 +19,7 @@ namespace LocoMotor {
 
 	namespace Input {
 
+		enum LMScanCode;
 		class InputManager {
 		public:
 			enum Axis {
@@ -115,32 +120,52 @@ namespace LocoMotor {
 			/// @brief Sets the controller rumble with a intensity and a duration in seconds
 			void RumbleController(const float& intensity, const float& durationInSec);
 
-			// Gyroscope
-
-			/// @brief Comunicate to the manager to active the gyroscope when controller is connected 
-			void ActivateGyroscopeWhenConnected();
-			/// @brief Check is the controller supports gyroscope and activate it.
-			bool EnableControllerGyroscope();
-			/// @brief Desactivate the gyroscope
-			bool DisableControllerGyroscope();
-			/// @brief Returns the normalized angle of the gyroscope
-			/// @param axis 
-			/// @return 1 : 90 grados // -1 : -90 grados
-			float GetGyroscopeAngle(const Axis& axis = Horizontal);
-			/// @brief Gets the angular speed of the gyroscope
-			/// @param axis 
-			float GetGyroscopeAngularSpeed(const Axis& axis = Horizontal);
-			/// @brief Resets the gyroscope
-			void ResetGyroscope();
-
-
-			
-
 		protected:
 
 			/// @brief Creates a new InputManager.
 			InputManager();
-			~InputManager();
+			~InputManager() {};
+
+			bool init();
+
+
+
+			struct KeyState {
+				bool down = false;
+				bool isPressed = false;
+				bool up = false;
+			};
+			// Almacena el estado de todas las teclas en un mismo array ordenadas por el ScanCode de las teclas
+			KeyState _keyboardKeys[512];
+
+			// Almacena el estado de todas las teclas en un mismo array ordenadas por el ScanCode de los botones del mando
+			KeyState _controllerButtons[21];
+
+			KeyState _mouseButtons[6];
+
+			SDL_GameController* _currentController = nullptr;
+
+			// Vector que almacena que teclas deben ser refrescadas despues de cada frame
+			std::vector<int> _keyboardInputs_ToReset;
+
+			// Vector que almacena que botones del raton deben ser refrescadas despues de cada frame
+			std::vector<int> _mouseInputs_ToReset;
+
+			// Vector que almacena que botones del mando deben ser refrescadas despues de cada frame
+			std::vector<int> _controllerInputs_ToReset;
+
+			// Posicion del raton en la pantalla
+			std::pair<int, int>_mousePos;
+
+			// Joysticks
+			float _joystickAxis[4]; // cuatro espacios : dos ejes en cada uno de los dos joysticks
+			const int _JOYSTICKDEADZONE_MIN = 10000;
+			const int _JOYSTICKDEADZONE_MAX = 32000;
+
+			// Triggers
+			float _triggersValue[2];
+			const int _TRIGGERSVALUE_MIN = 0;
+			const int _TRIGGERSVALUE_MAX = 64000;
 		};
 	}
 }
