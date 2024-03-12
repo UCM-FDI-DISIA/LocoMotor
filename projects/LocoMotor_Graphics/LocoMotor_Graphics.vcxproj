@@ -96,6 +96,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Light.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\MeshRenderer.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Node.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\OverlayManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\ParticleSystem.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\SGTechniqueResolverListener.h" />
   </ItemGroup>
@@ -105,6 +106,7 @@
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Light.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\MeshRenderer.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Node.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\OverlayManager.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\ParticleSystem.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\SGTechniqueResolverListener.cpp" />
   </ItemGroup>

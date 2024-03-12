@@ -22,6 +22,9 @@
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Node.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\OverlayManager.h">
+      <Filter>Archivos de encabezado\Overlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Archivos de encabezado">
@@ -29,6 +32,12 @@
     </Filter>
     <Filter Include="Archivos de origen">
       <UniqueIdentifier>{af842ac5-2736-48d3-b0a2-361173cd8893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Overlay">
+      <UniqueIdentifier>{6b506923-ae99-4687-b763-24ec3f9aac05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Overlay">
+      <UniqueIdentifier>{0dfd7de9-6737-4326-9e4f-1b74387e490a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Node.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\OverlayManager.cpp">
+      <Filter>Archivos de origen\Overlay</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

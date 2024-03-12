@@ -17,6 +17,7 @@
 #include "GraphicsManager.h"
 #include "SGTechniqueResolverListener.h"
 #include "Node.h"
+#include "OverlayManager.h"
 
 using namespace LocoMotor;
 using namespace Graphics;
@@ -27,7 +28,6 @@ GraphicsManager::GraphicsManager() {
 	_activeScene = nullptr;
 	_mShaderGenerator = nullptr;
 	_root = nullptr;
-	_ovrSys = nullptr;
 	_nodeRoot = nullptr;
 }
 
@@ -65,7 +65,7 @@ void LocoMotor::Graphics::GraphicsManager::Release() {
 std::string GraphicsManager::initialize() {
 	try {
 		_root = new Ogre::Root();
-		_ovrSys = new Ogre::OverlaySystem();
+		OverlayManager::Init();
 	}
 	catch (...) {
 		return "Error while constructing internal ogre library";
@@ -87,7 +87,7 @@ void GraphicsManager::createScene(std::string name) {
 		return;
 	}
 	Ogre::SceneManager* sM = _root->createSceneManager();
-	sM->addRenderQueueListener(_ovrSys);
+	sM->addRenderQueueListener(OverlayManager::GetInstance()->getSystem());
 	_scenes.insert({ name, sM });
 	if (_activeScene == nullptr) _activeScene = sM;
 	_mShaderGenerator->addSceneManager(sM);
@@ -260,7 +260,7 @@ void GraphicsManager::shutdown() {
 		if (it->second == _activeScene) {
 			_activeScene = nullptr;
 		}
-		it->second->removeRenderQueueListener(_ovrSys);
+		it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getSystem());
 		_root->destroySceneManager(it->second);
 		delete it->second;
 	}
@@ -276,7 +276,6 @@ void GraphicsManager::shutdown() {
 		_mWindow.native = nullptr;
 	}
 
-	delete Ogre::OverlaySystem::getSingletonPtr();
 	delete _root;
 	_root = nullptr;
 

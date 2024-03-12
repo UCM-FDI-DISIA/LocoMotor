@@ -93,8 +93,6 @@ namespace LocoMotor {
 
 			Ogre::RTShader::ShaderGenerator* _mShaderGenerator;
 
-			Ogre::OverlaySystem* _ovrSys;
-
 			void* _mMaterialMgrListener = nullptr;
 
 			/// @brief Creates a new OgreManager.
