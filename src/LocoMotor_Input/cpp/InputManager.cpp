@@ -389,6 +389,27 @@ void InputManager::ResetMouseInputs() {
 
 void InputManager::ResetControllerInputs() {
 
+
+	for (auto& pair : connectedControllers) {
+
+		LMController& thisController = pair.second;
+
+		for (int i = 0; i < thisController._controllerInputs_ToReset.size(); i++) {
+			// Saber el codigo del boton del mando
+			int buttonCode = thisController._controllerInputs_ToReset[i];
+			// Crear una referencia a la tecla y resetear sus variables a false
+			KeyState& thisButton = thisController._controllerButtons[buttonCode];
+
+			thisButton.up = false;
+			thisButton.down = false;
+		}
+
+		// Limpiar las teclas ya reseteadas
+		thisController._controllerInputs_ToReset.clear();
+	}
+
+
+	////////////////////////////////////////////
 	for (int i = 0; i < _controllerInputs_ToReset.size(); i++) {
 		// Saber el codigo del boton del mando
 		int buttonCode = _controllerInputs_ToReset[i];

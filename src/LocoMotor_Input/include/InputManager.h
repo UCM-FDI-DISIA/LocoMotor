@@ -137,6 +137,11 @@ namespace LocoMotor {
 				return onDisconnectControllers;
 			}
 
+			static ControllerId invalidControllerId() {
+				return -1;
+			}
+
+
 		protected:
 
 			static InputManager* _instance;
