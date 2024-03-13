@@ -122,6 +122,8 @@ namespace LocoMotor {
 
 		protected:
 
+			static InputManager* _instance;
+
 			/// @brief Creates a new InputManager.
 			InputManager();
 			~InputManager() {};

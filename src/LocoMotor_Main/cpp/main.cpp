@@ -6,7 +6,7 @@
 #ifdef _DEBUG
 #include "CheckML.h"
 #define LocoMotor_Main	main
-#define Main_Args		
+#define Main_Args
 #else
 #include "windows.h"
 #define LocoMotor_Main	WinMain

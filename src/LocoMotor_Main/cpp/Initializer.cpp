@@ -5,6 +5,7 @@
 #include "AudioManager.h"
 #include "SceneManager.h"
 #include "InputManager.h"
+#include "LMInputs.h"
 
 #include "AudioSource.h"
 #include "AudioListener.h"
@@ -71,14 +72,14 @@ bool Initializer::Init() {
 	}
 	_scnManager = SceneManager::GetInstance();
 
-	//// Inicializar inputManager
-	//if (!Input::InputManager::Init()) {
-	//	SceneManager::Release();
-	//	ComponentsFactory::Release();
-	//	cmpFac = nullptr;
-	//	Audio::AudioManager::Release();
-	//	Graphics::GraphicsManager::Release();
-	//}
+	// Inicializar inputManager
+	if (!Input::InputManager::Init()) {
+		SceneManager::Release();
+		ComponentsFactory::Release();
+		cmpFac = nullptr;
+		Audio::AudioManager::Release();
+		Graphics::GraphicsManager::Release();
+	}
 
 
 	
@@ -160,6 +161,12 @@ bool Initializer::MainLoop() {
 		//Physics::PhysicsManager::GetInstance()->update(_dt);
 
 		Graphics::GraphicsManager::GetInstance()->render();
+
+
+		// Prueba input
+		Input::InputManager::GetInstance()->RegisterEvents();
+		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A))
+			std::cout << "A" << std::endl;
 
 		//if (LocoMotor::InputManager::GetInstance()->RegisterEvents())
 		//	break;

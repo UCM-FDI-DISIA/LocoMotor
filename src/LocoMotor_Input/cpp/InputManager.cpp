@@ -11,7 +11,7 @@
 using namespace LocoMotor;
 using namespace Input;
 
-static InputManager* _instance = nullptr;
+InputManager* InputManager::_instance = nullptr;
 
 InputManager::InputManager() {
 	_joystickAxis[0] = 0.f;
@@ -43,7 +43,7 @@ bool InputManager::init() {
 }
 
 InputManager* InputManager::GetInstance() {
-	return nullptr;
+	return _instance;
 }
 
 void InputManager::Release() {

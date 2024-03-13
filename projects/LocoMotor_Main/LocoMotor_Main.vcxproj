@@ -27,6 +27,9 @@
     <ProjectReference Include="..\LocoMotor_Graphics\LocoMotor_Graphics.vcxproj">
       <Project>{66fa21bd-b342-43a6-9f62-0d6909f2857a}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Locomotor_Input\Locomotor_Input\Locomotor_Input.vcxproj">
+      <Project>{ca07c233-0840-421f-955f-1252e316329d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\LocoMotor_Physics\LocoMotor_Physics.vcxproj">
       <Project>{68171d82-d291-41a3-b9ff-99131b236bd3}</Project>
     </ProjectReference>
@@ -94,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Utils\include;$(SolutionDir)src\LocoMotor_Input\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
