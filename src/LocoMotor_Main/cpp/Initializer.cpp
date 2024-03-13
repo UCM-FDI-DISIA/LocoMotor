@@ -30,7 +30,7 @@ Initializer::Initializer() {
 }
 
 bool Initializer::StartGameWindow(const char* gameName) {
-	
+
 	return Graphics::GraphicsManager::GetInstance()->initWindow(gameName);
 }
 
@@ -82,7 +82,7 @@ bool Initializer::Init() {
 	}
 
 
-	
+
 
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
@@ -95,7 +95,7 @@ bool Initializer::Init() {
 	//cmpFac->registerComponent<Transform>("Transform");
 	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
 	//cmpFac->registerComponent<UIImageLM>("UIImageLM", false);
-	
+
 
 	return true;
 }
@@ -143,6 +143,9 @@ bool Initializer::MainLoop() {
 
 	light->init("FLight", 1);
 
+	// Prueba input
+	Input::InputManager::ControllerId mainControllerId;
+
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
@@ -163,13 +166,31 @@ bool Initializer::MainLoop() {
 		Graphics::GraphicsManager::GetInstance()->render();
 
 
-		// Prueba input
+
+		// PRUEBA INPUT
 		Input::InputManager::GetInstance()->RegisterEvents();
+
+		// Conexion y desconexion de mandos
+		std::list<Input::InputManager::ControllerId> controllers = Input::InputManager::GetInstance()->getOnConnectControllers();
+
+		if (controllers.size() > 0)
+				mainControllerId = controllers.front();
+
 		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A))
 			std::cout << "A" << std::endl;
 
-		//if (LocoMotor::InputManager::GetInstance()->RegisterEvents())
-		//	break;
+		// Prueba Mando
+		//if (mainControllerId)
+		if (Input::InputManager::GetInstance()->GetButtonDown(mainControllerId, Input::LMControllerButtons::LMC_A))
+			std::cout << "Controller A" << std::endl;
+		if (Input::InputManager::GetInstance()->GetButtonDown(mainControllerId, Input::LMControllerButtons::LMC_B))
+			std::cout << "Controller B" << std::endl;
+
+		if (Input::InputManager::GetInstance()->GetJoystickValue(0, Input::InputManager::Axis::Horizontal))
+			std::cout << "Axis X" << std::endl;
+		if (Input::InputManager::GetInstance()->GetJoystickValue(0, Input::InputManager::Axis::Vertical))
+			std::cout << "Axis Y" << std::endl;
+
 
 		/*if (time > 1.f)
 			_exit = true;*/
