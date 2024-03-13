@@ -15,10 +15,11 @@ Graphics::OverlayManager* Graphics::OverlayManager::_instance = nullptr;
 Graphics::OverlayManager::OverlayManager() : _canvas(nullptr), _container(nullptr), _ovrsys(nullptr) {}
 
 Graphics::OverlayManager::~OverlayManager() {
-	delete _canvas;
-	_canvas = nullptr;
-	delete _container;
+
+	Ogre::OverlayManager::getSingletonPtr()->destroyOverlayElement(_container);
 	_container = nullptr;
+	Ogre::OverlayManager::getSingletonPtr()->destroy(_canvas->getName());
+	_canvas = nullptr;
 	delete _ovrsys;
 	_ovrsys = nullptr;
 }
@@ -49,6 +50,10 @@ void Graphics::OverlayManager::Release() {
 	_instance = nullptr;
 }
 
+bool LocoMotor::Graphics::OverlayManager::IsInitialized() {
+	return _instance != nullptr;
+}
+
 Ogre::OverlayContainer* LocoMotor::Graphics::OverlayManager::getContainer() {
 	return _container;
 }
@@ -70,11 +75,12 @@ bool Graphics::OverlayManager::init() {
 	}
 
 	_canvas = _aux->create("MainOverlay" + _numOfCanvas);
+
 	_container = static_cast<Ogre::OverlayContainer*>(_aux->createOverlayElement("Panel", "Main" + _numOfCanvas));
 	_container->setPosition(0.0f, 0.0f);
 	_container->setDimensions(1.0f, 1.0f);
 
 	_canvas->add2D(_container);
-	//_canvas->show();
+	_canvas->show();
 	return true;
 }

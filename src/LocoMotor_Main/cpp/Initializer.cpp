@@ -157,6 +157,10 @@ bool Initializer::MainLoop() {
 		_dt *= 1000.0;
 		_lastFrameTime = time;
 
+		if (Input::InputManager::GetInstance()->RegisterEvents()) {
+			_exit = true;
+		}
+
 		_scnManager->update(_dt);
 
 		Audio::AudioManager::GetInstance()->update();
@@ -165,11 +169,7 @@ bool Initializer::MainLoop() {
 
 		Graphics::GraphicsManager::GetInstance()->render();
 
-
-
 		// PRUEBA INPUT
-		Input::InputManager::GetInstance()->RegisterEvents();
-
 		// Teclado
 		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A))
 			std::cout << "A" << std::endl;
@@ -200,6 +200,7 @@ bool Initializer::MainLoop() {
 			_exit = true;*/
 	}
 
+	Input::InputManager::Release();
 	SceneManager::Release();
 	ComponentsFactory::Release();
 	Audio::AudioManager::Release();

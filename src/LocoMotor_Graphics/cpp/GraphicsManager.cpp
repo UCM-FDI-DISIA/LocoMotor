@@ -65,7 +65,6 @@ void LocoMotor::Graphics::GraphicsManager::Release() {
 std::string GraphicsManager::initialize() {
 	try {
 		_root = new Ogre::Root();
-		OverlayManager::Init();
 	}
 	catch (...) {
 		return "Error while constructing internal ogre library";
@@ -87,7 +86,13 @@ void GraphicsManager::createScene(std::string name) {
 		return;
 	}
 	Ogre::SceneManager* sM = _root->createSceneManager();
+
+	//We initialize the UI manager only if it wasnt initialized yet
+	if (!OverlayManager::IsInitialized())
+		OverlayManager::Init();
+
 	sM->addRenderQueueListener(OverlayManager::GetInstance()->getSystem());
+
 	_scenes.insert({ name, sM });
 	if (_activeScene == nullptr) _activeScene = sM;
 	_mShaderGenerator->addSceneManager(sM);
@@ -262,7 +267,7 @@ void GraphicsManager::shutdown() {
 		}
 		it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getSystem());
 		_root->destroySceneManager(it->second);
-		delete it->second;
+		//delete it->second;
 	}
 
 	if (_mWindow.render != nullptr) {
@@ -275,6 +280,9 @@ void GraphicsManager::shutdown() {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 		_mWindow.native = nullptr;
 	}
+
+	if (OverlayManager::IsInitialized)
+		OverlayManager::Release();
 
 	delete _root;
 	_root = nullptr;

@@ -14,6 +14,7 @@ bool LocoMotor::SceneManager::Init() {
 
 void LocoMotor::SceneManager::Release() {
     assert(_instance != nullptr);
+
     delete _instance;
     _instance = nullptr;
 }
@@ -55,4 +56,8 @@ void LocoMotor::SceneManager::update(float dT) {
 }
 LocoMotor::SceneManager::SceneManager() : _scenes(), _activeScene(nullptr), _toStart(nullptr), _lastFrameTime(0), _dt(0.001) {}
 
-LocoMotor::SceneManager::~SceneManager() {}
+LocoMotor::SceneManager::~SceneManager() {
+
+    for (auto scene : _scenes)
+        delete scene.second;
+}

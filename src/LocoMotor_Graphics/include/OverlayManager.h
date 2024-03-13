@@ -43,6 +43,9 @@ namespace LocoMotor {
 			/// @brief Destroys the canvas
 			static void Release();
 
+			/// @brief Returns true if there is an instance of the singleton active
+			static bool IsInitialized();
+
 			Ogre::OverlayContainer* getContainer();
 			Ogre::OverlaySystem* getSystem();
 

@@ -155,7 +155,7 @@ bool InputManager::RegisterEvents() {
 		SDL_Scancode scanCode = event.key.keysym.scancode;
 
 		// Eventos para salir del bucle principal
-		if (event.type == SDL_QUIT || scanCode == SDL_SCANCODE_ESCAPE)
+		if (event.type == SDL_QUIT)
 			return true;
 
 
