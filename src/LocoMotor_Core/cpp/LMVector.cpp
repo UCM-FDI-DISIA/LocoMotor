@@ -111,6 +111,7 @@ LMVector3 LMVector3::operator/(const double& other) const {
 	return aux;
 }
 
+
 // Dot product
 double LMVector3::Dot(const LMVector3& other) const {
 	return _x * other._x + _y * other._y + _z * other._z;
@@ -347,6 +348,28 @@ LMQuaternion LMQuaternion::operator*(double scalar) const {
 // Scalar division
 LMQuaternion LMQuaternion::operator/(double scalar) const {
 	return LMQuaternion(_w / scalar, _x / scalar, _y / scalar, _z / scalar);
+}
+
+
+
+LMVector3 LMQuaternion::operator*(const LMVector3& other) const {
+	float num = this->_x * 2.f;
+	float num2 = this->_y * 2.f;
+	float num3 = this->_z * 2.f;
+	float num4 = this->_x * num;
+	float num5 = this->_y * num2;
+	float num6 = this->_z * num3;
+	float num7 = this->_x * num2;
+	float num8 = this->_x * num3;
+	float num9 = this->_y * num3;
+	float num10 = this->_w * num;
+	float num11 = this->_w * num2;
+	float num12 = this->_w * num3;
+	LMVector3 result = LMVector3();
+	result.SetX((1.f - (num5 + num6)) * other.GetX() + (num7 - num12) * other.GetY() + (num8 + num11) * other.GetZ());
+	result.SetY((num7 + num12) * other.GetX() + (1.f - (num4 + num6)) * other.GetY() + (num9 - num10) * other.GetZ());
+	result.SetZ((num8 - num11) * other.GetX() + (num9 + num10) * other.GetY() + (1.f - (num4 + num5)) * other.GetZ());
+	return result;
 }
 
 // Conjugate

@@ -90,6 +90,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp" />
@@ -98,6 +99,7 @@
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
