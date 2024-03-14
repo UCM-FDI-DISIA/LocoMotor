@@ -146,6 +146,7 @@ bool Initializer::MainLoop() {
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
 	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
+	Input::InputManager::ControllerId thirdController = Input::InputManager::invalidControllerId();
 
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
@@ -180,16 +181,39 @@ bool Initializer::MainLoop() {
 		std::list<Input::InputManager::ControllerId> controllersAdded = Input::InputManager::GetInstance()->getOnConnectControllers();
 		std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
 
-		// Cada vez que se conecta un mando nuevo
-		if (controllersAdded.size() > 0) {
-			if (firstController == Input::InputManager::invalidControllerId())
+		// Conexion de usuarios
+		for (int i = 0; i < controllersAdded.size(); i++) {
+			if (firstController == Input::InputManager::invalidControllerId()) {
 				firstController = controllersAdded.front();
+				controllersAdded.pop_front();
+			}
 
-			else if (secondController == Input::InputManager::invalidControllerId())
+			else if (secondController == Input::InputManager::invalidControllerId()) {
 				secondController = controllersAdded.front();
+				controllersAdded.pop_front();
+			}
+			else
+				controllersAdded.pop_front();
 		}
 
-		// Prueba Mando
+		// Desconexion de usuarios
+		for (int i = 0; i < controllersRemoved.size(); i++) {
+			// Si se ha desconectado el primer usuario
+			if (firstController == controllersRemoved.front()) {
+				firstController = Input::InputManager::invalidControllerId();
+				controllersRemoved.pop_front();
+			}
+
+			else if (secondController == controllersRemoved.front()) {
+				secondController = Input::InputManager::invalidControllerId();
+				controllersRemoved.pop_front();
+			}
+			else
+				controllersRemoved.pop_front();
+		}
+
+
+		// Input de usuarios con mando
 		if (firstController != Input::InputManager::invalidControllerId()) {
 			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_A))
 				std::cout << "FIRST USER / Controller A" << std::endl;
@@ -212,12 +236,16 @@ bool Initializer::MainLoop() {
 				std::cout << "SECOND USER / Axis X = " << joystickValue << std::endl;
 		}
 
+		if (thirdController != Input::InputManager::invalidControllerId()) {
+			if (Input::InputManager::GetInstance()->GetButtonDown(thirdController, Input::LMControllerButtons::LMC_A))
+				std::cout << "THIRD USER / Controller A" << std::endl;
+			if (Input::InputManager::GetInstance()->GetButtonDown(thirdController, Input::LMControllerButtons::LMC_B))
+				std::cout << "THIRD USER / Controller B" << std::endl;
 
-
-		//if (Input::InputManager::GetInstance()->GetJoystickValue(0, Input::InputManager::Axis::Horizontal))
-		//	std::cout << "Axis X" << std::endl;
-		//if (Input::InputManager::GetInstance()->GetJoystickValue(0, Input::InputManager::Axis::Vertical))
-		//	std::cout << "Axis Y" << std::endl;
+			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(thirdController, 0, Input::InputManager::Axis::Horizontal);
+			if (joystickValue != 0)
+				std::cout << "THIRD USER / Axis X = " << joystickValue << std::endl;
+		}
 
 
 		/*if (time > 1.f)
