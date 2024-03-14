@@ -144,7 +144,8 @@ bool Initializer::MainLoop() {
 	light->init("FLight", 1);
 
 	// Prueba input
-	Input::InputManager::ControllerId mainControllerId = Input::InputManager::invalidControllerId();
+	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
+	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
 
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
@@ -172,23 +173,46 @@ bool Initializer::MainLoop() {
 		// PRUEBA INPUT
 		// Teclado
 		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A))
-			std::cout << "A" << std::endl;
+			std::cout << "KEYBOARD A" << std::endl;
 
 
 		// Conexion y desconexion de mandos
 		std::list<Input::InputManager::ControllerId> controllersAdded = Input::InputManager::GetInstance()->getOnConnectControllers();
 		std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
 
-		if (controllersAdded.size() > 0)
-				mainControllerId = controllersAdded.front();
+		// Cada vez que se conecta un mando nuevo
+		if (controllersAdded.size() > 0) {
+			if (firstController == Input::InputManager::invalidControllerId())
+				firstController = controllersAdded.front();
+
+			else if (secondController == Input::InputManager::invalidControllerId())
+				secondController = controllersAdded.front();
+		}
 
 		// Prueba Mando
-		if (mainControllerId != Input::InputManager::invalidControllerId()) {
-			if (Input::InputManager::GetInstance()->GetButtonDown(mainControllerId, Input::LMControllerButtons::LMC_A))
-				std::cout << "Controller A" << std::endl;
-			if (Input::InputManager::GetInstance()->GetButtonDown(mainControllerId, Input::LMControllerButtons::LMC_B))
-				std::cout << "Controller B" << std::endl;
+		if (firstController != Input::InputManager::invalidControllerId()) {
+			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_A))
+				std::cout << "FIRST USER / Controller A" << std::endl;
+			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_B))
+				std::cout << "FIRST USER / Controller B" << std::endl;
+
+			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(firstController, 0, Input::InputManager::Axis::Horizontal);
+			if (joystickValue != 0)
+				std::cout << "FIRST USER / Axis X = " << joystickValue << std::endl;
 		}
+
+		if (secondController != Input::InputManager::invalidControllerId()) {
+			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_A))
+				std::cout << "SECOND USER / Controller A" << std::endl;
+			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_B))
+				std::cout << "SECOND USER / Controller B" << std::endl;
+
+			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(secondController, 0, Input::InputManager::Axis::Horizontal);
+			if (joystickValue != 0)
+				std::cout << "SECOND USER / Axis X = " << joystickValue << std::endl;
+		}
+
+
 
 		//if (Input::InputManager::GetInstance()->GetJoystickValue(0, Input::InputManager::Axis::Horizontal))
 		//	std::cout << "Axis X" << std::endl;

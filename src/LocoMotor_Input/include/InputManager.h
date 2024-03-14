@@ -70,7 +70,7 @@ namespace LocoMotor {
 			/// @brief Returns the inclination value of the joystick
 			/// @param joystickIndex 0 -> left joystick | 1 ->right joystick
 			/// @param axis Horizontal o Vertical
-			float GetJoystickValue(const int& joystickIndex, const Axis& axis);
+			float GetJoystickValue(ControllerId controllerId, const int& joystickIndex, const Axis& axis);
 			/// @brief Returns the inclination value of the joystick
 			/// @param triggerIndex 0 -> left trigger | 1 ->right trigger
 			float GetTriggerValue(const int& triggerIndex);

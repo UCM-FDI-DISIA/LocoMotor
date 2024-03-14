@@ -98,21 +98,21 @@ bool InputManager::GetButtonUp(const int& buttonCode) {
 }
 
 	// JOYSTICKS
-float InputManager::GetJoystickValue(const int& joystickIndex, const Axis& axis) {
+float InputManager::GetJoystickValue(ControllerId controllerId, const int& joystickIndex, const Axis& axis) {
 
 	if (joystickIndex == 0) {
 
 		if (axis == Horizontal)
-			return _joystickAxis[0];
+			return connectedControllers[controllerId]._joystickAxis[0];
 		else if (axis == Vertical)
-			return _joystickAxis[1];
+			return connectedControllers[controllerId]._joystickAxis[1];
 	}
 	else if (joystickIndex == 1) {
 
 		if (axis == Horizontal)
-			return _joystickAxis[2];
+			return connectedControllers[controllerId]._joystickAxis[2];
 		else if (axis == Vertical)
-			return _joystickAxis[3];
+			return connectedControllers[controllerId]._joystickAxis[3];
 	}
 	return 0.f;
 }
@@ -240,11 +240,16 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 	if (event.type == SDL_CONTROLLERBUTTONUP) {
 
 		int buttonCode = event.cbutton.button;
-		KeyState& thisButton = _controllerButtons[buttonCode];
+		//KeyState& thisButton = _controllerButtons[buttonCode];
+		ControllerId id = 0;
+		KeyState& thisButton = connectedControllers[event.cdevice.which]._controllerButtons[buttonCode];
 
+		// Actualizar valores
 		thisButton.isPressed = false;
 		thisButton.up = true;
 		_controllerInputs_ToReset.push_back(buttonCode);
+
+		connectedControllers[event.cdevice.which]._controllerInputs_ToReset.push_back(buttonCode);
 	}
 
 	if (event.type == SDL_CONTROLLERAXISMOTION) {
@@ -274,12 +279,13 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 
 				normalizedValue *= sign;
 
-				_joystickAxis[axis] = normalizedValue;
-				std::cout << normalizedValue << "\n";
+				connectedControllers[event.cdevice.which]._joystickAxis[axis] = normalizedValue;
+				//_joystickAxis[axis] = normalizedValue;
+				//std::cout << "user : " << event.cdevice.which << " / joistickValue : " << normalizedValue << "\n";
 			}
 
 			else
-				_joystickAxis[axis] = 0;
+				connectedControllers[event.cdevice.which]._joystickAxis[axis] = 0;
 		}
 
 	}
@@ -329,9 +335,9 @@ void InputManager::ManageMouseEvents(const SDL_Event& event) {
 
 bool InputManager::ControllerDeviceAdded(const int32_t& controllerAdded) {
 
-	// Si ya hay un mando conectado, ignorar este
-	if (_currentController != nullptr)
-		return false;
+	//// Si ya hay un mando conectado, ignorar este
+	//if (_currentController != nullptr)
+	//	return false;
 
 	_currentController = SDL_GameControllerOpen(controllerAdded);
 
@@ -340,6 +346,8 @@ bool InputManager::ControllerDeviceAdded(const int32_t& controllerAdded) {
 	onConnectControllers.push_back(controllerAdded);
 
 	connectedControllers.insert({ controllerAdded, LMController(SDL_GameControllerOpen(controllerAdded)) });
+
+	//std::cout << "ControllerDeviceAdded";
 
 	return true;
 }
