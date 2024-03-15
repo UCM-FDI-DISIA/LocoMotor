@@ -99,6 +99,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\OverlayManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\ParticleSystem.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\SGTechniqueResolverListener.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\UIImage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Camera.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\OverlayManager.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\ParticleSystem.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\SGTechniqueResolverListener.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\UIImage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,6 +14,7 @@
 #include "Light.h"
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
+#include "UIImage.h"
 #include "Scene.h"
 #include "GameObject.h"
 #include "Node.h"
@@ -94,7 +95,7 @@ bool Initializer::Init() {
 
 	//cmpFac->registerComponent<Transform>("Transform");
 	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
-	//cmpFac->registerComponent<UIImageLM>("UIImageLM", false);
+	cmpFac->registerComponent<UIImage>("UIImage");
 
 
 	return true;
@@ -142,6 +143,11 @@ bool Initializer::MainLoop() {
 	Light* light = (Light*) lightGO->addComponent("Light");
 
 	light->init("FLight", 1);
+
+	GameObject* UI = scn->addGameobject("ui");
+	UIImage* img = (UIImage*) UI->addComponent("UIImage");
+	img->initializeABorrar();
+	img->setImage("UIMaterial");
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();

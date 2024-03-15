@@ -95,6 +95,8 @@ namespace LocoMotor {
 
 			void* _mMaterialMgrListener = nullptr;
 
+			static GraphicsManager* _instance;
+
 			/// @brief Creates a new OgreManager.
 			/// @param name The name for the window
 			GraphicsManager();

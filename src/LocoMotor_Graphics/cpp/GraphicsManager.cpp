@@ -22,7 +22,7 @@
 using namespace LocoMotor;
 using namespace Graphics;
 
-static GraphicsManager* _instance = nullptr;
+GraphicsManager* GraphicsManager::_instance = nullptr;
 
 GraphicsManager::GraphicsManager() {
 	_activeScene = nullptr;
@@ -281,7 +281,7 @@ void GraphicsManager::shutdown() {
 		_mWindow.native = nullptr;
 	}
 
-	if (OverlayManager::IsInitialized)
+	if (OverlayManager::IsInitialized())
 		OverlayManager::Release();
 
 	delete _root;

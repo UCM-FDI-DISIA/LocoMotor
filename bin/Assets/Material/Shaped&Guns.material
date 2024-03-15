@@ -12,4 +12,14 @@ material CustomMaterial {
         }
     }
 }
+material UIMaterial {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture car.jpeg
+            }
+        }
+    }
+}
 
