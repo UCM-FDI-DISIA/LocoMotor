@@ -18,24 +18,26 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Node.h"
+#include "Transform.h"
 
 #include <iostream>
+#include <SDL_messagebox.h>
 
 using namespace LocoMotor;
 
-Initializer::Initializer() {
+Engine::Engine() {
 	_gameName = "No window title";
 	_scnManager = nullptr;
 	_startScene = "";
 	_exit = false;
 }
 
-bool Initializer::StartGameWindow(const char* gameName) {
+bool Engine::StartGameWindow(const char* gameName) {
 
 	return Graphics::GraphicsManager::GetInstance()->initWindow(gameName);
 }
 
-bool Initializer::Init() {
+bool Engine::Init() {
 
 	if (!Graphics::GraphicsManager::Init()) {
 		return false;
@@ -90,10 +92,9 @@ bool Initializer::Init() {
 	cmpFac->registerComponent<Camera>("Camera");
 	cmpFac->registerComponent<MeshRenderer>("MeshRenderer");
 	cmpFac->registerComponent<ParticleSystem>("ParticleSystem");
-	cmpFac->registerComponent<RigidBody>("RigidBodyComponent");
+	cmpFac->registerComponent<RigidBody>("RigidBody");
 	cmpFac->registerComponent<Light>("Light");
-
-	//cmpFac->registerComponent<Transform>("Transform");
+	cmpFac->registerComponent<Transform>("Transform");
 	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
 	cmpFac->registerComponent<UIImage>("UIImage");
 
@@ -101,7 +102,7 @@ bool Initializer::Init() {
 	return true;
 }
 
-bool Initializer::MainLoop() {
+bool Engine::MainLoop() {
 	/*
 	//If Ogre Manager was not initialize by a Registergame() call, it will be initialized with the name GAME DLL FAIL
 	if (OgreWrapper::OgreManager::GetInstance() == nullptr) {
@@ -153,6 +154,8 @@ bool Initializer::MainLoop() {
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
 	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
 	Input::InputManager::ControllerId thirdController = Input::InputManager::invalidControllerId();
+
+	bool shown = false;
 
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
@@ -253,9 +256,40 @@ bool Initializer::MainLoop() {
 				std::cout << "THIRD USER / Axis X = " << joystickValue << std::endl;
 		}
 
+		
+		int butId=-1;
 
-		/*if (time > 1.f)
-			_exit = true;*/
+		if (time > 5.f&&!shown) {
+			shown = true;
+			const SDL_MessageBoxButtonData buttons[] = {
+			{ /* .flags, .buttonid, .text */        0, 0, "no" },
+			{0, 1, "ok" },
+			{ SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT, 2, "oka" },
+			};
+			const SDL_MessageBoxColorScheme colorScheme = {};
+			std::string msg = "Tienes lineas rojas";
+			const SDL_MessageBoxData messageBoxData = {
+		   SDL_MESSAGEBOX_INFORMATION, /* .flags */
+		   NULL, /* .window */
+		   "Error", /* .title */
+		   msg.c_str(), /* message */
+		   SDL_arraysize(buttons), /* .numbuttons */
+		   buttons, /* .buttons */
+		   &colorScheme /* .colorScheme */
+			};
+
+			SDL_ShowMessageBox(&messageBoxData, &butId);
+
+			
+
+		}
+		if (butId == 1) {
+			_exit = true;
+		}
+		else if (butId == 2) {
+			
+		}
+			
 	}
 
 	Input::InputManager::Release();

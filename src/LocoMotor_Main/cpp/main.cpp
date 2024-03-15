@@ -19,7 +19,7 @@ int LocoMotor_Main(Main_Args) {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	LocoMotor::Initializer* i = new LocoMotor::Initializer();
+	LocoMotor::Engine* i = new LocoMotor::Engine();
 
 	if (!i->Init()) {
 		delete i;

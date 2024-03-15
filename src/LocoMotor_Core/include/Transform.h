@@ -16,7 +16,7 @@ namespace OgreWrapper {
 }
 
 namespace LocoMotor {
-	class MOTOR_API Transform : public Component {
+	class Transform : public Component {
 
 	public:
 
@@ -109,6 +109,10 @@ namespace LocoMotor {
 		void SetParent(Transform* trParent);
 		Transform* GetParent();
 
+	protected:
+
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
+
 	private:
 
 		LMVector3 _position;
@@ -127,7 +131,7 @@ namespace LocoMotor {
 		//void SetPhysRotation(const LMQuaternion& newRotation);
 		/// @brief Sets the physical Euler rotation of a game object's rigid body component.
 		/// @param newRotation A LMVector3 object representing the new rotation to be set for the Transform.
-		void SetPhysEulerRotation(const LMVector3& newRotation);
+		//void SetPhysEulerRotation(const LMVector3& newRotation);
 		/// @brief 
 		/// @param newsize 
 		void SetPhysScale(const LMVector3& newsize);

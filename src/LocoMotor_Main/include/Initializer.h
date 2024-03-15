@@ -16,9 +16,9 @@ namespace LocoMotor {
 	class SceneManager;
 	class GameObject;
 
-	class Initializer {
+	class Engine {
 	public:
-		Initializer();
+		Engine();
 
 		/// @brief Method to call before calling the InitGame Function in the game dll
 		/// @return if false, abort

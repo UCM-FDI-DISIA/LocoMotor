@@ -331,3 +331,7 @@ LocoMotor::Transform* LocoMotor::Transform::GetParent() {
 }
 
 void LocoMotor::Transform::SetPhysScale(const LMVector3& newsize) {}
+
+void LocoMotor::Transform::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+
+}
