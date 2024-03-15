@@ -20,6 +20,9 @@ namespace LocoMotor {
 		/// @remarks If the component was in the same state as the parameter given, this method does nothing
 		void setEnabled(bool enable);
 	protected:
+
+		virtual ~Component() {};
+
 		/// @brief This function is called on every frame 
 		/// @param dt The time elapsed since the last update, measured in ms
 		virtual void update(float dt) = 0;
@@ -51,6 +54,7 @@ namespace LocoMotor {
 
 		GameObject* _gameObject;
 	private:
+
 		/// @brief Initializes the component with its context (GameObject) and enabled state
 		/// @param gameObject The GameObject which the components belongs to
 		/// @param enable The initial enabled state of the component.

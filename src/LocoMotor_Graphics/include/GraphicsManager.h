@@ -72,6 +72,7 @@ namespace LocoMotor {
 			/// @brief Returns a LocoMotor node
 			/// @param name The name of the node
 			Node* getNode(std::string name);
+			void destroyNode(Node* node);
 			/// @brief Destroys a node
 			/// @param name The name of the node to be destroyed
 			void destroyNode(std::string name);

@@ -128,27 +128,27 @@ bool Engine::MainLoop() {
 	float _lastFrameTime = 0.f;
 
 	Scene* scn = _scnManager->createScene("prueba");
-	ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
-	//cmpFac->createComponent("Camera");
+	//ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
+	////cmpFac->createComponent("Camera");
 	GameObject* camGO = scn->addGameobject("camera");
 	Camera* cam = (Camera*) camGO->addComponent("Camera");
 	cam->init();
-	GameObject* cubeGO = scn->addGameobject("cube");
-	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
-	mesh->init("cubeMesh", "", false);
-	mesh->setMesh("Cubeman.mesh");
-	mesh->setMaterial("CustomMaterial");
-	mesh->setVisible(true);
-
-	GameObject* lightGO = scn->addGameobject("light");
-	Light* light = (Light*) lightGO->addComponent("Light");
-
-	light->init("FLight", 1);
-
-	GameObject* UI = scn->addGameobject("ui");
-	UIImage* img = (UIImage*) UI->addComponent("UIImage");
-	img->initializeABorrar();
-	img->setImage("UIMaterial");
+	//GameObject* cubeGO = scn->addGameobject("cube");
+	//MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
+	//mesh->init("cubeMesh", "", false);
+	//mesh->setMesh("Cubeman.mesh");
+	//mesh->setMaterial("CustomMaterial");
+	//mesh->setVisible(true);
+	//
+	//GameObject* lightGO = scn->addGameobject("light");
+	//Light* light = (Light*) lightGO->addComponent("Light");
+	//
+	//light->init("FLight", 1);
+	//
+	//GameObject* UI = scn->addGameobject("ui");
+	//UIImage* img = (UIImage*) UI->addComponent("UIImage");
+	//img->initializeABorrar();
+	//img->setImage("UIMaterial");
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
@@ -256,10 +256,10 @@ bool Engine::MainLoop() {
 				std::cout << "THIRD USER / Axis X = " << joystickValue << std::endl;
 		}
 
-		
-		int butId=-1;
 
-		if (time > 5.f&&!shown) {
+		int butId = -1;
+
+		if (time > 5.f && !shown) {
 			shown = true;
 			const SDL_MessageBoxButtonData buttons[] = {
 			{ /* .flags, .buttonid, .text */        0, 0, "no" },
@@ -280,16 +280,16 @@ bool Engine::MainLoop() {
 
 			SDL_ShowMessageBox(&messageBoxData, &butId);
 
-			
+
 
 		}
 		if (butId == 1) {
 			_exit = true;
 		}
 		else if (butId == 2) {
-			
+
 		}
-			
+
 	}
 
 	Input::InputManager::Release();

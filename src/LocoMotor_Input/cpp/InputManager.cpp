@@ -47,7 +47,9 @@ InputManager* InputManager::GetInstance() {
 }
 
 void InputManager::Release() {
-
+	assert(_instance != nullptr);
+	delete _instance;
+	_instance = nullptr;
 }
 
 // KEYBOARD

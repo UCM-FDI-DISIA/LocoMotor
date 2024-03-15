@@ -19,6 +19,7 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 
 LocoMotor::MeshRenderer::~MeshRenderer()
 {
+	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->GetName());
 }
 
 void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params)

@@ -9,14 +9,14 @@
 #include <iostream>
 
 
-LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr), _node(nullptr) {
+LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr), _node(nullptr), _man(nullptr) {
 	_offset = LMVector3(0, 0, 0);
 }
 
 LocoMotor::Camera::~Camera() {
+	_man->getOgreSceneManager()->destroyCamera(_mCamera);
+	_man->destroyNode(_node->GetName());
 }
-
-
 
 void LocoMotor::Camera::SetTarget(GameObject* target, LMVector3 offset)
 {
@@ -91,8 +91,8 @@ void LocoMotor::Camera::render() {
 void LocoMotor::Camera::init()
 {
 	_man = Graphics::GraphicsManager::GetInstance();
-	_node = _man->createNode(_gameObject->getName());
-	_mCamera = _man->getOgreSceneManager()->createCamera(_gameObject->getName());
+	_node = _man->createNode(_gameObject->getName() + "_cam");
+	_mCamera = _man->getOgreSceneManager()->createCamera(_gameObject->getName() + "_cam");
 	_node->Attach(_mCamera);
 	_target = nullptr;
 	_offset = LMVector3(0, 0, 0);

@@ -32,7 +32,8 @@ void LocoMotor::Light::update(float dt) {
 }
 
 LocoMotor::Light::~Light() {
-	//buscar destructora de luz en ogre
+	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->GetName());
+	//Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->destroyLight(_light);
 }
 
 //Ogre::MovableObject* LocoMotor::Light::getMovObj() {

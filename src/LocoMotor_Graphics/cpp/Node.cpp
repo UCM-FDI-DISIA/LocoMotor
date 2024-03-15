@@ -13,9 +13,6 @@ Node::Node(Ogre::SceneNode* node, std::string name) {
 }
 
 Node::~Node() {
-	for (std::vector<Ogre::MovableObject*>::iterator it = _ent.begin(); it != _ent.end(); it = _ent.erase(it)) {
-		delete* it;
-	}
 }
 
 void Node::Translate(float x, float y, float z) {
