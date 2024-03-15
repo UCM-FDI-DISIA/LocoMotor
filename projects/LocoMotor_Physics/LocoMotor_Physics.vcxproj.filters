@@ -21,12 +21,18 @@
     <ClInclude Include="..\..\src\LocoMotor_Physics\include\RigidBody.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Physics\include\MeshStrider.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\PhysicsManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\RigidBody.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\MeshStrider.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

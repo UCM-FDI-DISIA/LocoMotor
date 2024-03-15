@@ -3,6 +3,12 @@
 #include "PhysicsManager.h"
 #include "btBulletDynamicsCommon.h"
 
+#include "MeshRenderer.h"
+#include "GameObject.h"
+#include "MeshStrider.h"
+using namespace LocoMotor;
+using namespace Physics;
+
 LocoMotor::RigidBody::RigidBody() {}
 
 LocoMotor::RigidBody::~RigidBody() {}
@@ -66,19 +72,19 @@ void LocoMotor::RigidBody::awake() {
 	info.sphereSize = 1;
 	info.capsuleHeight = 1.0f;
 	info.capsuleRadius = 0.5f;
-	//if (_mass == 0) {
-	//	MeshRenderer* mR = gameObject->GetComponent<MeshRenderer>();
-	//	if (mR == nullptr)return;
-	//	OgreWrapper::Renderer3D* mesh = gameObject->GetComponent<MeshRenderer>()->GetRenderer();
-	//	if (mesh != nullptr) {
-	//		_ms = new MeshStrider(mesh->GetMesh());
-	//		_body = PhysicsManager::GetInstance()->CreateRigidBody(info, _ms);
-	//		_body->setUserPointer(gameObject);
-	//		if (_raycast) UseItAsRaycast();
-	//		if (_beATrigger) BeATrigger();
-	//		return;
-	//	}
-	//}
+	if (_mass == 0) {
+		MeshRenderer* mR = _gameObject->getComponent<MeshRenderer>();
+		if (mR == nullptr)return;
+		Ogre::Mesh* mesh = mR->getMesh();
+		if (mesh != nullptr) {
+			_ms = new MeshStrider(mesh);
+			_body = CreateRigidBody(info,_ms);
+			_body->setUserPointer(_gameObject);
+			/*if (_raycast) UseItAsRaycast();
+			if (_beATrigger) BeATrigger();*/
+			return;
+		}
+	}
 	_body = CreateRigidBody(info);
 	_body->setUserPointer(_gameObject);
 	//if (_raycast) UseItAsRaycast();
@@ -89,10 +95,10 @@ void LocoMotor::RigidBody::start() {}
 
 void LocoMotor::RigidBody::update(float dt) {}
 
-btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
+btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info, MeshStrider* ms) {
 	btCollisionShape* shape = nullptr;
-	if (false){//ms != nullptr) {
-		//shape = new btBvhTriangleMeshShape(ms, true, true);
+	if (ms != nullptr) {
+		shape = new btBvhTriangleMeshShape(ms, true, true);
 	}
 	else {
 		if (info.capsuleHeight > 0.0)
@@ -133,5 +139,11 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 }
 
 LocoMotor::RigidBodyInfo::RigidBodyInfo() {
-
+	type = 0;
+	boxSize = LMVector3();
+	sphereSize = 0.f;
+	capsuleRadius = 0.f;
+	capsuleHeight = 0.f;
+	origin = LMVector3();
+	mass = 0.f;
 }

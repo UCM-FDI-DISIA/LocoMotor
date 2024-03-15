@@ -42,7 +42,7 @@ namespace LocoMotor {
 		void removeComponents(const std::string& name);
 
 		template <typename T>
-		T** getComponent() {
+		T* getComponent() {
 			auto it = _components.begin();
 			T* comp = nullptr;
 			while (it != _components.end() && comp == nullptr) {

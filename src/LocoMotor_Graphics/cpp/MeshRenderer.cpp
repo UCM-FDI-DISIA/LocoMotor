@@ -33,6 +33,10 @@ void LocoMotor::MeshRenderer::init(std::string name, std::string file,bool istat
 	_node = man->createNode(_gameObject->getName());
 }
 
+Ogre::Mesh* LocoMotor::MeshRenderer::getMesh() {
+	return _mesh->getMesh().get();
+}
+
 void LocoMotor::MeshRenderer::start() {
 	// PROVISIONAL
 	_node->Translate(0, 0, -150);
@@ -66,6 +70,7 @@ void LocoMotor::MeshRenderer::setMesh(std::string mesh) {
 			_node->Attach(_mesh);
 		}
 	}
+	
 }
 
 Ogre::MovableObject* LocoMotor::MeshRenderer::getMovObj() {

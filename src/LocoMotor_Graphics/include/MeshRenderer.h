@@ -5,6 +5,7 @@
 namespace Ogre {
 	class Entity;
 	class MovableObject;
+	class Mesh;
 }
 
 namespace LocoMotor {
@@ -13,6 +14,7 @@ namespace LocoMotor {
 	namespace Graphics {
 		class GraphicsManager;
 		class Node;
+
 	}
 
 	class MeshRenderer :public LocoMotor::Component {
@@ -30,6 +32,8 @@ namespace LocoMotor {
 	    void setVisible(bool visible);
 
 		void init(std::string name, std::string file, bool istatic);
+
+		Ogre::Mesh* getMesh();
 	protected:
 
 
