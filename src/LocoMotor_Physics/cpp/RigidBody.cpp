@@ -2,10 +2,12 @@
 #include <iostream>
 #include "PhysicsManager.h"
 #include "btBulletDynamicsCommon.h"
+#include "MeshStrider.h"
+#include "BulletVectorConverter.h"
 
 #include "MeshRenderer.h"
 #include "GameObject.h"
-#include "MeshStrider.h"
+
 using namespace LocoMotor;
 using namespace Physics;
 
@@ -104,14 +106,14 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info, MeshStrid
 		if (info.capsuleHeight > 0.0)
 			shape = new btCapsuleShapeZ(info.capsuleRadius, info.capsuleHeight);
 		else if (info.sphereSize <= 0.0)
-			shape = new btBoxShape(btVector3(info.boxSize.GetX(), info.boxSize.GetY(), info.boxSize.GetZ()));
+			shape = new btBoxShape(LmToBullet(info.boxSize));
 		else if (info.sphereSize)
 			shape = new btSphereShape(info.sphereSize);
 	}
 	if (shape == nullptr)return nullptr;
 	btTransform groundTransform;
 	groundTransform.setIdentity();
-	groundTransform.setOrigin(btVector3(info.origin.GetX(), info.origin.GetY(), info.origin.GetZ()));
+	groundTransform.setOrigin(LmToBullet(info.origin));
 
 	btScalar mass(info.mass);
 
