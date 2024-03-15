@@ -2,10 +2,8 @@
 #include <iostream>
 #include "PhysicsManager.h"
 #include "btBulletDynamicsCommon.h"
-#include "MeshStrider.h"
 #include "BulletVectorConverter.h"
 
-#include "MeshRenderer.h"
 #include "GameObject.h"
 
 using namespace LocoMotor;
@@ -74,19 +72,6 @@ void LocoMotor::RigidBody::awake() {
 	info.sphereSize = 1;
 	info.capsuleHeight = 1.0f;
 	info.capsuleRadius = 0.5f;
-	if (_mass == 0) {
-		MeshRenderer* mR = _gameObject->getComponent<MeshRenderer>();
-		if (mR == nullptr)return;
-		Ogre::Mesh* mesh = mR->getMesh();
-		if (mesh != nullptr) {
-			_ms = new MeshStrider(mesh);
-			_body = CreateRigidBody(info,_ms);
-			_body->setUserPointer(_gameObject);
-			/*if (_raycast) UseItAsRaycast();
-			if (_beATrigger) BeATrigger();*/
-			return;
-		}
-	}
 	_body = CreateRigidBody(info);
 	_body->setUserPointer(_gameObject);
 	//if (_raycast) UseItAsRaycast();
@@ -97,19 +82,14 @@ void LocoMotor::RigidBody::start() {}
 
 void LocoMotor::RigidBody::update(float dt) {}
 
-btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info, MeshStrider* ms) {
+btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	btCollisionShape* shape = nullptr;
-	if (ms != nullptr) {
-		shape = new btBvhTriangleMeshShape(ms, true, true);
-	}
-	else {
-		if (info.capsuleHeight > 0.0)
-			shape = new btCapsuleShapeZ(info.capsuleRadius, info.capsuleHeight);
-		else if (info.sphereSize <= 0.0)
-			shape = new btBoxShape(LmToBullet(info.boxSize));
-		else if (info.sphereSize)
-			shape = new btSphereShape(info.sphereSize);
-	}
+	if (info.capsuleHeight > 0.0)
+		shape = new btCapsuleShapeZ(info.capsuleRadius, info.capsuleHeight);
+	else if (info.sphereSize <= 0.0)
+		shape = new btBoxShape(LmToBullet(info.boxSize));
+	else if (info.sphereSize)
+		shape = new btSphereShape(info.sphereSize);
 	if (shape == nullptr)return nullptr;
 	btTransform groundTransform;
 	groundTransform.setIdentity();

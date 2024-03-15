@@ -5,11 +5,6 @@
 #include "LMVector.h"
 class btRigidBody;
 namespace LocoMotor {
-	namespace Physics {
-		class MeshStrider;
-	}
-
-
 	/// @brief Info to create a RigidBody
 	/// @param type 1=BoxShape, 2=SphereShape, 3=CapsuleShapeZ
 	/// @param btVector3 boxSize The size of the box if is Box
@@ -38,13 +33,12 @@ namespace LocoMotor {
 		void start() override;
 		void update(float dt)override;
 	private:
-		btRigidBody* CreateRigidBody(RigidBodyInfo info, Physics::MeshStrider* ms=nullptr);
+		btRigidBody* CreateRigidBody(RigidBodyInfo info);
 		float _mass;
 		btRigidBody* _body;
 		float _damping;
 		float _angDamping;
 		bool _gravity;
-		Physics::MeshStrider* _ms;
 		bool _trigger = false;
 		int _collisionGroup;
 		int _collisionMask;

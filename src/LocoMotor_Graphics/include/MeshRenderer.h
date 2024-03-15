@@ -32,8 +32,6 @@ namespace LocoMotor {
 	    void setVisible(bool visible);
 
 		void init(std::string name, std::string file, bool istatic);
-
-		Ogre::Mesh* getMesh();
 	protected:
 
 
