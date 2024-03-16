@@ -5,13 +5,13 @@
 namespace Ogre {
 	class Camera;
 	class Viewport;
+	class SceneNode;
 }
 
 namespace LocoMotor{
 
 	namespace Graphics {
 		class GraphicsManager;
-		class Node;
 	}
 	
 	class Camera : public Component {
@@ -57,11 +57,13 @@ namespace LocoMotor{
 
 		GameObject* _target;
 		LMVector3 _offset;
+		LMVector3 _nodeScale;
+		LMQuaternion _nodeRotation;
 
 		Ogre::Camera* _mCamera;
 		Ogre::Viewport* _vp;
 
-		Graphics::Node* _node;
+		Ogre::SceneNode* _node;
 
 		Graphics::GraphicsManager* _man;
 

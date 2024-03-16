@@ -7,6 +7,7 @@
 #include <OgreOverlaySystem.h>
 #include <OgreViewport.h>
 #include <OgreMaterialManager.h>
+#include <OgreSceneNode.h>
 //SDL includes
 #include <SDL.h>
 #include <SDL_video.h>
@@ -16,7 +17,6 @@
 //Graphics includes
 #include "GraphicsManager.h"
 #include "SGTechniqueResolverListener.h"
-#include "Node.h"
 #include "OverlayManager.h"
 
 using namespace LocoMotor;
@@ -96,7 +96,7 @@ void GraphicsManager::createScene(std::string name) {
 	_scenes.insert({ name, sM });
 	if (_activeScene == nullptr) _activeScene = sM;
 	_mShaderGenerator->addSceneManager(sM);
-	_nodeRoot = new Node(sM->getRootSceneNode(), "root");
+	_nodeRoot = sM->getRootSceneNode();
 }
 
 void GraphicsManager::render() {
@@ -286,23 +286,20 @@ void GraphicsManager::shutdown() {
 
 	delete _root;
 	_root = nullptr;
-
-	delete _nodeRoot;
-	_nodeRoot = nullptr;
 }
 
 
-Node* GraphicsManager::createNode(std::string name) {
+Ogre::SceneNode* GraphicsManager::createNode(std::string name) {
 	if (_sceneNodes.count(name) > 0 || name == "Root") {
 		std::cerr << "A node with the name " << name << " is already created\n";
 		return nullptr;
 	}
-	Node* node = _nodeRoot->CreateChild(name);
+	Ogre::SceneNode* node = _nodeRoot->createChildSceneNode(name);
 	_sceneNodes.insert({ name,node });
 	return node;
 }
 
-Node* GraphicsManager::createNode(std::string name, std::string parent) {
+Ogre::SceneNode* GraphicsManager::createNode(std::string name, std::string parent) {
 	if (_sceneNodes.count(name) > 0 || name == "Root") {
 		std::cerr << "A node with the name " << name << " is already created\n";
 		return nullptr;
@@ -314,11 +311,11 @@ Node* GraphicsManager::createNode(std::string name, std::string parent) {
 	else if (parent == "Root") {
 		return createNode(name);
 	}
-	Node* node = getNode(name)->CreateChild(name);
+	Ogre::SceneNode* node = getNode(name)->createChildSceneNode(name);
 	return node;
 }
 
-Node* GraphicsManager::getNode(std::string name) {
+Ogre::SceneNode* GraphicsManager::getNode(std::string name) {
 	if (_sceneNodes.count(name) == 0) {
 		std::cerr << "No node with the name " << name << " found\n";
 		return nullptr;
@@ -335,7 +332,7 @@ void GraphicsManager::destroyNode(std::string name) {
 		std::cerr << "No node with the name " << name << " found\n";
 	}
 	else {
-		_nodeRoot->DestroyChild(_sceneNodes[name]);
+		_nodeRoot->removeAndDestroyChild(_sceneNodes[name]);
 		_sceneNodes.erase(name);
 		delete _sceneNodes[name];
 	}

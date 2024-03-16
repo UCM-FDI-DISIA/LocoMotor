@@ -23,8 +23,6 @@ namespace LocoMotor {
 
 	namespace Graphics {
 
-		class Node;
-
 		struct NativeWindowPair {
 			Ogre::RenderWindow* render = nullptr;
 			SDL_Window* native = nullptr;
@@ -66,13 +64,12 @@ namespace LocoMotor {
 			/// @param name The name of the scene
 			void deactivateScene(std::string name);
 			/// @brief Creates a node with a name
-			Node* createNode(std::string name);
+			Ogre::SceneNode* createNode(std::string name);
 			/// @brief Creates a node with a name using the parent
-			Node* createNode(std::string name, std::string parent);
+			Ogre::SceneNode* createNode(std::string name, std::string parent);
 			/// @brief Returns a LocoMotor node
 			/// @param name The name of the node
-			Node* getNode(std::string name);
-			void destroyNode(Node* node);
+			Ogre::SceneNode* getNode(std::string name);
 			/// @brief Destroys a node
 			/// @param name The name of the node to be destroyed
 			void destroyNode(std::string name);
@@ -84,11 +81,11 @@ namespace LocoMotor {
 
 			NativeWindowPair _mWindow;
 
-			Node* _nodeRoot;
+			Ogre::SceneNode* _nodeRoot;
 
 			std::map<std::string , Ogre::SceneManager*> _scenes;
 
-			std::map<std::string, Node*> _sceneNodes;
+			std::map<std::string, Ogre::SceneNode*> _sceneNodes;
 
 			Ogre::SceneManager* _activeScene;
 

@@ -1,20 +1,19 @@
 #pragma once
 
 #include "Component.h"
+#include "LMVector.h"
 
 namespace Ogre {
 	class Entity;
 	class MovableObject;
 	class Mesh;
+	class SceneNode;
 }
 
 namespace LocoMotor {
-	class GameObject;
 
 	namespace Graphics {
 		class GraphicsManager;
-		class Node;
-
 	}
 
 	class MeshRenderer :public LocoMotor::Component {
@@ -45,10 +44,10 @@ namespace LocoMotor {
 		std::string _name;
 		std::string _src;
 		bool _isStatic;
+		LMVector3 _nodeScale;
+		LMQuaternion _nodeRotation;
 
-		GameObject* _gObj;
-
-		Graphics::Node* _node;
+		Ogre::SceneNode* _node;
 
 		Ogre::MovableObject* getMovObj();
 	};

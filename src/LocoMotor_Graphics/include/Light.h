@@ -1,15 +1,17 @@
 #pragma once
 
 #include "Component.h"
+#include "LMVector.h"
+
 namespace Ogre {
 	class Light;
+	class SceneNode;
 }
 
 namespace LocoMotor {
 
 	namespace Graphics {
 		class GraphicsManager;
-		class Node;
 	}
 	class Light:public Component {
 		friend class Graphics::GraphicsManager;
@@ -34,7 +36,9 @@ namespace LocoMotor {
 		//Ogre::MovableObject* getMovObj();
 		Ogre::Light* getLight();
 		std::string _name;
-		Graphics::Node* _node;
+		Ogre::SceneNode* _node;
+		LMVector3 _nodeScale;
+		LMQuaternion _nodeRotation;
 
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
 	};

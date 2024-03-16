@@ -17,8 +17,8 @@
 #include "UIImage.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "Node.h"
 #include "Transform.h"
+#include "LMVector.h"
 
 #include <iostream>
 #include <SDL_messagebox.h>
@@ -131,20 +131,26 @@ bool Engine::MainLoop() {
 	//ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
 	////cmpFac->createComponent("Camera");
 	GameObject* camGO = scn->addGameobject("camera");
+	camGO->addComponent("Transform");
 	Camera* cam = (Camera*) camGO->addComponent("Camera");
 	cam->init();
-	//GameObject* cubeGO = scn->addGameobject("cube");
-	//MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
-	//mesh->init("cubeMesh", "", false);
-	//mesh->setMesh("Cubeman.mesh");
-	//mesh->setMaterial("CustomMaterial");
-	//mesh->setVisible(true);
-	//
-	//GameObject* lightGO = scn->addGameobject("light");
-	//Light* light = (Light*) lightGO->addComponent("Light");
-	//
-	//light->init("FLight", 1);
-	//
+	GameObject* cubeGO = scn->addGameobject("cube");
+	Transform* cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
+	cubeTrnsf->SetPosition(LMVector3(0, 0, -150));
+	cubeTrnsf->SetSize(LMVector3(20, 20, 20));
+	cubeTrnsf->SetRotation(LMVector3(300, -15, 0));
+	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
+	mesh->init("cubeMesh", "", false);
+	mesh->setMesh("Cubeman.mesh");
+	mesh->setMaterial("CustomMaterial");
+	mesh->setVisible(true);
+	
+	GameObject* lightGO = scn->addGameobject("light");
+	lightGO->addComponent("Transform");
+	Light* light = (Light*) lightGO->addComponent("Light");
+	
+	light->init("FLight", 1);
+	
 	//GameObject* UI = scn->addGameobject("ui");
 	//UIImage* img = (UIImage*) UI->addComponent("UIImage");
 	//img->initializeABorrar();
