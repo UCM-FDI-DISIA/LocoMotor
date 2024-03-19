@@ -7,6 +7,8 @@
 #include "GameObject.h"
 #include "Transform.h"
 
+#include <iostream>
+
 LocoMotor::MeshRenderer::MeshRenderer() {
 	_name = "";
 	_src = "";
@@ -36,7 +38,10 @@ void LocoMotor::MeshRenderer::init(std::string name, std::string file,bool istat
 }
 
 void LocoMotor::MeshRenderer::start() {
-
+	if (_gameObject->getComponent<Transform>() == nullptr) {
+		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
+		return;
+	}
 }
 
 

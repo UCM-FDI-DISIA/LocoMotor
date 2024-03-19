@@ -4,6 +4,7 @@
 #include <OgreLight.h>
 #include <OgreSceneManager.h>
 #include <Transform.h>
+#include <iostream>
 
 LocoMotor::Light::Light() {
 	_light = nullptr;
@@ -26,7 +27,10 @@ void LocoMotor::Light::init(std::string name, int type) {
 
 }
 void LocoMotor::Light::start() {
-
+	if (_gameObject->getComponent<Transform>() == nullptr) {
+		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
+		return;
+	}
 }
 
 void LocoMotor::Light::update(float dt) {
