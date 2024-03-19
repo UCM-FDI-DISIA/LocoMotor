@@ -167,7 +167,7 @@ bool Engine::MainLoop() {
 	txt->initializeABorrar();
 	txt->setFont("Heavitas");
 	txt->setDimensions(0, 100);
-	txt->setAlignment(TextAlignment::RIGHT);
+	txt->setAlignment(TextAlignment::RIGHT);*/
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
