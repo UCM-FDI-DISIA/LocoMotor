@@ -1,6 +1,22 @@
 #include "GameObject.h"
 #include "Component.h"
 
+LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& name,std::vector<std::pair<std::string, std::string>>& params)
+{
+	ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
+	if (_components.count(name) > 0) {
+		return _components[name];
+	}
+	else {
+		Component* comp = factory->createComponent(name);
+		comp->init(this, true);
+		_toStart.push(comp);
+		_components.insert({ name, comp });
+		comp->setParameters(params);
+		return comp;
+	}
+}
+
 void LocoMotor::GameObject::removeComponents(const std::string& name) {
 	if (_components.count(name) == 0) {
 		return;

@@ -107,7 +107,7 @@ namespace LocoMotor {
 	protected:
 
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
-		void start() override {};
+		void start() override;
 		void update(float dT) override;
 
 	private:
@@ -121,6 +121,8 @@ namespace LocoMotor {
 		float _volumeMult;
 
 		int _mode;
+
+		std::string _playOnStart;
 
 		/// @brief Set the position and velocity of this source. It will be applied to all sounds that are currently playing
 		/// @param newPos The new position of the source

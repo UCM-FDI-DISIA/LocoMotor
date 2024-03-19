@@ -90,7 +90,7 @@ unsigned short AudioManager::playSound(const char* id)
 	return err;
 }
 
-unsigned short AudioManager::playSoundwChannel(const char* id, FMOD::Channel** channel)
+unsigned short AudioManager::playSoundwChannel(const std::string& id, FMOD::Channel** channel)
 {
 #ifndef _DEBUG
 	unsigned short err = _sys->playSound(_soundLib[id], _main, true, channel);

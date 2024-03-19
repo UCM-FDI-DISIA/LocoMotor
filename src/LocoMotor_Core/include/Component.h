@@ -9,8 +9,10 @@
 
 namespace LocoMotor {
 	class GameObject;
+	
 	class Component {
 		friend class GameObject;
+		friend class SceneManager;
 	public:
 		/// @brief This method checks for the enabled state of the component
 		/// @return true if the component is enabled

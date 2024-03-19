@@ -1,6 +1,5 @@
 #pragma once
 #ifndef LOCOMOTOR_SCRIPTMANAGER
-
 #define  LOCOMOTOR_SCRIPTMANAGER
 
 
@@ -11,7 +10,9 @@
 //#endif
 
 #include <string>
-
+#include <unordered_map>
+#include <optional>
+#include <variant>
 struct lua_State;
 namespace luabridge {
 	class LuaRef;
@@ -21,38 +22,39 @@ namespace LocoMotor {
 	class SceneManager;
 	class GameObject;
 	class Scene;
-	class ScriptManager {
-		
+
+
+	class LuaParser {
+
 	public:
-		static bool Init();
-		static void Release();
+		enum class LuaType {
+			Object,
+			String,
+			Number,
+			Bool
+		};
+		typedef std::vector<std::pair<std::string, std::string>> LuaComponent;
+		typedef std::unordered_map<std::string, LuaComponent> LuaObject;
+		typedef std::unordered_map<std::string, LuaObject> LuaScene;
+		LuaParser();
+		~LuaParser();
 		/// @brief Reads a lua file and builds the scene from that file
 		/// @param path The path to find the lua file
-		bool loadSceneFromFile(std::string path);
-
-		/// @brief Checks if theres a scene in buffer waiting to be changed
-		void checkChangeScene();
-		std::string getBufferedScene();
-		void tryChangeScene(std::string path);
-
+		std::optional<LocoMotor::LuaParser::LuaScene> loadSceneFromFile(const std::string& path, const std::string& sceneName);
 	private:
 		/// @brief Reads the lua script 
 		/// @param path The path to find the lua script
-		int readLuaScript(const std::string path);
+		int readLua(const std::string path);
 		/// @brief Reports errors giving a status when reading lua
 		/// @param status 
-		void report_errors(int status);
+		void reportErrors(int status);
 		/// @brief Get a param from lua file giving the name of the param
 		luabridge::LuaRef getFromLua(std::string name);
 		/// @brief Sets the param read from lua to the gameobject and scene
-		bool setParams(luabridge::LuaRef entity, GameObject* ent, Scene* s, std::string layer);
-		ScriptManager();
-		~ScriptManager();
+		LuaObject getObject(luabridge::LuaRef entity);	
+		
 		lua_State* _luaState;
-		SceneManager* _scMan;
-		//@brief Scene waiting to be changed
-		std::string bufferedScene;
-		static ScriptManager* _instance;
+		
 	};
 }
 

@@ -18,6 +18,11 @@ namespace LocoMotor {
 		/// @brief Changes to the scene with the given name, if it is not found, nothing will happen.
 		/// @param name Name of the scene
 		void changeScene(const std::string& name);
+
+		/// @brief Loads a scene form the given file
+		/// @param path Path to a .lua file defining the scene
+		/// @param name Name of the scene inside the Lua file
+		void loadScene(const std::string& path, const std::string& name);
 		/// @brief updates the state of the scenes
 		void update(float dT);
 	private:

@@ -20,6 +20,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "LMVector.h"
+#include "LuaParser.h"
 
 #include <iostream>
 #include <SDL_messagebox.h>
@@ -126,14 +127,12 @@ bool Engine::MainLoop() {
 	ComponentsFactory::Clear();
 	LogSystem::Clear();
 	*/
-
 	float _dt;
 	float _lastFrameTime = 0.f;
-
-	Scene* scn = _scnManager->createScene("prueba");
+	_scnManager->loadScene("Assets/Scenes/Scene.lua", "Scene");
 	//ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
 	////cmpFac->createComponent("Camera");
-	GameObject* camGO = scn->addGameobject("camera");
+	/*GameObject* camGO = scn->addGameobject("camera");
 	camGO->addComponent("Transform");
 	Camera* cam = (Camera*) camGO->addComponent("Camera");
 	cam->init();

@@ -15,7 +15,7 @@ namespace LocoMotor {
 		/// @brief Initializes the Components Factory instance
 		/// @return This method always returns true.
 		static bool Init();
-		/// @brief Relases the memory allocated by the Components Factory. This should always be called after init.
+		/// @brief Relases the memory allocated by the Components Factory. This should newver be called before init.
 		static void Release();
 
 		/// @return The Componenst Factory instance
