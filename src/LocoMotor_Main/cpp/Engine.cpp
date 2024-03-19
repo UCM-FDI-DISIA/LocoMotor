@@ -15,6 +15,7 @@
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
 #include "UIImage.h"
+#include "UIText.h"
 #include "Scene.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -97,7 +98,7 @@ bool Engine::Init() {
 	cmpFac->registerComponent<RigidBody>("RigidBody");
 	cmpFac->registerComponent<Light>("Light");
 	cmpFac->registerComponent<Transform>("Transform");
-	//cmpFac->registerComponent<UITextLM>("UITextLM", false);
+	cmpFac->registerComponent<UIText>("UIText");
 	cmpFac->registerComponent<UIImage>("UIImage");
 
 
@@ -152,11 +153,22 @@ bool Engine::MainLoop() {
 	Light* light = (Light*) lightGO->addComponent("Light");
 	
 	light->init("FLight", 1);
-	
-	//GameObject* UI = scn->addGameobject("ui");
-	//UIImage* img = (UIImage*) UI->addComponent("UIImage");
-	//img->initializeABorrar();
-	//img->setImage("UIMaterial");
+
+	GameObject* UI = scn->addGameobject("ui");
+	UIImage* img = (UIImage*) UI->addComponent("UIImage");
+	img->initializeABorrar();
+	img->setImage("UIMaterial");
+	img->setAnchorPoint(1.f, 0.f);
+	img->setPosition(-5, 5);
+	img->setPivot(1.f, 0.f);
+	img->setDimensions(200, 200);
+
+	GameObject* UIte = scn->addGameobject("uite");
+	UIText* txt = (UIText*) UIte->addComponent("UIText");
+	txt->initializeABorrar();
+	txt->setFont("Heavitas");
+	txt->setDimensions(0, 100);
+	txt->setAlignment(TextAlignment::RIGHT);
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
