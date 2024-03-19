@@ -32,6 +32,7 @@ namespace LocoMotor {
 		/// @brief Dont use it
 		/// @return please
 		bool MainLoop();
+		int showWindow(int type,std::string msg);
 	private:
 
 		std::string _gameName;
@@ -40,6 +41,7 @@ namespace LocoMotor {
 
 		std::string _startScene;
 		bool _exit;
+		static Engine* _instance;
 	};
 }
 

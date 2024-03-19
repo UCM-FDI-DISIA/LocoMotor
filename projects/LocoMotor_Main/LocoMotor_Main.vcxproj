@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\LocoMotor_Main\cpp\Initializer.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Main\cpp\Engine.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Main\cpp\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\LocoMotor_Main\include\Initializer.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Main\include\Engine.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LocoMotor_Audio\LocoMotor_Audio.vcxproj">

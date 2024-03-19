@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Initializer.h"
+#include "Engine.h"
 
 // Para que no salga la consola hay que cambiar una propiedad en vinculador->sistema, y utilizar la funcion main de windows (WinMain)
 // Como solo queremos que pase en release, hacemos este #ifdef
