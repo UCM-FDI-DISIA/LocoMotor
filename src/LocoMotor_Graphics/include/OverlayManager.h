@@ -46,6 +46,8 @@ namespace LocoMotor {
 			/// @brief Returns true if there is an instance of the singleton active
 			static bool IsInitialized();
 
+			void show();
+
 			Ogre::OverlayContainer* getContainer();
 			Ogre::OverlaySystem* getSystem();
 

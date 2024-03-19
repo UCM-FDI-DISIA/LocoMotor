@@ -25,7 +25,9 @@ void LocoMotor::UIImage::setImage(std::string nImage) {
 
 void LocoMotor::UIImage::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 
+
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
+	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
 
 	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIImage" + std::to_string(_numOfImages)));
 	_container->initialise();
@@ -71,21 +73,8 @@ void LocoMotor::UIImage::hide() {
 }
 
 void LocoMotor::UIImage::initializeABorrar() {
-
-	_gfxManager = Graphics::GraphicsManager::GetInstance();
-	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
-
-	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIImage" + std::to_string(_numOfImages)));
-	_container->initialise();
-
-	_container->setMetricsMode(Ogre::GMM_PIXELS);
-	_container->setPosition(_gfxManager->getWindowWidth() * _anchorX + _positionX, _gfxManager->getWindowHeight() * _anchorY + _positionY);
-
-	_container->setDimensions(_sizeX, _sizeY);
-
-	_container->setMaterialName(Ogre::MaterialManager::getSingleton().getDefaultMaterial()->getName());
-
-	Graphics::OverlayManager::GetInstance()->getContainer()->addChild(_container);
+	std::vector<std::pair<std::string, std::string>> a;
+	setParameters(a);
 }
 
 void LocoMotor::UIImage::updatePosition() {

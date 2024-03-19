@@ -54,6 +54,10 @@ bool LocoMotor::Graphics::OverlayManager::IsInitialized() {
 	return _instance != nullptr;
 }
 
+void LocoMotor::Graphics::OverlayManager::show() {
+	_canvas->show();
+}
+
 Ogre::OverlayContainer* LocoMotor::Graphics::OverlayManager::getContainer() {
 	return _container;
 }
@@ -81,6 +85,5 @@ bool Graphics::OverlayManager::init() {
 	_container->setDimensions(1.0f, 1.0f);
 
 	_canvas->add2D(_container);
-	_canvas->show();
 	return true;
 }

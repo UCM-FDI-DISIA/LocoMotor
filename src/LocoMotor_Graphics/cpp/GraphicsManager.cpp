@@ -69,6 +69,10 @@ std::string GraphicsManager::initialize() {
 	catch (...) {
 		return "Error while constructing internal ogre library";
 	}
+
+	//We initialize the UI manager only if it wasnt initialized yet
+	OverlayManager::Init();
+
 	try {
 		_root->showConfigDialog(nullptr);
 		_root->restoreConfig();
@@ -87,9 +91,7 @@ void GraphicsManager::createScene(std::string name) {
 	}
 	Ogre::SceneManager* sM = _root->createSceneManager();
 
-	//We initialize the UI manager only if it wasnt initialized yet
-	if (!OverlayManager::IsInitialized())
-		OverlayManager::Init();
+	OverlayManager::GetInstance()->show();
 
 	sM->addRenderQueueListener(OverlayManager::GetInstance()->getSystem());
 
@@ -281,8 +283,7 @@ void GraphicsManager::shutdown() {
 		_mWindow.native = nullptr;
 	}
 
-	if (OverlayManager::IsInitialized())
-		OverlayManager::Release();
+	OverlayManager::Release();
 
 	delete _root;
 	_root = nullptr;
