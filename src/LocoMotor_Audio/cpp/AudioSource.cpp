@@ -15,6 +15,7 @@ AudioSource::AudioSource() : _man(nullptr) {
 	_volumeMult = 1.f;
 	_posRemember = nullptr;
 	_mode = 0;
+	_playOnStart = "";
 }
 
 AudioSource::~AudioSource() {
@@ -257,6 +258,27 @@ void LocoMotor::AudioSource::setParameters(std::vector<std::pair<std::string, st
 	_posRemember->y = 0;
 	_posRemember->z = 0;
 	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
+	for (auto& parameter : params) {
+		if (parameter.first == "PlayOnAwake") {
+			std::cout << parameter.second.c_str() << std::endl;
+			_playOnStart = parameter.second;
+		}
+		else if (parameter.first == "Volume") {
+			try {
+				_volumeMult = std::stof(parameter.second);
+			}
+			catch (...) {
+
+			}
+		}
+	}
+}
+
+void LocoMotor::AudioSource::start() {
+	if (_playOnStart != "") {
+		addSound(_playOnStart.c_str());
+		playSound(_playOnStart.c_str());
+	}
 }
 
 void LocoMotor::AudioSource::update(float dT) {

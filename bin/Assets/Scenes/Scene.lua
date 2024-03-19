@@ -1,6 +1,7 @@
 Scene = {
     MainCamera = {
-        Camera = {}
+        Camera = {},
+        AudioListener = {}
     },
     Object = {
         AudioSource = {

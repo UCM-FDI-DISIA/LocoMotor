@@ -3,7 +3,9 @@
 #include <cassert>
 #include <iostream>
 #include "LuaParser.h"
-
+#include "Component.h"
+#include "GameObject.h"
+#include "Transform.h"
 LocoMotor::SceneManager* LocoMotor::SceneManager::_instance = nullptr;
 
 bool LocoMotor::SceneManager::Init() {
@@ -42,6 +44,30 @@ void LocoMotor::SceneManager::changeScene(const std::string& name) {
     }
 }
 
+void LocoMotor::SceneManager::loadScene(const std::string& path, const std::string& name)
+{
+    LuaParser parser= LuaParser();
+    auto sceneMap = parser.loadSceneFromFile(path, name);
+    if (!sceneMap.has_value()) {
+        //TODO: Error fatal;
+        return;
+    }
+    Scene* mScene = createScene(name);
+     
+    for (auto& objPair : sceneMap.value()) {
+        GameObject* gObj = mScene->addGameobject(objPair.first);
+        for (auto& cmpPair : objPair.second) {
+            Component* cmp = gObj->addComponent(cmpPair.first);
+            cmp->setParameters(cmpPair.second);
+            
+        }
+        if (gObj->getComponent<Transform>() == nullptr) {
+            Transform* tr = dynamic_cast<Transform*>(gObj->addComponent("Transform"));
+            tr->InitRuntime();
+        }
+    }
+}
+
 void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
         if (_activeScene != nullptr)_activeScene->destroy();
@@ -52,6 +78,7 @@ void LocoMotor::SceneManager::update(float dT) {
     if (_activeScene == nullptr) return; 
     _activeScene->update(dT);
  
+
 
 }
 LocoMotor::SceneManager::SceneManager() : _scenes(), _activeScene(nullptr), _toStart(nullptr), _lastFrameTime(0), _dt(0.001) {}

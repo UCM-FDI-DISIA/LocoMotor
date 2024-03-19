@@ -124,8 +124,9 @@ bool Engine::MainLoop() {
 	ComponentsFactory::Clear();
 	LogSystem::Clear();
 	*/
-
-	Scene* scn = _scnManager->createScene("prueba");
+	float _dt;
+	float _lastFrameTime = 0.f;
+	_scnManager->loadScene("Assets/Scenes/Scene.lua", "Scene");
 	//ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
 	////cmpFac->createComponent("Camera");
 	/*GameObject* camGO = scn->addGameobject("camera");

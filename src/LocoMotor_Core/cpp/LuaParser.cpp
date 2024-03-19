@@ -34,6 +34,7 @@ int LuaParser::readLua(const std::string path) {
 
 std::optional<LocoMotor::LuaParser::LuaScene> LuaParser::loadSceneFromFile(const std::string& path,const std::string& sceneName) {
 	if (readLua(path) != 0) {
+		std::cerr << "No existe el archivo " << path << std::endl;
 		return std::nullopt;
 	}
 
@@ -89,7 +90,7 @@ LocoMotor::LuaParser::LuaObject LuaParser::getObject(luabridge::LuaRef entity) {
 		while (lua_next(component, 0) != 0) {
 			std::string key = lua_tostring(entity, -2);
 			std::string val = lua_tostring(entity, -1);
-			cmp.insert({ key,val });
+			cmp.push_back({ key,val });
 			lua_pop(component, 1);
 		}
 		obj.insert({ compName,cmp });

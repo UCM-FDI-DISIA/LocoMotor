@@ -33,7 +33,7 @@ namespace LocoMotor {
 			Number,
 			Bool
 		};
-		typedef std::unordered_map<std::string, std::string> LuaComponent;
+		typedef std::vector<std::pair<std::string, std::string>> LuaComponent;
 		typedef std::unordered_map<std::string, LuaComponent> LuaObject;
 		typedef std::unordered_map<std::string, LuaObject> LuaScene;
 		LuaParser();

@@ -50,7 +50,7 @@ namespace LocoMotor {
 			/// @brief Plays an already added sound, but gives access to the channel its being played
 			/// @param Name of the sound to play
 			/// @return A number that by passing it to GetError(unsigned short) you can get more info if there was an error
-			unsigned short playSoundwChannel(const char* id, FMOD::Channel** channel);
+			unsigned short playSoundwChannel(const std::string& id, FMOD::Channel** channel);
 
 			/// @brief Adds a listener to Fmod
 			/// @param index The index of the newly created listener
