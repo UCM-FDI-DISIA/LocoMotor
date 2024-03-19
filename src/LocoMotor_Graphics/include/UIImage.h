@@ -34,6 +34,9 @@ namespace LocoMotor {
 		/// @brief Sets the size of the entity on the UI
 		void setDimensions(float w, float h);
 
+		/// @brief Sets the pivot of the image
+		void setPivot(float x, float y);
+
 		/// @brief Shows/turns visible the entity on the UI
 		void show();
 

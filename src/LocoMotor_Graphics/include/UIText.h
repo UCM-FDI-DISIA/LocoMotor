@@ -16,7 +16,14 @@ namespace LocoMotor {
 
 	namespace Graphics {
 		class GraphicsManager;
+
 	}
+
+	enum class TextAlignment {
+		LEFT,
+		CENTER,
+		RIGHT
+	};
 
 	class UIText : public Component {
 
@@ -36,6 +43,11 @@ namespace LocoMotor {
 
 		/// @brief Sets the size of the entity on the UI
 		void setDimensions(float w, float h);
+
+		/// @brief Sets the pivot of the textbox
+		void setPivot(float x, float y);
+
+		void setAlignment(TextAlignment a);
 
 		/// @brief Shows/turns visible the entity on the UI
 		void show();

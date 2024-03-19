@@ -156,13 +156,17 @@ bool Engine::MainLoop() {
 	UIImage* img = (UIImage*) UI->addComponent("UIImage");
 	img->initializeABorrar();
 	img->setImage("UIMaterial");
-	img->setPosition(100, 0);
+	img->setAnchorPoint(1.f, 0.f);
+	img->setPosition(-5, 5);
+	img->setPivot(1.f, 0.f);
+	img->setDimensions(200, 200);
 
 	GameObject* UIte = scn->addGameobject("uite");
 	UIText* txt = (UIText*) UIte->addComponent("UIText");
 	txt->initializeABorrar();
 	txt->setFont("Heavitas");
 	txt->setDimensions(0, 100);
+	txt->setAlignment(TextAlignment::RIGHT);
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();

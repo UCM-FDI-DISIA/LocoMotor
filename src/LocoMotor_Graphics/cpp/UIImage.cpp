@@ -64,6 +64,12 @@ void LocoMotor::UIImage::setDimensions(float w, float h) {
 	_container->setDimensions(_sizeX, _sizeY);
 }
 
+void LocoMotor::UIImage::setPivot(float w, float h) {
+	_pivotX = w;
+	_pivotY = h;
+	updatePosition();
+}
+
 void LocoMotor::UIImage::show() {
 	_container->show();
 }

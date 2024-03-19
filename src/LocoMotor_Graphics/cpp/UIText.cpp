@@ -98,6 +98,30 @@ void LocoMotor::UIText::setDimensions(float w, float h) {
 	_container->setDimensions(_sizeX, _sizeY);
 }
 
+void LocoMotor::UIText::setPivot(float x, float y) {
+	_pivotX = x;
+	_pivotY = y;
+	updatePosition();
+}
+
+void LocoMotor::UIText::setAlignment(TextAlignment a) {
+	
+	switch (a) {
+		case TextAlignment::LEFT:
+			_txtElem->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Left);
+			break;
+		case TextAlignment::CENTER:
+			_txtElem->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Center);
+			break;
+		case TextAlignment::RIGHT:
+			_txtElem->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Right);
+			break;
+		default:
+			break;
+	}
+
+}
+
 void LocoMotor::UIText::show() {
 	_container->show();
 }
