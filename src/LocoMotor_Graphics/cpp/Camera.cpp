@@ -54,7 +54,12 @@ void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
 	_mCamera->setFarClipDistance(farPlane);
 }
 
-void LocoMotor::Camera::start() {}
+void LocoMotor::Camera::start() {
+	if (_gameObject->getComponent<Transform>() == nullptr) {
+		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
+		return;
+	}
+}
 
 void LocoMotor::Camera::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 
