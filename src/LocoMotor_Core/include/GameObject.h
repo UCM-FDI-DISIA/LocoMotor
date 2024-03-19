@@ -11,7 +11,6 @@ namespace LocoMotor {
 	class Component;
 	class Transform;
 	class Scene;
-	typedef std::vector<std::pair<std::string, std::string>> params_t;
 	class GameObject {
 		friend class Scene;
 	public:
@@ -35,7 +34,7 @@ namespace LocoMotor {
 			}
 		}
 
-		void addComponent(const std::string& name, const params_t& params);
+		Component* addComponent(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
 
 		/// @brief This method erases all the components with the given name on the GameObject
 		/// @param name The name of the component to erase

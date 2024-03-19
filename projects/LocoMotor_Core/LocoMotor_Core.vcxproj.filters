@@ -38,7 +38,11 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h">
       <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
+	</ClInclude>
+	  <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h">
+		  <Filter>Archivos de encabezado</Filter>
+	  </ClInclude>
+    
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp">
@@ -60,6 +64,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Transform.cpp">
+		<Filter>Archivos de origen</Filter>
+	</ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

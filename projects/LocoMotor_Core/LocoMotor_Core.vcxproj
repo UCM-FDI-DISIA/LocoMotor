@@ -58,12 +58,19 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>lua_d.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Lua\build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -73,7 +80,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,6 +89,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>lua.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Lua\build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\CheckML.h" />
@@ -88,6 +102,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h" />
@@ -97,6 +112,7 @@
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Transform.cpp" />

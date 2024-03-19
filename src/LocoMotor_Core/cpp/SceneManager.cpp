@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include <cassert>
 #include <iostream>
-
+#include "LuaParser.h"
 
 LocoMotor::SceneManager* LocoMotor::SceneManager::_instance = nullptr;
 
