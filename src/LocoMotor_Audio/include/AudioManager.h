@@ -10,6 +10,9 @@ namespace FMOD {
 	class ChannelGroup;
 	class Channel;
 	class Sound;
+	namespace Studio {
+		class System;
+	}
 }
 
 namespace LocoMotor {
@@ -23,8 +26,8 @@ namespace LocoMotor {
 		public:
 
 		#pragma region Singletone
-			static bool Init();
-			static bool Init(int numChannels);
+			static bool Init(bool useStudio = false);
+			static bool Init(int numChannels, bool useStudio = false);
 
 			static AudioManager* GetInstance();
 
@@ -79,6 +82,7 @@ namespace LocoMotor {
 			static AudioManager* _instance;
 
 			FMOD::System* _sys = nullptr;
+			FMOD::Studio::System* _studioSys = nullptr;
 			FMOD::ChannelGroup* _main = nullptr;
 
 			std::unordered_map<std::string, FMOD::Sound*> _soundLib;
@@ -90,7 +94,7 @@ namespace LocoMotor {
 
 			~AudioManager();
 
-			bool init(int numChannels);
+			bool init(int numChannels, bool useStudio);
 
 		};
 	}

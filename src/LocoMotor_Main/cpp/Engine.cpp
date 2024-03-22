@@ -47,7 +47,7 @@ bool Engine::Init() {
 		return false;
 	}
 
-	if (!Audio::AudioManager::Init()) {
+	if (!Audio::AudioManager::Init(true)) {
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
@@ -76,6 +76,7 @@ bool Engine::Init() {
 		cmpFac = nullptr;
 		Audio::AudioManager::Release();
 		Graphics::GraphicsManager::Release();
+		return false;
 	}
 	_scnManager = SceneManager::GetInstance();
 
@@ -86,6 +87,7 @@ bool Engine::Init() {
 		cmpFac = nullptr;
 		Audio::AudioManager::Release();
 		Graphics::GraphicsManager::Release();
+		return false;
 	}
 
 

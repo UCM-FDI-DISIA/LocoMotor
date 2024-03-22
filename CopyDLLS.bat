@@ -27,5 +27,8 @@ COPY /y %OgreBuild%\bin\release\OgreOverlay.dll %BIN%
 COPY /y %FmodDir%\core\lib\fmod.dll %BIN%
 COPY /y %FmodDir%\core\lib\fmodL.dll %BIN%
 
+COPY /y %FmodDir%\studio\lib\fmodstudio.dll %BIN%
+COPY /y %FmodDir%\studio\lib\fmodstudioL.dll %BIN%
+
 COPY /y %LuaBuild%\Lua.dll %BIN%
 COPY /y %LuaBuild%\Lua_d.dll %BIN%

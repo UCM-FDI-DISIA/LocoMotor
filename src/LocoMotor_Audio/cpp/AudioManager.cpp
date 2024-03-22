@@ -1,6 +1,7 @@
 #include "AudioManager.h"
 #include "AudioListener.h"
 #include "fmod.hpp"
+#include "fmod_studio.hpp"
 #include "fmod_errors.h"
 
 #ifdef _DEBUG
@@ -14,17 +15,17 @@ using namespace LocoMotor::Audio;
 
 AudioManager* AudioManager::_instance = nullptr;
 
-bool AudioManager::Init()
+bool AudioManager::Init(bool useStudio)
 {
-	return Init(16);
+	return Init(16, useStudio);
 }
 
-bool AudioManager::Init(int numChannels)
+bool AudioManager::Init(int numChannels, bool useStudio)
 {
 	assert(_instance == nullptr);
 	_instance = new AudioManager();
 
-	if (!_instance->init(numChannels)) {
+	if (!_instance->init(numChannels, useStudio)) {
 		delete _instance;
 		_instance = nullptr;
 		return false;
@@ -48,7 +49,7 @@ void AudioManager::Release()
 
 unsigned short AudioManager::update()
 {
-	return _sys->update();
+	return _studioSys? _studioSys->update() : _sys->update();
 }
 
 unsigned short AudioManager::addSound(const char* fileName, bool ui)
@@ -176,15 +177,29 @@ AudioManager::~AudioManager()
 	_sys->release();
 }
 
-bool AudioManager::init(int numChannels)
+bool AudioManager::init(int numChannels, bool useStudio)
 {
-	if (!(System_Create(&_sys) == FMOD_OK)) {
-		return false;
-	}
+	if (useStudio) {
+		if (!(FMOD::Studio::System::create(&_studioSys) == FMOD_OK)) {
+			return false;
+		}
 
-	if (!(_sys->init(numChannels, FMOD_INIT_NORMAL, 0) == FMOD_OK)) {
-		_sys->release();
-		return false;
+		if (!(_studioSys->initialize(numChannels, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0) == FMOD_OK)) {
+			_studioSys->release();
+			return false;
+		}
+
+		_studioSys->getCoreSystem(&_sys);
+	}
+	else {
+		if (!(System_Create(&_sys) == FMOD_OK)) {
+			return false;
+		}
+
+		if (!(_sys->init(numChannels, FMOD_INIT_NORMAL, 0) == FMOD_OK)) {
+			_sys->release();
+			return false;
+		}
 	}
 
 	if (!(_sys->createChannelGroup(0, &_main) == FMOD_OK)) {
