@@ -147,7 +147,6 @@ namespace LocoMotor {
 			bool init();
 
 
-
 			struct KeyState {
 				bool down = false;
 				bool isPressed = false;
@@ -166,16 +165,14 @@ namespace LocoMotor {
 			// Posicion del raton en la pantalla
 			std::pair<int, int>_mousePos;
 
+
 			// Joysticks
-			float _joystickAxis[4]; // cuatro espacios : dos ejes en cada uno de los dos joysticks
 			const int _JOYSTICKDEADZONE_MIN = 10000;
 			const int _JOYSTICKDEADZONE_MAX = 32000;
 
 			// Triggers
-			float _triggersValue[2];
 			const int _TRIGGERSVALUE_MIN = 0;
 			const int _TRIGGERSVALUE_MAX = 64000;
-
 
 
 			struct LMController {
@@ -190,9 +187,8 @@ namespace LocoMotor {
 				float _joystickAxis[4]; // cuatro espacios : dos ejes en cada uno de los dos joysticks
 
 				// Triggers
-				float _triggersValue[2];
+				float _triggersValue[2]; // dos espacios : uno por cada trigger en el mando
 			};
-
 
 
 			// Contiene todos los mandos conectados actualmente segun su identificador de sdl

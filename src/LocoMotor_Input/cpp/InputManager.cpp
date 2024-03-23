@@ -16,12 +16,6 @@ using namespace Input;
 InputManager* InputManager::_instance = nullptr;
 
 InputManager::InputManager() {
-	_joystickAxis[0] = 0.f;
-	_joystickAxis[1] = 0.f;
-	_joystickAxis[2] = 0.f;
-	_joystickAxis[3] = 0.f;
-	_triggersValue[0] = 0.f;
-	_triggersValue[1] = 0.f;
 	_mousePos.first = 0;
 	_mousePos.second = 0;
 }

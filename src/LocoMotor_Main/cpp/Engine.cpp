@@ -253,7 +253,8 @@ bool Engine::MainLoop() {
 				std::cout << "FIRST USER / Axis X = " << joystickValue << std::endl;
 
 			float triggerValue = Input::InputManager::GetInstance()->GetTriggerValue(firstController, 0);
-			std::cout << "FIRST USER / Trigger Left = " << triggerValue << std::endl;
+			if (triggerValue != 0)
+				std::cout << "FIRST USER / Trigger Left = " << triggerValue << std::endl;
 		}
 
 		if (secondController != Input::InputManager::invalidControllerId()) {
