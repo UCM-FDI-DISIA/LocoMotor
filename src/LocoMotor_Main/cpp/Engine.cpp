@@ -8,6 +8,7 @@
 #include "LMInputs.h"
 
 #include "AudioSource.h"
+#include "EventEmitter.h"
 #include "AudioListener.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
@@ -37,6 +38,8 @@ Engine::Engine() {
 }
 
 bool Engine::StartGameWindow(const char* gameName) {
+
+	Audio::AudioManager::GetInstance()->loadFMODBuild("Assets/Sounds/StudioBuild");
 
 	return Graphics::GraphicsManager::GetInstance()->initWindow(gameName);
 }
@@ -93,6 +96,7 @@ bool Engine::Init() {
 
 
 
+	cmpFac->registerComponent<EventEmitter>("EventEmitter");
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
 	cmpFac->registerComponent<Camera>("Camera");

@@ -55,6 +55,8 @@ namespace LocoMotor {
 			/// @return A number that by passing it to GetError(unsigned short) you can get more info if there was an error
 			unsigned short playSoundwChannel(const char* id, FMOD::Channel** channel);
 
+			void loadFMODBuild(const char* fmodPath);
+
 			/// @brief Gets the FMOD::System object from this manager
 			/// @return The System in question
 			FMOD::System* getSystem() const;

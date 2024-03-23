@@ -44,6 +44,7 @@ void LocoMotor::GameObject::update(float dt) {
 		Component* cmp = _toDestroy.front();
 		cmp->onDisable();
 		cmp->onDestroy();
+		delete cmp;
 		_toDestroy.pop();
 	}
 	while (!_toDisable.empty()) {

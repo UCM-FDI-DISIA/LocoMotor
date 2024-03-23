@@ -109,6 +109,59 @@ unsigned short AudioManager::playSoundwChannel(const char* id, FMOD::Channel** c
 #endif // _DEBUG
 }
 
+void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
+
+	if (_studioSys == nullptr) {
+	#ifdef _DEBUG
+		std::cerr << "Studio not initialized, pass a 'true' to the Init to initialize with Studio" << std::endl;
+	#endif
+		return;
+	}
+
+	FMOD::Studio::Bank* bank;
+	std::string masterStringPath = fmodPath;
+	masterStringPath += "/Master.strings.bank";
+
+	//Si ya está cargado...
+	if (_studioSys->getBank(masterStringPath.c_str(), &bank) == FMOD_OK)
+		return;
+
+	FMOD_RESULT res = _studioSys->loadBankFile(masterStringPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
+
+	if (res != FMOD_OK) {
+	#ifdef _DEBUG
+		std::cerr << "Couldn´t find '" << masterStringPath << "'" << std::endl;
+	#endif
+		return;
+	}
+
+	int numOfStrings;
+
+	bank->getStringCount(&numOfStrings);
+	char path[100];
+
+#ifdef _DEBUG
+	std::cout << "Loading all banks included in Master.strings.bank" << std::endl;
+#endif
+
+	for (int i = 0; i < numOfStrings; i++) {
+		FMOD_GUID info;
+		int ret;
+		bank->getStringInfo(i, &info, path, 100, &ret);
+
+		std::string retrieved = path;
+		retrieved.shrink_to_fit();
+
+		if (retrieved.rfind("bank:", 0) == 0) {
+			FMOD::Studio::Bank* toLoad;
+		#ifdef _DEBUG
+			std::cout << "Loading bank at: " << retrieved.substr(5).append(".bank").insert(0, fmodPath) << std::endl;
+		#endif
+			_studioSys->loadBankFile(retrieved.substr(5).append(".bank").insert(0, fmodPath).c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &toLoad);
+		}
+	}
+}
+
 FMOD::System* AudioManager::getSystem() const
 {
 	return _sys;

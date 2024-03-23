@@ -28,11 +28,11 @@ AudioSource::~AudioSource() {
 	}
 }
 
-unsigned short AudioSource::addSound(const char* fileName) {
-	return _man->addSound(fileName);
+void AudioSource::addSound(const char* fileName) {
+	_man->addSound(fileName);
 }
 
-unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned int loopBegin, unsigned int loopEnd) {
+void AudioSource::playSound(const char* fileName, int loops, unsigned int loopBegin, unsigned int loopEnd) {
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG
@@ -79,10 +79,7 @@ unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned 
 			newPosition.y = lmPos.GetY();
 			newPosition.z = lmPos.GetZ();
 
-			if (fail != FMOD_OK)
-				channel->set3DAttributes(&newPosition, &vel);
-			else
-				fail = channel->set3DAttributes(&newPosition, &vel);
+			channel->set3DAttributes(&newPosition, &vel);
 		}
 		else {
 
@@ -91,10 +88,7 @@ unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned 
 			FMOD_VECTOR lastVel = FMOD_VECTOR();
 			it->second.channel->get3DAttributes(&lastPosition, &lastVel);
 
-			if (fail != FMOD_OK)
-				channel->set3DAttributes(&lastPosition, &lastVel);
-			else
-				fail = channel->set3DAttributes(&lastPosition, &lastVel);
+			channel->set3DAttributes(&lastPosition, &lastVel);
 		}
 	}
 	_chMap[fileName].channel = channel;
@@ -104,15 +98,14 @@ unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned 
 	_chMap[fileName].channel->setVolume(_volumeMult);
 
 	channel->setPaused(false);
-	return fail;
 }
 
-unsigned short AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume) {
+void AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume) {
 	float randPtch = 0.95f + (float) (rand()) / ((float) (RAND_MAX / (1.05f - 0.95f)));
 	return playOneShot(fileName, position, volume, randPtch);
 }
 
-unsigned short AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume, const float pitch) {
+void AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume, const float pitch) {
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG
@@ -141,96 +134,73 @@ unsigned short AudioSource::playOneShot(const char* fileName, const LMVector3& p
 	channel->setVolume(volume);
 
 	channel->setPaused(false);
-	return fail;
 }
 
-unsigned short AudioSource::pauseSound(const char* fileName, bool pause) {
+void AudioSource::pauseSound(const char* fileName, bool pause) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
 		std::cerr << "Sound " << fileName << " is not currently playing on this AudioSource, from PauseSound()";
 	#endif // _DEBUG
-		return FMOD_ERR_INVALID_PARAM;
+		return;
 	}
-	return _chMap[fileName].channel->setPaused(pause);
+	_chMap[fileName].channel->setPaused(pause);
 }
 
-unsigned short AudioSource::pause(bool pause) {
-	unsigned short res = 0;
+void AudioSource::pause(bool pause) {
 	for (auto& chan : _chMap) {
-		FMOD_RESULT aux = chan.second.channel->setPaused(pause);
-		if (aux > res) {
-			res = aux;
-		}
+		chan.second.channel->setPaused(pause);
 	}
-	return res;
 }
 
-unsigned short AudioSource::stopSound(const char* fileName) {
+void AudioSource::stopSound(const char* fileName) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
 		std::cerr << "Sound '" << fileName << "' is not currently playing on this AudioSource, from Stop()";
 	#endif // _DEBUG
-		return FMOD_ERR_INVALID_PARAM;
+		return;
 	}
 	_chMap[fileName].channel->setFrequency(_chMap[fileName].ogFrec);
 	_chMap[fileName].channel->setVolume(1.f);
-	return _chMap[fileName].channel->stop();
+	_chMap[fileName].channel->stop();
 }
 
-unsigned short AudioSource::stop() {
-	unsigned short res = 0;
+void AudioSource::stop() {
 	for (auto& chan : _chMap) {
 		chan.second.channel->setFrequency(chan.second.ogFrec);
 		chan.second.channel->setVolume(1.f);
-		FMOD_RESULT aux = chan.second.channel->stop();
-		if (aux > res) {
-			res = aux;
-		}
+		chan.second.channel->stop();
 	}
-	return res;
 }
 
-unsigned short AudioSource::setSoundVolume(const char* fileName, const float volume) {
+void AudioSource::setSoundVolume(const char* fileName, const float volume) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
 		std::cerr << "Sound '" << fileName << "' is not currently playing on this AudioSource, from SetVolume()";
 	#endif // _DEBUG
-		return FMOD_ERR_INVALID_PARAM;
 	}
-	return _chMap[fileName].channel->setVolume(volume);
+	_chMap[fileName].channel->setVolume(volume);
 }
 
-unsigned short AudioSource::setVolume(const float volume) {
-	unsigned short res = 0;
+void AudioSource::setVolume(const float volume) {
 	for (auto& chan : _chMap) {
-		FMOD_RESULT aux = chan.second.channel->setVolume(volume);
-		if (aux > res) {
-			res = aux;
-		}
+		chan.second.channel->setVolume(volume);
 	}
 	_volumeMult = volume;
-	return res;
 }
 
-unsigned short AudioSource::setSoundFreq(const char* fileName, const float freqMult) {
+void AudioSource::setSoundFreq(const char* fileName, const float freqMult) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
 		std::cerr << "Sound " << fileName << " is not currently playing on this AudioSource, from SetSoundFreq()";
 	#endif // _DEBUG
-		return FMOD_ERR_INVALID_PARAM;
 	}
-	return _chMap[fileName].channel->setFrequency(std::max(0.f, _chMap[fileName].ogFrec * freqMult));
+	_chMap[fileName].channel->setFrequency(std::max(0.f, _chMap[fileName].ogFrec * freqMult));
 }
 
-unsigned short AudioSource::setFrequency(const float freqMult) {
-	unsigned short res = 0;
+void AudioSource::setFrequency(const float freqMult) {
 	for (auto& chan : _chMap) {
-		FMOD_RESULT aux = chan.second.channel->setFrequency(std::max(0.f, chan.second.ogFrec * freqMult));
-		if (aux > res) {
-			res = aux;
-		}
+		chan.second.channel->setFrequency(std::max(0.f, chan.second.ogFrec * freqMult));
 	}
-	return res;
 }
 
 void AudioSource::setMode3D() {
@@ -248,7 +218,6 @@ void LocoMotor::AudioSource::setParameters(std::vector<std::pair<std::string, st
 	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
 	for (auto& parameter : params) {
 		if (parameter.first == "PlayOnAwake") {
-			std::cout << parameter.second.c_str() << std::endl;
 			_playOnStart = parameter.second;
 		}
 		else if (parameter.first == "Volume") {

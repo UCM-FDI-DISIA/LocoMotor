@@ -14,11 +14,13 @@
     <ClInclude Include="..\..\src\LocoMotor_Audio\include\AudioListener.h" />
     <ClInclude Include="..\..\src\LocoMotor_Audio\include\AudioManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Audio\include\AudioSource.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Audio\include\EventEmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\AudioListener.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\AudioManager.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\AudioSource.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Audio\cpp\EventEmitter.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
