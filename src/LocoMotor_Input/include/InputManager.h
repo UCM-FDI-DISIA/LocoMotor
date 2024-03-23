@@ -113,10 +113,10 @@ namespace LocoMotor {
 			// EXTRA CONTROLLER UTILITY
 
 			/// @brief Sets the controller led in RGB
-			void SetControllerLedColor(int r, int g, int b);
+			void SetControllerLedColor(ControllerId controllerId, int r, int g, int b);
 
 			/// @brief Sets the controller rumble with a intensity and a duration in seconds
-			void RumbleController(const float& intensity, const float& durationInSec);
+			void RumbleController(ControllerId controllerId, const float& intensity, const float& durationInSec);
 
 
 

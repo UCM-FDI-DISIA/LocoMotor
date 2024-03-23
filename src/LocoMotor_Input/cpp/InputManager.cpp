@@ -395,25 +395,35 @@ void InputManager::ResetControllerInputs() {
 // FUNCIONALIDADES DE MANDO EXTRA
 
 // Luz LED
-void InputManager::SetControllerLedColor(int r, int g, int b) {
+void InputManager::SetControllerLedColor(ControllerId controllerId, int r, int g, int b) {
 
-	//if (_currentController != nullptr) {
+	SDL_GameController* gameController = SDL_GameControllerFromInstanceID(controllerId);
 
-	//	if (SDL_GameControllerHasLED(_currentController))
-	//		SDL_GameControllerSetLED(_currentController, r, g, b);
-	//}
-
+	if (gameController != nullptr && SDL_GameControllerHasLED(gameController))
+		SDL_GameControllerSetLED(gameController, r, g, b);
+	else
+		std::cout << "[ERROR] Could not change LED color of controller, it has not LED support";
 }
 
 // Vibracion
-void InputManager::RumbleController(const float& intensity, const float& durationInSec) {
+void InputManager::RumbleController(ControllerId controllerId, const float& intensity, const float& durationInSec) {
 
 	if (intensity > 1 || intensity < 0) {
 		std::cout << "[ERROR] Could not Rumble controller: Rumble intensity out of range";
 		return;
 	}
 
+	SDL_GameController* gameController = SDL_GameControllerFromInstanceID(controllerId);
+
 	//if (_currentController != nullptr) {
+
+	if (gameController != nullptr && SDL_GameControllerHasRumble(gameController)) {
+
+		Uint16 rumbleIntensity = (Uint16) (intensity * UINT16_MAX);
+		SDL_GameControllerRumble(gameController, rumbleIntensity, rumbleIntensity, (Uint32) (durationInSec * 1000));
+	}
+	else
+		std::cout << "[ERROR] Could not Rumble controller, it has not Rumble support";
 
 	//	if (SDL_GameControllerHasRumble(_currentController)) {
 	//		Uint16 rumbleIntensity = (Uint16) (intensity * UINT16_MAX);

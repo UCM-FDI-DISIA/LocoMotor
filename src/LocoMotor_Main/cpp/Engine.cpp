@@ -243,8 +243,10 @@ bool Engine::MainLoop() {
 		if (firstController != Input::InputManager::invalidControllerId()) {
 			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_A))
 				std::cout << "FIRST USER / Controller A" << std::endl;
-			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_B))
+			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_B)) {
 				std::cout << "FIRST USER / Controller B" << std::endl;
+				Input::InputManager::GetInstance()->RumbleController(secondController, 1, 0.3f);
+			}
 
 			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(firstController, 0, Input::InputManager::Axis::Horizontal);
 			if (joystickValue != 0)
@@ -254,8 +256,10 @@ bool Engine::MainLoop() {
 		if (secondController != Input::InputManager::invalidControllerId()) {
 			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_A))
 				std::cout << "SECOND USER / Controller A" << std::endl;
-			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_B))
+			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_B)) {
 				std::cout << "SECOND USER / Controller B" << std::endl;
+				Input::InputManager::GetInstance()->SetControllerLedColor(firstController, 0, 255, 255);
+			}
 
 			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(secondController, 0, Input::InputManager::Axis::Horizontal);
 			if (joystickValue != 0)
