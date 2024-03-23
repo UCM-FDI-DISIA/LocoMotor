@@ -1,8 +1,10 @@
 #include "InputManager.h"
+#include <iostream>
+#include <algorithm>
+
 #include "SDL_Scancode.h"
 #include "SDL_keyboard.h"
 #include <SDL_events.h>
-#include <iostream>
 #include <SDL_gamecontroller.h>
 #include "LMInputs.h"
 
@@ -118,9 +120,12 @@ float InputManager::GetJoystickValue(ControllerId controllerId, const int& joyst
 }
 
 	// TRIGGER
-float InputManager::GetTriggerValue(const int& triggerIndex) {
-	if (triggerIndex == 0 || triggerIndex == 1)return _triggersValue[triggerIndex];
-	return 0.0f;
+float InputManager::GetTriggerValue(ControllerId controllerId, const int& triggerIndex) {
+	if (triggerIndex == 0 || triggerIndex == 1)
+		return connectedControllers[controllerId]._triggersValue[triggerIndex];
+		//return _triggersValue[triggerIndex];
+	else
+		return 0.0f;
 }
 
 
@@ -287,12 +292,14 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 
 		Sint16 triggerValue = event.jaxis.value;
 
-
 		int axis = event.jaxis.axis;
 		if (axis > 3) {
 			axis -= 4;
 			float auxValue = triggerValue + _TRIGGERSVALUE_MAX / 2.f;
-			if (axis == 0 || axis == 1)_triggersValue[axis] = auxValue / _TRIGGERSVALUE_MAX;
+			float finalValue = std::clamp(auxValue / _TRIGGERSVALUE_MAX, 0.0f, 1.0f);
+
+			if (axis == 0 || axis == 1)
+				connectedControllers[event.jaxis.which]._triggersValue[axis] = finalValue;
 		}
 	}
 
@@ -424,13 +431,4 @@ void InputManager::RumbleController(ControllerId controllerId, const float& inte
 	}
 	else
 		std::cout << "[ERROR] Could not Rumble controller, it has not Rumble support";
-
-	//	if (SDL_GameControllerHasRumble(_currentController)) {
-	//		Uint16 rumbleIntensity = (Uint16) (intensity * UINT16_MAX);
-	//		SDL_GameControllerRumble(_currentController, rumbleIntensity, rumbleIntensity, (Uint32) (durationInSec * 1000));
-	//	}
-	//	else
-	//		std::cout << "[ERROR] Could not Rumble controller: currentController has not Rumble support";
-	//}
-	//else std::cout << "[ERROR] Could not Rumble controller: currentController not assigned";
 }

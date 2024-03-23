@@ -148,11 +148,11 @@ bool Engine::MainLoop() {
 	mesh->setMesh("Cubeman.mesh");
 	mesh->setMaterial("CustomMaterial");
 	mesh->setVisible(true);
-	
+
 	GameObject* lightGO = scn->addGameobject("light");
 	lightGO->addComponent("Transform");
 	Light* light = (Light*) lightGO->addComponent("Light");
-	
+
 	light->init("FLight", 1);
 
 	GameObject* UI = scn->addGameobject("ui");
@@ -251,6 +251,9 @@ bool Engine::MainLoop() {
 			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(firstController, 0, Input::InputManager::Axis::Horizontal);
 			if (joystickValue != 0)
 				std::cout << "FIRST USER / Axis X = " << joystickValue << std::endl;
+
+			float triggerValue = Input::InputManager::GetInstance()->GetTriggerValue(firstController, 0);
+			std::cout << "FIRST USER / Trigger Left = " << triggerValue << std::endl;
 		}
 
 		if (secondController != Input::InputManager::invalidControllerId()) {
@@ -295,7 +298,7 @@ bool Engine::MainLoop() {
 
 	}
 
-	
+
 
 	Input::InputManager::Release();
 	SceneManager::Release();
@@ -305,7 +308,7 @@ bool Engine::MainLoop() {
 	return true;
 }
 
-int Engine::showWindow(int type,std::string msg) {
+int Engine::showWindow(int type, std::string msg) {
 	const SDL_MessageBoxButtonData buttons[] = {
 		{0, 1, "Close Game" },
 		{0, 0, "Ok" },
@@ -313,13 +316,13 @@ int Engine::showWindow(int type,std::string msg) {
 	};
 	const SDL_MessageBoxButtonData buttons2[] = {
 		{0, 1, "Close Game" },
-		
+
 	};
 	const SDL_MessageBoxColorScheme colorScheme = { {0, 29, 112} };//, { 0, 29, 112 }, { 0, 29, 112 }, { 0, 29, 112 }, { 0, 29, 112 }
 
-	
-	SDL_MessageBoxData messageBoxData; 
-	if(type==0){
+
+	SDL_MessageBoxData messageBoxData;
+	if (type == 0) {
 		messageBoxData = {
 			SDL_MESSAGEBOX_INFORMATION,
 			NULL,
