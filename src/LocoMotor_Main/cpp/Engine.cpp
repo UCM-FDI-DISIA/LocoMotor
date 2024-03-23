@@ -212,34 +212,30 @@ bool Engine::MainLoop() {
 		std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
 
 		// Conexion de usuarios
-		for (int i = 0; i < controllersAdded.size(); i++) {
-			if (firstController == Input::InputManager::invalidControllerId()) {
-				firstController = controllersAdded.front();
-				controllersAdded.pop_front();
-			}
+		for (const Input::InputManager::ControllerId& controllerId : controllersAdded) {
 
-			else if (secondController == Input::InputManager::invalidControllerId()) {
-				secondController = controllersAdded.front();
-				controllersAdded.pop_front();
-			}
-			else
-				controllersAdded.pop_front();
+			if (firstController == Input::InputManager::invalidControllerId())
+				firstController = controllerId;
+
+			else if (secondController == Input::InputManager::invalidControllerId())
+				secondController = controllerId;
+
+			else if (thirdController == Input::InputManager::invalidControllerId())
+				thirdController = controllerId;
 		}
 
 		// Desconexion de usuarios
-		for (int i = 0; i < controllersRemoved.size(); i++) {
-			// Si se ha desconectado el primer usuario
-			if (firstController == controllersRemoved.front()) {
-				firstController = Input::InputManager::invalidControllerId();
-				controllersRemoved.pop_front();
-			}
+		for (const Input::InputManager::ControllerId& controllerId : controllersRemoved) {
 
-			else if (secondController == controllersRemoved.front()) {
+			// Si se ha desconectado el primer usuario
+			if (firstController == controllerId)
+				firstController = Input::InputManager::invalidControllerId();
+
+			else if (secondController == controllerId)
 				secondController = Input::InputManager::invalidControllerId();
-				controllersRemoved.pop_front();
-			}
-			else
-				controllersRemoved.pop_front();
+
+			else if (thirdController == controllerId)
+				thirdController = Input::InputManager::invalidControllerId();
 		}
 
 
@@ -278,20 +274,20 @@ bool Engine::MainLoop() {
 		}
 
 
-		int butId = -1;
+		//int butId = -1;
 
-		if (time > 5.f && !shown) {
-			shown = true;
-			int type=2;
-			std::string msg= "No funca, arreglalo";
-			butId=showWindow(type,msg);
-		}
-		if (butId == 1) {
-			_exit = true;
-		}
-		else if (butId == 2) {
-			shown = false;
-		}
+		//if (time > 5.f && !shown) {
+		//	shown = true;
+		//	int type=2;
+		//	std::string msg= "No funca, arreglalo";
+		//	butId=showWindow(type,msg);
+		//}
+		//if (butId == 1) {
+		//	_exit = true;
+		//}
+		//else if (butId == 2) {
+		//	shown = false;
+		//}
 
 	}
 

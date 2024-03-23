@@ -364,6 +364,12 @@ void InputManager::ControllerDeviceRemoved(const int32_t& controllerRemoved) {
 		controllerButton.isPressed = false;
 		controllerButton.up = false;
 	}
+
+	////////////////////////
+
+	onDisconnectControllers.push_back(controllerRemoved);
+
+	connectedControllers.erase(controllerRemoved);
 }
 
 
