@@ -91,7 +91,7 @@ unsigned short AudioManager::playSound(const char* id)
 	return err;
 }
 
-unsigned short AudioManager::playSoundwChannel(const std::string& id, FMOD::Channel** channel)
+unsigned short AudioManager::playSoundwChannel(const char* id, FMOD::Channel** channel)
 {
 #ifndef _DEBUG
 	unsigned short err = _sys->playSound(_soundLib[id], _main, true, channel);
@@ -109,43 +109,13 @@ unsigned short AudioManager::playSoundwChannel(const std::string& id, FMOD::Chan
 #endif // _DEBUG
 }
 
-std::list<AudioListener*>::iterator AudioManager::addListener(AudioListener* curr, size_t& index)
-{
-	index = _listeners.size();
-	_listeners.push_back(curr);
-
-	_sys->set3DNumListeners((int)_listeners.size());
-
-	std::list<AudioListener*>::iterator it = _listeners.end();
-	it--;
-	return it;
-}
-
-unsigned short AudioManager::removeListener(std::list<AudioListener*>::iterator it, size_t indexToRemove)
-{
-	auto listenerIt = _listeners.erase(it);
-	int nIndex = (int)indexToRemove;
-
-	unsigned short err = 0;
-
-	while (listenerIt != _listeners.end()) {
-		err = (*listenerIt)->changeIndex(nIndex);
-
-#ifdef _DEBUG
-		if (err != 0) {
-			std::cerr << "AUDIO: Trying to update listeners while removing number '" << indexToRemove << "' caused fmod exception: " << FMOD_ErrorString((FMOD_RESULT)err) << std::endl;
-		}
-#endif // _DEBUG
-		listenerIt++;
-		nIndex++;
-	}
-	_sys->set3DNumListeners((int)_listeners.size());
-	return err;
-}
-
 FMOD::System* AudioManager::getSystem() const
 {
 	return _sys;
+}
+
+FMOD::Studio::System* LocoMotor::Audio::AudioManager::getStudioSystem() const {
+	return _studioSys;
 }
 
 FMOD::Sound* AudioManager::getSound(const char* id)
@@ -163,7 +133,6 @@ AudioManager::AudioManager()
 	_sys = nullptr;
 	_main = nullptr;
 	_soundLib = std::unordered_map<std::string, FMOD::Sound*>();
-	_listeners = std::list<AudioListener*>();
 }
 
 AudioManager::~AudioManager()

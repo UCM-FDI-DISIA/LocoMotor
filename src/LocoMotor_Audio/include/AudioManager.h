@@ -53,21 +53,15 @@ namespace LocoMotor {
 			/// @brief Plays an already added sound, but gives access to the channel its being played
 			/// @param Name of the sound to play
 			/// @return A number that by passing it to GetError(unsigned short) you can get more info if there was an error
-			unsigned short playSoundwChannel(const std::string& id, FMOD::Channel** channel);
-
-			/// @brief Adds a listener to Fmod
-			/// @param index The index of the newly created listener
-			/// @return The iterator to the position in the listeners list where it is stored;
-			std::list<AudioListener*>::iterator addListener(AudioListener* curr, size_t& index);
-
-			/// @brief Removes the listener
-			/// @param The listener to remove
-			/// @return A number that by passing it to GetError(unsigned short) you can get more info if there was an error
-			unsigned short removeListener(std::list<AudioListener*>::iterator it, size_t indexToRemove);
+			unsigned short playSoundwChannel(const char* id, FMOD::Channel** channel);
 
 			/// @brief Gets the FMOD::System object from this manager
 			/// @return The System in question
 			FMOD::System* getSystem() const;
+
+			/// @brief Gets the FMOD::Studio::System object from this manager
+			/// @return The System in question
+			FMOD::Studio::System* getStudioSystem() const;
 
 			/// @brief Gets the sound using an id
 			FMOD::Sound* getSound(const char* id);
@@ -86,8 +80,6 @@ namespace LocoMotor {
 			FMOD::ChannelGroup* _main = nullptr;
 
 			std::unordered_map<std::string, FMOD::Sound*> _soundLib;
-
-			std::list<::LocoMotor::AudioListener*> _listeners;
 
 			/// @brief Constructor is set to private, use the 'GetInstance' method for access to the instance of this object
 			AudioManager();

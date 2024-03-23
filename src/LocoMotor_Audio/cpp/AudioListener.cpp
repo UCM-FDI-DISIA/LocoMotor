@@ -1,12 +1,17 @@
 #include "AudioListener.h"
 #include "AudioManager.h"
+#include "GameObject.h"
+#include "Transform.h"
 #include <fmod_common.h>
 #include <fmod.hpp>
+#include "fmod_errors.h"
 #ifdef _DEBUG
 #include <iostream>
 #endif // _DEBUG
 
 using namespace LocoMotor;
+
+std::list<AudioListener*> AudioListener::_listeners = std::list<AudioListener*>();
 
 void LocoMotor::AudioListener::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 	_man = Audio::AudioManager::GetInstance();
@@ -14,23 +19,66 @@ void LocoMotor::AudioListener::setParameters(std::vector<std::pair<std::string, 
 }
 
 void AudioListener::onEnable() {
-	_thisIT = _man->addListener(this, _fIndex);
+	_fIndex = _listeners.size();
+	_listeners.push_back(this);
+
+	_fSys->set3DNumListeners((int) _listeners.size());
+
+	_thisIT = _listeners.end();
+	_thisIT--;
 }
 
 void LocoMotor::AudioListener::start() {}
 
 void AudioListener::update(float dT) {
+
+	if (dT == 0.f)
+		dT += 0.000001f;
+
 	FMOD_VECTOR lastPosition;
 	_fSys->get3DListenerAttributes(_fIndex, &lastPosition, NULL, NULL, NULL);
 
-	//Pasar de datos del transform a los atributos necesarios
+	Transform* transform = _gameObject->getComponent<Transform>();
 
-	//_fSys->set3DListenerAttributes(_fIndex, transformPosition, velcidadCalculada, transformForward, transformUp);
+	FMOD_VECTOR newPosition = toFModVector(transform->GetPosition());
+
+	FMOD_VECTOR newVel = FMOD_VECTOR();
+	newVel.x = (newPosition.x - lastPosition.x) / dT;
+	newVel.y = (newPosition.y - lastPosition.y) / dT;
+	newVel.z = (newPosition.z - lastPosition.z) / dT;
+
+	auto forward = toFModVector(transform->GetRotation().Forward());
+	auto up = toFModVector(transform->GetRotation().Up());
+
+#ifdef _DEBUG
+	unsigned short err = _fSys->set3DListenerAttributes((int) _fIndex, &newPosition, &newVel, &forward, &up);
+	if (err != FMOD_OK) {
+		std::cerr << "Listener error: " << _man->getError(err) << std::endl;
+	}
+#else
+	_fSys->set3DListenerAttributes((int) _fIndex, &newPosition, &newVel, &forward, &up);
+#endif // _DEBUG
 
 }
 
 void AudioListener::onDisable() {
-	_man->removeListener(_thisIT, _fIndex);
+	auto listenerIt = _listeners.erase(_thisIT);
+	int nIndex = (int)_fIndex;
+
+	unsigned short err = 0;
+
+	while (listenerIt != _listeners.end()) {
+		err = (*listenerIt)->changeIndex(nIndex);
+
+	#ifdef _DEBUG
+		if (err != 0) {
+			std::cerr << "AUDIO: Trying to update listeners while removing number '" << _fIndex << "' caused fmod exception: " << FMOD_ErrorString((FMOD_RESULT) err) << std::endl;
+		}
+	#endif // _DEBUG
+		listenerIt++;
+		nIndex++;
+	}
+	_fSys->set3DNumListeners((int) _listeners.size());
 }
 
 AudioListener::AudioListener() : _fIndex(0), _man(nullptr), _fSys(nullptr), _thisIT() {
@@ -50,6 +98,14 @@ unsigned short AudioListener::setTransform(const FMOD_VECTOR& newPos, const FMOD
 #else
 	return _man->getSystem()->set3DListenerAttributes((int)_fIndex, &newPos, &newVel, &forward, &up);
 #endif // _DEBUG
+}
+
+FMOD_VECTOR LocoMotor::AudioListener::toFModVector(const LMVector3& a) {
+	FMOD_VECTOR res = FMOD_VECTOR();
+	res.x = a.GetX();
+	res.y = a.GetY();
+	res.z = a.GetZ();
+	return res;
 }
 
 unsigned short AudioListener::changeIndex(int index) {

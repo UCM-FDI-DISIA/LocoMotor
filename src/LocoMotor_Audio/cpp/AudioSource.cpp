@@ -1,5 +1,8 @@
 #include "AudioSource.h"
 #include "AudioManager.h"
+#include "GameObject.h"
+#include "Transform.h"
+
 #include <fmod.hpp>
 #include <fmod_errors.h>
 #include <random>
@@ -13,13 +16,11 @@ using namespace FMOD;
 AudioSource::AudioSource() : _man(nullptr) {
 	_chMap = std::unordered_map<const char*, ChannelData>();
 	_volumeMult = 1.f;
-	_posRemember = nullptr;
 	_mode = 0;
 	_playOnStart = "";
 }
 
 AudioSource::~AudioSource() {
-	delete _posRemember;
 	for (auto& ch : _chMap) {
 		ch.second.channel->setFrequency(1.f);
 		ch.second.channel->setVolume(1.f);
@@ -66,10 +67,35 @@ unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned 
 
 	FMOD_VECTOR vel = FMOD_VECTOR(); vel.x = 0; vel.y = 0; vel.z = 0;
 	if (_mode != FMOD_2D) {
-		if (fail != FMOD_OK)
-			channel->set3DAttributes(_posRemember, &vel);
-		else
-			fail = channel->set3DAttributes(_posRemember, &vel);
+
+		auto it = _chMap.begin();
+
+		if (it == _chMap.end()) {
+
+			//Si no hay ningun canal de audio en uso ya, seteamos la posicion del transform directamente y velocidad 0
+			FMOD_VECTOR newPosition = FMOD_VECTOR();
+			auto& lmPos = _gameObject->getComponent<Transform>()->GetPosition();
+			newPosition.x = lmPos.GetX();
+			newPosition.y = lmPos.GetY();
+			newPosition.z = lmPos.GetZ();
+
+			if (fail != FMOD_OK)
+				channel->set3DAttributes(&newPosition, &vel);
+			else
+				fail = channel->set3DAttributes(&newPosition, &vel);
+		}
+		else {
+
+			//Si hay algun canal, le ponemos los mismos atributos que el primer canal de audio, para que se comporten igual éste frame
+			FMOD_VECTOR lastPosition = FMOD_VECTOR();
+			FMOD_VECTOR lastVel = FMOD_VECTOR();
+			it->second.channel->get3DAttributes(&lastPosition, &lastVel);
+
+			if (fail != FMOD_OK)
+				channel->set3DAttributes(&lastPosition, &lastVel);
+			else
+				fail = channel->set3DAttributes(&lastPosition, &lastVel);
+		}
 	}
 	_chMap[fileName].channel = channel;
 	float aux;
@@ -81,12 +107,12 @@ unsigned short AudioSource::playSound(const char* fileName, int loops, unsigned 
 	return fail;
 }
 
-unsigned short AudioSource::playOneShot(const char* fileName, const FMOD_VECTOR& position, const float volume) {
-	float randPtch = 0.8f + (float) (rand()) / ((float) (RAND_MAX / (1.1f - 0.8f)));
+unsigned short AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume) {
+	float randPtch = 0.95f + (float) (rand()) / ((float) (RAND_MAX / (1.05f - 0.95f)));
 	return playOneShot(fileName, position, volume, randPtch);
 }
 
-unsigned short AudioSource::playOneShot(const char* fileName, const FMOD_VECTOR& position, const float volume, const float pitch) {
+unsigned short AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume, const float pitch) {
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG
@@ -100,11 +126,15 @@ unsigned short AudioSource::playOneShot(const char* fileName, const FMOD_VECTOR&
 	Channel* channel;
 	unsigned short fail = _man->playSoundwChannel(fileName, &channel);
 
+	FMOD_VECTOR newPosition = FMOD_VECTOR();
+	newPosition.x = position.GetX();
+	newPosition.y = position.GetY();
+	newPosition.z = position.GetZ();
 	FMOD_VECTOR vel = FMOD_VECTOR(); vel.x = 0; vel.y = 0; vel.z = 0;
 	if (fail != FMOD_OK)
-		channel->set3DAttributes(&position, &vel);
+		channel->set3DAttributes(&newPosition, &vel);
 	else
-		fail = channel->set3DAttributes(&position, &vel);
+		fail = channel->set3DAttributes(&newPosition, &vel);
 	float aux;
 	channel->getFrequency(&aux);
 	channel->setFrequency(aux * pitch);
@@ -203,44 +233,6 @@ unsigned short AudioSource::setFrequency(const float freqMult) {
 	return res;
 }
 
-void AudioSource::setPositionAndVelocity(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel) {
-
-	auto it = _chMap.begin();
-
-	while (it != _chMap.end()) {
-		bool is;
-		it->second.channel->isPlaying(&is);
-		if (is) {
-			if (_mode == FMOD_2D) {
-				it++;
-				continue;
-			}
-			it->second.channel->set3DAttributes(&newPos, &newVel);
-			it++;
-		}
-		else {
-			it->second.channel->setFrequency(it->second.ogFrec);
-			it->second.channel->setVolume(1.f);
-			it->second.channel->stop();
-			it->second.channel = nullptr;
-			it = _chMap.erase(it);
-		}
-	}
-
-	_posRemember->x = newPos.x;
-	_posRemember->y = newPos.y;
-	_posRemember->z = newPos.z;
-}
-
-void AudioSource::setPositionAndVelocity(const FMOD_VECTOR& newPos, float delta) {
-	FMOD_VECTOR vel = FMOD_VECTOR();
-	vel.x = (newPos.x - _posRemember->x) / delta;
-	vel.y = (newPos.y - _posRemember->y) / delta;
-	vel.z = (newPos.z - _posRemember->z) / delta;
-
-	setPositionAndVelocity(newPos, vel);
-}
-
 void AudioSource::setMode3D() {
 	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
 }
@@ -253,10 +245,6 @@ void LocoMotor::AudioSource::setParameters(std::vector<std::pair<std::string, st
 	_man = Audio::AudioManager::GetInstance();
 	_chMap = std::unordered_map<const char*, ChannelData>();
 	_volumeMult = 1.f;
-	_posRemember = new FMOD_VECTOR();
-	_posRemember->x = 0;
-	_posRemember->y = 0;
-	_posRemember->z = 0;
 	_mode = FMOD_3D | FMOD_3D_WORLDRELATIVE;
 	for (auto& parameter : params) {
 		if (parameter.first == "PlayOnAwake") {
@@ -282,8 +270,40 @@ void LocoMotor::AudioSource::start() {
 }
 
 void LocoMotor::AudioSource::update(float dT) {
-	FMOD_VECTOR newPosition = FMOD_VECTOR();
-	// Inicializar con la posicion del transform...
 
-	setPositionAndVelocity(newPosition, dT);
+	auto it = _chMap.begin();
+
+	if (it == _chMap.end()) {
+		return;
+	}
+
+	FMOD_VECTOR newPosition = FMOD_VECTOR();
+	auto& lmPos = _gameObject->getComponent<Transform>()->GetPosition();
+	newPosition.x = lmPos.GetX();
+	newPosition.y = lmPos.GetY();
+	newPosition.z = lmPos.GetZ();
+
+	FMOD_VECTOR lastPosition = FMOD_VECTOR();
+	it->second.channel->get3DAttributes(&lastPosition, NULL);
+
+	FMOD_VECTOR newVel = FMOD_VECTOR();
+	newVel.x = (newPosition.x - lastPosition.x) / dT;
+	newVel.y = (newPosition.y - lastPosition.y) / dT;
+	newVel.z = (newPosition.z - lastPosition.z) / dT;
+
+	while (it != _chMap.end()) {
+		bool is;
+		it->second.channel->isPlaying(&is);
+		if (is) {
+			it->second.channel->set3DAttributes(&newPosition, &newVel);
+			it++;
+		}
+		else {
+			it->second.channel->setFrequency(it->second.ogFrec);
+			it->second.channel->setVolume(1.f);
+			it->second.channel->stop();
+			it->second.channel = nullptr;
+			it = _chMap.erase(it);
+		}
+	}
 }

@@ -4,6 +4,7 @@
 
 #include <list>
 #include "Component.h"
+#include "LMVector.h"
 
 struct FMOD_VECTOR;
 
@@ -31,6 +32,8 @@ namespace LocoMotor {
 
 		std::list<AudioListener*>::iterator _thisIT;
 
+		static std::list<AudioListener*> _listeners;
+
 		/// @brief Change the index this listener is associated with in the manager
 		/// @param index The new index of the listener
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
@@ -43,6 +46,8 @@ namespace LocoMotor {
 		/// @param up The new upwards direction of the listener MUST ALSO BE NORMALIZED (pass NULL or 0 to not update)
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
 		unsigned short setTransform(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel, const FMOD_VECTOR& forward, const FMOD_VECTOR& up);
+
+		FMOD_VECTOR toFModVector(const LMVector3& a);
 
 
 	protected:

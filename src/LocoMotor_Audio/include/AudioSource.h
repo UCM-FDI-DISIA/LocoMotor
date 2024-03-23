@@ -4,8 +4,8 @@
 
 #include <unordered_map>
 #include "Component.h"
+#include "LMVector.h"
 
-struct FMOD_VECTOR;
 namespace FMOD {
 	class Channel;
 }
@@ -45,7 +45,7 @@ namespace LocoMotor {
 		/// @param position Position where the sound will come from
 		/// @param volume Volume modifier of the sound
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
-		unsigned short playOneShot(const char* fileName, const FMOD_VECTOR& position, const float volume = 1.f); //TODO a vectores de locomotor
+		unsigned short playOneShot(const char* fileName, const LMVector3& position, const float volume = 1.f);
 
 		/// @brief Plays a sound independently of this source, meaning it won´t update its position
 		/// @param fileName The sound to play
@@ -53,7 +53,7 @@ namespace LocoMotor {
 		/// @param volume Volume modifier of the sound
 		/// @param pitch Pitch modifier of the sound
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
-		unsigned short playOneShot(const char* fileName, const FMOD_VECTOR& position, const float volume, const float pitch);
+		unsigned short playOneShot(const char* fileName, const LMVector3& position, const float volume, const float pitch);
 
 		/// @brief Pauses a specific sound playing in this source
 		/// @param fileName The sound to play
@@ -114,8 +114,6 @@ namespace LocoMotor {
 
 		Audio::AudioManager* _man;
 
-		FMOD_VECTOR* _posRemember;
-
 		std::unordered_map<const char*, ChannelData> _chMap;
 
 		float _volumeMult;
@@ -123,16 +121,6 @@ namespace LocoMotor {
 		int _mode;
 
 		std::string _playOnStart;
-
-		/// @brief Set the position and velocity of this source. It will be applied to all sounds that are currently playing
-		/// @param newPos The new position of the source
-		/// @param newVel The new velocity of the source
-		void setPositionAndVelocity(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel);
-
-		/// @brief Set the position of this source and automatically update its velocity. It will be applied to all sounds that are currently playing
-		/// @param newPos The new position of the source
-		/// @param delta The delta time used to calculate the velocity
-		void setPositionAndVelocity(const FMOD_VECTOR& newPos, float delta);
 	};
 }
 
