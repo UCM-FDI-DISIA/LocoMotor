@@ -22,12 +22,15 @@ namespace LocoMotor {
 
 		enum LMScanCode;
 		class InputManager {
+
+			// Identidicador de mando
+			//using ControllerId = SDL_JoystickID;
+
 		public:
 			enum Axis {
 				Horizontal, Vertical
 			};
 
-			// Identidicador de mando
 			using ControllerId = int32_t;
 
 			/// @brief Initializes the InputManager singleton
@@ -92,9 +95,9 @@ namespace LocoMotor {
 			void ManageMouseEvents(const SDL_Event& event);
 
 			/// @brief Returns true if controller is ready to use
-			bool ControllerDeviceAdded(const int32_t& controller);
+			bool ControllerDeviceAdded(const ControllerId& controller);
 			/// @brief Removes the controller
-			void ControllerDeviceRemoved(const int32_t& controller);
+			void ControllerDeviceRemoved(const ControllerId& controller);
 
 			// Las teclas que hayan llamado a los eventos SDL_KEYDOWN y SDL_KEYUP en el frame anterior,
 			// Tienen las variables de Down/Up activas, solo queremos que esten activas un frame, por lo tanto
@@ -195,7 +198,7 @@ namespace LocoMotor {
 
 			struct LMController {
 
-				SDL_GameController* sdlController = nullptr;
+				//SDL_GameController* sdlController = nullptr;
 
 				// Almacena el estado de todas las teclas en un mismo array ordenadas por el ScanCode de los botones del mando
 				KeyState _controllerButtons[21];
@@ -209,12 +212,12 @@ namespace LocoMotor {
 				// Triggers
 				float _triggersValue[2];
 
-				LMController(){}
+				//LMController(){}
 
-				LMController(SDL_GameController* _sdlController) {
-					
-					sdlController = _sdlController;
-				}
+				//LMController(SDL_GameController* _sdlController) {
+				//	
+				//	sdlController = _sdlController;
+				//}
 			};
 
 
