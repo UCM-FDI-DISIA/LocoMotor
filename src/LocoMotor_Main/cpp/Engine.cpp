@@ -219,7 +219,7 @@ bool Engine::MainLoop() {
 				cubeTrnsf->SetRotation(LMVector3(300, -15, 0));
 				MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
 				mesh->init("cubeMesh", "", false);
-				mesh->setMesh("Cubeman.mesh");
+				mesh->setMesh("CubemanMesh.mesh");
 				mesh->setMaterial("CustomMaterial");
 				mesh->setVisible(true);
 			}
