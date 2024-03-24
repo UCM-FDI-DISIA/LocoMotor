@@ -182,6 +182,7 @@ bool Engine::MainLoop() {
 
 	// Prueba animaciones
 	MeshRenderer* mainMesh = nullptr;
+	Transform* cubeTrnsf = nullptr;
 
 	bool shown = false;
 
@@ -216,10 +217,10 @@ bool Engine::MainLoop() {
 			if (SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube") == nullptr) {
 
 				GameObject* cubeGO = SceneManager::GetInstance()->getActiveScene()->addGameobject("cube");
-				Transform* cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
+				cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
 				cubeTrnsf->SetPosition(LMVector3(0, 0, -150));
 				cubeTrnsf->SetSize(LMVector3(20, 20, 20));
-				cubeTrnsf->SetRotation(LMVector3(0, -40, 0));
+				cubeTrnsf->SetRotation(LMVector3(15, -40, 0));
 				mainMesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
 				mainMesh->init("cubeMesh", "", false);
 				mainMesh->setMesh("CubemanMesh.mesh");
@@ -234,6 +235,11 @@ bool Engine::MainLoop() {
 		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_D)) {
 			if (mainMesh != nullptr)
 				mainMesh->playAnimation("Run", true);
+		}
+		else if (Input::InputManager::GetInstance()->GetKey(Input::LMKS_E)) {
+			if (cubeTrnsf != nullptr)
+				cubeTrnsf->SetRotation(LMVector3(cubeTrnsf->GetRotation().GetX(),
+					cubeTrnsf->GetRotation().GetY() + 60 * _dt/1000, cubeTrnsf->GetRotation().GetZ()));
 		}
 
 		if (mainMesh != nullptr)
