@@ -19,6 +19,11 @@ namespace LocoMotor {
 		/// @param name Name of the scene
 		void changeScene(const std::string& name);
 
+		// En la primera iteracion da error no esta asignada esta variable
+		Scene* getActiveScene() {
+			return _activeScene;
+		}
+
 		/// @brief Loads a scene form the given file
 		/// @param path Path to a .lua file defining the scene
 		/// @param name Name of the scene inside the Lua file

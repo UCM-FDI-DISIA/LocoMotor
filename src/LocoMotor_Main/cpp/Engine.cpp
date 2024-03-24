@@ -207,8 +207,23 @@ bool Engine::MainLoop() {
 
 		// PRUEBA INPUT
 		// Teclado
-		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A))
+		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A)) {
 			std::cout << "KEYBOARD A" << std::endl;
+
+			if (SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube") == nullptr) {
+
+				GameObject* cubeGO = SceneManager::GetInstance()->getActiveScene()->addGameobject("cube");
+				Transform* cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
+				cubeTrnsf->SetPosition(LMVector3(0, 0, -150));
+				cubeTrnsf->SetSize(LMVector3(20, 20, 20));
+				cubeTrnsf->SetRotation(LMVector3(300, -15, 0));
+				MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
+				mesh->init("cubeMesh", "", false);
+				mesh->setMesh("Cubeman.mesh");
+				mesh->setMaterial("CustomMaterial");
+				mesh->setVisible(true);
+			}
+		}
 
 
 		// Conexion y desconexion de mandos
