@@ -2,12 +2,14 @@
 
 #include "Component.h"
 #include "LMVector.h"
+#include <unordered_map>
 
 namespace Ogre {
 	class Entity;
 	class MovableObject;
 	class Mesh;
 	class SceneNode;
+	class AnimationState;
 }
 
 namespace LocoMotor {
@@ -31,6 +33,11 @@ namespace LocoMotor {
 	    void setVisible(bool visible);
 
 		void init(std::string name, std::string file, bool istatic);
+
+
+		void playAnimation(std::string animationName, bool loop);
+		void updateAnimation(double time);
+
 	protected:
 
 
@@ -50,6 +57,15 @@ namespace LocoMotor {
 		Ogre::SceneNode* _node;
 
 		Ogre::MovableObject* getMovObj();
+
+
+		// Prueba animaciones
+		std::unordered_map<std::string, Ogre::AnimationState*> allAnimations;
+
+		// The animation that is currently being played
+		Ogre::AnimationState* currentAnimation;
+
+		int numAnimationsActive;
 	};
 	
 }

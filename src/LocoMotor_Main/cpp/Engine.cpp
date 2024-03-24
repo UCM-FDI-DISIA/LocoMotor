@@ -180,6 +180,9 @@ bool Engine::MainLoop() {
 	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
 	Input::InputManager::ControllerId thirdController = Input::InputManager::invalidControllerId();
 
+	// Prueba animaciones
+	MeshRenderer* mainMesh = nullptr;
+
 	bool shown = false;
 
 	while (!_exit) {
@@ -216,17 +219,28 @@ bool Engine::MainLoop() {
 				Transform* cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
 				cubeTrnsf->SetPosition(LMVector3(0, 0, -150));
 				cubeTrnsf->SetSize(LMVector3(20, 20, 20));
-				cubeTrnsf->SetRotation(LMVector3(300, -15, 0));
-				MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
-				mesh->init("cubeMesh", "", false);
-				mesh->setMesh("CubemanMesh.mesh");
-				mesh->setMaterial("CustomMaterial");
-				mesh->setVisible(true);
+				cubeTrnsf->SetRotation(LMVector3(0, -40, 0));
+				mainMesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
+				mainMesh->init("cubeMesh", "", false);
+				mainMesh->setMesh("CubemanMesh.mesh");
+				mainMesh->setMaterial("CustomMaterial");
+				mainMesh->setVisible(true);
 			}
 		}
+		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_S)) {
+			if (mainMesh != nullptr)
+				mainMesh->playAnimation("Idle", true);
+		}
+		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_D)) {
+			if (mainMesh != nullptr)
+				mainMesh->playAnimation("Run", true);
+		}
+
+		if (mainMesh != nullptr)
+			mainMesh->updateAnimation(_dt / 1000);
 
 
-		// Conexion y desconexion de mandos
+			// Conexion y desconexion de mandos
 		std::list<Input::InputManager::ControllerId> controllersAdded = Input::InputManager::GetInstance()->getOnConnectControllers();
 		std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
 

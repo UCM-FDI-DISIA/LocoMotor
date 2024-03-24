@@ -18,23 +18,53 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 	_node = nullptr;
 	_nodeScale = LMVector3(1, 1, 1);
 	_nodeRotation = LMQuaternion();
+
+	numAnimationsActive = 0;
 }
 
-LocoMotor::MeshRenderer::~MeshRenderer()
-{
+LocoMotor::MeshRenderer::~MeshRenderer() {
 	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 }
 
-void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params)
-{
-}
+void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params) {}
 
-void LocoMotor::MeshRenderer::init(std::string name, std::string file,bool istatic) {
+void LocoMotor::MeshRenderer::init(std::string name, std::string file, bool istatic) {
 	_name = name;
 	_src = file;
 	_isStatic = istatic;
 	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
 	_node = man->createNode(_gameObject->getName());
+
+	//int i = 0;
+}
+
+void LocoMotor::MeshRenderer::playAnimation(std::string animationName, bool loop) {
+
+	// Sets the current animation to the specified one by name "animationName"
+	currentAnimation = allAnimations[animationName];
+	currentAnimation->setEnabled(true);
+	currentAnimation->setLoop(loop);
+
+	// Disable the other animations of this mesh
+	for (const auto& thisAnimation : allAnimations)
+		if (thisAnimation.second != currentAnimation)
+			thisAnimation.second->setEnabled(false);
+}
+
+void LocoMotor::MeshRenderer::updateAnimation(double dt) {
+
+	if (currentAnimation != nullptr)
+		currentAnimation->addTime(Ogre::Real(dt));
+
+		//int num = 0;
+		//auto it = allAnimations.begin();
+		//while (num != numAnimationsActive) {
+		//	if (it->second->getEnabled()) {
+		//		it->second->addTime(Ogre::Real(dt));
+		//		num++;
+		//	}
+		//	it++;
+		//}
 }
 
 void LocoMotor::MeshRenderer::start() {
@@ -49,7 +79,7 @@ void LocoMotor::MeshRenderer::update(float dt) {
 	if (_gameObject->getComponent<Transform>() == nullptr)return;
 
 	_node->setPosition(_gameObject->getComponent<Transform>()->GetPosition().GetX(), _gameObject->getComponent<Transform>()->GetPosition().GetY(), _gameObject->getComponent<Transform>()->GetPosition().GetZ());
-	
+
 	Ogre::Quaternion quat = Ogre::Quaternion();
 	if (_nodeRotation.GetW() != _gameObject->getComponent<Transform>()->GetRotation().GetW()) {
 		quat.w = _gameObject->getComponent<Transform>()->GetRotation().GetW();
@@ -68,7 +98,7 @@ void LocoMotor::MeshRenderer::update(float dt) {
 		_nodeRotation.SetZ(_gameObject->getComponent<Transform>()->GetRotation().GetZ());
 	}
 	_node->rotate(quat, Ogre::Node::TS_LOCAL);
-	
+
 	if (_nodeScale.GetX() != _gameObject->getComponent<Transform>()->GetSize().GetX()) {
 		_node->scale(_gameObject->getComponent<Transform>()->GetSize().GetX(), 1, 1);
 		_nodeScale.SetX(_gameObject->getComponent<Transform>()->GetSize().GetX());
@@ -103,7 +133,21 @@ void LocoMotor::MeshRenderer::setMesh(std::string mesh) {
 			_node->attachObject(_mesh);
 		}
 	}
-	
+
+
+	// Inicializar animaciones
+	allAnimations = std::unordered_map<std::string, Ogre::AnimationState*>();
+	if (_mesh->getAllAnimationStates() != nullptr) {
+		Ogre::AnimationStateMap mapa = _mesh->getAllAnimationStates()->getAnimationStates();
+
+		std::cout << " ANIMATIONS LOADED : \n";
+
+		for (auto it = mapa.begin(); it != mapa.end(); it++) {
+			allAnimations.insert({ it->first, it->second });
+			std::cout << it->first << "\n";
+		}
+		std::cout << "\n";
+	}
 }
 
 Ogre::MovableObject* LocoMotor::MeshRenderer::getMovObj() {
