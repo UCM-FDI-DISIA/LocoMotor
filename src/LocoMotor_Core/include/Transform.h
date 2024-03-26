@@ -28,12 +28,8 @@ namespace LocoMotor {
 		/// @param params A vector of pairs, where each pair contains a string representing a parameter nameand
 		/// a string representing the value of that parameter.The function uses these parameters to initialize
 		/// the position, rotation, and scale of a transform component.
-		void init(std::vector<std::pair<std::string, std::string>>& params);// override;
 		void InitRuntime(LMVector3 initPos = LMVector3(0, 0, 0), LMVector3 initRot = LMVector3(0, 0, 0), LMVector3 initScale = LMVector3(1, 1, 1));
-		void start() override;
-		/// @brief Updates the source's position and velocity in the world
-		/// @param dt DeltaTime used to calculate the velocity by comparing last position
-		void update(const float dt) override;
+
 		/// @brief  Returns the World position of the LocoMotor object.
 		/// @return vector
 		const LMVector3& GetPosition();
@@ -59,7 +55,6 @@ namespace LocoMotor {
 		/// @brief Returns the local position of the LocoMotor object.
 		/// @return vector 
 		const LMVector3& GetLocalEulerRotation();
-
 		/// @brief Sets the rotation of the LocoMotor object.
 		/// @param newRotation The new rotation
 		void SetRotation(const LMQuaternion& newRotation);
@@ -111,7 +106,11 @@ namespace LocoMotor {
 
 	protected:
 
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void start() override;
+		/// @brief Updates the source's position and velocity in the world
+		/// @param dt DeltaTime used to calculate the velocity by comparing last position
+		void update(const float dt) override;
 
 	private:
 
@@ -122,19 +121,6 @@ namespace LocoMotor {
 		LMQuaternion _direction;
 		LMQuaternion _localDirection;
 		Transform* parent;
-
-		//void SetPhysPosition(const LMVector3& newPosition);
-		/// @brief Sets the physical rotation of a game object with a rigid body component.
-		/// @param newRotation The new rotation that the function is setting for the physics object. It is of
-		/// type LMQuaternion, which is likely a custom quaternion class specific to the game engine or
-		/// framework being used.
-		//void SetPhysRotation(const LMQuaternion& newRotation);
-		/// @brief Sets the physical Euler rotation of a game object's rigid body component.
-		/// @param newRotation A LMVector3 object representing the new rotation to be set for the Transform.
-		//void SetPhysEulerRotation(const LMVector3& newRotation);
-		/// @brief 
-		/// @param newsize 
-		void SetPhysScale(const LMVector3& newsize);
 
 		//OgreWrapper::Node* _gObjNode;
 	};

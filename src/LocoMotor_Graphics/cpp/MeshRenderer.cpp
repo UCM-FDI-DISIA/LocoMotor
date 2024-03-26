@@ -72,6 +72,10 @@ void LocoMotor::MeshRenderer::awake() {
 	}
 }
 
+void LocoMotor::MeshRenderer::onEnable() {
+	setVisible(true);
+}
+
 void LocoMotor::MeshRenderer::init(const std::string& name, const std::string& file, bool istatic) {
 	_name = name;
 	_src = file;
@@ -116,6 +120,10 @@ void LocoMotor::MeshRenderer::start() {
 		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
 		return;
 	}
+}
+
+void LocoMotor::MeshRenderer::onDisable() {
+	setVisible(false);
 }
 
 

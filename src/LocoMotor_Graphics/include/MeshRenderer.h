@@ -43,7 +43,9 @@ namespace LocoMotor {
 
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 		void awake() override;
+		void onEnable() override;
 		void start() override;
+		void onDisable() override;
 		void update(float dt) override;
 
 	private:

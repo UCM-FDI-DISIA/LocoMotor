@@ -24,134 +24,19 @@ void LocoMotor::Transform::initComponent() {
 }
 
 
-void LocoMotor::Transform::init(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::Transform::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
 	//_gameObject->registerTransform(this);
 
 	for (const auto& pair : params) {
 		if (pair.first == "pos" || pair.first == "position") {
-			unsigned char currAxis = 0;
-			std::string num = "";
-			LMVector3 result = LMVector3();
-			for (const char c : pair.second) {
-				if (c != ' ') {
-					num += c;
-				}
-				else {
-					float value = 0.f;
-					try {
-						value = std::stof(num);
-					}
-					catch (std::invalid_argument) {
-						value = 0.f;
-					}
-					if (currAxis == 0) {
-						result.SetX(value);
-					}
-					else if (currAxis == 1) {
-						result.SetY(value);
-					}
-					else if (currAxis == 2) {
-						result.SetZ(value);
-					}
-					currAxis++;
-					num = "";
-				}
-			}
-			float value = 0.0f;
-			try {
-				value = std::stof(num);
-			}
-			catch (std::invalid_argument) {
-				value = 0.0f;
-			}
-			if (currAxis == 2) {
-				result.SetZ(value);
-			}
-			_position = result;
-
+			_position = LMVector3::StringToVector(pair.second);
 		}
 		else if (pair.first == "rot" || pair.first == "rotation") {
-			unsigned char currAxis = 0;
-			std::string num = "";
-			LMVector3 result = LMVector3();
-			for (const char c : pair.second) {
-				if (c != ' ') {
-					num += c;
-				}
-				else {
-					float value = 0.f;
-					try {
-						value = std::stof(num);
-					}
-					catch (std::invalid_argument) {
-						value = 0.f;
-					}
-					if (currAxis == 0) {
-						result.SetX(value);
-					}
-					else if (currAxis == 1) {
-						result.SetY(value);
-					}
-					else if (currAxis == 2) {
-						result.SetZ(value);
-					}
-					currAxis++;
-					num = "";
-				}
-			}
-			float value = 0.0f;
-			try {
-				value = std::stof(num);
-			}
-			catch (std::invalid_argument) {
-				value = 0.0f;
-			}
-			if (currAxis == 2) {
-				result.SetZ(value);
-			}
-			_direction = result.AsRotToQuaternion();
+			_direction = LMVector3::StringToVector(pair.second).AsRotToQuaternion();
 			_direction.Normalize();
 		}
 		else if (pair.first == "size" || pair.first == "scale") {
-			unsigned char currAxis = 0;
-			std::string num = "";
-			LMVector3 result = LMVector3();
-			for (const char c : pair.second) {
-				if (c != ' ') {
-					num += c;
-				}
-				else {
-					float value = 0.f;
-					try {
-						value = std::stof(num);
-					}
-					catch (const char*) {
-						value = 0.f;
-					}
-					if (currAxis == 0) {
-						result.SetX(value);
-					}
-					else if (currAxis == 1) {
-						result.SetY(value);
-					}
-					else if (currAxis == 2) {
-						result.SetZ(value);
-					}
-					currAxis++;
-					num = "";
-				}
-			}
-			float value = 0.0f;
-			try {
-				value = std::stof(num);
-			}
-			catch (const char*) {
-				value = 0.0f;
-			}
-			if (currAxis == 2) {
-				result.SetZ(value);
-			}
-			_scale = result;
+			_scale = LMVector3::StringToVector(pair.second);
 		}
 	}
 }
@@ -264,8 +149,6 @@ const LocoMotor::LMVector3& LocoMotor::Transform::GetSize() {
 
 void LocoMotor::Transform::SetSize(const LMVector3& newSize) {
 	_scale = newSize;
-	
-	SetPhysScale(newSize);
 }
 
 void LocoMotor::Transform::SetUpwards(const LMVector3& newUpward) {
@@ -328,10 +211,4 @@ void LocoMotor::Transform::SetParent(Transform* trParent) {
 }
 LocoMotor::Transform* LocoMotor::Transform::GetParent() {
 	return parent;
-}
-
-void LocoMotor::Transform::SetPhysScale(const LMVector3& newsize) {}
-
-void LocoMotor::Transform::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
-
 }

@@ -181,6 +181,7 @@ bool Engine::MainLoop() {
 	Input::InputManager::ControllerId thirdController = Input::InputManager::invalidControllerId();
 
 	// Prueba animaciones
+	GameObject* cubeGO = nullptr;
 	MeshRenderer* mainMesh = nullptr;
 	Transform* cubeTrnsf = nullptr;
 
@@ -203,6 +204,12 @@ bool Engine::MainLoop() {
 
 		_scnManager->update(_dt);
 
+		if (cubeTrnsf == nullptr) {
+			cubeGO = SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube");
+			cubeTrnsf = cubeGO->getComponent<Transform>();
+			mainMesh = cubeGO->getComponent<MeshRenderer>();
+		}
+
 		Audio::AudioManager::GetInstance()->update();
 
 		//Physics::PhysicsManager::GetInstance()->update(_dt);
@@ -214,18 +221,9 @@ bool Engine::MainLoop() {
 		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A)) {
 			std::cout << "KEYBOARD A" << std::endl;
 
-			if (SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube") == nullptr) {
+			if (SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube") != nullptr) {
 
-				GameObject* cubeGO = SceneManager::GetInstance()->getActiveScene()->addGameobject("cube");
-				cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
-				cubeTrnsf->SetPosition(LMVector3(0, 0, -150));
-				cubeTrnsf->SetSize(LMVector3(20, 20, 20));
-				cubeTrnsf->SetRotation(LMVector3(15, -40, 0));
-				mainMesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
-				mainMesh->init("cubeMesh", "", false);
-				mainMesh->setMesh("CubemanMesh.mesh");
-				mainMesh->setMaterial("CustomMaterial");
-				mainMesh->setVisible(true);
+				mainMesh->setEnabled(!mainMesh->isEnabled());
 			}
 		}
 		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_S)) {

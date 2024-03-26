@@ -256,6 +256,9 @@ LMVector3 LMVector3::StringToVector(const std::string& s) {
 			}
 			currAxis++;
 			num = "";
+			if (currAxis == 3) {
+				break;
+			}
 		}
 	}
 	float value = 0.0f;
