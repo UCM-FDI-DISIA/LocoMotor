@@ -13,19 +13,6 @@ LocoMotor::Light::Light() {
 	_nodeRotation = LMQuaternion();
 }
 
-void LocoMotor::Light::init(std::string name, int type) {
-	if (Graphics::GraphicsManager::GetInstance()->getOgreSceneManager() == nullptr)
-		return;
-
-	_name = name;
-	_light = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createLight();
-	_light->setType(Ogre::Light::LT_DIRECTIONAL);
-	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());
-	_node->attachObject(_light);
-	setDiffuse(1, 1, 1);
-	_node->setDirection(-1, -1, -1);
-
-}
 void LocoMotor::Light::start() {
 	if (_gameObject->getComponent<Transform>() == nullptr) {
 		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
@@ -76,13 +63,6 @@ LocoMotor::Light::~Light() {
 	//Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->destroyLight(_light);
 }
 
-//Ogre::MovableObject* LocoMotor::Light::getMovObj() {
-//	return _light;
-//}
-Ogre::Light* LocoMotor::Light::getLight() {
-	return _light;
-}
-
 void LocoMotor::Light::setDiffuse(float r, float g, float b) {
 	_light->setDiffuseColour(r, g, b);
 }
@@ -92,5 +72,29 @@ void LocoMotor::Light::setSpecular(float r, float g, float b) {
 }
 
 void LocoMotor::Light::setParameters(std::vector<std::pair<std::string, std::string>>& params){
+	_light = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createLight();
+	_light->setType(Ogre::Light::LT_DIRECTIONAL);
+	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());
+	_node->attachObject(_light);
+	setDiffuse(1, 1, 1);
+	setSpecular(1, 1, 1);
 
+	for (auto& param : params) {
+		if (param.first == "Diffuse" || param.first == "diffuse") {
+			try {
+				auto col = LMVector3::StringToVector(param.second);
+				setDiffuse(col.GetX(), col.GetY(), col.GetZ());
+			}
+			catch (...) {
+			}
+		}
+		else if (param.first == "Specular" || param.first == "specular") {
+			try {
+				auto col = LMVector3::StringToVector(param.second);
+				setSpecular(col.GetX(), col.GetY(), col.GetZ());
+			}
+			catch (...) {
+			}
+		}
+	}
 }

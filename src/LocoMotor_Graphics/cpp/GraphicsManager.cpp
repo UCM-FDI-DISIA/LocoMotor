@@ -90,6 +90,7 @@ void GraphicsManager::createScene(std::string name) {
 		return;
 	}
 	Ogre::SceneManager* sM = _root->createSceneManager();
+	sM->createStaticGeometry(sM->getName() + "_static");
 
 	OverlayManager::GetInstance()->show();
 

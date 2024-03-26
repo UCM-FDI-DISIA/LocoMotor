@@ -121,7 +121,7 @@ namespace LocoMotor {
 		/// @brief Converts a String to a vector
 		/// @param s String to convert
 		/// @return Vector3 converted
-		static LMVector3 StringToVector(std::string s);
+		static LMVector3 StringToVector(const std::string& s);
 
 	private:
 		double _x = 0, _y = 0, _z = 0;

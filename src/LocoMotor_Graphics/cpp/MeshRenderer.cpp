@@ -3,6 +3,7 @@
 #include <OgreMovableObject.h>
 #include "GraphicsManager.h"
 #include <OgreSceneManager.h>
+#include <OgreStaticGeometry.h>
 
 #include "GameObject.h"
 #include "Transform.h"
@@ -14,7 +15,7 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 	_src = "";
 	_mat = "";
 	_mesh = nullptr;
-	_isStatic = false;
+	_setStatic = false;
 	_node = nullptr;
 	_nodeScale = LMVector3(1, 1, 1);
 	_nodeRotation = LMQuaternion();
@@ -26,19 +27,62 @@ LocoMotor::MeshRenderer::~MeshRenderer() {
 	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 }
 
-void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params) {}
+void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
+	_node = man->createNode(_gameObject->getName());
 
-void LocoMotor::MeshRenderer::init(std::string name, std::string file, bool istatic) {
+	std::string meshName = "";
+	std::string matName = "";
+
+	bool visible = true;
+
+	for (auto& param : params) {
+		if (param.first == "Mesh" || param.first == "mesh") {
+			meshName = param.second;
+		}
+		else if (param.first == "Material" || param.first == "material") {
+			matName = param.second;
+		}
+		else if (param.first == "Static" || param.first == "static") {
+			_setStatic = true;
+		}
+		else if (param.first == "Invisible" || param.first == "invisible") {
+			visible = false;
+		}
+	}
+
+	if (meshName != "") {
+		setMesh(meshName);
+
+		if (matName != "") {
+			_mesh->setMaterialName(matName);
+		}
+
+		_mesh->setVisible(visible);
+	}
+}
+
+void LocoMotor::MeshRenderer::awake() {
+
+	if (_setStatic) {
+		auto sceneMan = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager();
+		auto staticGeom = sceneMan->getStaticGeometry(sceneMan->getName() + "_static");
+		staticGeom->addSceneNode(_node);
+		_setStatic = false;
+	}
+}
+
+void LocoMotor::MeshRenderer::init(const std::string& name, const std::string& file, bool istatic) {
 	_name = name;
 	_src = file;
-	_isStatic = istatic;
+	_setStatic = istatic;
 	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
 	_node = man->createNode(_gameObject->getName());
 
 	//int i = 0;
 }
 
-void LocoMotor::MeshRenderer::playAnimation(std::string animationName, bool loop) {
+void LocoMotor::MeshRenderer::playAnimation(const std::string& animationName, bool loop) {
 
 	// Sets the current animation to the specified one by name "animationName"
 	currentAnimation = allAnimations[animationName];
@@ -77,6 +121,13 @@ void LocoMotor::MeshRenderer::start() {
 
 void LocoMotor::MeshRenderer::update(float dt) {
 	if (_gameObject->getComponent<Transform>() == nullptr)return;
+
+	if (_setStatic) {
+		auto sceneMan = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager();
+		auto staticGeom = sceneMan->getStaticGeometry(sceneMan->getName() + "_static");
+		staticGeom->addSceneNode(_node);
+		_setStatic = false;
+	}
 
 	_node->setPosition(_gameObject->getComponent<Transform>()->GetPosition().GetX(), _gameObject->getComponent<Transform>()->GetPosition().GetY(), _gameObject->getComponent<Transform>()->GetPosition().GetZ());
 
@@ -118,13 +169,13 @@ void LocoMotor::MeshRenderer::setVisible(bool visible) {
 		_mesh->setVisible(visible);
 	}
 }
-void LocoMotor::MeshRenderer::setMaterial(std::string mat) {
+void LocoMotor::MeshRenderer::setMaterial(const std::string& mat) {
 	if (_mesh != nullptr) {
 		_mesh->setMaterialName(mat);
 	}
 }
 
-void LocoMotor::MeshRenderer::setMesh(std::string mesh) {
+void LocoMotor::MeshRenderer::setMesh(const std::string& mesh) {
 	if (Graphics::GraphicsManager::GetInstance()->getOgreSceneManager() == nullptr)
 		return;
 	if (Ogre::ResourceGroupManager::getSingleton().resourceExistsInAnyGroup(mesh)) {

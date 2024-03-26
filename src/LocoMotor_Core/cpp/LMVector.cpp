@@ -227,7 +227,7 @@ LMQuaternion LMVector3::AsRotToQuaternion() const {
 	return q;
 }
 
-LMVector3 LMVector3::StringToVector(std::string s) {
+LMVector3 LMVector3::StringToVector(const std::string& s) {
 
 	std::string vectorString = s;
 	unsigned char currAxis = 0;

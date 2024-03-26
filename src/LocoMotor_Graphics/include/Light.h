@@ -19,7 +19,6 @@ namespace LocoMotor {
 		
 		Light();
 		~Light();
-		void init(std::string name, int type);
 		/// @brief Sets the diffuse value of the light
 		void setDiffuse(float x, float y, float z);
 		/// @brief Sets the specular value of the light
@@ -28,19 +27,16 @@ namespace LocoMotor {
 	protected:
 		Ogre::Light* _light;
 		
-		void start();
-		void update(float dt);
+		void start() override;
+		void update(float dt) override;
+
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 
 	private:
 		
-		//Ogre::MovableObject* getMovObj();
-		Ogre::Light* getLight();
-		std::string _name;
 		Ogre::SceneNode* _node;
 		LMVector3 _nodeScale;
 		LMQuaternion _nodeRotation;
-
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params);
 	};
 	
 }
