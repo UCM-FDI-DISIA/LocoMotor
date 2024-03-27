@@ -57,6 +57,10 @@ Scene = {
         MeshRenderer = {
             mesh = "CylindermanMesh.mesh",
             material = "PurpleCharacter"
+        },
+        ParticleSystem = {
+            Particle = "Smoke",
+            PlayOnStart = ""
         }
     },
     revolver = {
