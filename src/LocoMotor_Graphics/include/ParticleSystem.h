@@ -9,9 +9,7 @@
 
 namespace Ogre {
 	class ParticleSystem;
-	class ParticleEmitter;
-	class Node;
-	class RenderScene;
+	class SceneNode;
 }
 
 namespace LocoMotor{
@@ -23,9 +21,13 @@ namespace LocoMotor{
 
 		friend class GraphicsManager;
 
+	public:
+
+		ParticleSystem();
+		~ParticleSystem();
+
 	protected:
 
-		void init()/* override*/;
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 		void onEnable() override;
 		void start() override;
@@ -36,44 +38,14 @@ namespace LocoMotor{
 	private:
 
 		// Nodo de ogre
-		Ogre::Node* _node;
-
-		// Referencia a la escena de render
-		//OgreWrapper::RenderScene* _renderScn;
-		//OgreWrapper::ParticleHelper* _particleHelper;
-
-		std::string _filename;
-		std::string _name;
-
-		// Emitidores de particulas de Ogre
-		std::unordered_map <std::string, Ogre::ParticleEmitter*> _emitters;
+		Ogre::SceneNode* _node;
 
 		// Sistema de particulas de Ogre
 		Ogre::ParticleSystem* _particleSystem;
 
-		/// @brief Gets an emmiter with a name
-		Ogre::ParticleEmitter* GetEmitter(std::string name);
+		static uint32_t numOfParticleSystems;
 
-		//Ogre::Vector3* LmVectorToOgreVector(const LMVector3 lmVector);
+		bool plsyOnStart;
 
-	public:
-
-		ParticleSystem();
-		~ParticleSystem();
-
-		/// @brief Adds an emmiter with a name in a position
-		void AddEmitter(std::string name, const LMVector3 position);
-
-		/// @brief Removes an emmiter with a name
-		void RemoveEmitter(std::string name);
-
-		/// @brief Moves an emmiter with a name to a position
-		void MoveEmitter(std::string name, const LMVector3 position);
-
-		/// @brief Rotates an emmiter with a name to a rotation
-		void RotateEmitter(std::string name, const LMVector3 position);
-
-		/// @brief Sets the emitter with a name, emmiting boolean
-		void SetEmitting(std::string name, bool emitting);
 	};
 }
