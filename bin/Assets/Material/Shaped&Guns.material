@@ -36,6 +36,18 @@ material GreenCharacter {
         }
     }
 }
+material PurpleCharacter {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture PurpleCharacter.jpg
+                tex_address_mode wrap
+                colour_op modulate
+            }
+        }
+    }
+}
 material Revolver {
     technique {
         pass {

@@ -37,6 +37,17 @@ Scene = {
     --         material = "RedCharacter"
     --     }
     -- },
+    -- cube = {
+    --     Transform = {
+    --         position = "0 0 -150",
+    --         size = "20 20 20",
+    --         rotation = "15 -40 0"
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "SpheremanMesh.mesh",
+    --         material = "GreenCharacter"
+    --     }
+    -- },
     cube = {
         Transform = {
             position = "0 0 -150",
@@ -44,8 +55,8 @@ Scene = {
             rotation = "15 -40 0"
         },
         MeshRenderer = {
-            mesh = "SpheremanMesh.mesh",
-            material = "GreenCharacter"
+            mesh = "CylindermanMesh.mesh",
+            material = "PurpleCharacter"
         }
     },
     revolver = {
