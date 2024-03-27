@@ -12,6 +12,30 @@ material CustomMaterial {
         }
     }
 }
+material RedCharacter {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture RedCharacter.jpg
+                tex_address_mode wrap
+                colour_op modulate
+            }
+        }
+    }
+}
+material GreenCharacter {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture GreenCharacter.jpg
+                tex_address_mode wrap
+                colour_op modulate
+            }
+        }
+    }
+}
 material Revolver {
     technique {
         pass {
@@ -24,6 +48,8 @@ material Revolver {
         }
     }
 }
+
+
 material UIMaterial {
     technique {
         pass {

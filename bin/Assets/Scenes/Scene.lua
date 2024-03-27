@@ -15,6 +15,28 @@ Scene = {
             Play = "";
         }
     },
+    -- cube = {
+    --     Transform = {
+    --         position = "0 0 -150",
+    --         size = "20 20 20",
+    --         rotation = "15 -40 0"
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "CubemanMesh.mesh",
+    --         material = "CustomMaterial"
+    --     }
+    -- },
+    -- cube = {
+    --     Transform = {
+    --         position = "0 0 -150",
+    --         size = "20 20 20",
+    --         rotation = "15 -40 0"
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "ConemanMesh.mesh",
+    --         material = "RedCharacter"
+    --     }
+    -- },
     cube = {
         Transform = {
             position = "0 0 -150",
@@ -22,8 +44,8 @@ Scene = {
             rotation = "15 -40 0"
         },
         MeshRenderer = {
-            mesh = "CubemanMesh.mesh",
-            material = "CustomMaterial"
+            mesh = "SpheremanMesh.mesh",
+            material = "GreenCharacter"
         }
     },
     revolver = {
