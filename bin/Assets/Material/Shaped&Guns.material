@@ -48,12 +48,25 @@ material PurpleCharacter {
         }
     }
 }
+
 material Revolver {
     technique {
         pass {
             lighting off
             texture_unit {
                 texture RevolverColors.jpg
+                tex_address_mode wrap
+                colour_op modulate
+            }
+        }
+    }
+}
+material Platform {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture Platform.jpg
                 tex_address_mode wrap
                 colour_op modulate
             }
