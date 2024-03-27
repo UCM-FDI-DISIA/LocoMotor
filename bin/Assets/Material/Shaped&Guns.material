@@ -12,6 +12,18 @@ material CustomMaterial {
         }
     }
 }
+material Revolver {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture RevolverColors.jpg
+                tex_address_mode wrap
+                colour_op modulate
+            }
+        }
+    }
+}
 material UIMaterial {
     technique {
         pass {
