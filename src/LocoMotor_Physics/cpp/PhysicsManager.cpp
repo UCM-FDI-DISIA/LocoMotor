@@ -24,7 +24,7 @@ void PhysicsManager::Release() {
 }
 
 void LocoMotor::Physics::PhysicsManager::update(double dt) {
-	_dynamicWorld->stepSimulation(dt / 1000.f, 60);
+	_dynamicWorld->stepSimulation(dt / 1000.f);
 }
 
 void LocoMotor::Physics::PhysicsManager::setWorldGravity(btVector3 gravity) {

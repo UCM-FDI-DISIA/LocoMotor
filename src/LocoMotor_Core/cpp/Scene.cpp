@@ -50,6 +50,22 @@ void Scene::update(float dt) {
 	_gameObjBufferList.clear();
 }
 
+void LocoMotor::Scene::fixedUpdate() {
+	//si no esta activa que no haga nada
+	if (!_isActiveScene) {
+		return;
+	}
+	for (auto& obj : _gameObjList) {
+		obj.second->fixedUpdate();
+	}
+	//End of loop, once all objects are Updated, add buffered objects
+	for (auto& obj : _gameObjBufferList) {
+		_gameObjList.insert(obj);
+		//obj.second->StartComp();
+	}
+	_gameObjBufferList.clear();
+}
+
 void Scene::render() {
 	Graphics::GraphicsManager::GetInstance()->render();
 }

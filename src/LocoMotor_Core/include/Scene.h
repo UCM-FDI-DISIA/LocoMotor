@@ -20,6 +20,8 @@ namespace LocoMotor {
 		/// used to ensure that the game runs at a consistent speed regardless of the performance of the
 		/// computer running it.
 		void update(float dt);
+		/// @brief This method is called every fixed time step (16ms by default)
+		void fixedUpdate();
 		/// @brief Renders the scene using OgreWrapper and _renderScn.
 		void render();
 		/// @brief Deactivate the scene

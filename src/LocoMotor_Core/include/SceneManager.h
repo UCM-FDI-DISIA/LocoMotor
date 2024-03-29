@@ -30,6 +30,8 @@ namespace LocoMotor {
 		void loadScene(const std::string& path, const std::string& name);
 		/// @brief updates the state of the scenes
 		void update(float dT);
+		/// @brief This method is called every fixed time step (16ms by default)
+		void fixedUpdate();
 	private:
 		static SceneManager* _instance;
 		SceneManager();
