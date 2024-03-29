@@ -129,3 +129,105 @@ LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 	origin = LMVector3();
 	mass = 0.f;
 }
+void LocoMotor::RigidBody::AddForce(LMVector3 force) {
+	_body->applyCentralForce(LmToBullet(force));
+}
+void LocoMotor::RigidBody::SetRotation(LMQuaternion rot) {
+	_body->getWorldTransform().setRotation(LmToBullet(rot));
+}
+
+
+void LocoMotor::RigidBody::SetPosition(LMVector3 pos) {
+	_body->getWorldTransform().setOrigin(LmToBullet(pos));
+}
+
+
+void LocoMotor::RigidBody::UseGravity(LMVector3 gravity) {
+
+	_body->setGravity(LmToBullet(gravity));
+}
+
+
+void LocoMotor::RigidBody::FreezePosition(LMVector3 freezeAxis) {
+	_body->setLinearFactor(LmToBullet(freezeAxis));
+}
+
+
+void LocoMotor::RigidBody::FreezeRotation(LMVector3 freezeAxis) {
+	_body->setAngularFactor(LmToBullet(freezeAxis));
+}
+
+
+bool LocoMotor::RigidBody::CheckCollision(GameObject* other) {
+	if (other != nullptr) {
+		return _body->checkCollideWith(other->getComponent<RigidBody>()->GetBody());
+	}
+	return false;
+}
+btRigidBody* LocoMotor::RigidBody::GetBody() {
+	return _body;
+}
+
+void LocoMotor::RigidBody::BeATrigger() {
+	_body->setCollisionFlags(_body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+}
+void LocoMotor::RigidBody::SetCollisionGroup(int group) {
+	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
+	proxy->m_collisionFilterGroup = group;
+}
+
+
+int LocoMotor::RigidBody::GetCollisionGroup() {
+	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
+	return proxy->m_collisionFilterGroup;
+}
+
+
+void LocoMotor::RigidBody::SetCollisionMask(int mask) {
+	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
+	proxy->m_collisionFilterMask = 1 << mask;
+}
+
+
+int LocoMotor::RigidBody::GetCollisionMask() {
+	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
+	return proxy->m_collisionFilterMask;
+}
+
+
+LMVector3 LocoMotor::RigidBody::GetLinearVelocity() {
+	return BulletToLm(_body->getLinearVelocity());
+}
+void LocoMotor::RigidBody::SetLinearVelocity(LMVector3 newLinearVelocity) {
+	_body->setLinearVelocity(LmToBullet(newLinearVelocity));
+}
+
+
+LMVector3 LocoMotor::RigidBody::GetTotalTorque() {
+	return BulletToLm(_body->getTotalTorque());
+}
+
+
+LMVector3 LocoMotor::RigidBody::GetTurnVelocity() {
+	return BulletToLm(_body->getTurnVelocity());
+}
+
+
+LMVector3 LocoMotor::RigidBody::GetAngularVelocity() {
+	return BulletToLm(_body->getAngularVelocity());
+}
+
+
+void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
+	_body->setAngularVelocity(LmToBullet(newAngularVelocity));
+}
+
+
+void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
+	_body->applyTorqueImpulse(LmToBullet(impulse));
+}
+
+
+void LocoMotor::RigidBody::SetFriction(float fric) {
+	_body->setFriction(fric);
+}
