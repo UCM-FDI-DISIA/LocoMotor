@@ -186,8 +186,7 @@ bool Engine::MainLoop() {
 	Transform* cubeTrnsf = nullptr;
 
 	bool shown = false;
-	float fixedTimeStep = 16;
-	float fixedTime = 0.f;
+
 	while (!_exit) {
 		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
@@ -197,12 +196,8 @@ bool Engine::MainLoop() {
 		float time = clock() / (float) CLOCKS_PER_SEC;
 		_dt = time - _lastFrameTime;
 		_dt *= 1000.0;
-		fixedTime += _dt;
 		_lastFrameTime = time;
-		while (fixedTime >= fixedTimeStep) {
-			_scnManager->fixedUpdate();
-			fixedTime -= fixedTimeStep;
-		}
+
 		if (Input::InputManager::GetInstance()->RegisterEvents()) {
 			_exit = true;
 		}

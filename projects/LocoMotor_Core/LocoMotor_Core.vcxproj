@@ -58,7 +58,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.0\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -80,7 +80,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.0\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -100,6 +100,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\CheckML.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Engine.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h" />
@@ -110,6 +111,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Engine.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp" />
