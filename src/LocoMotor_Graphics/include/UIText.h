@@ -2,6 +2,12 @@
 #ifndef UI_TEXT
 #define UI_TEXT
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <string>
 #include "Component.h"
 
@@ -25,7 +31,7 @@ namespace LocoMotor {
 		RIGHT
 	};
 
-	class UIText : public Component {
+	class MOTOR_API UIText : public Component {
 
 	public:
 		UIText();

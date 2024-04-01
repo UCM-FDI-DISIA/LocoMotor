@@ -2,6 +2,12 @@
 #ifndef AUDIOMANAGER
 #define AUDIOMANAGER
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <unordered_map>
 #include <string>
 
@@ -21,7 +27,7 @@ namespace LocoMotor {
 
 	namespace Audio {
 
-		class AudioManager {
+		class MOTOR_API AudioManager {
 
 		public:
 

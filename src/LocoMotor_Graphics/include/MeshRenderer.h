@@ -1,4 +1,13 @@
 #pragma once
+#ifndef MESH_RENDERER
+#define MESH_RENDERER
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 
 #include "Component.h"
 #include "LMVector.h"
@@ -18,7 +27,7 @@ namespace LocoMotor {
 		class GraphicsManager;
 	}
 
-	class MeshRenderer :public LocoMotor::Component {
+	class MOTOR_API MeshRenderer :public LocoMotor::Component {
 		friend class Graphics::GraphicsManager;
 	public:
 
@@ -71,3 +80,4 @@ namespace LocoMotor {
 	};
 	
 }
+#endif // !MESH_RENDERER

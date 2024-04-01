@@ -2,6 +2,12 @@
 #ifndef AUDIOLISTENER
 #define AUDIOLISTENER
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <list>
 #include "Component.h"
 #include "LMVector.h"
@@ -18,7 +24,7 @@ namespace LocoMotor {
 		class AudioManager;
 	}
 
-	class AudioListener : public Component {
+	class MOTOR_API AudioListener : public Component {
 
 		friend class Audio::AudioManager;
 

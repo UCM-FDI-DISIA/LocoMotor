@@ -1,0 +1,2 @@
+﻿  InputManager.cpp
+D:\4DV-2Sem\Proyectos3\G6\G7_Pistolas\LocoMotor\src\LocoMotor_Input\cpp\InputManager.cpp(1,10): fatal  error C1083: Cannot open include file: 'InputManager.h': No such file or directory

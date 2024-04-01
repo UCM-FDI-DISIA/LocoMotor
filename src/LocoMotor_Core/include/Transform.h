@@ -1,12 +1,12 @@
 #pragma once
-//#ifndef LM_TRANSFORM
-//#define LM_TRANSFORM
-//
-//#ifdef _MOTORDLL
-//#define MOTOR_API __declspec(dllexport)
-//#else
-//#define MOTOR_API __declspec(dllimport)
-//#endif
+#ifndef LM_TRANSFORM
+#define LM_TRANSFORM
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 
 #include "Component.h"
 #include "LMVector.h"
@@ -16,7 +16,7 @@ namespace OgreWrapper {
 }
 
 namespace LocoMotor {
-	class Transform : public Component {
+	class MOTOR_API Transform : public Component {
 
 	public:
 
@@ -125,3 +125,5 @@ namespace LocoMotor {
 		//OgreWrapper::Node* _gObjNode;
 	};
 }
+
+#endif

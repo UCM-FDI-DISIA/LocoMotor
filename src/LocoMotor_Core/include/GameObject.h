@@ -1,6 +1,11 @@
 #pragma once
 #ifndef LOCOMOTOR_GAME_OBJECT
 #define LOCOMOTOR_GAME_OBJECT
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 #include <queue>
 #include <unordered_map>
 #include <string>
@@ -11,7 +16,7 @@ namespace LocoMotor {
 	class Component;
 	class Transform;
 	class Scene;
-	class GameObject {
+	class MOTOR_API GameObject {
 		friend class Scene;
 	public:
 		/// @brief This method adds a new component to the GameObject

@@ -42,7 +42,7 @@ int LocoMotor_Main(Main_Args) {
 	InitJuegoFunc initJuego;
 
 #ifdef _DEBUG
-	dllName = L"g6Game_d";
+	dllName = L"G7_JuegoDePistolas_d";
 #else
 	dllName = L"g6Game";
 #endif // _DEBUG

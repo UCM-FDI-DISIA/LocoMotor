@@ -1,4 +1,12 @@
 #pragma once
+#ifndef PARTICLE_SYSTEM
+#define PARTICLE_SYSTEM
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 
 #include "Component.h"
 #include "LMVector.h"
@@ -17,7 +25,7 @@ namespace LocoMotor{
 	class Scene;
 	class GameObject;
 
-	class ParticleSystem : public Component {
+	class MOTOR_API ParticleSystem : public Component {
 
 		friend class GraphicsManager;
 
@@ -49,3 +57,4 @@ namespace LocoMotor{
 
 	};
 }
+#endif // !PARTICLE_SYSTEM

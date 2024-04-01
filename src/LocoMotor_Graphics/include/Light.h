@@ -1,4 +1,12 @@
 #pragma once
+#ifndef LIGHT
+#define LIGHT
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 
 #include "Component.h"
 #include "LMVector.h"
@@ -13,7 +21,7 @@ namespace LocoMotor {
 	namespace Graphics {
 		class GraphicsManager;
 	}
-	class Light:public Component {
+	class MOTOR_API Light:public Component {
 		friend class Graphics::GraphicsManager;
 	public:
 		
@@ -40,3 +48,4 @@ namespace LocoMotor {
 	};
 	
 }
+#endif // !LIGHT

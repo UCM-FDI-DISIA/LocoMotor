@@ -1,5 +1,16 @@
+#pragma once
+#ifndef CAMERA
+#define CAMERA
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include "Component.h"
 #include "LMVector.h"
+
 
 
 namespace Ogre {
@@ -14,7 +25,7 @@ namespace LocoMotor{
 		class GraphicsManager;
 	}
 	
-	class Camera : public Component {
+	class MOTOR_API Camera : public Component {
 
 		friend class Graphics::GraphicsManager;
 
@@ -73,3 +84,4 @@ namespace LocoMotor{
 	};
 
 }
+#endif // !CAMERA

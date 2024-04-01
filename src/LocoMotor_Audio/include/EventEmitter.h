@@ -2,6 +2,12 @@
 #ifndef EVENT_EMITTER
 #define EVENT_EMITTER
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include "Component.h"
 
 namespace FMOD {
@@ -12,7 +18,7 @@ namespace FMOD {
 }
 
 namespace LocoMotor {
-	class EventEmitter : public Component {
+	class MOTOR_API EventEmitter : public Component {
 
 	public:
 		EventEmitter();
