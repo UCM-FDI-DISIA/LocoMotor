@@ -6,3 +6,5 @@ cd ..\Dependencies\Ogre\
 rmdir build /s
 cd ..\Bullet\
 rmdir build /s
+cd ..
+cd ..
