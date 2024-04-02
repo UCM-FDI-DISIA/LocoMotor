@@ -2,6 +2,12 @@
 #ifndef AUDIOSOURCE
 #define AUDIOSOURCE
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <unordered_map>
 #include "Component.h"
 #include "LMVector.h"
@@ -20,7 +26,7 @@ namespace LocoMotor {
 		float ogFrec;
 	};
 
-	class AudioSource : public Component {
+	class MOTOR_API AudioSource : public Component {
 	public:
 
 		AudioSource();

@@ -1,6 +1,11 @@
 #pragma once
 #ifndef LOCOMOTOR_SCENEMANAGER
 #define LOCOMOTOR_SCENEMANAGER
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 #include <string>
 #include <unordered_map>
 

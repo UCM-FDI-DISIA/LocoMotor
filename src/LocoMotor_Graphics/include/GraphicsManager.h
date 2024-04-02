@@ -1,5 +1,12 @@
+#pragma once
 #ifndef _GRAPHICS_MANAGER_H
 #define _GRAPHICS_MANAGER_H
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 
 #include <map>
 
@@ -27,7 +34,7 @@ namespace LocoMotor {
 			Ogre::RenderWindow* render = nullptr;
 			SDL_Window* native = nullptr;
 		};
-		class GraphicsManager {
+		class MOTOR_API GraphicsManager {
 		public:
 
 			/// @brief Initializes the GraphicsManager singleton

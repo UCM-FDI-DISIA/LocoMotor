@@ -1,6 +1,13 @@
 #pragma once
 #ifndef _RIGIDBODY_H
 #define _RIGIDBODY_H
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include "Component.h"
 #include "LMVector.h"
 class btRigidBody;
@@ -24,7 +31,7 @@ namespace LocoMotor {
 		RigidBodyInfo();
 	};
 
-	class RigidBody : public Component {
+	class MOTOR_API RigidBody : public Component {
 	public:
 		RigidBody();
 		~RigidBody();

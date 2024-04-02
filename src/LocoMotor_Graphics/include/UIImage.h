@@ -2,6 +2,12 @@
 #ifndef UI_IMAGE
 #define UI_IMAGE
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <string>
 #include "Component.h"
 
@@ -17,7 +23,7 @@ namespace LocoMotor {
 		class GraphicsManager;
 	}
 
-	class UIImage : public Component {
+	class MOTOR_API UIImage : public Component {
 
 	public:
 		UIImage();

@@ -2,6 +2,12 @@
 #ifndef OVERLAY_MANAGER
 #define OVERLAY_MANAGER
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 namespace Ogre {
 	class SceneManager;
 	class OverlayManager;
@@ -27,7 +33,7 @@ namespace LocoMotor {
 		class RenderScene;
 		class UIElement;
 
-		class OverlayManager {
+		class MOTOR_API OverlayManager {
 		public:
 			OverlayManager();
 			~OverlayManager();

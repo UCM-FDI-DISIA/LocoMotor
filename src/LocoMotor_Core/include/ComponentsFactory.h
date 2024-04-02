@@ -1,6 +1,11 @@
 #pragma once
 #ifndef LOCOMOTOR_COMPONENTS_FACTORY
 #define LOCOMOTOR_COMPONENTS_FACTORY
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 #include <string>
 #include <functional>
 #include <cassert>
@@ -10,7 +15,7 @@
 namespace LocoMotor {
 	class Component;
 	typedef Component* (*CmpFactory)();
-	class ComponentsFactory {
+	class MOTOR_API ComponentsFactory {
 	public:
 		/// @brief Initializes the Components Factory instance
 		/// @return This method always returns true.
