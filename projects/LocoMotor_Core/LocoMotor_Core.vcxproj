@@ -100,7 +100,6 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\CheckML.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h" />
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\Engine.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h" />
@@ -111,7 +110,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Engine.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp" />

@@ -14,23 +14,23 @@ namespace LocoMotor {
 	class SceneManager;
 	class GameObject;
 
-	class Engine {
+	class MOTOR_API Engine {
 	public:
-		MOTOR_API Engine();
+		Engine();
 
 		/// @brief Method to call before calling the InitGame Function in the game dll
 		/// @return if false, abort
-		MOTOR_API bool Init();
+		bool Init();
 
 		/// @brief Method to call from the InitGame function in the game dll
 		/// @param gameName 
 		/// @return 
-		MOTOR_API bool StartGameWindow(const char* gameName);
+		bool StartGameWindow(const char* gameName);
 
 		/// @brief Dont use it
 		/// @return please
-		MOTOR_API bool MainLoop();
-		MOTOR_API int showWindow(int type,std::string msg);
+		bool MainLoop();
+		int showWindow(int type,std::string msg);
 	private:
 
 		std::string _gameName;

@@ -11,7 +11,7 @@
 
 namespace LocoMotor {
 	class Scene;
-	class MOTOR_API SceneManager {
+	class SceneManager {
 	public:
 		static bool Init();
 		static void Release();
