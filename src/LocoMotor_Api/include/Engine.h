@@ -28,6 +28,7 @@ namespace LocoMotor {
 		/// @return please
 		bool MainLoop();
 		int showWindow(int type,std::string msg);
+		void quit();
 	private:
 
 		/// @brief Method to call from the InitGame function in the game dll
