@@ -35,6 +35,8 @@ int LocoMotor_Main(Main_Args) {
 		return -1;
 	}
 
+	//Esto se llamaría desde el código del juego
+	motor->setWindowName("hola ventana de ogre");
 
 #pragma region Explicit dll loading
 	LPCWSTR dllName;
@@ -69,13 +71,6 @@ int LocoMotor_Main(Main_Args) {
 		std::cerr << "DLL EXPLICIT LOADING ERROR: '" << dllName << "' wasn't found" << std::endl;
 	}
 #pragma endregion
-
-	//Esto se llamaría desde el código del juego
-	if (!motor->StartGameWindow("hola ventana de ogre")) {
-		delete motor;
-		std::cerr << "\033[1;31m" << "Algo salió mal en el método de crear la ventana" << "\033[0m" << std::endl;
-		return -1;
-	}
 
 	if (!motor->MainLoop()) {
 		delete motor;

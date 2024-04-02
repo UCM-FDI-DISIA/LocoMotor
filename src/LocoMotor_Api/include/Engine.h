@@ -22,16 +22,18 @@ namespace LocoMotor {
 		/// @return if false, abort
 		bool Init();
 
-		/// @brief Method to call from the InitGame function in the game dll
-		/// @param gameName 
-		/// @return 
-		bool StartGameWindow(const char* gameName);
+		void setWindowName(const std::string& name);
 
 		/// @brief Dont use it
 		/// @return please
 		bool MainLoop();
 		int showWindow(int type,std::string msg);
 	private:
+
+		/// @brief Method to call from the InitGame function in the game dll
+		/// @param gameName 
+		/// @return 
+		bool StartGameWindow();
 
 		std::string _gameName;
 

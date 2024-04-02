@@ -37,11 +37,8 @@ Engine::Engine() {
 	_exit = false;
 }
 
-bool Engine::StartGameWindow(const char* gameName) {
-
-	Audio::AudioManager::GetInstance()->loadFMODBuild("Assets/Sounds/StudioBuild");
-
-	return Graphics::GraphicsManager::GetInstance()->initWindow(gameName);
+bool Engine::StartGameWindow() {
+	return Graphics::GraphicsManager::GetInstance()->initWindow(_gameName);
 }
 
 bool Engine::Init() {
@@ -112,7 +109,18 @@ bool Engine::Init() {
 	return true;
 }
 
+void LocoMotor::Engine::setWindowName(const std::string& name) {
+	_gameName = name;
+}
+
 bool Engine::MainLoop() {
+
+	StartGameWindow();
+
+	// TODO COSAS A PONER EN EL JUEGO DE ALGUNA MANERAAAAAAAAAAAAAAAAAAAAA 
+	Audio::AudioManager::GetInstance()->loadFMODBuild("Assets/Sounds/StudioBuild");
+
+
 	/*
 	//If Ogre Manager was not initialize by a Registergame() call, it will be initialized with the name GAME DLL FAIL
 	if (OgreWrapper::OgreManager::GetInstance() == nullptr) {
