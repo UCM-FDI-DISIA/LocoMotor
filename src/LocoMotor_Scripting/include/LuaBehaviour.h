@@ -8,6 +8,8 @@ namespace luabridge {
 }
 namespace LocoMotor {
 	class LuaBehaviour : public Component {
+	
+		friend class Scripting::ScriptManager;
 	protected:
 		~LuaBehaviour();
 

@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Scripting\cpp\LuaBehaviour.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Scripting\cpp\ScriptManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\LocoMotor_Scripting\include\LuaBehaviour.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Scripting\include\ScriptManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
