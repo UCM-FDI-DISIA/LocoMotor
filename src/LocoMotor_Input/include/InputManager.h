@@ -21,7 +21,7 @@ namespace LocoMotor {
 	namespace Input {
 
 		enum LMScanCode;
-		class InputManager {
+		class MOTOR_API InputManager {
 
 			// Identidicador de mando
 			//using ControllerId = SDL_JoystickID;
@@ -40,7 +40,6 @@ namespace LocoMotor {
 			static InputManager* GetInstance();
 			/// @brief Deletes the instance of the InputManager singleton
 			static void Release();
-
 
 
 
