@@ -44,7 +44,7 @@ void LocoMotor::ParticleSystem::update(float dT) {
 
 void LocoMotor::ParticleSystem::onDisable() {}
 
-void LocoMotor::ParticleSystem::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 
 	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName() + "_particle" + std::to_string(numOfParticleSystems));
 

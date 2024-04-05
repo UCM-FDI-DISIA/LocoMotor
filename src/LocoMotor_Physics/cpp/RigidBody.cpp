@@ -13,7 +13,7 @@ LocoMotor::RigidBody::RigidBody() {}
 
 LocoMotor::RigidBody::~RigidBody() {}
 
-void LocoMotor::RigidBody::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 	for (int i = 0; i < params.size(); i++) {
 		if (params[i].first == "mass") {
 			float num = 0.;

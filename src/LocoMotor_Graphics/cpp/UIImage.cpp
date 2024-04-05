@@ -23,7 +23,7 @@ void LocoMotor::UIImage::setImage(std::string nImage) {
 		_container->setMaterialName(nImage);
 }
 
-void LocoMotor::UIImage::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 
 	_gfxManager = Graphics::GraphicsManager::GetInstance();

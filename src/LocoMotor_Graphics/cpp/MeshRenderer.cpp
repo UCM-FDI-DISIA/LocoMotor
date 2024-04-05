@@ -27,7 +27,7 @@ LocoMotor::MeshRenderer::~MeshRenderer() {
 	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 }
 
-void LocoMotor::MeshRenderer::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
 	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
 	_node = man->createNode(_gameObject->getName());
 

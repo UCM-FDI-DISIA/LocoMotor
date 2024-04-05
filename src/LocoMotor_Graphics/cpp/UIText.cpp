@@ -43,7 +43,7 @@ void LocoMotor::UIText::setFont(std::string nFont) {
 	}
 }
 
-void LocoMotor::UIText::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::UIText::setParameters(ComponentMap& params) {
 
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
 	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();

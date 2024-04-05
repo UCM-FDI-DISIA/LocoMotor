@@ -105,6 +105,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneDefs.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h" />
   </ItemGroup>

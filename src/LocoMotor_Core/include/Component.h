@@ -6,7 +6,7 @@
 #include <string>
 
 #include "CheckML.h"
-
+#include "SceneDefs.h"
 namespace LocoMotor {
 	class GameObject;
 	
@@ -52,7 +52,7 @@ namespace LocoMotor {
 		};
 
 		/// @brief This function is called when the scene loads the parameters of the components
-		virtual void setParameters(std::vector<std::pair<std::string, std::string>>& params) = 0;
+		virtual void setParameters(ComponentMap& params) = 0;
 
 		GameObject* _gameObject;
 	private:

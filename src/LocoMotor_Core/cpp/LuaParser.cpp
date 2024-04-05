@@ -32,13 +32,13 @@ int LuaParser::readLua(const std::string path) {
 	return scriptLoadStatus;
 }
 
-std::optional<LocoMotor::LuaParser::LuaScene> LuaParser::loadSceneFromFile(const std::string& path,const std::string& sceneName) {
+std::optional<LocoMotor::SceneMap> LuaParser::loadSceneFromFile(const std::string& path,const std::string& sceneName) {
 	if (readLua(path) != 0) {
 		std::cerr << "No existe el archivo " << path << std::endl;
 		return std::nullopt;
 	}
 
-	LuaScene sc = LuaScene();
+	SceneMap sc = SceneMap();
 	luabridge::LuaRef luaScene = getFromLua(sceneName);
 	lua_pushnil(luaScene);
 	if (luaScene.isNil()) {
@@ -48,7 +48,7 @@ std::optional<LocoMotor::LuaParser::LuaScene> LuaParser::loadSceneFromFile(const
 	while (lua_next(luaScene, 0) != 0) {
 		std::string gObjName = lua_tostring(luaScene, -2);
 		luabridge::LuaRef entity = luaScene[gObjName];
-		LuaObject obj = getObject(entity);
+		ObjectMap obj = getObject(entity);
 		sc.insert({ gObjName,obj });
 		if (obj.empty()) {
 			//TODO: ERROR NO BLOQUANTE
@@ -71,13 +71,13 @@ LocoMotor::LuaParser::~LuaParser() {
 	lua_close(_luaState);
 }
 
-LocoMotor::LuaParser::LuaObject LuaParser::getObject(luabridge::LuaRef entity) {
+LocoMotor::ObjectMap LuaParser::getObject(luabridge::LuaRef entity) {
 
 	lua_pushnil(entity);
 	if (entity.isNil()) {
-		return LuaObject();
+		return ObjectMap();
 	}
-	LuaObject obj{};
+	ObjectMap obj{};
 	
 	while (lua_next(entity, 0) != 0) {
 		std::string compName = lua_tostring(entity, -2);
@@ -85,7 +85,7 @@ LocoMotor::LuaParser::LuaObject LuaParser::getObject(luabridge::LuaRef entity) {
 		luabridge::LuaRef component = entity[compName];
 		
 		lua_pushnil(component);
-		LuaComponent cmp{};
+		ComponentMap cmp{};
 		
 		while (lua_next(component, 0) != 0) {
 			std::string key = lua_tostring(entity, -2);

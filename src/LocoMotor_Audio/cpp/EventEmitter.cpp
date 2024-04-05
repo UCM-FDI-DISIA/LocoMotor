@@ -74,7 +74,7 @@ void EventEmitter::stop() {
 	_currentEvent->stop(FMOD_STUDIO_STOP_IMMEDIATE);
 }
 
-void LocoMotor::EventEmitter::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::EventEmitter::setParameters(ComponentMap& params) {
 	_studioSys = Audio::AudioManager::GetInstance()->getStudioSystem();
 	if (_studioSys == nullptr) {
 	#ifdef _DEBUG

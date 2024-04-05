@@ -13,7 +13,7 @@ using namespace LocoMotor;
 
 std::list<AudioListener*> AudioListener::_listeners = std::list<AudioListener*>();
 
-void LocoMotor::AudioListener::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::AudioListener::setParameters(ComponentMap& params) {
 	_man = Audio::AudioManager::GetInstance();
 	_fSys = _man->getSystem();
 }

@@ -61,7 +61,7 @@ void LocoMotor::Camera::start() {
 	}
 }
 
-void LocoMotor::Camera::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::Camera::setParameters(ComponentMap& params) {
 	init();
 	for (auto& param : params) {
 		if (param.first == "CameraMode") {

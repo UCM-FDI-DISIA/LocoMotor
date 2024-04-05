@@ -85,7 +85,7 @@ void LocoMotor::SceneManager::fixedUpdate() {
     if (_activeScene == nullptr) return;
     _activeScene->fixedUpdate();
 }
-LocoMotor::SceneManager::SceneManager() : _scenes(), _activeScene(nullptr), _toStart(nullptr), _lastFrameTime(0), _dt(0.001) {}
+LocoMotor::SceneManager::SceneManager() : _scenes(), _activeScene(nullptr), _toStart(nullptr), _lastFrameTime(0), _dt(0.001f) {}
 
 LocoMotor::SceneManager::~SceneManager() {
 

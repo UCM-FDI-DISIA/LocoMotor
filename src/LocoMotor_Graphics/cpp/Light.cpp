@@ -71,7 +71,7 @@ void LocoMotor::Light::setSpecular(float r, float g, float b) {
 	_light->setSpecularColour(r, g, b);
 }
 
-void LocoMotor::Light::setParameters(std::vector<std::pair<std::string, std::string>>& params){
+void LocoMotor::Light::setParameters(ComponentMap& params){
 	_light = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createLight();
 	_light->setType(Ogre::Light::LT_DIRECTIONAL);
 	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());

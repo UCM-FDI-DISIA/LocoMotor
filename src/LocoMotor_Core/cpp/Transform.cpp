@@ -24,7 +24,7 @@ void LocoMotor::Transform::initComponent() {
 }
 
 
-void LocoMotor::Transform::setParameters(std::vector<std::pair<std::string, std::string>>& params) {
+void LocoMotor::Transform::setParameters(ComponentMap& params) {
 	//_gameObject->registerTransform(this);
 
 	for (const auto& pair : params) {
