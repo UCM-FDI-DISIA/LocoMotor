@@ -291,28 +291,15 @@ void GraphicsManager::shutdown() {
 
 
 Ogre::SceneNode* GraphicsManager::createNode(std::string name) {
-	if (_sceneNodes.count(name) > 0 || name == "Root") {
+	if(name == "Root") {
 		std::cerr << "A node with the name " << name << " is already created\n";
 		return nullptr;
+	}
+	if(_sceneNodes.count(name) > 0) {
+		return _sceneNodes[name];
 	}
 	Ogre::SceneNode* node = _nodeRoot->createChildSceneNode(name);
 	_sceneNodes.insert({ name,node });
-	return node;
-}
-
-Ogre::SceneNode* GraphicsManager::createNode(std::string name, std::string parent) {
-	if (_sceneNodes.count(name) > 0 || name == "Root") {
-		std::cerr << "A node with the name " << name << " is already created\n";
-		return nullptr;
-	}
-	else if (_sceneNodes.count(parent) == 0) {
-		std::cerr << "No node with name " << name << " found. Could not create child\n";
-		return nullptr;
-	}
-	else if (parent == "Root") {
-		return createNode(name);
-	}
-	Ogre::SceneNode* node = getNode(name)->createChildSceneNode(name);
 	return node;
 }
 

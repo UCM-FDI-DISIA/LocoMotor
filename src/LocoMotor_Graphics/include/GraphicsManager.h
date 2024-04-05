@@ -72,8 +72,6 @@ namespace LocoMotor {
 			void deactivateScene(std::string name);
 			/// @brief Creates a node with a name
 			Ogre::SceneNode* createNode(std::string name);
-			/// @brief Creates a node with a name using the parent
-			Ogre::SceneNode* createNode(std::string name, std::string parent);
 			/// @brief Returns a LocoMotor node
 			/// @param name The name of the node
 			Ogre::SceneNode* getNode(std::string name);
