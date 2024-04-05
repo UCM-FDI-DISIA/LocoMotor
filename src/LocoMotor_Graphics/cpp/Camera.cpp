@@ -98,7 +98,7 @@ void LocoMotor::Camera::render() {
 void LocoMotor::Camera::init()
 {
 	_man = Graphics::GraphicsManager::GetInstance();
-	_node = _man->createNode(_gameObject->getName() + "_cam");
+	_node = _man->createNode(_gameObject->getName());
 	_mCamera = _man->getOgreSceneManager()->createCamera(_gameObject->getName() + "_cam");
 	_node->attachObject(_mCamera);
 	_target = nullptr;

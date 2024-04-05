@@ -22,6 +22,16 @@ LocoMotor::ParticleSystem::~ParticleSystem() {
 	numOfParticleSystems--;
 }
 
+void LocoMotor::ParticleSystem::play()
+{
+	_particleSystem->setEmitting(true);
+}
+
+void LocoMotor::ParticleSystem::stop()
+{
+	_particleSystem->setEmitting(false);
+}
+
 void LocoMotor::ParticleSystem::onEnable() {}
 
 void LocoMotor::ParticleSystem::start()

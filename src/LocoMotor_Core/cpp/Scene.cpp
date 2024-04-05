@@ -4,6 +4,7 @@
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "GameObject.h"
+#include <iostream>
 
 
 using namespace LocoMotor;
@@ -39,15 +40,15 @@ void Scene::update(float dt) {
 	if (!_isActiveScene) {
 		return;
 	}
-	for (auto& obj : _gameObjList) {
-		obj.second->update(dt);
-	}
 	//End of loop, once all objects are Updated, add buffered objects
 	for (auto& obj : _gameObjBufferList) {
 		_gameObjList.insert(obj);
 		//obj.second->StartComp();
 	}
 	_gameObjBufferList.clear();
+	for (auto& obj : _gameObjList) {
+		obj.second->update(dt);
+	}
 }
 
 void LocoMotor::Scene::fixedUpdate() {
@@ -133,7 +134,7 @@ GameObject* LocoMotor::Scene::addGameobjectRuntime(std::string name) {
 
 void LocoMotor::Scene::removeGameobject(std::string name) {
 	if (_gameObjList.count(name) == 0) {
-	#ifdef DEBUG
+	#ifdef _DEBUG
 		std::cerr << "No existe un objeto con el nombre " << name << std::endl;
 	#endif // DEBUG
 		return;

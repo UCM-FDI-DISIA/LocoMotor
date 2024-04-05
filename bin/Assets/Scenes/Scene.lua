@@ -75,6 +75,10 @@ Scene = {
         MeshRenderer = {
             mesh = "Revolver.mesh",
             material = "Revolver"
+        },
+        ParticleSystem = {
+            Particle = "GunShot",
+            PlayOnStart = ""
         }
     },
     platform = {
