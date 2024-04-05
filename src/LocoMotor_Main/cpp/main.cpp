@@ -44,7 +44,7 @@ int LocoMotor_Main(Main_Args) {
 	InitJuegoFunc initJuego;
 
 #ifdef _DEBUG
-	dllName = L"G7_JuegoDePistolas_d";
+	dllName = L"g6Game_d";
 #else
 	dllName = L"g6Game";
 #endif // _DEBUG
@@ -59,16 +59,27 @@ int LocoMotor_Main(Main_Args) {
 		if (initJuego != NULL) {
 			// La ejecutamoss
 			auto result = initJuego(motor);
-			std::cout << result << std::endl;
+			std::cout << "\033[1;36m" << result << "\033[0m" << std::endl;
 		}
 		else {
-			std::cerr << "DLL EXPLICIT LOADING ERROR: '" << functionName << "' function couldn't be executed" << std::endl;
+			std::cerr << "\033[1;31m" << "DLL EXPLICIT LOADING ERROR: '" << functionName << "' function couldn't be executed" << "\033[0m" << std::endl;
 		}
 
 		dllLoaded = true;
 	}
 	else {
-		std::cerr << "DLL EXPLICIT LOADING ERROR: '" << dllName << "' wasn't found" << std::endl;
+		// Conversion de LPCWSTR a string, por legibilidad
+		int strLength
+			= WideCharToMultiByte(CP_UTF8, 0, dllName, -1,
+								  nullptr, 0, nullptr, nullptr);
+
+		// Create a std::string with the determined length 
+		std::string str(strLength, 0);
+
+		// Perform the conversion from LPCWSTR to std::string 
+		WideCharToMultiByte(CP_UTF8, 0, dllName, -1, &str[0],
+							strLength, nullptr, nullptr);
+		std::cerr << "\033[1;31m" << "DLL EXPLICIT LOADING ERROR: '" << str << "' wasn't found" << "\033[0m" << std::endl;
 	}
 #pragma endregion
 

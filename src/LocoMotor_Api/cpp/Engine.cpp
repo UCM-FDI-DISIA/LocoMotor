@@ -31,14 +31,12 @@ using namespace LocoMotor;
 Engine* Engine::_instance = nullptr;
 
 Engine::Engine() {
-	_gameName = "No window title";
+	_gameName = "No window title"; 
+	_startingSceneFile = "";
+	_startingSceneName = "";
 	_scnManager = nullptr;
 	_startScene = "";
 	_exit = false;
-}
-
-bool Engine::StartGameWindow() {
-	return Graphics::GraphicsManager::GetInstance()->initWindow(_gameName);
 }
 
 bool Engine::Init() {
@@ -113,20 +111,25 @@ void LocoMotor::Engine::setWindowName(const std::string& name) {
 	_gameName = name;
 }
 
+void LocoMotor::Engine::setStartingScene(const std::string& file, const std::string& name) {
+	_startingSceneFile = file;
+	_startingSceneName = name;
+}
+
 bool Engine::MainLoop() {
 
-	StartGameWindow();
-
-	// TODO COSAS A PONER EN EL JUEGO DE ALGUNA MANERAAAAAAAAAAAAAAAAAAAAA 
-	Audio::AudioManager::GetInstance()->loadFMODBuild("Assets/Sounds/StudioBuild");
-
+	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
+		std::cerr << "Error creating game window" << std::endl;
+		_exit = true;
+	}
+	else if (_startingSceneFile != "" && _startingSceneName != "") {
+		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
+	}
 
 	
 	float _dt;
 	float _lastFrameTime = 0.f;
-	_scnManager->loadScene("Assets/Scenes/Scene.lua", "Scene");
-	
-	//MOVER LAS PRUEBAS AL JUEGO (NACHO)
+
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
 	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
@@ -142,9 +145,10 @@ bool Engine::MainLoop() {
 	float fixedTime = 0.f;
 
 	while (!_exit) {
-		if (false) {
+		if (_scnManager->getActiveScene() == nullptr) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
 			_exit = true;
+			break;
 		}
 
 		float time = clock() / (float) CLOCKS_PER_SEC;

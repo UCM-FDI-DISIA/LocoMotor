@@ -29,7 +29,10 @@ LocoMotor::SceneManager* LocoMotor::SceneManager::GetInstance() {
 LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name) {
     if (_scenes.count(name) > 0) return _scenes[name];
     Scene* newScene = new Scene(name);
-    if (_activeScene == nullptr) _toStart = newScene;
+    if (_activeScene == nullptr) {
+        _activeScene = newScene;
+        _toStart = newScene;
+    }
     _scenes.insert({ name,newScene });
     return newScene;
 }
@@ -70,7 +73,8 @@ void LocoMotor::SceneManager::loadScene(const std::string& path, const std::stri
 
 void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
-        if (_activeScene != nullptr)_activeScene->destroy();
+        if (_activeScene != nullptr && _activeScene != _toStart) 
+            _activeScene->destroy();
         _toStart->start();
         _activeScene = _toStart;
         _toStart = nullptr;

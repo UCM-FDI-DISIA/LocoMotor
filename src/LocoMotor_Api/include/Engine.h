@@ -23,6 +23,7 @@ namespace LocoMotor {
 		bool Init();
 
 		void setWindowName(const std::string& name);
+		void setStartingScene(const std::string& file, const std::string& name);
 
 		/// @brief Dont use it
 		/// @return please
@@ -37,6 +38,9 @@ namespace LocoMotor {
 		bool StartGameWindow();
 
 		std::string _gameName;
+
+		std::string _startingSceneFile;
+		std::string _startingSceneName;
 
 		LocoMotor::SceneManager* _scnManager;
 
