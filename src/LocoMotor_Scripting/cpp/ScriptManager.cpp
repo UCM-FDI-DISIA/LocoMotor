@@ -42,6 +42,7 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("onDisable", &LuaBehaviour::onDisable)
 		.addFunction("fixedUpdate", &LuaBehaviour::fixedUpdate)
 		.addFunction("awake", &LuaBehaviour::awake)
+		.addFunction("setParameters", &LuaBehaviour::setParameters)
 		.endClass()
 		.endNamespace();
 }
