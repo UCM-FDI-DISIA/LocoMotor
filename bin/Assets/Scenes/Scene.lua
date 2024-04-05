@@ -15,17 +15,20 @@ Scene = {
             Play = "";
         }
     },
-    -- cube = {
-    --     Transform = {
-    --         position = "0 0 -150",
-    --         size = "20 20 20",
-    --         rotation = "15 -40 0"
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "CubemanMesh.mesh",
-    --         material = "CustomMaterial"
-    --     }
-    -- },
+    cube = {
+        Transform = {
+            position = "0 0 -150",
+            size = "20 20 20",
+            rotation = "15 -40 0"
+        },
+        MeshRenderer = {
+            mesh = "CubemanMesh.mesh",
+            material = "CustomMaterial"
+        },
+        PlayerController = {
+
+        }
+    },
     -- cube = {
     --     Transform = {
     --         position = "0 0 -150",
@@ -48,21 +51,21 @@ Scene = {
     --         material = "GreenCharacter"
     --     }
     -- },
-    cube = {
-        Transform = {
-            position = "0 0 -150",
-            size = "20 20 20",
-            rotation = "15 -40 0"
-        },
-        MeshRenderer = {
-            mesh = "CylindermanMesh.mesh",
-            material = "PurpleCharacter"
-        },
-        ParticleSystem = {
-            Particle = "Smoke",
-            PlayOnStart = ""
-        }
-    },
+    -- cube = {
+    --     Transform = {
+    --         position = "0 0 -150",
+    --         size = "20 20 20",
+    --         rotation = "15 -40 0"
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "CylindermanMesh.mesh",
+    --         material = "PurpleCharacter"
+    --     },
+    --     ParticleSystem = {
+    --         Particle = "Smoke",
+    --         PlayOnStart = ""
+    --     }
+    -- },
     revolver = {
         Transform = {
             position = "-50 0 -150",
