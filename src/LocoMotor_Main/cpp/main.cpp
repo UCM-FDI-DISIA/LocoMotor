@@ -27,14 +27,16 @@ int LocoMotor_Main(Main_Args) {
 
 	bool dllLoaded = false;
 
-	LocoMotor::Engine* i = new LocoMotor::Engine();
+	LocoMotor::Engine* motor = new LocoMotor::Engine();
 
-	if (!i->Init()) {
-		delete i;
+	if (!motor->Init()) {
+		delete motor;
 		std::cerr << "\033[1;31m" << "Algo no se inicializó correctamente" << "\033[0m" << std::endl;
 		return -1;
 	}
 
+	//Esto se llamaría desde el código del juego
+	motor->setWindowName("hola ventana de ogre");
 
 #pragma region Explicit dll loading
 	LPCWSTR dllName;
@@ -56,29 +58,33 @@ int LocoMotor_Main(Main_Args) {
 
 		if (initJuego != NULL) {
 			// La ejecutamoss
-			auto result = initJuego(i);
-			std::cout << result << std::endl;
+			auto result = initJuego(motor);
+			std::cout << "\033[1;36m" << result << "\033[0m" << std::endl;
 		}
 		else {
-			std::cerr << "DLL EXPLICIT LOADING ERROR: '" << functionName << "' function couldn't be executed" << std::endl;
+			std::cerr << "\033[1;31m" << "DLL EXPLICIT LOADING ERROR: '" << functionName << "' function couldn't be executed" << "\033[0m" << std::endl;
 		}
 
 		dllLoaded = true;
 	}
 	else {
-		std::cerr << "DLL EXPLICIT LOADING ERROR: '" << dllName << "' wasn't found" << std::endl;
+		// Conversion de LPCWSTR a string, por legibilidad
+		int strLength
+			= WideCharToMultiByte(CP_UTF8, 0, dllName, -1,
+								  nullptr, 0, nullptr, nullptr);
+
+		// Create a std::string with the determined length 
+		std::string str(strLength, 0);
+
+		// Perform the conversion from LPCWSTR to std::string 
+		WideCharToMultiByte(CP_UTF8, 0, dllName, -1, &str[0],
+							strLength, nullptr, nullptr);
+		std::cerr << "\033[1;31m" << "DLL EXPLICIT LOADING ERROR: '" << str << "' wasn't found" << "\033[0m" << std::endl;
 	}
 #pragma endregion
 
-	//Esto se llamaría desde el código del juego
-	if (!i->StartGameWindow("hola ventana de ogre")) {
-		delete i;
-		std::cerr << "\033[1;31m" << "Algo salió mal en el método de crear la ventana" << "\033[0m" << std::endl;
-		return -1;
-	}
-
-	if (!i->MainLoop()) {
-		delete i;
+	if (!motor->MainLoop()) {
+		delete motor;
 		std::cerr << "\033[1;31m" << "Algo salió mal en el bucle principal" << "\033[0m" << std::endl;
 		return -1;
 	}
@@ -111,7 +117,7 @@ int LocoMotor_Main(Main_Args) {
 		<< "\033[1;32m" << "N" 
 		<< "\033[1;36m" << "A" << "\033[0m" << std::endl;
 
-	delete i;
+	delete motor;
 	if (dllLoaded) {
 		FreeLibrary(g6Game);
 	}

@@ -2,6 +2,12 @@
 #ifndef LOCOMOTOR_COMPONENT
 #define LOCOMOTOR_COMPONENT
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <vector>
 #include <string>
 
@@ -10,7 +16,7 @@
 namespace LocoMotor {
 	class GameObject;
 	
-	class Component {
+	class MOTOR_API Component {
 		friend class GameObject;
 		friend class SceneManager;
 	public:

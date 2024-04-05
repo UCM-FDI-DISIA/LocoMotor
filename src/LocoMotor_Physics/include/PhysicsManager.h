@@ -1,6 +1,11 @@
 #pragma once
 #ifndef _PHYSICS_MANAGER_H
 #define _PHYSICS_MANAGER_H
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 class btVector3;
 class btDynamicsWorld;
 class btDefaultCollisionConfiguration;
@@ -17,7 +22,7 @@ typedef void(*ContactEndedCallback)(btPersistentManifold* const&);
 namespace LocoMotor{
 	namespace Physics{
 
-		class PhysicsManager {
+		class MOTOR_API PhysicsManager {
 		public:
 			static bool Init();
 			static PhysicsManager* GetInstance();

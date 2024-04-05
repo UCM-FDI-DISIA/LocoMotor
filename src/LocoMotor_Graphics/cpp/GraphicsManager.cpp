@@ -70,7 +70,6 @@ std::string GraphicsManager::initialize() {
 		return "Error while constructing internal ogre library";
 	}
 
-	//We initialize the UI manager only if it wasnt initialized yet
 	OverlayManager::Init();
 
 	try {
@@ -239,7 +238,7 @@ bool GraphicsManager::initWindow(std::string name) {
 		loadResources();
 	}
 	catch (...) {
-		return "Error while loading resources: make sure all .fontdef, .material, .particle, etc have no duplicates/are correctly written";
+		return false;
 	}
 
 	return true;

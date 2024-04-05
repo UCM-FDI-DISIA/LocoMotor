@@ -1,12 +1,17 @@
 #pragma once
 #ifndef LOCOMOTOR_SCENEMANAGER
 #define LOCOMOTOR_SCENEMANAGER
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 #include <string>
 #include <unordered_map>
 
 namespace LocoMotor {
 	class Scene;
-	class SceneManager {
+	class MOTOR_API SceneManager {
 	public:
 		static bool Init();
 		static void Release();

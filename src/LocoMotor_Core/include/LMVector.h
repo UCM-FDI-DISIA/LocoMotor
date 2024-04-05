@@ -15,9 +15,9 @@
 //}
 
 namespace LocoMotor {
-	class LMQuaternion;
+	class MOTOR_API LMQuaternion;
 	//Vector class to be used with LocoMotor
-	class LMVector3 {
+	class MOTOR_API LMVector3 {
 
 	public:
 		// Default constructor initializes vector to (0, 0, 0)

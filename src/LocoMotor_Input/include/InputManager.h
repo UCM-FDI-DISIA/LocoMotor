@@ -1,6 +1,12 @@
 #ifndef _INPUT_MANAGER_H
 #define _INPUT_MANAGER_H
 
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
+
 #include <cstdint>
 #include <utility>
 #include <vector>

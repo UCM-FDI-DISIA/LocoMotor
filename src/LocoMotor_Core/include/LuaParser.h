@@ -3,12 +3,6 @@
 #define  LOCOMOTOR_SCRIPTMANAGER
 
 
-//#ifdef _MOTORDLL
-//#define MOTOR_API __declspec(dllexport)
-//#else
-//#define MOTOR_API __declspec(dllimport)
-//#endif
-
 #include <string>
 #include <unordered_map>
 #include <optional>

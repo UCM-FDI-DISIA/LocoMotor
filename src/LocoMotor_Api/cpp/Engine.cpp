@@ -31,17 +31,12 @@ using namespace LocoMotor;
 Engine* Engine::_instance = nullptr;
 
 Engine::Engine() {
-	_gameName = "No window title";
+	_gameName = "No window title"; 
+	_startingSceneFile = "";
+	_startingSceneName = "";
 	_scnManager = nullptr;
 	_startScene = "";
 	_exit = false;
-}
-
-bool Engine::StartGameWindow(const char* gameName) {
-
-	Audio::AudioManager::GetInstance()->loadFMODBuild("Assets/Sounds/StudioBuild");
-
-	return Graphics::GraphicsManager::GetInstance()->initWindow(gameName);
 }
 
 bool Engine::Init() {
@@ -112,68 +107,28 @@ bool Engine::Init() {
 	return true;
 }
 
+void LocoMotor::Engine::setWindowName(const std::string& name) {
+	_gameName = name;
+}
+
+void LocoMotor::Engine::setStartingScene(const std::string& file, const std::string& name) {
+	_startingSceneFile = file;
+	_startingSceneName = name;
+}
+
 bool Engine::MainLoop() {
-	/*
-	//If Ogre Manager was not initialize by a Registergame() call, it will be initialized with the name GAME DLL FAIL
-	if (OgreWrapper::OgreManager::GetInstance() == nullptr) {
-		OgreWrapper::OgreManager::Init();
-		std::string err = OgreWrapper::OgreManager::GetInstance()->Initialize("GAME DLL FAIL");
-		if (err != "") {
-			LogSystem::GetInstance()->Save(0, err);
-			_exit = true;
-		}
+
+	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
+		std::cerr << "Error creating game window" << std::endl;
+		_exit = true;
 	}
-	//OgreWrapper::OgreManager::GetInstance()->FadeMaterial("m_Test00");
-	SceneManager::Clear();
-	PhysicsManager::Clear();
-	FmodWrapper::AudioManager::Clear();
-	OgreWrapper::OgreManager::Clear();
-	ScriptManager::Clear();
-	InputManager::Clear();
-	ComponentsFactory::Clear();
-	LogSystem::Clear();
-	*/
+	else if (_startingSceneFile != "" && _startingSceneName != "") {
+		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
+	}
+
+	
 	float _dt;
 	float _lastFrameTime = 0.f;
-	_scnManager->loadScene("Assets/Scenes/Scene.lua", "Scene");
-	//ComponentsFactory* cmpFac = ComponentsFactory::GetInstance();
-	////cmpFac->createComponent("Camera");
-	/*GameObject* camGO = scn->addGameobject("camera");
-	camGO->addComponent("Transform");
-	Camera* cam = (Camera*) camGO->addComponent("Camera");
-	cam->init();
-	GameObject* cubeGO = scn->addGameobject("cube");
-	Transform* cubeTrnsf = (Transform*) cubeGO->addComponent("Transform");
-	cubeTrnsf->SetPosition(LMVector3(0, 0, -150));
-	cubeTrnsf->SetSize(LMVector3(20, 20, 20));
-	cubeTrnsf->SetRotation(LMVector3(300, -15, 0));
-	MeshRenderer* mesh = (MeshRenderer*) cubeGO->addComponent("MeshRenderer");
-	mesh->init("cubeMesh", "", false);
-	mesh->setMesh("Cubeman.mesh");
-	mesh->setMaterial("CustomMaterial");
-	mesh->setVisible(true);
-
-	GameObject* lightGO = scn->addGameobject("light");
-	lightGO->addComponent("Transform");
-	Light* light = (Light*) lightGO->addComponent("Light");
-
-	light->init("FLight", 1);
-
-	GameObject* UI = scn->addGameobject("ui");
-	UIImage* img = (UIImage*) UI->addComponent("UIImage");
-	img->initializeABorrar();
-	img->setImage("UIMaterial");
-	img->setAnchorPoint(1.f, 0.f);
-	img->setPosition(-5, 5);
-	img->setPivot(1.f, 0.f);
-	img->setDimensions(200, 200);
-
-	GameObject* UIte = scn->addGameobject("uite");
-	UIText* txt = (UIText*) UIte->addComponent("UIText");
-	txt->initializeABorrar();
-	txt->setFont("Heavitas");
-	txt->setDimensions(0, 100);
-	txt->setAlignment(TextAlignment::RIGHT);*/
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
@@ -190,9 +145,10 @@ bool Engine::MainLoop() {
 	float fixedTime = 0.f;
 
 	while (!_exit) {
-		if (false /*_scnManager->getCurrentScene() == nullptr*/) {
+		if (_scnManager->getActiveScene() == nullptr) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
 			_exit = true;
+			break;
 		}
 
 		float time = clock() / (float) CLOCKS_PER_SEC;
@@ -326,20 +282,6 @@ bool Engine::MainLoop() {
 		}
 
 
-		//int butId = -1;
-
-		//if (time > 5.f && !shown) {
-		//	shown = true;
-		//	int type=2;
-		//	std::string msg= "No funca, arreglalo";
-		//	butId=showWindow(type,msg);
-		//}
-		//if (butId == 1) {
-		//	_exit = true;
-		//}
-		//else if (butId == 2) {
-		//	shown = false;
-		//}
 
 	}
 
@@ -357,13 +299,13 @@ int Engine::showWindow(int type, std::string msg) {
 	const SDL_MessageBoxButtonData buttons[] = {
 		{0, 1, "Close Game" },
 		{0, 0, "Ok" },
-		//{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "oka" },
+		
 	};
 	const SDL_MessageBoxButtonData buttons2[] = {
 		{0, 1, "Close Game" },
 
 	};
-	const SDL_MessageBoxColorScheme colorScheme = { {0, 29, 112} };//, { 0, 29, 112 }, { 0, 29, 112 }, { 0, 29, 112 }, { 0, 29, 112 }
+	const SDL_MessageBoxColorScheme colorScheme = { {0, 29, 112} };
 
 
 	SDL_MessageBoxData messageBoxData;
@@ -405,4 +347,8 @@ int Engine::showWindow(int type, std::string msg) {
 
 	return butId;
 
+}
+
+void Engine::quit() {
+	_exit = true;
 }

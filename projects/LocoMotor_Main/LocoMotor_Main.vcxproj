@@ -14,20 +14,8 @@
     <ClCompile Include="..\..\src\LocoMotor_Main\cpp\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LocoMotor_Audio\LocoMotor_Audio.vcxproj">
-      <Project>{60ebcdd9-3ae2-4ddd-a63c-ab95675f0697}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\LocoMotor_Core\LocoMotor_Core.vcxproj">
-      <Project>{66dd82b0-69b5-48e0-a5ce-c0cbc7bb8a59}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\LocoMotor_Graphics\LocoMotor_Graphics.vcxproj">
-      <Project>{66fa21bd-b342-43a6-9f62-0d6909f2857a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Locomotor_Input\Locomotor_Input\Locomotor_Input.vcxproj">
-      <Project>{ca07c233-0840-421f-955f-1252e316329d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\LocoMotor_Physics\LocoMotor_Physics.vcxproj">
-      <Project>{68171d82-d291-41a3-b9ff-99131b236bd3}</Project>
+    <ProjectReference Include="..\LocoMotor_Api\LocoMotor_Api.vcxproj">
+      <Project>{7af34c2d-3f9d-4848-bac2-0dd6d08d00da}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -76,15 +64,21 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Api\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api_d.dll $(SolutionDir)bin</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -92,9 +86,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Main\include;$(SolutionDir)src\LocoMotor_Api\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -102,7 +96,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api.dll $(SolutionDir)bin</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
