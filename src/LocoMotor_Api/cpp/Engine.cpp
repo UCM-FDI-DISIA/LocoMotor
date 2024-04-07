@@ -31,7 +31,7 @@ using namespace LocoMotor;
 Engine* Engine::_instance = nullptr;
 
 Engine::Engine() {
-	_gameName = "No window title"; 
+	_gameName = "No window title";
 	_startingSceneFile = "";
 	_startingSceneName = "";
 	_scnManager = nullptr;
@@ -126,7 +126,7 @@ bool Engine::MainLoop() {
 		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
 	}
 
-	
+
 	float _dt;
 	float _lastFrameTime = 0.f;
 
@@ -135,10 +135,12 @@ bool Engine::MainLoop() {
 	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
 	Input::InputManager::ControllerId thirdController = Input::InputManager::invalidControllerId();
 
-	// Prueba animaciones
-	GameObject* cubeGO = nullptr;
-	MeshRenderer* mainMesh = nullptr;
-	Transform* cubeTrnsf = nullptr;
+	//// Prueba animaciones
+	//GameObject* cubeGO = nullptr;
+	//MeshRenderer* mainMesh = nullptr;
+	//Transform* cubeTrnsf = nullptr;
+
+
 
 	bool shown = false;
 	float fixedTimeStep = 16;
@@ -167,119 +169,122 @@ bool Engine::MainLoop() {
 
 		_scnManager->update(_dt);
 
-		if (cubeTrnsf == nullptr) {
-			cubeGO = SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube");
-			cubeTrnsf = cubeGO->getComponent<Transform>();
-			mainMesh = cubeGO->getComponent<MeshRenderer>();
-		}
+		//if (cubeTrnsf != nullptr) {
+		//	cubeGO = SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube");
+		//	cubeTrnsf = cubeGO->getComponent<Transform>();
+		//	mainMesh = cubeGO->getComponent<MeshRenderer>();
+		//}
 
 		Audio::AudioManager::GetInstance()->update();
 
 		//Physics::PhysicsManager::GetInstance()->update(_dt);
 
 		Graphics::GraphicsManager::GetInstance()->render();
-
-		// PRUEBA INPUT
-		// Teclado
-		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A)) {
-			std::cout << "KEYBOARD A" << std::endl;
-
-			if (SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube") != nullptr) {
-
-				mainMesh->setEnabled(!mainMesh->isEnabled());
-			}
-		}
-		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_S)) {
-			if (mainMesh != nullptr)
-				mainMesh->playAnimation("Idle", true);
-		}
-		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_D)) {
-			if (mainMesh != nullptr)
-				mainMesh->playAnimation("Run", true);
-		}
-		else if (Input::InputManager::GetInstance()->GetKey(Input::LMKS_E)) {
-			if (cubeTrnsf != nullptr)
-				cubeTrnsf->SetRotation(LMVector3(cubeTrnsf->GetRotation().GetX(),
-					cubeTrnsf->GetRotation().GetY() + 60 * _dt/1000, cubeTrnsf->GetRotation().GetZ()));
-		}
-
-		if (mainMesh != nullptr)
-			mainMesh->updateAnimation(_dt / 1000);
-
-
-		// Conexion y desconexion de mandos
-		std::list<Input::InputManager::ControllerId> controllersAdded = Input::InputManager::GetInstance()->getOnConnectControllers();
-		std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
-
-		// Conexion de usuarios
-		for (const Input::InputManager::ControllerId& controllerId : controllersAdded) {
-
-			if (firstController == Input::InputManager::invalidControllerId())
-				firstController = controllerId;
-
-			else if (secondController == Input::InputManager::invalidControllerId())
-				secondController = controllerId;
-
-			else if (thirdController == Input::InputManager::invalidControllerId())
-				thirdController = controllerId;
-		}
-
-		// Desconexion de usuarios
-		for (const Input::InputManager::ControllerId& controllerId : controllersRemoved) {
-
-			// Si se ha desconectado el primer usuario
-			if (firstController == controllerId)
-				firstController = Input::InputManager::invalidControllerId();
-
-			else if (secondController == controllerId)
-				secondController = Input::InputManager::invalidControllerId();
-
-			else if (thirdController == controllerId)
-				thirdController = Input::InputManager::invalidControllerId();
-		}
+//
+//		// PRUEBA INPUT
+//		// Teclado
+///*		if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_A)) {
+//			std::cout << "KEYBOARD A" << std::endl;
+//
+//			if (SceneManager::GetInstance()->getActiveScene()->getObjectByName("cube") != nullptr) {
+//
+//				mainMesh->setEnabled(!mainMesh->isEnabled());
+//			}
+//		}
+//		else */if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_S)) {
+//			if (mainMesh != nullptr)
+//				mainMesh->playAnimation("Idle", true);
+//		}
+//		else if (Input::InputManager::GetInstance()->GetKeyDown(Input::LMKS_D)) {
+//			if (mainMesh != nullptr)
+//				mainMesh->playAnimation("Run", true);
+//		}
+//		else if (Input::InputManager::GetInstance()->GetKey(Input::LMKS_E)) {
+//			if (cubeTrnsf != nullptr)
+//				cubeTrnsf->SetRotation(LMVector3(cubeTrnsf->GetRotation().GetX(),
+//					cubeTrnsf->GetRotation().GetY() + 60 * _dt/1000, cubeTrnsf->GetRotation().GetZ()));
+//		}
+//
+//		if (mainMesh != nullptr)
+//			mainMesh->updateAnimation(_dt / 1000);
+//		else
+//
+//			std::cout << "mainMesh null" << std::endl;
 
 
-		// Input de usuarios con mando
-		if (firstController != Input::InputManager::invalidControllerId()) {
-			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_A))
-				std::cout << "FIRST USER / Controller A" << std::endl;
-			if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_B)) {
-				std::cout << "FIRST USER / Controller B" << std::endl;
-				Input::InputManager::GetInstance()->RumbleController(secondController, 1, 0.3f);
-			}
+		//// Conexion y desconexion de mandos
+		//std::list<Input::InputManager::ControllerId> controllersAdded = Input::InputManager::GetInstance()->getOnConnectControllers();
+		//std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
 
-			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(firstController, 0, Input::InputManager::Axis::Horizontal);
-			if (joystickValue != 0)
-				std::cout << "FIRST USER / Axis X = " << joystickValue << std::endl;
+		//// Conexion de usuarios
+		//for (const Input::InputManager::ControllerId& controllerId : controllersAdded) {
 
-			float triggerValue = Input::InputManager::GetInstance()->GetTriggerValue(firstController, 0);
-			if (triggerValue != 0)
-				std::cout << "FIRST USER / Trigger Left = " << triggerValue << std::endl;
-		}
+		//	if (firstController == Input::InputManager::invalidControllerId())
+		//		firstController = controllerId;
 
-		if (secondController != Input::InputManager::invalidControllerId()) {
-			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_A))
-				std::cout << "SECOND USER / Controller A" << std::endl;
-			if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_B)) {
-				std::cout << "SECOND USER / Controller B" << std::endl;
-				Input::InputManager::GetInstance()->SetControllerLedColor(firstController, 0, 255, 255);
-			}
+		//	else if (secondController == Input::InputManager::invalidControllerId())
+		//		secondController = controllerId;
 
-			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(secondController, 0, Input::InputManager::Axis::Horizontal);
-			if (joystickValue != 0)
-				std::cout << "SECOND USER / Axis X = " << joystickValue << std::endl;
-		}
+		//	else if (thirdController == Input::InputManager::invalidControllerId())
+		//		thirdController = controllerId;
+		//}
 
-		if (thirdController != Input::InputManager::invalidControllerId()) {
-			if (Input::InputManager::GetInstance()->GetButtonDown(thirdController, Input::LMControllerButtons::LMC_A))
-				std::cout << "THIRD USER / Controller A" << std::endl;
-			if (Input::InputManager::GetInstance()->GetButtonDown(thirdController, Input::LMControllerButtons::LMC_B))
-				std::cout << "THIRD USER / Controller B" << std::endl;
+		//// Desconexion de usuarios
+		//for (const Input::InputManager::ControllerId& controllerId : controllersRemoved) {
 
-			float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(thirdController, 0, Input::InputManager::Axis::Horizontal);
-			if (joystickValue != 0)
-				std::cout << "THIRD USER / Axis X = " << joystickValue << std::endl;
-		}
+		//	// Si se ha desconectado el primer usuario
+		//	if (firstController == controllerId)
+		//		firstController = Input::InputManager::invalidControllerId();
+
+		//	else if (secondController == controllerId)
+		//		secondController = Input::InputManager::invalidControllerId();
+
+		//	else if (thirdController == controllerId)
+		//		thirdController = Input::InputManager::invalidControllerId();
+		//}
+
+
+		//// Input de usuarios con mando
+		//if (firstController != Input::InputManager::invalidControllerId()) {
+		//	if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_A))
+		//		std::cout << "FIRST USER / Controller A" << std::endl;
+		//	if (Input::InputManager::GetInstance()->GetButtonDown(firstController, Input::LMControllerButtons::LMC_B)) {
+		//		std::cout << "FIRST USER / Controller B" << std::endl;
+		//		Input::InputManager::GetInstance()->RumbleController(secondController, 1, 0.3f);
+		//	}
+
+		//	float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(firstController, 0, Input::InputManager::Axis::Horizontal);
+		//	if (joystickValue != 0)
+		//		std::cout << "FIRST USER / Axis X = " << joystickValue << std::endl;
+
+		//	float triggerValue = Input::InputManager::GetInstance()->GetTriggerValue(firstController, 0);
+		//	if (triggerValue != 0)
+		//		std::cout << "FIRST USER / Trigger Left = " << triggerValue << std::endl;
+		//}
+
+		//if (secondController != Input::InputManager::invalidControllerId()) {
+		//	if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_A))
+		//		std::cout << "SECOND USER / Controller A" << std::endl;
+		//	if (Input::InputManager::GetInstance()->GetButtonDown(secondController, Input::LMControllerButtons::LMC_B)) {
+		//		std::cout << "SECOND USER / Controller B" << std::endl;
+		//		Input::InputManager::GetInstance()->SetControllerLedColor(firstController, 0, 255, 255);
+		//	}
+
+		//	float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(secondController, 0, Input::InputManager::Axis::Horizontal);
+		//	if (joystickValue != 0)
+		//		std::cout << "SECOND USER / Axis X = " << joystickValue << std::endl;
+		//}
+
+		//if (thirdController != Input::InputManager::invalidControllerId()) {
+		//	if (Input::InputManager::GetInstance()->GetButtonDown(thirdController, Input::LMControllerButtons::LMC_A))
+		//		std::cout << "THIRD USER / Controller A" << std::endl;
+		//	if (Input::InputManager::GetInstance()->GetButtonDown(thirdController, Input::LMControllerButtons::LMC_B))
+		//		std::cout << "THIRD USER / Controller B" << std::endl;
+
+		//	float joystickValue = Input::InputManager::GetInstance()->GetJoystickValue(thirdController, 0, Input::InputManager::Axis::Horizontal);
+		//	if (joystickValue != 0)
+		//		std::cout << "THIRD USER / Axis X = " << joystickValue << std::endl;
+		//}
 
 
 
@@ -299,7 +304,7 @@ int Engine::showWindow(int type, std::string msg) {
 	const SDL_MessageBoxButtonData buttons[] = {
 		{0, 1, "Close Game" },
 		{0, 0, "Ok" },
-		
+
 	};
 	const SDL_MessageBoxButtonData buttons2[] = {
 		{0, 1, "Close Game" },
