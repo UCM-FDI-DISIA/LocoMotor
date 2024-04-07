@@ -1,7 +1,12 @@
 Scene = {
     MainCamera = {
         Camera = {},
-        AudioListener = {}
+        AudioListener = {},
+        Transform = {
+            position = "0 200 250",
+            size = "1 1 1",
+            rotation = "-45 0 0"
+        },
     },
     Object = {
         AudioSource = {
@@ -17,9 +22,9 @@ Scene = {
     },
     cube = {
         Transform = {
-            position = "0 0 -150",
+            position = "0 0 0",
             size = "20 20 20",
-            rotation = "15 -40 0"
+            rotation = "0 -40 0"
         },
         MeshRenderer = {
             mesh = "CubemanMesh.mesh",
@@ -30,9 +35,9 @@ Scene = {
     },
     Player_2 = {
         Transform = {
-            position = "0 0 -150",
+            position = "0 0 0",
             size = "20 20 20",
-            rotation = "15 -40 0"
+            rotation = "0 -40 0"
         },
         MeshRenderer = {
             mesh = "ConemanMesh.mesh",
@@ -43,9 +48,9 @@ Scene = {
     },
     Player_3 = {
         Transform = {
-            position = "0 0 -150",
+            position = "0 0 0",
             size = "20 20 20",
-            rotation = "15 -40 0"
+            rotation = "0 -40 0"
         },
         MeshRenderer = {
             mesh = "SpheremanMesh.mesh",
@@ -56,9 +61,9 @@ Scene = {
     },
     Player_4 = {
         Transform = {
-            position = "0 0 -150",
+            position = "0 0 0",
             size = "20 20 20",
-            rotation = "15 -40 0"
+            rotation = "0 -40 0"
         },
         MeshRenderer = {
             mesh = "CylindermanMesh.mesh",
@@ -115,7 +120,7 @@ Scene = {
     -- },
     revolver = {
         Transform = {
-            position = "-50 0 -150",
+            position = "-50 0 0",
             size = "15 15 15",
             rotation = "115 -130 0"
         },
@@ -126,9 +131,9 @@ Scene = {
     },
     platform = {
         Transform = {
-            position = "0 -38 -150",
-            size = "35 35 35",
-            rotation = "0 -40 0"
+            position = "0 -38 0",
+            size = "130 130 130",
+            rotation = "0 -10 0" -- "0 -40 0" 
         },
         MeshRenderer = {
             mesh = "Platform_01.mesh",
