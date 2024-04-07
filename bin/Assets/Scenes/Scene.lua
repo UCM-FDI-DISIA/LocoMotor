@@ -24,7 +24,7 @@ Scene = {
         Transform = {
             position = "0 0 0",
             size = "20 20 20",
-            rotation = "0 -40 0"
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "CubemanMesh.mesh",
@@ -124,7 +124,7 @@ Scene = {
     -- },
     revolver = {
         Transform = {
-            position = "-50 0 0",
+            position = "-140 0 0",
             size = "15 15 15",
             rotation = "115 -130 0"
         },
@@ -142,6 +142,17 @@ Scene = {
         MeshRenderer = {
             mesh = "Platform_01.mesh",
             material = "Platform"
+        }
+    },
+    Bullet = {
+        Transform = {
+            position = "0 -38 0",
+            size = "10 10 10",
+            rotation = "0 -10 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Bullet.mesh",
+            material = "Bullet"
         }
     }
 }
