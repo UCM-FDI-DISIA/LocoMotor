@@ -26,10 +26,57 @@ Scene = {
             material = "CustomMaterial"
         },
         PlayerController = {
-
         }
     },
-    -- cube = {
+    Player_2 = {
+        Transform = {
+            position = "0 0 -150",
+            size = "20 20 20",
+            rotation = "15 -40 0"
+        },
+        MeshRenderer = {
+            mesh = "ConemanMesh.mesh",
+            material = "RedCharacter"
+        },
+        PlayerController = {
+        }
+    },
+    Player_3 = {
+        Transform = {
+            position = "0 0 -150",
+            size = "20 20 20",
+            rotation = "15 -40 0"
+        },
+        MeshRenderer = {
+            mesh = "SpheremanMesh.mesh",
+            material = "GreenCharacter"
+        },
+        PlayerController = {
+        }
+    },
+    Player_4 = {
+        Transform = {
+            position = "0 0 -150",
+            size = "20 20 20",
+            rotation = "15 -40 0"
+        },
+        MeshRenderer = {
+            mesh = "CylindermanMesh.mesh",
+            material = "PurpleCharacter"
+        },
+        PlayerController = {
+        }
+    },
+    LocalMultiplayerManager = {
+        Transform = {
+            position = "0 0 0",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        LocalMultiplayerManager = {
+        }
+    },
+        -- cube = {
     --     Transform = {
     --         position = "0 0 -150",
     --         size = "20 20 20",
@@ -75,10 +122,6 @@ Scene = {
         MeshRenderer = {
             mesh = "Revolver.mesh",
             material = "Revolver"
-        },
-        ParticleSystem = {
-            Particle = "GunShot",
-            PlayOnStart = ""
         }
     },
     platform = {
@@ -91,5 +134,5 @@ Scene = {
             mesh = "Platform_01.mesh",
             material = "Platform"
         }
-    },
+    }
 }

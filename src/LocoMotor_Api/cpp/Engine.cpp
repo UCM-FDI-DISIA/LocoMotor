@@ -207,7 +207,7 @@ bool Engine::MainLoop() {
 			mainMesh->updateAnimation(_dt / 1000);
 
 
-			// Conexion y desconexion de mandos
+		// Conexion y desconexion de mandos
 		std::list<Input::InputManager::ControllerId> controllersAdded = Input::InputManager::GetInstance()->getOnConnectControllers();
 		std::list<Input::InputManager::ControllerId> controllersRemoved = Input::InputManager::GetInstance()->getOnDisconnectControllers();
 
