@@ -31,6 +31,10 @@ Scene = {
             material = "CustomMaterial"
         },
         PlayerController = {
+        },
+        ParticleSystem = {
+            Particle = "GunShot",
+            PlayOnStart = ""
         }
     },
     Player_2 = {
