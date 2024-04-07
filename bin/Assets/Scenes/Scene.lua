@@ -146,13 +146,14 @@ Scene = {
     },
     Bullet = {
         Transform = {
-            position = "0 -38 0",
-            size = "10 10 10",
-            rotation = "0 -10 0" -- "0 -40 0" 
+            position = "0 0 0",
+            size = "20 20 20",
+            rotation = "0 0 0" -- "0 -40 0" 
         },
         MeshRenderer = {
             mesh = "Bullet.mesh",
             material = "Bullet"
-        }
+        },
+        Bullet = { }
     }
 }
