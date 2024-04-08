@@ -140,23 +140,24 @@ void LocoMotor::MeshRenderer::update(float dt) {
 	_node->setPosition(_gameObject->getComponent<Transform>()->GetPosition().GetX(), _gameObject->getComponent<Transform>()->GetPosition().GetY(), _gameObject->getComponent<Transform>()->GetPosition().GetZ());
 
 	Ogre::Quaternion quat = Ogre::Quaternion();
-	if (_nodeRotation.GetW() != _gameObject->getComponent<Transform>()->GetRotation().GetW()) {
+	//if (_nodeRotation.GetW() != _gameObject->getComponent<Transform>()->GetRotation().GetW()) {
 		quat.w = _gameObject->getComponent<Transform>()->GetRotation().GetW();
 		_nodeRotation.SetW(_gameObject->getComponent<Transform>()->GetRotation().GetW());
-	}
-	if (_nodeRotation.GetX() != _gameObject->getComponent<Transform>()->GetRotation().GetX()) {
+	//}
+	//if (_nodeRotation.GetX() != _gameObject->getComponent<Transform>()->GetRotation().GetX()) {
 		quat.x = _gameObject->getComponent<Transform>()->GetRotation().GetX();
 		_nodeRotation.SetX(_gameObject->getComponent<Transform>()->GetRotation().GetX());
-	}
-	if (_nodeRotation.GetY() != _gameObject->getComponent<Transform>()->GetRotation().GetY()) {
+	//}
+	//if (_nodeRotation.GetY() != _gameObject->getComponent<Transform>()->GetRotation().GetY()) {
 		quat.y = _gameObject->getComponent<Transform>()->GetRotation().GetY();
 		_nodeRotation.SetY(_gameObject->getComponent<Transform>()->GetRotation().GetY());
-	}
-	if (_nodeRotation.GetZ() != _gameObject->getComponent<Transform>()->GetRotation().GetZ()) {
+	//}
+	//if (_nodeRotation.GetZ() != _gameObject->getComponent<Transform>()->GetRotation().GetZ()) {
 		quat.z = _gameObject->getComponent<Transform>()->GetRotation().GetZ();
 		_nodeRotation.SetZ(_gameObject->getComponent<Transform>()->GetRotation().GetZ());
-	}
-	_node->rotate(quat, Ogre::Node::TS_LOCAL);
+	//}
+	//_node->rotate(quat, Ogre::Node::TS_LOCAL);
+	_node->setOrientation(quat);
 
 	if (_nodeScale.GetX() != _gameObject->getComponent<Transform>()->GetSize().GetX()) {
 		_node->scale(_gameObject->getComponent<Transform>()->GetSize().GetX(), 1, 1);
