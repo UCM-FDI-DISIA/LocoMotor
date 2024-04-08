@@ -22,6 +22,7 @@ ScriptManager::~ScriptManager() {
 }
 
 bool LocoMotor::Scripting::ScriptManager::initLua() {
+	std::cout << "init Lua" << std::endl;
 	_luaState = luaL_newstate();
 	if (_luaState == nullptr) {
 		std::cerr << "[Script error] Could not create lua state" << std::endl;
@@ -33,9 +34,9 @@ bool LocoMotor::Scripting::ScriptManager::initLua() {
 }
 
 void LocoMotor::Scripting::ScriptManager::registerToLua() {
+	std::cout << "Registrando clases señores" << std::endl;
 	luabridge::getGlobalNamespace(_luaState)
-		.beginNamespace("LocoMotor")
-		.beginClass<LuaBehaviour>("LuaBehaviour")
+		.beginClass<LuaBehaviour>("Polla")
 		.addFunction("update", &LuaBehaviour::update)
 		.addFunction("start", &LuaBehaviour::start)
 		.addFunction("onEnable", &LuaBehaviour::onEnable)
@@ -43,12 +44,16 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("fixedUpdate", &LuaBehaviour::fixedUpdate)
 		.addFunction("awake", &LuaBehaviour::awake)
 		.addFunction("setParameters", &LuaBehaviour::setParameters)
-		.endClass()
-		.endNamespace();
+		.addFunction("helloWorld", &LuaBehaviour::helloWorld)
+		.endClass();
+		
 }
 
 bool ScriptManager::Init() {
 	assert(_instance == nullptr);
+	std::cout << "Init estatico" << std::endl;
+	_instance = new ScriptManager();
+	_instance->initLua();
 	//Lua context initialization
 	//Preload Scripts??
 	return true;
@@ -58,4 +63,17 @@ void ScriptManager::Release() {
 	assert(_instance != nullptr);
 	delete _instance;
 	_instance = nullptr;
+}
+
+ScriptManager* LocoMotor::Scripting::ScriptManager::GetInstance() {
+	return _instance;
+}
+
+void ScriptManager::test() {
+	if (luaL_dofile(_luaState, "Assets/Scripts/Prueba.lua")) {
+		std::cerr << "Error leyendo script " << lua_tostring(_luaState, -1);
+		return;
+	}
+
+
 }

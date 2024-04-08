@@ -1,15 +1,23 @@
 #pragma once
 #ifndef SCRIPTMANAGER_H
 #define SCRIPTMANAGER_H
+
+#ifdef _MOTORDLL
+#define MOTOR_API __declspec(dllexport)
+#else
+#define MOTOR_API __declspec(dllimport)
+#endif
 class lua_State;
 #include <functional>
 #include <vector>
 namespace LocoMotor {
 	namespace Scripting {
-		class ScriptManager {
+		class MOTOR_API ScriptManager {
 		public:
 			static bool Init();
 			static void Release();
+			static ScriptManager* GetInstance();
+			void test();
 		private:
 			ScriptManager();
 			~ScriptManager();

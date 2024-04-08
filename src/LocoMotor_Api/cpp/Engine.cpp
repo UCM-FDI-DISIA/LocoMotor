@@ -22,6 +22,7 @@
 #include "Transform.h"
 #include "LMVector.h"
 #include "LuaParser.h"
+#include "ScriptManager.h"
 
 #include <iostream>
 #include <SDL_messagebox.h>
@@ -40,7 +41,10 @@ Engine::Engine() {
 }
 
 bool Engine::Init() {
-
+	if (!Scripting::ScriptManager::Init()) {
+		return false;
+	}
+	
 	if (!Graphics::GraphicsManager::Init()) {
 		return false;
 	}
@@ -297,6 +301,8 @@ bool Engine::MainLoop() {
 	ComponentsFactory::Release();
 	Audio::AudioManager::Release();
 	Graphics::GraphicsManager::Release();
+	Scripting::ScriptManager::GetInstance()->test();
+	Scripting::ScriptManager::Release();
 	return true;
 }
 
