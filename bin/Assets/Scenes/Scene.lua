@@ -20,6 +20,23 @@ Scene = {
             Play = "";
         }
     },
+    -- cubePrueba = {
+    --     Transform = {
+    --         position = "0 0 0",
+    --         size = "20 20 20",
+    --         rotation = "0 0 0"
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "CubemanMesh.mesh",
+    --         material = "CustomMaterial"
+    --     },
+    --     PlayerController = {
+    --     },
+    --     ParticleSystem = {
+    --         Particle = "Smoke",
+    --         PlayOnStart = ""
+    --     }
+    -- },
     cube = {
         Transform = {
             position = "0 0 0",
@@ -34,6 +51,10 @@ Scene = {
         },
         ParticleSystem = {
             Particle = "GunShot",
+            PlayOnStart = ""
+        },
+        ParticleSystem = {
+            Particle = "Smoke",
             PlayOnStart = ""
         }
     },
