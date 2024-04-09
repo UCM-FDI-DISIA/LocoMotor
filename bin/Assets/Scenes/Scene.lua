@@ -175,6 +175,17 @@ Scene = {
             material = "Platform"
         }
     },
+    backPlane = {
+        Transform = {
+            position = "0 -140 -100",
+            size = "700 700 700",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "BackPlane.mesh",
+            material = "BackPlane"
+        }
+    },
 
     -- SOUNDS --
     Object = {
