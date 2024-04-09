@@ -1,42 +1,17 @@
 Scene = {
+    
+    -- CAMERA --
     MainCamera = {
         Camera = {},
         AudioListener = {},
         Transform = {
-            position = "0 200 250",
+            position = "0 500 450",
             size = "1 1 1",
-            rotation = "-45 0 0"
+            rotation = "-50 0 0"
         },
     },
-    Object = {
-        AudioSource = {
-            Volume = 1,
-            PlayOnAwake = "Assets/Sounds/prueba.wav"
-        }
-    },
-    Emitter = {
-        EventEmitter = {
-            EventID = "event:/Music/Level 02",
-            Play = "";
-        }
-    },
-    -- cubePrueba = {
-    --     Transform = {
-    --         position = "0 0 0",
-    --         size = "20 20 20",
-    --         rotation = "0 0 0"
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "CubemanMesh.mesh",
-    --         material = "CustomMaterial"
-    --     },
-    --     PlayerController = {
-    --     },
-    --     ParticleSystem = {
-    --         Particle = "Smoke",
-    --         PlayOnStart = ""
-    --     }
-    -- },
+
+    -- CHARACTERS --
     cube = {
         Transform = {
             position = "0 0 0",
@@ -97,6 +72,7 @@ Scene = {
         PlayerController = {
         }
     },
+
     LocalMultiplayerManager = {
         Transform = {
             position = "0 0 0",
@@ -106,43 +82,8 @@ Scene = {
         LocalMultiplayerManager = {
         }
     },
-        -- cube = {
-    --     Transform = {
-    --         position = "0 0 -150",
-    --         size = "20 20 20",
-    --         rotation = "15 -40 0"
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "ConemanMesh.mesh",
-    --         material = "RedCharacter"
-    --     }
-    -- },
-    -- cube = {
-    --     Transform = {
-    --         position = "0 0 -150",
-    --         size = "20 20 20",
-    --         rotation = "15 -40 0"
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "SpheremanMesh.mesh",
-    --         material = "GreenCharacter"
-    --     }
-    -- },
-    -- cube = {
-    --     Transform = {
-    --         position = "0 0 -150",
-    --         size = "20 20 20",
-    --         rotation = "15 -40 0"
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "CylindermanMesh.mesh",
-    --         material = "PurpleCharacter"
-    --     },
-    --     ParticleSystem = {
-    --         Particle = "Smoke",
-    --         PlayOnStart = ""
-    --     }
-    -- },
+
+    -- GUNS
     revolver = {
         Transform = {
             position = "-140 0 0",
@@ -152,28 +93,6 @@ Scene = {
         MeshRenderer = {
             mesh = "Revolver.mesh",
             material = "Revolver"
-        }
-    },
-    -- platform = {
-    --     Transform = {
-    --         position = "0 -38 0",
-    --         size = "130 130 130",
-    --         rotation = "0 -10 0" -- "0 -40 0" 
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "Platform_01.mesh",
-    --         material = "Platform"
-    --     }
-    -- },
-    platform = {
-        Transform = {
-            position = "0 -38 0",
-            size = "130 130 130",
-            rotation = "0 -10 0" -- "0 -40 0" 
-        },
-        MeshRenderer = {
-            mesh = "Platform_01.mesh",
-            material = "Platform"
         }
     },
     Bullet = {
@@ -187,5 +106,87 @@ Scene = {
             material = "Bullet"
         },
         Bullet = { }
-    }
+    },
+
+    -- PLATFORMS --
+    platform_01 = {
+        Transform = {
+            position = "0 0 0",
+            size = "130 130 130",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Platform_01.mesh",
+            material = "Platform"
+        }
+    },
+    platform_02_left = {
+        Transform = {
+            position = "-160 80 -160",
+            size = "130 130 130",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Platform_02.mesh",
+            material = "Platform"
+        }
+    },
+    platform_02_right = {
+        Transform = {
+            position = "160 80 -160",
+            size = "130 130 130",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Platform_02.mesh",
+            material = "Platform"
+        }
+    },
+    platform_03_left = {
+        Transform = {
+            position = "-160 40 40",
+            size = "130 130 130",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Platform_03.mesh",
+            material = "Platform"
+        }
+    },
+    platform_03_right = {
+        Transform = {
+            position = "160 40 40",
+            size = "-130 130 130",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Platform_03.mesh",
+            material = "Platform"
+        }
+    },
+    platform_04 = {
+        Transform = {
+            position = "0 60 -180",
+            size = "-130 130 130",
+            rotation = "0 0 0" -- "0 -40 0" 
+        },
+        MeshRenderer = {
+            mesh = "Platform_04.mesh",
+            material = "Platform"
+        }
+    },
+
+    -- SOUNDS --
+    Object = {
+        AudioSource = {
+            Volume = 1,
+            PlayOnAwake = "Assets/Sounds/prueba.wav"
+        }
+    },
+    Emitter = {
+        EventEmitter = {
+            EventID = "event:/Music/Level 02",
+            Play = "";
+        }
+    },
 }
