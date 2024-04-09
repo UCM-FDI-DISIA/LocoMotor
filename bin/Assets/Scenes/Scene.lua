@@ -154,6 +154,17 @@ Scene = {
             material = "Revolver"
         }
     },
+    -- platform = {
+    --     Transform = {
+    --         position = "0 -38 0",
+    --         size = "130 130 130",
+    --         rotation = "0 -10 0" -- "0 -40 0" 
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "Platform_01.mesh",
+    --         material = "Platform"
+    --     }
+    -- },
     platform = {
         Transform = {
             position = "0 -38 0",
