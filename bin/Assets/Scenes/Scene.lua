@@ -73,6 +73,15 @@ Scene = {
         }
     },
 
+    GameplayManager = {
+        Transform = {
+            position = "0 0 0",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        GameplayManager = {
+        }
+    },
     LocalMultiplayerManager = {
         Transform = {
             position = "0 0 0",

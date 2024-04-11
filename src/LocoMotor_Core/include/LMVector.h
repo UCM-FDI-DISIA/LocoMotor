@@ -125,6 +125,8 @@ namespace LocoMotor {
 
 		static LMVector3 Lerp(const LMVector3& start, const LMVector3& end, float t);
 
+		static float Distance(const LMVector3& v1, const LMVector3& v2);
+
 	private:
 		double _x = 0, _y = 0, _z = 0;
 	};
