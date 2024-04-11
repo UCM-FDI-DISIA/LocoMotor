@@ -274,6 +274,12 @@ LMVector3 LMVector3::StringToVector(const std::string& s) {
 	return result;
 }
 
+LMVector3 LocoMotor::LMVector3::Lerp(const LMVector3& start, const LMVector3& end, float t) {
+	return LMVector3(start.GetX() + t * (end.GetX() - start.GetX()),
+				   start.GetY() + t * (end.GetY() - start.GetY()),
+				   start.GetZ() + t * (end.GetZ() - start.GetZ()));
+}
+
 
 
 //Quaternion class to be used with LocoMotor
