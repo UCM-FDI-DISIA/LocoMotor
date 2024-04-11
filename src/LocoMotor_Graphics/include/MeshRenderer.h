@@ -50,7 +50,7 @@ namespace LocoMotor {
 	protected:
 
 
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void setParameters(ComponentMap& params) override;
 		void awake() override;
 		void onEnable() override;
 		void start() override;

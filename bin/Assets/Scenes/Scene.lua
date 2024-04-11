@@ -2,7 +2,9 @@ Scene = {
     
     -- CAMERA --
     MainCamera = {
-        Camera = {},
+        Camera = {
+            background = "0.9 0.7 0.5"
+        },
         AudioListener = {},
         Transform = {
             position = "0 500 450",

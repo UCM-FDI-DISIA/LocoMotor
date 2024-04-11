@@ -18,7 +18,7 @@ namespace LocoMotor {
 	
 	class MOTOR_API Component {
 		friend class GameObject;
-		friend class SceneManager;
+		friend class Scene;
 	public:
 		/// @brief This method checks for the enabled state of the component
 		/// @return true if the component is enabled

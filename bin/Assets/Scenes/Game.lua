@@ -11,7 +11,7 @@ Game = {
     },
     Emitter = {
         EventEmitter = {
-            EventID = "event:/Music/Level 02",
+            EventID = "event:/Music/Level 01",
             Play = "";
         }
     },
@@ -22,8 +22,30 @@ Game = {
             rotation = "15 -40 0"
         },
         MeshRenderer = {
-            mesh = "SpheremanMesh.mesh",
-            material = "RedCharacter"
+            mesh = "ConemanMesh.mesh",
+            material = "CustomMaterial"
+        },
+        PlayerController = {}
+    },
+    MainCamera = {
+        Camera = {
+            background = "0.5 0.7 0.9"
+        },
+        AudioListener = {}
+    },
+    platform = {
+        Transform = {
+            position = "0 -38 -150",
+            size = "35 35 35",
+            rotation = "0 -40 0"
+        },
+        MeshRenderer = {
+            mesh = "Platform_01.mesh",
+            material = "Platform"
+        },
+        ParticleSystem = {
+            Particle = "GunShot",
+            PlayOnStart = ""
         }
     },
     -- cube = {

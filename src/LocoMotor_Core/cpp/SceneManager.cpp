@@ -26,7 +26,7 @@ LocoMotor::SceneManager* LocoMotor::SceneManager::GetInstance() {
     return _instance;
 }
 
-LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name) {
+LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name, const SceneMap& sceneMap) {
     if (_scenes.count(name) > 0) return _scenes[name];
     Scene* newScene = new Scene(name);
     if (_activeScene == nullptr) {
@@ -34,12 +34,17 @@ LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name) 
         _toStart = newScene;
     }
     _scenes.insert({ name,newScene });
+    newScene->initialize(sceneMap);
     return newScene;
 }
 
 void LocoMotor::SceneManager::changeScene(const std::string& name) {
     if (_scenes.count(name) == 0) {
         std::cerr << "Scene \"" << name << "\", doesn't exist, call createScene(name) before trying to access a scene.\n";
+        return;
+    }
+    if (_scenes[name] == _activeScene || _scenes[name] == _toStart) {
+        std::cerr << "Scene \"" << name << "\" already active.\n";
         return;
     }
     else {
@@ -55,40 +60,28 @@ void LocoMotor::SceneManager::loadScene(const std::string& path, const std::stri
         //TODO: Error fatal;
         return;
     }
-    Scene* mScene = createScene(name);
-     
-    for (auto& objPair : sceneMap.value()) {
-        GameObject* gObj = mScene->addGameobject(objPair.first);
-        for (auto& cmpPair : objPair.second) {
-            Component* cmp = gObj->addComponent(cmpPair.first);
-            cmp->setParameters(cmpPair.second);
-            
-        }
-        if (gObj->getComponent<Transform>() == nullptr) {
-            Transform* tr = dynamic_cast<Transform*>(gObj->addComponent("Transform"));
-            tr->InitRuntime();
-        }
-    }
+    createScene(name, sceneMap.value());
 }
 
 void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
         if (_activeScene != nullptr && _activeScene != _toStart) 
             _activeScene->destroy();
-        _toStart->start();
+        _toStart->build();
         _activeScene = _toStart;
         _toStart = nullptr;
     }
     if (_activeScene == nullptr) return; 
-    _activeScene->update(dT);
- 
 
+    _activeScene->update(dT);
 
 }
+
 void LocoMotor::SceneManager::fixedUpdate() {
     if (_activeScene == nullptr) return;
     _activeScene->fixedUpdate();
 }
+
 LocoMotor::SceneManager::SceneManager() : _scenes(), _activeScene(nullptr), _toStart(nullptr), _lastFrameTime(0), _dt(0.001f) {}
 
 LocoMotor::SceneManager::~SceneManager() {
