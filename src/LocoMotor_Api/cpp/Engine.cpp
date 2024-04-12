@@ -39,8 +39,22 @@ Engine::Engine() {
 	_exit = false;
 }
 
+Engine::~Engine() {
+
+}
+
 bool Engine::Init() {
 
+	assert(_instance == nullptr);
+	_instance = new Engine();
+	if (!_instance->init()) {
+		delete _instance;
+		_instance = nullptr;
+		return false;
+	}
+	return true;
+}
+bool Engine::init(){
 	if (!Graphics::GraphicsManager::Init()) {
 		return false;
 	}
@@ -49,6 +63,8 @@ bool Engine::Init() {
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
+
+	
 
 	//Physics::PhysicsManager::Init();
 	//PhysicsManager::GetInstance()->SetContactStartCallback(LMcontactStart);
@@ -76,6 +92,7 @@ bool Engine::Init() {
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
+	
 	_scnManager = SceneManager::GetInstance();
 
 	// Inicializar inputManager
@@ -87,8 +104,6 @@ bool Engine::Init() {
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
-
-
 
 
 	cmpFac->registerComponent<EventEmitter>("EventEmitter");
@@ -107,6 +122,17 @@ bool Engine::Init() {
 	return true;
 }
 
+Engine* LocoMotor::Engine::GetInstance() {
+	assert(_instance != nullptr);
+	return _instance;
+}
+
+void LocoMotor::Engine::Release() {
+	assert(_instance != nullptr);
+	delete _instance;
+	_instance = nullptr;
+}
+
 void LocoMotor::Engine::setWindowName(const std::string& name) {
 	_gameName = name;
 }
@@ -116,7 +142,9 @@ void LocoMotor::Engine::setStartingScene(const std::string& file, const std::str
 	_startingSceneName = name;
 }
 
-bool Engine::MainLoop() {
+bool Engine::mainLoop() {
+
+	
 
 	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
 		std::cerr << "Error creating game window" << std::endl;

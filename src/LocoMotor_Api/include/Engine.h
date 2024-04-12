@@ -16,18 +16,24 @@ namespace LocoMotor {
 
 	class MOTOR_API Engine {
 	public:
-		Engine();
+		
 
 		/// @brief Method to call before calling the InitGame Function in the game dll
 		/// @return if false, abort
-		bool Init();
+		static bool Init();
+
+		bool init();
+		/// @brief Returns the instance of the Engine singleton
+		static Engine* GetInstance();
+		/// @brief Deletes the instance of the Engine singleton
+		static void Release();
 
 		void setWindowName(const std::string& name);
 		void setStartingScene(const std::string& file, const std::string& name);
 
 		/// @brief Dont use it
 		/// @return please
-		bool MainLoop();
+		bool mainLoop();
 		int showWindow(int type,std::string msg);
 		void quit();
 	private:
@@ -35,7 +41,7 @@ namespace LocoMotor {
 		/// @brief Method to call from the InitGame function in the game dll
 		/// @param gameName 
 		/// @return 
-		bool StartGameWindow();
+		bool startGameWindow();
 
 		std::string _gameName;
 
@@ -47,6 +53,9 @@ namespace LocoMotor {
 		std::string _startScene;
 		bool _exit;
 		static Engine* _instance;
+
+		Engine();
+		~Engine();
 	};
 }
 
