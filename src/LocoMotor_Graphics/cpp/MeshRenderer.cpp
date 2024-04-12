@@ -24,7 +24,6 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 }
 
 LocoMotor::MeshRenderer::~MeshRenderer() {
-	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 }
 
 void LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {

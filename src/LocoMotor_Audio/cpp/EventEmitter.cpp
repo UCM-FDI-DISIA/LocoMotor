@@ -17,8 +17,10 @@ using namespace LocoMotor;
 EventEmitter::EventEmitter() : _currentEvent(nullptr), _studioSys(nullptr), playOnStart(false) {}
 
 EventEmitter::~EventEmitter() {
-	if (_currentEvent != nullptr)
+	if (_currentEvent != nullptr) {
+		_currentEvent->stop(FMOD_STUDIO_STOP_IMMEDIATE);
 		_currentEvent->release();
+	}
 }
 
 void LocoMotor::EventEmitter::setEvent(const char* eventID) 

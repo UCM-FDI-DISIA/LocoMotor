@@ -56,8 +56,16 @@ namespace LocoMotor{
 		/// be rendered. Any objects beyond this distance will not be visible in the rendered image.
 		void SetClippingPlane(int nearPlane, int farPlane);
 
+		/// @brief Sets the color of the viewport when nothing is seen
+		/// @param r Red value
+		/// @param g Green value
+		/// @param b Blue value
+		void setBackgroundColor(float r, float g, float b);
+
 		void init()/* override*/;
 	protected:
+
+		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 		void onEnable() override;
 		void update(float dT) override;
 		// Heredado via Component
@@ -77,8 +85,6 @@ namespace LocoMotor{
 		Ogre::SceneNode* _node;
 
 		Graphics::GraphicsManager* _man;
-
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
 
 		void render();
 	};

@@ -91,14 +91,9 @@ void GraphicsManager::createScene(std::string name) {
 	Ogre::SceneManager* sM = _root->createSceneManager();
 	sM->createStaticGeometry(sM->getName() + "_static");
 
-	OverlayManager::GetInstance()->show();
-
-	sM->addRenderQueueListener(OverlayManager::GetInstance()->getSystem());
-
 	_scenes.insert({ name, sM });
-	if (_activeScene == nullptr) _activeScene = sM;
-	_mShaderGenerator->addSceneManager(sM);
-	_nodeRoot = sM->getRootSceneNode();
+	if (_activeScene == nullptr)
+		setActiveScene(name);
 }
 
 void GraphicsManager::render() {
@@ -118,6 +113,12 @@ void GraphicsManager::setActiveScene(std::string name) {
 	for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
 		if (it->first == name) {
 			_activeScene = it->second;
+			_mShaderGenerator->addSceneManager(it->second);
+			_nodeRoot = it->second->getRootSceneNode();
+
+			it->second->addRenderQueueListener(OverlayManager::GetInstance()->getSystem());
+
+			OverlayManager::GetInstance()->show();
 			return;
 		}
 	}
@@ -138,8 +139,18 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 	}
 	for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
 		if (it->first == name) {
+
+			for (auto& nameNodePair : _sceneNodes) {
+				_nodeRoot->removeAndDestroyChild(nameNodePair.second);
+			}
+			_sceneNodes.clear();
 			it->second->destroyAllCameras();
 			it->second->destroyAllParticleSystems();
+
+			it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getSystem());
+			_mShaderGenerator->removeSceneManager(it->second);
+			_nodeRoot = nullptr;
+			_activeScene = nullptr;
 			return;
 		}
 	}

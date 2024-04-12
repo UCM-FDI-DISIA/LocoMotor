@@ -18,7 +18,6 @@ LocoMotor::ParticleSystem::ParticleSystem() {
 }
 
 LocoMotor::ParticleSystem::~ParticleSystem() {
-	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 	numOfParticleSystems--;
 }
 
@@ -60,7 +59,7 @@ void LocoMotor::ParticleSystem::onDisable() {}
 
 void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 
-	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName() + "nopeteTemporal");
+	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());
 
 	std::string particleName = "";
 

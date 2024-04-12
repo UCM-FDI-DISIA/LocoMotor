@@ -59,7 +59,6 @@ void LocoMotor::Light::update(float dt) {
 }
 
 LocoMotor::Light::~Light() {
-	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 	//Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->destroyLight(_light);
 }
 

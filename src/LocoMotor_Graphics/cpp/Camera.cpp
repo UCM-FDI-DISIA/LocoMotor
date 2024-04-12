@@ -17,7 +17,7 @@ LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr),
 
 LocoMotor::Camera::~Camera() {
 	_man->getOgreSceneManager()->destroyCamera(_mCamera);
-	_man->destroyNode(_node->getName());
+	_man->getRenderWindow()->removeViewport(0);
 }
 
 void LocoMotor::Camera::SetTarget(GameObject* target, LMVector3 offset)
@@ -54,6 +54,10 @@ void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
 	_mCamera->setFarClipDistance(farPlane);
 }
 
+void LocoMotor::Camera::setBackgroundColor(float r, float g, float b) {
+	_vp->setBackgroundColour(Ogre::ColourValue(r, g, b));
+}
+
 void LocoMotor::Camera::start() {
 	if (_gameObject->getComponent<Transform>() == nullptr) {
 		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
@@ -80,11 +84,9 @@ void LocoMotor::Camera::setParameters(ComponentMap& params) {
 			catch (...) {
 			}
 		}
-		else if (param.first == "target") {
-			//_target = param.second;
-		}
-		else if (param.first == "main") {
-			//gameObject->GetScene()->SetCamObj(gameObject);
+		else if (param.first == "Background" || param.first == "background") {
+			LMVector3 col = LMVector3::StringToVector(param.second);
+			setBackgroundColor(col.GetX(), col.GetY(), col.GetZ());
 		}
 	}
 }
@@ -146,6 +148,11 @@ void LocoMotor::Camera::update(float dT)
 		_node->scale(1, 1, _gameObject->getComponent<Transform>()->GetSize().GetZ());
 		_nodeScale.SetZ(_gameObject->getComponent<Transform>()->GetSize().GetZ());
 	}
+
+	int w = Graphics::GraphicsManager::GetInstance()->getWindowWidth();
+	int h = Graphics::GraphicsManager::GetInstance()->getWindowHeight();
+
+	_mCamera->setAspectRatio(w / (float)h);
 }
 void LocoMotor::Camera::onDisable()
 {

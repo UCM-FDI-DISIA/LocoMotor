@@ -128,6 +128,7 @@ bool Engine::MainLoop() {
 	}
 	else if (_startingSceneFile != "" && _startingSceneName != "") {
 		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
+		_scnManager->changeScene(_startingSceneName);
 	}
 
 

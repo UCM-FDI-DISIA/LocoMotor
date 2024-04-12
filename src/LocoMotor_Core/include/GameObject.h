@@ -82,6 +82,8 @@ namespace LocoMotor {
 		bool _active;
 		std::string _gobjName;
 
+		bool shouldCallAwake;
+
 		GameObject(std::string name);
 		~GameObject();
 		/// @brief This method is called every frame 

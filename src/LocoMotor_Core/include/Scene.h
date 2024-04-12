@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include "SceneDefs.h"
 
 #ifdef _MOTORDLL
 #define MOTOR_API __declspec(dllexport)
@@ -12,12 +13,11 @@
 namespace LocoMotor {
 
 	class GameObject;
-	class MOTOR_API Scene {
+
+	class Scene {
 	public:
 		Scene(std::string name);
 		~Scene();
-		/// @brief Initializes components for all game objects in the scene and sets the scene as active.
-		void start();
 		/// @brief Updates all game objects in the scene and sets the camera position based on the
 		/// position of a specific game object.
 		/// @param dt stands for delta time, which is the time elapsed since the last frame update. It is
@@ -35,7 +35,7 @@ namespace LocoMotor {
 		bool getActiveStatus();
 		/// @brief  Returns the name of a scene as a string.
 		/// @return scene name
-		std::string getSceneName();
+		MOTOR_API std::string getSceneName();
 
 		/// @brief Adds a new game object to the scene or returns an existing one with the same name.
 		/// @param name A string representing the name of the GameObject to be added to the Scene.
@@ -44,24 +44,27 @@ namespace LocoMotor {
 		/// @brief Adds a new game object *during gameplay* to the scene or returns an existing one with the same name.
 		/// @param name A string representing the name of the GameObject to be added to the Scene.
 		/// @return the pointer of the new GameObject.
-		GameObject* addGameobjectRuntime(std::string name);
+		MOTOR_API GameObject* addGameobjectRuntime(std::string name);
 		/// @brief Removes the selected GameObject from the list
 		/// @param name The name of the Object to remove
-		void removeGameobject(std::string name);
+		MOTOR_API void removeGameobject(std::string name);
 		/// @brief Returns a GameObject pointer by searching for its name in a Scene's list of GameObjects.
 		/// @param name Is a string parameter that represents the name of the GameObject that is being
 		/// searched for in the Scene's list of GameObjects.
 		/// @return pointer to a GameObject. If the GameObject with the given name exists in the _gameObjList
 		/// map, then a pointer to that GameObject is returned.Otherwise, a null pointer is returned.
-		GameObject* getObjectByName(std::string name);
+		MOTOR_API GameObject* getObjectByName(std::string name);
 
 		/// @brief Returns if the scene has to be destroyed
 		/// @return _toDestroy 
 		bool toDestroy();
+
+		/// @brief Creates all objects using the data set
+		void build();
 		/// @brief Destroys all the gameObjects on the scene
 		void destroy();
 
-		void setCameraObj(GameObject* cam);
+		void initialize(const SceneMap& data);
 
 	private:
 
@@ -72,7 +75,7 @@ namespace LocoMotor {
 		std::unordered_map<std::string, GameObject*> _gameObjList;
 		std::unordered_map<std::string, GameObject*> _gameObjBufferList;
 
-		GameObject* _camera_gObj;
+		SceneMap _sceneDef;
 
 		bool _toDestroy = false;
 	};

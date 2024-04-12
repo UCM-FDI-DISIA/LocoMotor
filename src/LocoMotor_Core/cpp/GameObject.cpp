@@ -28,11 +28,13 @@ void LocoMotor::GameObject::removeComponents(const std::string& name) {
 	_components.erase(comps.first, comps.second);
 }
 
-LocoMotor::GameObject::GameObject(std::string name) : _components(), _toEnable(), _toDisable(), _toStart(), _toDestroy(), _scene(nullptr), _transform(nullptr), _active(true), _gobjName(name) {}
+LocoMotor::GameObject::GameObject(std::string name) : _components(), _toEnable(), _toDisable(), _toStart(), _toDestroy(), _scene(nullptr), _transform(nullptr), _active(true), _gobjName(name), shouldCallAwake(true) {}
 
 LocoMotor::GameObject::~GameObject() {
 	for (auto& pair : _components) {
 		Component* cmp = pair.second;
+		cmp->onDisable();
+		cmp->onDestroy();
 		delete cmp;
 		cmp = nullptr;
 	}
@@ -40,6 +42,7 @@ LocoMotor::GameObject::~GameObject() {
 }
 
 void LocoMotor::GameObject::update(float dt) {
+
 	while (!_toDestroy.empty()) {
 		Component* cmp = _toDestroy.front();
 		cmp->onDisable();
@@ -54,10 +57,14 @@ void LocoMotor::GameObject::update(float dt) {
 	}
 	while (!_toStart.empty()) {
 		Component* cmp = _toStart.front();
+		if (shouldCallAwake) {
+			cmp->awake();
+		}
 		cmp->onEnable();
 		cmp->start();
 		_toStart.pop();
 	}
+	shouldCallAwake = false;
 	while (!_toEnable.empty()) {
 		Component* cmp = _toEnable.front();
 		cmp->onEnable();

@@ -4,13 +4,14 @@
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "GameObject.h"
+#include "Transform.h"
+#include "SceneDefs.h"
 #include <iostream>
 
 
 using namespace LocoMotor;
 Scene::Scene(std::string name) {
 	_name = name;
-	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 }
 
 Scene::~Scene() {
@@ -21,19 +22,7 @@ Scene::~Scene() {
 	for (it = _gameObjBufferList.cbegin(); it != _gameObjBufferList.end(); it = _gameObjBufferList.erase(it)) {
 		delete it->second;
 	}
-
 }
-
-
-void Scene::start() {
-	_toDestroy = false;
-	for (auto& obj : _gameObjList) {
-		//obj.second->StartComp();
-	}
-	_isActiveScene = true;
-	Graphics::GraphicsManager::GetInstance()->setActiveScene(_name);
-}
-
 
 void Scene::update(float dt) {
 	//si no esta activa que no haga nada
@@ -81,20 +70,37 @@ bool LocoMotor::Scene::toDestroy() {
 	return _toDestroy;
 }
 
+void Scene::build() {
+	_toDestroy = false;
+	_isActiveScene = true;
+	Graphics::GraphicsManager::GetInstance()->setActiveScene(_name);
+
+	for (auto& objPair : _sceneDef) {
+		GameObject* gObj = addGameobject(objPair.first);
+		for (auto& cmpPair : objPair.second) {
+			Component* cmp = gObj->addComponent(cmpPair.first);
+			cmp->setParameters(cmpPair.second);
+		}
+		if (gObj->getComponent<Transform>() == nullptr) {
+			Transform* tr = dynamic_cast<Transform*>(gObj->addComponent("Transform"));
+			tr->InitRuntime();
+		}
+	}
+}
+
 void Scene::destroy() {
 	_isActiveScene = false;
 	std::unordered_map<std::string, GameObject*>::iterator it;
 	for (it = _gameObjList.begin(); it != _gameObjList.end(); it = _gameObjList.erase(it)) {
-		Graphics::GraphicsManager::GetInstance()->destroyNode(it->second->getName());
 		delete it->second;
 	}
 	Graphics::GraphicsManager::GetInstance()->deactivateScene(_name);
 }
 
-void LocoMotor::Scene::setCameraObj(GameObject* cam) {
-	_camera_gObj = cam;
+void Scene::initialize(const SceneMap& data) {
+	_sceneDef = data;
+	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 }
-
 
 bool Scene::getActiveStatus() {
 	return _isActiveScene;
