@@ -14,6 +14,53 @@ Scene = {
     },
 
     -- CHARACTERS --
+    Object = {
+        AudioSource = {
+            Volume = 1,
+            PlayOnAwake = "Assets/Sounds/prueba.wav"
+        }
+    },
+    Emitter = {
+        EventEmitter = {
+            EventID = "event:/Music/Level 02",
+            Play = ""
+        },
+        UIImage = {
+            anchor = "0 0",
+            position = "10 10",
+            pivot = "0 0",
+            size = "100 100",
+            image = "UIMaterial"
+        },
+        UIText = {
+            anchor = "1 0",
+            position = "-10 10",
+            pivot = "1 0",
+            size = "20 25",
+            text = "hola ijos de puta, les mando un saludo desde lua",
+            font = "Heavitas",
+            alignment = "r",
+            colorTop = "0.9 0 0.2",
+            colorBot = "0.2 0 0.9"
+        }
+    },
+    -- cubePrueba = {
+    --     Transform = {
+    --         position = "0 0 0",
+    --         size = "20 20 20",
+    --         rotation = "0 0 0"
+    --     },
+    --     MeshRenderer = {
+    --         mesh = "CubemanMesh.mesh",
+    --         material = "CustomMaterial"
+    --     },
+    --     PlayerController = {
+    --     },
+    --     ParticleSystem = {
+    --         Particle = "Smoke",
+    --         PlayOnStart = ""
+    --     }
+    -- },
     cube = {
         Transform = {
             position = "0 0 0",
@@ -199,16 +246,10 @@ Scene = {
     },
 
     -- SOUNDS --
-    Object = {
+    Objectytdyuyfdyry = {
         AudioSource = {
             Volume = 1,
             PlayOnAwake = "Assets/Sounds/prueba.wav"
         }
-    },
-    Emitter = {
-        EventEmitter = {
-            EventID = "event:/Music/Level 02",
-            Play = "";
-        }
-    },
+    }
 }

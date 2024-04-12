@@ -18,7 +18,7 @@ LocoMotor::UIImage::~UIImage() {
 	_overlayMngr->destroyOverlayElement(_container);
 }
 
-void LocoMotor::UIImage::setImage(std::string nImage) {
+void LocoMotor::UIImage::setImage(const std::string& nImage) {
 	if (Ogre::MaterialManager::getSingletonPtr()->resourceExists(nImage))
 		_container->setMaterialName(nImage);
 }
@@ -33,11 +33,37 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 	_container->initialise();
 
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
-	_container->setPosition(_gfxManager->getWindowWidth() * _anchorX + _positionX, _gfxManager->getWindowHeight() * _anchorY + _positionY);
+
+	std::string imageName = "";
+
+	for (auto& param : params) {
+		if (param.first == "Anchor" || param.first == "anchor") {
+			Graphics::OverlayManager::stringToAnchors(param.second, _anchorX, _anchorY);
+		}
+		else if (param.first == "Pivot" || param.first == "pivot") {
+			Graphics::OverlayManager::stringToAnchors(param.second, _pivotX, _pivotY);
+		}
+		else if (param.first == "Position" || param.first == "position") {
+			Graphics::OverlayManager::stringToPosition(param.second, _positionX, _positionY);
+		}
+		else if (param.first == "Size" || param.first == "size") {
+			Graphics::OverlayManager::stringToPosition(param.second, _sizeX, _sizeY);
+		}
+		else if (param.first == "Image" || param.first == "image") {
+			imageName = param.second;
+		}
+	}
 
 	_container->setDimensions(_sizeX, _sizeY);
 
-	_container->setMaterialName(Ogre::MaterialManager::getSingleton().getDefaultMaterial()->getName());
+	updatePosition();
+
+	if (imageName != "") {
+		setImage(imageName);
+	}
+	else {
+		_container->setMaterialName(Ogre::MaterialManager::getSingleton().getDefaultMaterial()->getName());
+	}
 
 	Graphics::OverlayManager::GetInstance()->getContainer()->addChild(_container);
 }

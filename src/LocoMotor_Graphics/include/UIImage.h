@@ -29,7 +29,7 @@ namespace LocoMotor {
 		UIImage();
 		virtual ~UIImage();
 
-		void setImage(std::string nImage);
+		void setImage(const std::string& nImage);
 
 		/// @brief Sets the anchor point of the element
 		void setAnchorPoint(float x, float y);
@@ -53,7 +53,7 @@ namespace LocoMotor {
 
 	protected:
 
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void setParameters(ComponentMap& params) override;
 		void start() override {};
 		void update(float dT) override;
 
@@ -71,7 +71,7 @@ namespace LocoMotor {
 		float _anchorX = 0.5f, _anchorY = 0.5f;
 		float _pivotX = 0.5f, _pivotY = 0.5f;
 		int _positionX = 0, _positionY = 0;
-		int _sizeX = 100, _sizeY = 50;
+		int _sizeX = 50, _sizeY = 50;
 	};
 
 }

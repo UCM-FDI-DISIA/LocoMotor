@@ -1,6 +1,7 @@
 #include "UIText.h"
 #include "GraphicsManager.h"
 #include "OverlayManager.h"
+#include "LMVector.h"
 
 #include "OgreOverlayManager.h"
 #include "OgreOverlayContainer.h"
@@ -32,6 +33,8 @@ void LocoMotor::UIText::setText(std::string text) {
 
 void LocoMotor::UIText::setFont(std::string nFont) {
 
+	if (nFont == "") return;
+
 	auto a = Ogre::FontManager::getSingletonPtr();
 
 	auto res = a->createOrRetrieve(nFont, "General");
@@ -52,24 +55,65 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 	_container->initialise();
 
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
-	_container->setPosition(_gfxManager->getWindowWidth() * _anchorX + _positionX, _gfxManager->getWindowHeight() * _anchorY + _positionY);
+
+	std::string text = "New Text";
+	std::string font = "";
+	Ogre::TextAreaOverlayElement::Alignment alignment = Ogre::TextAreaOverlayElement::Alignment::Left;
+	LMVector3 colTop = LMVector3();
+	LMVector3 colBot = LMVector3();
+
+	for (auto& param : params) {
+		if (param.first == "Anchor" || param.first == "anchor") {
+			Graphics::OverlayManager::stringToAnchors(param.second, _anchorX, _anchorY);
+		}
+		else if (param.first == "Pivot" || param.first == "pivot") {
+			Graphics::OverlayManager::stringToAnchors(param.second, _pivotX, _pivotY);
+		}
+		else if (param.first == "Position" || param.first == "position") {
+			Graphics::OverlayManager::stringToPosition(param.second, _positionX, _positionY);
+		}
+		else if (param.first == "Size" || param.first == "size") {
+			Graphics::OverlayManager::stringToPosition(param.second, _sizeX, _sizeY);
+		}
+		else if (param.first == "Text" || param.first == "text") {
+			text = param.second;
+		}
+		else if (param.first == "Font" || param.first == "font") {
+			font = param.second;
+		}
+		else if (param.first == "Alignment" || param.first == "alignment") {
+			if (param.second[0] == 'C' || param.second[0] == 'c') {
+				alignment = Ogre::TextAreaOverlayElement::Alignment::Center;
+			}
+			else if (param.second[0] == 'R' || param.second[0] == 'r') {
+				alignment = Ogre::TextAreaOverlayElement::Alignment::Right;
+			}
+		}
+		else if (param.first == "ColorTop" || param.first == "colorTop") {
+			colTop = LMVector3::StringToVector(param.second);
+		}
+		else if (param.first == "ColorBot" || param.first == "colorBot") {
+			colBot = LMVector3::StringToVector(param.second);
+		}
+	}
 
 	_container->setDimensions(_sizeX, _sizeY);
 
+	updatePosition();
+
 	_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(
 		  _overlayMngr->createOverlayElement("TextArea", "UITextElem" + std::to_string(_numOfTexts)));
-
 	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
-	_txtElem->setCaption(_uTxtName);
+
+	setFont(font);
+	setText(text);
 	_txtElem->setCharHeight(_sizeY);
-	_txtElem->setPosition(0, 0);
-	_txtElem->setDimensions(_sizeY, _sizeX);
-	_txtElem->setColourBottom(Ogre::ColourValue::Black);
-	_txtElem->setColourTop(Ogre::ColourValue::Black);
-	_txtElem->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Left);
+	_txtElem->setColourTop(Ogre::ColourValue(colTop.GetX(), colTop.GetY(), colTop.GetZ(), 1.f));
+	_txtElem->setColourBottom(Ogre::ColourValue(colBot.GetX(), colBot.GetY(), colBot.GetZ(), 1.f));
+	_txtElem->setAlignment(alignment);
+
 
 	_container->addChild(_txtElem);
-
 	_container->show();
 	_txtElem->show();
 
