@@ -88,12 +88,10 @@ material Platform {
 material BackPlane {
     technique {
         pass {
-
             lighting off
             texture_unit {
                 texture BackPlane.jpg
                 tex_address_mode wrap
-                colour_op modulate
             }
         }
     }
@@ -102,6 +100,8 @@ material BackPlane {
 material UIMaterial {
     technique {
         pass {
+            depth_write off
+            scene_blend alpha_blend
             lighting off
             texture_unit {
                 texture ScoreBackground.png
@@ -113,6 +113,7 @@ material UIMaterial {
 material CrossMaterial {
     technique {
         pass {
+            scene_blend alpha_blend
             lighting off
             texture_unit {
                 texture Cross.png

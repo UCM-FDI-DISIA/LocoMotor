@@ -2,8 +2,8 @@ particle_system Smoke
 { 
     renderer billboard
     billboard_type point 
-    particle_width 10
-    particle_height 10
+    particle_width 1
+    particle_height 1
     quota 300
     material Smoke
 
@@ -14,8 +14,8 @@ particle_system Smoke
         angle 10
         emission_rate 8
         time_to_live 0.8
-        velocity_min 50
-        velocity_max 100
+        velocity_min 0.5
+        velocity_max 1
         colour 1 1 1 1
     }
 
@@ -26,8 +26,8 @@ particle_system Smoke
         angle 10
         emission_rate 8
         time_to_live 0.8
-        velocity_min 50
-        velocity_max 100
+        velocity_min 0.5
+        velocity_max 1
         colour 1 1 1 1
     }
 
@@ -54,8 +54,8 @@ particle_system GunShot
 { 
     renderer billboard
     billboard_type point 
-    particle_width 10
-    particle_height 10
+    particle_width 1
+    particle_height 1
     quota 1500
     material Smoke
 
@@ -66,8 +66,8 @@ particle_system GunShot
         angle 90
         emission_rate 500
         time_to_live 0.8
-        velocity_min 50
-        velocity_max 100
+        velocity_min 1
+        velocity_max 5
         colour 1 1 1 1
         duration 0.05
     }

@@ -14,7 +14,8 @@ LocoMotor::ParticleSystem::ParticleSystem() {
 	_node = nullptr;
 	_particleSystem = nullptr;
 	numOfParticleSystems++;
-	plsyOnStart = false;
+	playOnStart = false;
+	emittingSelf = true;
 }
 
 LocoMotor::ParticleSystem::~ParticleSystem() {
@@ -23,6 +24,8 @@ LocoMotor::ParticleSystem::~ParticleSystem() {
 
 void LocoMotor::ParticleSystem::play()
 {
+	emittingSelf = true;
+	if (!isEnabled()) return;
 	unsigned short numEmitters = _particleSystem->getNumEmitters();
 	for (unsigned short i = 0; i < numEmitters; i++) {
 		_particleSystem->getEmitter(i)->setEnabled(true);
@@ -32,15 +35,21 @@ void LocoMotor::ParticleSystem::play()
 
 void LocoMotor::ParticleSystem::stop()
 {
+	emittingSelf = false;
 	_particleSystem->setEmitting(false);
 }
 
-void LocoMotor::ParticleSystem::onEnable() {}
+void LocoMotor::ParticleSystem::onEnable() {
+	if (_particleSystem != nullptr && isEnabled())
+		_particleSystem->setEmitting(emittingSelf);
+}
 
 void LocoMotor::ParticleSystem::start()
 {
-	if (plsyOnStart)
+	if (playOnStart) {
+		emittingSelf = true;
 		_particleSystem->setEmitting(true);
+	}
 }
 
 void LocoMotor::ParticleSystem::update(float dT) {
@@ -55,7 +64,10 @@ void LocoMotor::ParticleSystem::update(float dT) {
 	_node->setScale(tr->GetSize().GetX(), tr->GetSize().GetY(), tr->GetSize().GetZ());
 }
 
-void LocoMotor::ParticleSystem::onDisable() {}
+void LocoMotor::ParticleSystem::onDisable() {
+	if (_particleSystem != nullptr && !isEnabled())
+		_particleSystem->setEmitting(false);
+}
 
 void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 
@@ -68,7 +80,7 @@ void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 			particleName = params[i].second;
 		}
 		else if (params[i].first == "PlayOnStart" || params[i].first == "playOnStart") {
-			plsyOnStart = true;
+			playOnStart = true;
 		}
 	}
 

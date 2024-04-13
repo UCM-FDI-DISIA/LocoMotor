@@ -21,6 +21,8 @@ LocoMotor::UIImage::~UIImage() {
 void LocoMotor::UIImage::setImage(const std::string& nImage) {
 	if (Ogre::MaterialManager::getSingletonPtr()->resourceExists(nImage))
 		_container->setMaterialName(nImage);
+	else
+		_container->setMaterialName(Ogre::MaterialManager::getSingleton().getDefaultMaterial()->getName());
 }
 
 void LocoMotor::UIImage::setParameters(ComponentMap& params) {
@@ -58,12 +60,9 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 	updatePosition();
 
-	if (imageName != "") {
-		setImage(imageName);
-	}
-	else {
-		_container->setMaterialName(Ogre::MaterialManager::getSingleton().getDefaultMaterial()->getName());
-	}
+	setImage(imageName);
+
+	//_container->setColour(Ogre::ColourValue::Green);
 
 	Graphics::OverlayManager::GetInstance()->getContainer()->addChild(_container);
 }
