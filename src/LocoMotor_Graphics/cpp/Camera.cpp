@@ -50,8 +50,8 @@ void LocoMotor::Camera::SetViewportRatio(int viewportIndex, int modeIndex)
 }
 
 void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
-	_mCamera->setNearClipDistance(nearPlane);
-	_mCamera->setFarClipDistance(farPlane);
+	_mCamera->setNearClipDistance(Ogre::Real(nearPlane));
+	_mCamera->setFarClipDistance(Ogre::Real(farPlane));
 }
 
 void LocoMotor::Camera::setBackgroundColor(float r, float g, float b) {
@@ -85,8 +85,8 @@ void LocoMotor::Camera::setParameters(ComponentMap& params) {
 			}
 		}
 		else if (param.first == "Background" || param.first == "background") {
-			LMVector3 col = LMVector3::StringToVector(param.second);
-			setBackgroundColor(col.GetX(), col.GetY(), col.GetZ());
+			LMVector3 col = LMVector3::stringToVector(param.second);
+			setBackgroundColor(col.getX(), col.getY(), col.getZ());
 		}
 	}
 }
@@ -116,18 +116,18 @@ void LocoMotor::Camera::update(float dT)
 {
 	if (_gameObject->getComponent<Transform>() == nullptr)return;
 
-	LMVector3 pos = _gameObject->getComponent<Transform>()->GetPosition();
-	_node->setPosition(pos.GetX(), pos.GetY(), pos.GetZ());
+	LMVector3 pos = _gameObject->getComponent<Transform>()->getPosition();
+	_node->setPosition(pos.getX(), pos.getY(), pos.getZ());
 
 	Ogre::Quaternion quat = Ogre::Quaternion();
-	quat.w = _gameObject->getComponent<Transform>()->GetRotation().GetW();
-	quat.x = _gameObject->getComponent<Transform>()->GetRotation().GetX();
-	quat.y = _gameObject->getComponent<Transform>()->GetRotation().GetY();
-	quat.z = _gameObject->getComponent<Transform>()->GetRotation().GetZ();
+	quat.w = _gameObject->getComponent<Transform>()->getRotation().getW();
+	quat.x = _gameObject->getComponent<Transform>()->getRotation().getX();
+	quat.y = _gameObject->getComponent<Transform>()->getRotation().getY();
+	quat.z = _gameObject->getComponent<Transform>()->getRotation().getZ();
 	_node->setOrientation(quat);
 
-	LMVector3 size = _gameObject->getComponent<Transform>()->GetSize();
-	_node->setScale(size.GetX(), size.GetY(), size.GetZ());
+	LMVector3 size = _gameObject->getComponent<Transform>()->getSize();
+	_node->setScale(size.getX(), size.getY(), size.getZ());
 
 	int w = Graphics::GraphicsManager::GetInstance()->getWindowWidth();
 	int h = Graphics::GraphicsManager::GetInstance()->getWindowHeight();

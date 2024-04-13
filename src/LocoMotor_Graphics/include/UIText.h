@@ -45,10 +45,10 @@ namespace LocoMotor {
 		void setAnchorPoint(float x, float y);
 
 		/// @brief Sets the position of the entity on the UI
-		void setPosition(float x, float y);
+		void setPosition(int x, int y);
 
 		/// @brief Sets the size of the entity on the UI
-		void setDimensions(float w, float h);
+		void setDimensions(int w, int h);
 
 		/// @brief Sets the pivot of the textbox
 		void setPivot(float x, float y);

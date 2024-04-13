@@ -140,18 +140,18 @@ void LocoMotor::MeshRenderer::update(float dt) {
 		_setStatic = false;
 	}
 
-	LMVector3 pos = _gameObject->getComponent<Transform>()->GetPosition();
-	_node->setPosition(pos.GetX(), pos.GetY(), pos.GetZ());
+	LMVector3 pos = _gameObject->getComponent<Transform>()->getPosition();
+	_node->setPosition(pos.getX(), pos.getY(), pos.getZ());
 
 	Ogre::Quaternion quat = Ogre::Quaternion();
-	quat.w = _gameObject->getComponent<Transform>()->GetRotation().GetW();
-	quat.x = _gameObject->getComponent<Transform>()->GetRotation().GetX();
-	quat.y = _gameObject->getComponent<Transform>()->GetRotation().GetY();
-	quat.z = _gameObject->getComponent<Transform>()->GetRotation().GetZ();
+	quat.w = _gameObject->getComponent<Transform>()->getRotation().getW();
+	quat.x = _gameObject->getComponent<Transform>()->getRotation().getX();
+	quat.y = _gameObject->getComponent<Transform>()->getRotation().getY();
+	quat.z = _gameObject->getComponent<Transform>()->getRotation().getZ();
 	_node->setOrientation(quat);
 
-	LMVector3 size = _gameObject->getComponent<Transform>()->GetSize();
-	_node->setScale(size.GetX(), size.GetY(), size.GetZ());
+	LMVector3 size = _gameObject->getComponent<Transform>()->getSize();
+	_node->setScale(size.getX(), size.getY(), size.getZ());
 }
 
 void LocoMotor::MeshRenderer::setVisible(bool visible) {

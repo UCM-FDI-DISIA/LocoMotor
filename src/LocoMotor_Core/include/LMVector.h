@@ -30,19 +30,19 @@ namespace LocoMotor {
 
 		// Getter functions
 		/// @brief Get the X value of the Vector
-		float GetX() const;
+		float getX() const;
 		/// @brief Get the Y value of the Vector
-		float GetY() const;
+		float getY() const;
 		/// @brief Get the Z value of the Vector
-		float GetZ() const;
+		float getZ() const;
 
 		// Setter functions
 		/// @brief Set the X value of the Vector
-		void SetX(float x);
+		void setX(float x);
 		/// @brief Set the Y value of the Vector
-		void SetY(float y);
+		void setY(float y);
 		/// @brief Set the Z value of the Vector
-		void SetZ(float z);
+		void setZ(float z);
 
 		// Equal operators of vectors
 
@@ -64,68 +64,68 @@ namespace LocoMotor {
 		// Dot product
 		///	@brief Get the Dot Product of two Vectors
 		/// @param other The other Vector
-		float Dot(const LMVector3& other) const;
+		float dot(const LMVector3& other) const;
 
 		// Cross product
 		///	@brief Get the Cross Product of two Vectors
 		/// @param other The other Vector
-		LMVector3 Cross(const LMVector3& other) const;
+		LMVector3 cross(const LMVector3& other) const;
 
 		// Cross product
 		///	@brief Get the Cross Product of two Vectors
 		/// @param normal The normal Vector
 		/// @param other The other Vector
-		LMVector3 Cross(const LMVector3& other, const LMVector3& normal) const;
+		LMVector3 cross(const LMVector3& other, const LMVector3& normal) const;
 
 		// Magnitude
 		///	@brief Get the Magnitude of a Vector
-		float Magnitude() const;
+		float magnitude() const;
 
 		// Normalize
 		///	@brief Normalize a Vector
-		void Normalize();
+		void normalize();
 
 		// Angle
 		///	@brief Get the Angle between two Vectors
 		/// @param other The other Vector to measure from
-		float Angle(const LMVector3& other) const;
+		float angle(const LMVector3& other) const;
 
 		// Angle
 		///	@brief Get the Angle between two Vectors
 		/// @param other The other Vector to measure from
 		/// @param normal The normal Vector
-		float Angle(const LMVector3& other, const LMVector3& normal) const;
+		float angle(const LMVector3& other, const LMVector3& normal) const;
 
 		// Angle
 		///	@brief Get the Angle between two Vectors in degrees
 		/// @param other The other Vector to measure from
 		/// @param normal The normal Vector
 		/// @param axis The axis to measure by
-		float Angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const;
+		float angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const;
 
 		// rotate
 		///	@brief Rotate a Vector
 		/// @param axis The axis to rotate around
 		/// @param angle The angle to rotate (degrees)
-		LMVector3 Rotate(const LMVector3& axis, float angle);
+		LMVector3 rotate(const LMVector3& axis, float angle);
 
 		// perpendicular
 		///	@brief Get the perpendicular vector from two Vectors
 		/// @param other The other Vector
-		LMVector3 Perpendicular(const LMVector3& other) const;
+		LMVector3 perpendicular(const LMVector3& other) const;
 
 
 		/// @brief Convert a rotation vector to Quaternion
-		LMQuaternion AsRotToQuaternion() const;
+		LMQuaternion asRotToQuaternion() const;
 
 		/// @brief Converts a String to a vector
 		/// @param s String to convert
 		/// @return Vector3 converted
-		static LMVector3 StringToVector(const std::string& s);
+		static LMVector3 stringToVector(const std::string& s);
 
-		static LMVector3 Lerp(const LMVector3& start, const LMVector3& end, float t);
+		static LMVector3 lerp(const LMVector3& start, const LMVector3& end, float t);
 
-		static float Distance(const LMVector3& v1, const LMVector3& v2);
+		static float distance(const LMVector3& v1, const LMVector3& v2);
 
 	private:
 		float _x = 0, _y = 0, _z = 0;
@@ -145,23 +145,23 @@ namespace LocoMotor {
 
 		// Getter functions
 		/// @brief Get the W value of the Quaternion
-		float GetW() const;
+		float getW() const;
 		/// @brief Get the X value of the Quaternion
-		float GetX() const;
+		float getX() const;
 		/// @brief Get the Y value of the Quaternion
-		float GetY() const;
+		float getY() const;
 		/// @brief Get the Z value of the Quaternion
-		float GetZ() const;
+		float getZ() const;
 
 	//Setter functions
 		/// @brief Set the W value of the Quaternion
-		void SetW(float w);
+		void setW(float w);
 		/// @brief Set the X value of the Quaternion
-		void SetX(float x);
+		void setX(float x);
 		/// @brief Set the Y value of the Quaternion
-		void SetY(float y);
+		void setY(float y);
 		/// @brief Set the Z value of the Quaternion
-		void SetZ(float z);
+		void setZ(float z);
 
 		//Equal operators of quaternions
 		LMQuaternion operator=(const LMQuaternion& other);
@@ -182,41 +182,41 @@ namespace LocoMotor {
 
 		// Conjugate
 		/// @brief Get the Conjugate of a Quaternion
-		LMQuaternion Conjugate() const;
+		LMQuaternion conjugate() const;
 
 		// Magnitude
 		/// @brief Get the Magnitude of a Quaternion
-		float Magnitude() const;
+		float magnitude() const;
 
 		// Normalize
 		/// @brief Normalize a Quaternion
-		void Normalize();
+		void normalize();
 
 		// Rotate
 		/// @brief Rotate a Quaternion
 		/// @param axis The Axis to rotate around
 		/// @param angle The Angle to rotate by (degrees)
-		LMQuaternion Rotate(const LMVector3& axis, float angle) const;
+		LMQuaternion rotate(const LMVector3& axis, float angle) const;
 
 		// Rotate a vector by this quaternion
 		/// @brief Rotate a Vector by this Quaternion
 		/// @param vector The Vector to be rotated
-		LMVector3 Rotate(const LMVector3& vector) const;
+		LMVector3 rotate(const LMVector3& vector) const;
 
 		// Up vector from Quaternion
 		/// @brief Get the Up Vector from a Quaternion
-		LMVector3 Up() const;
+		LMVector3 up() const;
 
 		// Right vector from Quaternion
 		/// @brief Get the Right Vector from a Quaternion
-		LMVector3 Right() const;
+		LMVector3 right() const;
 
 		// Forward vector from Quaternion
 		/// @brief Get the Forward Vector from a Quaternion
-		LMVector3 Forward() const;
+		LMVector3 forward() const;
 
 		/// @brief Returns the Quaternion to Euler vector3
-		LMVector3 ToEuler() const;
+		LMVector3 toEuler() const;
 	private:
 		float _w = 0, _x = 0, _y = 0, _z = 0;
 	};

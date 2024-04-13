@@ -57,11 +57,11 @@ void LocoMotor::ParticleSystem::update(float dT) {
 
 	Transform* tr = _gameObject->getComponent<Transform>();
 
-	_node->setPosition(tr->GetPosition().GetX(), tr->GetPosition().GetY(), tr->GetPosition().GetZ());
+	_node->setPosition(tr->getPosition().getX(), tr->getPosition().getY(), tr->getPosition().getZ());
 
-	_node->setOrientation(tr->GetRotation().GetW(), tr->GetRotation().GetX(), tr->GetRotation().GetY(), tr->GetRotation().GetZ());
+	_node->setOrientation(tr->getRotation().getW(), tr->getRotation().getX(), tr->getRotation().getY(), tr->getRotation().getZ());
 
-	_node->setScale(tr->GetSize().GetX(), tr->GetSize().GetY(), tr->GetSize().GetZ());
+	_node->setScale(tr->getSize().getX(), tr->getSize().getY(), tr->getSize().getZ());
 }
 
 void LocoMotor::ParticleSystem::onDisable() {

@@ -126,27 +126,27 @@ void LocoMotor::EventEmitter::update(float dT) {
 	FMOD_3D_ATTRIBUTES at;
 	_currentEvent->get3DAttributes(&at);
 
-	LMVector3 newPos = _gameObject->getComponent<Transform>()->GetPosition();
+	LMVector3 newPos = _gameObject->getComponent<Transform>()->getPosition();
 
-	at.velocity.x = (newPos.GetX() - at.position.x) / dT;
-	at.velocity.y = (newPos.GetY() - at.position.y) / dT;
-	at.velocity.z = (newPos.GetZ() - at.position.z) / dT;
+	at.velocity.x = (newPos.getX() - at.position.x) / dT;
+	at.velocity.y = (newPos.getY() - at.position.y) / dT;
+	at.velocity.z = (newPos.getZ() - at.position.z) / dT;
 
-	at.position.x = newPos.GetX();
-	at.position.y = newPos.GetY();
-	at.position.z = newPos.GetZ();
+	at.position.x = newPos.getX();
+	at.position.y = newPos.getY();
+	at.position.z = newPos.getZ();
 
-	LMVector3 forward = _gameObject->getComponent<Transform>()->GetRotation().Forward();
+	LMVector3 forward = _gameObject->getComponent<Transform>()->getRotation().forward();
 
-	at.forward.x = forward.GetX();
-	at.forward.y = forward.GetY();
-	at.forward.z = forward.GetZ();
+	at.forward.x = forward.getX();
+	at.forward.y = forward.getY();
+	at.forward.z = forward.getZ();
 
-	LMVector3 up = _gameObject->getComponent<Transform>()->GetRotation().Up();
+	LMVector3 up = _gameObject->getComponent<Transform>()->getRotation().up();
 
-	at.up.x = up.GetX();
-	at.up.y = up.GetY();
-	at.up.z = up.GetZ();
+	at.up.x = up.getX();
+	at.up.y = up.getY();
+	at.up.z = up.getZ();
 
 	_currentEvent->set3DAttributes(&at);
 }

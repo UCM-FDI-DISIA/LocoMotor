@@ -16,7 +16,7 @@ using namespace LocoMotor;
 
 unsigned int UIText::_numOfTexts = 0;
 
-LocoMotor::UIText::UIText() : _gfxManager(nullptr), _container(nullptr), _overlayMngr(nullptr) {
+LocoMotor::UIText::UIText() : _gfxManager(nullptr), _container(nullptr), _overlayMngr(nullptr), _txtElem(nullptr) {
 	_numOfTexts++;
 	_uType = "t";
 	_uTxtName = "New Text";
@@ -24,6 +24,7 @@ LocoMotor::UIText::UIText() : _gfxManager(nullptr), _container(nullptr), _overla
 
 LocoMotor::UIText::~UIText() {
 	_overlayMngr->destroyOverlayElement(_container);
+	_numOfTexts--;
 }
 
 void LocoMotor::UIText::setText(std::string text) {
@@ -90,14 +91,14 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 			}
 		}
 		else if (param.first == "ColorTop" || param.first == "colorTop") {
-			colTop = LMVector3::StringToVector(param.second);
+			colTop = LMVector3::stringToVector(param.second);
 		}
 		else if (param.first == "ColorBot" || param.first == "colorBot") {
-			colBot = LMVector3::StringToVector(param.second);
+			colBot = LMVector3::stringToVector(param.second);
 		}
 	}
 
-	_container->setDimensions(_sizeX, _sizeY);
+	_container->setDimensions(Ogre::Real(_sizeX), Ogre::Real(_sizeY));
 
 	updatePosition();
 
@@ -107,9 +108,9 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 
 	setFont(font);
 	setText(text);
-	_txtElem->setCharHeight(_sizeY);
-	_txtElem->setColourTop(Ogre::ColourValue(colTop.GetX(), colTop.GetY(), colTop.GetZ(), 1.f));
-	_txtElem->setColourBottom(Ogre::ColourValue(colBot.GetX(), colBot.GetY(), colBot.GetZ(), 1.f));
+	_txtElem->setCharHeight(Ogre::Real(_sizeY));
+	_txtElem->setColourTop(Ogre::ColourValue(colTop.getX(), colTop.getY(), colTop.getZ(), 1.f));
+	_txtElem->setColourBottom(Ogre::ColourValue(colBot.getX(), colBot.getY(), colBot.getZ(), 1.f));
 	_txtElem->setAlignment(alignment);
 
 
@@ -130,16 +131,16 @@ void LocoMotor::UIText::setAnchorPoint(float x, float y) {
 	updatePosition();
 }
 
-void LocoMotor::UIText::setPosition(float x, float y) {
+void LocoMotor::UIText::setPosition(int x, int y) {
 	_positionX = x;
 	_positionY = y;
 	updatePosition();
 }
 
-void LocoMotor::UIText::setDimensions(float w, float h) {
+void LocoMotor::UIText::setDimensions(int w, int h) {
 	_sizeX = w;
 	_sizeY = h;
-	_container->setDimensions(_sizeX, _sizeY);
+	_container->setDimensions(Ogre::Real(_sizeX), Ogre::Real(_sizeY));
 }
 
 void LocoMotor::UIText::setPivot(float x, float y) {

@@ -40,15 +40,15 @@ void AudioListener::update(float dT) {
 
 	Transform* transform = _gameObject->getComponent<Transform>();
 
-	FMOD_VECTOR newPosition = toFModVector(transform->GetPosition());
+	FMOD_VECTOR newPosition = toFModVector(transform->getPosition());
 
 	FMOD_VECTOR newVel = FMOD_VECTOR();
 	newVel.x = (newPosition.x - lastPosition.x) / dT;
 	newVel.y = (newPosition.y - lastPosition.y) / dT;
 	newVel.z = (newPosition.z - lastPosition.z) / dT;
 
-	auto forward = toFModVector(transform->GetRotation().Forward());
-	auto up = toFModVector(transform->GetRotation().Up());
+	auto forward = toFModVector(transform->getRotation().forward());
+	auto up = toFModVector(transform->getRotation().up());
 
 #ifdef _DEBUG
 	unsigned short err = _fSys->set3DListenerAttributes((int) _fIndex, &newPosition, &newVel, &forward, &up);
@@ -102,9 +102,9 @@ unsigned short AudioListener::setTransform(const FMOD_VECTOR& newPos, const FMOD
 
 FMOD_VECTOR LocoMotor::AudioListener::toFModVector(const LMVector3& a) {
 	FMOD_VECTOR res = FMOD_VECTOR();
-	res.x = a.GetX();
-	res.y = a.GetY();
-	res.z = a.GetZ();
+	res.x = a.getX();
+	res.y = a.getY();
+	res.z = a.getZ();
 	return res;
 }
 

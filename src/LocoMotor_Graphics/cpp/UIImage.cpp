@@ -56,7 +56,7 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 		}
 	}
 
-	_container->setDimensions(_sizeX, _sizeY);
+	_container->setDimensions(Ogre::Real(_sizeX), Ogre::Real(_sizeY));
 
 	updatePosition();
 
@@ -77,16 +77,16 @@ void LocoMotor::UIImage::setAnchorPoint(float x, float y) {
 	updatePosition();
 }
 
-void LocoMotor::UIImage::setPosition(float x, float y) {
+void LocoMotor::UIImage::setPosition(int x, int y) {
 	_positionX = x;
 	_positionY = y;
 	updatePosition();
 }
 
-void LocoMotor::UIImage::setDimensions(float w, float h) {
+void LocoMotor::UIImage::setDimensions(int w, int h) {
 	_sizeX = w;
 	_sizeY = h;
-	_container->setDimensions(_sizeX, _sizeY);
+	_container->setDimensions(Ogre::Real(_sizeX), Ogre::Real(_sizeY));
 }
 
 void LocoMotor::UIImage::setPivot(float w, float h) {
