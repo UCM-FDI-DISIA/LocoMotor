@@ -13,25 +13,44 @@ Scene = {
         },
     },
 
-    -- CHARACTERS --
-    Object = {
-        AudioSource = {
-            Volume = 1,
-            PlayOnAwake = "Assets/Sounds/prueba.wav"
+    -- UI --
+    Cross_01 = {
+        UIImage = {
+            anchor = "0.5 0.5",
+            position = "-80 100",
+            pivot = "0.5 0.5",
+            size = "70 70",
+            image = "CrossMaterial"
         }
     },
-    Emitter = {
-        EventEmitter = {
-            EventID = "event:/Music/Level 02",
-            Play = ""
-        },
+    Cross_02 = {
         UIImage = {
-            anchor = "0 0",
-            position = "10 10",
-            pivot = "0 0",
-            size = "100 100",
+            anchor = "0.5 0.5",
+            position = "0 100",
+            pivot = "0.5 0.5",
+            size = "70 70",
+            image = "CrossMaterial"
+        }
+    },
+    Cross_03 = {
+        UIImage = {
+            anchor = "0.5 0.5",
+            position = "80 100",
+            pivot = "0.5 0.5",
+            size = "70 70",
+            image = "CrossMaterial"
+        }
+    },
+    ScoreBackground = {
+        UIImage = {
+            anchor = "0.5 0.5",
+            position = "0 100",
+            pivot = "0.5 0.5",
+            size = "375 150",
             image = "UIMaterial"
-        },
+        }
+    },
+    UICountdown = {
         UIText = {
             anchor = "1 0",
             position = "-10 10",
@@ -44,23 +63,22 @@ Scene = {
             colorBot = "0.2 0 0.9"
         }
     },
-    -- cubePrueba = {
-    --     Transform = {
-    --         position = "0 0 0",
-    --         size = "20 20 20",
-    --         rotation = "0 0 0"
-    --     },
-    --     MeshRenderer = {
-    --         mesh = "CubemanMesh.mesh",
-    --         material = "CustomMaterial"
-    --     },
-    --     PlayerController = {
-    --     },
-    --     ParticleSystem = {
-    --         Particle = "Smoke",
-    --         PlayOnStart = ""
-    --     }
-    -- },
+
+    -- SOUNDS --
+    Object = {
+        AudioSource = {
+            Volume = 1,
+            PlayOnAwake = "Assets/Sounds/prueba.wav"
+        }
+    },
+    Emitter = {
+        EventEmitter = {
+            EventID = "event:/Music/Level 02",
+            Play = ""
+        }
+    },
+
+        -- CHARACTERS --
     cube = {
         Transform = {
             position = "0 0 0",

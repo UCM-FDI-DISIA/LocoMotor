@@ -104,7 +104,18 @@ material UIMaterial {
         pass {
             lighting off
             texture_unit {
-                texture car.jpeg
+                texture ScoreBackground.png
+            }
+        }
+    }
+}
+
+material CrossMaterial {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture Cross.png
             }
         }
     }
