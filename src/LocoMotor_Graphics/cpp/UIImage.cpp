@@ -109,6 +109,14 @@ void LocoMotor::UIImage::initializeABorrar() {
 	setParameters(a);
 }
 
+int LocoMotor::UIImage::getWidth() {
+	return _sizeX;
+}
+
+int LocoMotor::UIImage::getHeight() {
+	return _sizeY;
+}
+
 void LocoMotor::UIImage::updatePosition() {
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 	int wWidth = _gfxManager->getWindowWidth();

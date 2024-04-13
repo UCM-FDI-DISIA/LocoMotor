@@ -51,6 +51,9 @@ namespace LocoMotor {
 
 		void initializeABorrar();
 
+		int getWidth();
+		int getHeight();
+
 	protected:
 
 		void setParameters(ComponentMap& params) override;
