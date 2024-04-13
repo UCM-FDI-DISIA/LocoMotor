@@ -9,33 +9,33 @@ using namespace LocoMotor;
 LMVector3::LMVector3() : _x(0), _y(0), _z(0) {}
 
 // Constructor initializes vector to specified values
-LMVector3::LMVector3(double x, double y, double z) : _x(x), _y(y), _z(z) {}
+LMVector3::LMVector3(float x, float y, float z) : _x(x), _y(y), _z(z) {}
 
 // Getter functions
 // Get the X value of the Vector
-double LMVector3::GetX() const {
+float LMVector3::GetX() const {
 	return _x;
 }
 // Get the Y value of the Vector
-double LMVector3::GetY() const {
+float LMVector3::GetY() const {
 	return _y;
 }
 // Get the Z value of the Vector
-double LMVector3::GetZ() const {
+float LMVector3::GetZ() const {
 	return _z;
 }
 
 // Setter functions
 // Set the X value of the Vector
-void LMVector3::SetX(double x) {
+void LMVector3::SetX(float x) {
 	this->_x = x;
 }
 // Set the Y value of the Vector
-void LMVector3::SetY(double y) {
+void LMVector3::SetY(float y) {
 	this->_y = y;
 }
 // Set the Z value of the Vector
-void LMVector3::SetZ(double z) {
+void LMVector3::SetZ(float z) {
 	this->_z = z;
 }
 // Sum
@@ -48,7 +48,7 @@ LMVector3 LMVector3::operator+(const LMVector3& other) const {
 	return aux;
 }
 
-LMVector3 LMVector3::operator+(const double& other) const {
+LMVector3 LMVector3::operator+(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x + other,
 		this->_y + other,
@@ -66,7 +66,7 @@ LMVector3 LMVector3::operator-(const LMVector3& other) const {
 
 	return aux;
 }
-LMVector3 LMVector3::operator-(const double& other) const {
+LMVector3 LMVector3::operator-(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x - other,
 		this->_y - other,
@@ -84,7 +84,7 @@ LMVector3 LMVector3::operator*(const LMVector3& other) const {
 	return aux;
 }
 
-LMVector3 LMVector3::operator*(const double& other) const {
+LMVector3 LMVector3::operator*(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x * other,
 		this->_y * other,
@@ -102,7 +102,7 @@ LMVector3 LMVector3::operator/(const LMVector3& other) const {
 
 	return aux;
 }
-LMVector3 LMVector3::operator/(const double& other) const {
+LMVector3 LMVector3::operator/(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x / other,
 		this->_y / other,
@@ -113,7 +113,7 @@ LMVector3 LMVector3::operator/(const double& other) const {
 
 
 // Dot product
-double LMVector3::Dot(const LMVector3& other) const {
+float LMVector3::Dot(const LMVector3& other) const {
 	return _x * other._x + _y * other._y + _z * other._z;
 }
 
@@ -131,13 +131,13 @@ LMVector3 LMVector3::Cross(const LMVector3& other, const LMVector3& axis) const 
 }
 
 // Magnitude
-double LMVector3::Magnitude() const {
+float LMVector3::Magnitude() const {
 	return sqrt(_x * _x + _y * _y + _z * _z);
 }
 
 // Normalize
 void LMVector3::Normalize() {
-	double mag = Magnitude();
+	float mag = Magnitude();
 	if (mag > 0) {
 		_x /= mag;
 		_y /= mag;
@@ -146,9 +146,9 @@ void LMVector3::Normalize() {
 }
 
 // Angle between two vectors
-double LMVector3::Angle(const LMVector3& other) const {
-	double dot = Dot(other);
-	double mag = Magnitude() * other.Magnitude();
+float LMVector3::Angle(const LMVector3& other) const {
+	float dot = Dot(other);
+	float mag = Magnitude() * other.Magnitude();
 	if (mag > 0) {
 		return acos(dot / mag);
 	}
@@ -156,7 +156,7 @@ double LMVector3::Angle(const LMVector3& other) const {
 }
 
 //Angle between two vectors
-double LMVector3::Angle(const LMVector3& other, const LMVector3& axis) const {
+float LMVector3::Angle(const LMVector3& other, const LMVector3& axis) const {
 	double angle = Angle(other);
 	LMVector3 cross = Cross(other);
 	if (cross.Dot(axis) < 0) {
@@ -170,7 +170,7 @@ double LMVector3::Angle(const LMVector3& other, const LMVector3& axis) const {
 
 
 //Angle between two vectors in degrees
-double LMVector3::Angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const {
+float LMVector3::Angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const {
 	double angle = Angle(other, normal);
 	LMVector3 cross = Cross(other, normal);
 	if (cross.Dot(axis) < 0) {
@@ -183,7 +183,7 @@ double LMVector3::Angle(const LMVector3& other, const LMVector3& normal, const L
 }
 
 // Rotate a vector around an axis in degrees
-LMVector3 LMVector3::Rotate(const LMVector3& axis, double angle) {
+LMVector3 LMVector3::Rotate(const LMVector3& axis, float angle) {
 	LMVector3 cross = axis.Cross(*this);
 	LMVector3 dot = axis * axis.Dot(*this);
 	LMVector3 cross2 = axis.Cross(cross);
@@ -295,33 +295,33 @@ float LocoMotor::LMVector3::Distance(const LMVector3& v1, const LMVector3& v2) {
 LMQuaternion::LMQuaternion() : _w(1), _x(0), _y(0), _z(0) {}
 
 // Constructor initializes quaternion to specified values
-LMQuaternion::LMQuaternion(double w, double x, double y, double z) : _w(w), _x(x), _y(y), _z(z) {}
+LMQuaternion::LMQuaternion(float w, float x, float y, float z) : _w(w), _x(x), _y(y), _z(z) {}
 
 // Getter functions
-double LMQuaternion::GetW() const {
+float LMQuaternion::GetW() const {
 	return _w;
 }
-double LMQuaternion::GetX() const {
+float LMQuaternion::GetX() const {
 	return _x;
 }
-double LMQuaternion::GetY() const {
+float LMQuaternion::GetY() const {
 	return _y;
 }
-double LMQuaternion::GetZ() const {
+float LMQuaternion::GetZ() const {
 	return _z;
 }
 
 //Setter functions
-void LMQuaternion::SetW(double w) {
+void LMQuaternion::SetW(float w) {
 	this->_w = w;
 }
-void LMQuaternion::SetX(double x) {
+void LMQuaternion::SetX(float x) {
 	this->_x = x;
 }
-void LMQuaternion::SetY(double y) {
+void LMQuaternion::SetY(float y) {
 	this->_y = y;
 }
-void LMQuaternion::SetZ(double z) {
+void LMQuaternion::SetZ(float z) {
 	this->_z = z;
 }
 
@@ -357,12 +357,12 @@ LMQuaternion LMQuaternion::operator*(const LMQuaternion& other) const {
 	return LMQuaternion(newW, newX, newY, newZ);
 }
 // Scalar multiplication
-LMQuaternion LMQuaternion::operator*(double scalar) const {
+LMQuaternion LMQuaternion::operator*(float scalar) const {
 	return LMQuaternion(_w * scalar, _x * scalar, _y * scalar, _z * scalar);
 }
 
 // Scalar division
-LMQuaternion LMQuaternion::operator/(double scalar) const {
+LMQuaternion LMQuaternion::operator/(float scalar) const {
 	return LMQuaternion(_w / scalar, _x / scalar, _y / scalar, _z / scalar);
 }
 
@@ -394,7 +394,7 @@ LMQuaternion LMQuaternion::Conjugate() const {
 }
 
 // Magnitude
-double LMQuaternion::Magnitude() const {
+float LMQuaternion::Magnitude() const {
 	return sqrt(_w * _w + _x * _x + _y * _y + _z * _z);
 }
 
@@ -410,7 +410,7 @@ void LMQuaternion::Normalize() {
 }
 
 //Rotate a quaternion
-LMQuaternion LMQuaternion::Rotate(const LMVector3& axis, double angle) const {
+LMQuaternion LMQuaternion::Rotate(const LMVector3& axis, float angle) const {
 	LMQuaternion q;
 	double halfAngle = (angle * (M_PI / 180.0)) / 2.0;
 	double sinHalfAngle = sin(halfAngle);

@@ -36,7 +36,7 @@ void AudioListener::update(float dT) {
 		dT += 0.000001f;
 
 	FMOD_VECTOR lastPosition;
-	_fSys->get3DListenerAttributes(_fIndex, &lastPosition, NULL, NULL, NULL);
+	_fSys->get3DListenerAttributes((int)_fIndex, &lastPosition, NULL, NULL, NULL);
 
 	Transform* transform = _gameObject->getComponent<Transform>();
 
