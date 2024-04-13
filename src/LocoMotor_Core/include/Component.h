@@ -60,15 +60,15 @@ namespace LocoMotor {
 		/// @brief This function is called when the scene loads the parameters of the components
 		virtual void setParameters(ComponentMap& params) = 0;
 
-		GameObject* _gameObject;
+		GameObject* _gameObject = nullptr;
 	private:
 
 		/// @brief Initializes the component with its context (GameObject) and enabled state
 		/// @param gameObject The GameObject which the components belongs to
 		/// @param enable The initial enabled state of the component.
 		void init(GameObject* gameObject, bool enable);
-		bool _started;
-		bool _active;
+		bool _started = false;
+		bool _active = false;
 	};
 }
 #endif

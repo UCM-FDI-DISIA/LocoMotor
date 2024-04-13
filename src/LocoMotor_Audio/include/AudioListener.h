@@ -28,6 +28,20 @@ namespace LocoMotor {
 
 		friend class Audio::AudioManager;
 
+	public:
+
+		AudioListener();
+		~AudioListener();
+
+
+	protected:
+
+		void setParameters(ComponentMap& params) override;
+		void onEnable() override;
+		void start() override;
+		void update(float dT) override;
+		void onDisable() override;
+
 	private:
 
 		size_t _fIndex;
@@ -54,20 +68,6 @@ namespace LocoMotor {
 		unsigned short setTransform(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel, const FMOD_VECTOR& forward, const FMOD_VECTOR& up);
 
 		FMOD_VECTOR toFModVector(const LMVector3& a);
-
-
-	protected:
-
-		void setParameters(ComponentMap& params) override;
-		void onEnable() override;
-		void start() override;
-		void update(float dT) override;
-		void onDisable() override;
-
-	public:
-
-		AudioListener();
-		~AudioListener();
 
 	};
 }

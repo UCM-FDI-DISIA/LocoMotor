@@ -51,28 +51,35 @@ void LocoMotor::EventEmitter::setEvent(const char* eventID)
 }
 
 void EventEmitter::play() {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->start();
 }
 
 void EventEmitter::setVolume(float vol) {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->setVolume(vol);
 }
 
 void EventEmitter::setPitch(float pitch) {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->setPitch(pitch);
 }
 
 void EventEmitter::setParameter(const char* paramName, float value) {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->setParameterByName(paramName, value);
 }
 
 float EventEmitter::getParameter(const char* paramName) {
+	if (_currentEvent == nullptr) return 0.f;
 	float val;
-	_currentEvent->getParameterByName(paramName, &val);
+	if (_currentEvent->getParameterByName(paramName, &val) != FMOD_OK)
+		return 0.f;
 	return val;
 }
 
 void EventEmitter::stop() {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->stop(FMOD_STUDIO_STOP_IMMEDIATE);
 }
 

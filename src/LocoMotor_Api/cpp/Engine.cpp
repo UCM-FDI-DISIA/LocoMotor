@@ -380,7 +380,6 @@ int Engine::showWindow(int type, std::string msg) {
 	SDL_ShowMessageBox(&messageBoxData, &butId);
 
 	return butId;
-
 }
 
 void Engine::quit() {
