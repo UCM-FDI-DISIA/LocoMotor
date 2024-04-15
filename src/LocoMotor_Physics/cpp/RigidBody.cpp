@@ -76,8 +76,8 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 void LocoMotor::RigidBody::awake() {
 	RigidBodyInfo info;
 	info.mass = _mass;
-	info.boxSize = _gameObject->getComponent<Transform>()->GetSize();
-	info.origin = _gameObject->getComponent<Transform>()->GetPosition();
+	info.boxSize = _gameObject->getComponent<Transform>()->getSize();
+	info.origin = _gameObject->getComponent<Transform>()->getPosition();
 	info.sphereSize = 0;
 	info.capsuleHeight = 0.0f;
 	info.capsuleRadius = 0.0f;
@@ -90,11 +90,11 @@ void LocoMotor::RigidBody::awake() {
 void LocoMotor::RigidBody::start() {}
 
 void LocoMotor::RigidBody::update(float dt) {
-	SetPosition(_gameObject->getComponent<Transform>()->GetPosition());
-	SetRotation(_gameObject->getComponent<Transform>()->GetRotation());
-	_gameObject->getComponent<Transform>()->SetPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
+	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
+	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
+	_gameObject->getComponent<Transform>()->setPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
 	std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
-	_gameObject->getComponent<Transform>()->SetRotation(BulletToLm(_body->getWorldTransform().getRotation()));
+	_gameObject->getComponent<Transform>()->setRotation(BulletToLm(_body->getWorldTransform().getRotation()));
 }
 
 btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
