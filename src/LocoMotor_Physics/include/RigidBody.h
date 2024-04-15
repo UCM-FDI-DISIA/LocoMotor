@@ -35,7 +35,7 @@ namespace LocoMotor {
 	public:
 		RigidBody();
 		~RigidBody();
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void setParameters(ComponentMap& params) override;
 		void awake() override;
 		void start() override;
 		void update(float dt)override;

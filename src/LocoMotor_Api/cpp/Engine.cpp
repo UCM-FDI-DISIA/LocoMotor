@@ -50,7 +50,10 @@ bool Engine::Init() {
 		return false;
 	}
 
-	//Physics::PhysicsManager::Init();
+	if (!Physics::PhysicsManager::Init()) {
+		Physics::PhysicsManager::Release();
+		return false;
+	}
 	//PhysicsManager::GetInstance()->SetContactStartCallback(LMcontactStart);
 	//PhysicsManager::GetInstance()->SetContactProcessCallback(LMcontactProcessed);
 	//PhysicsManager::GetInstance()->SetContactEndedCallback(LMcontactExit);
@@ -61,7 +64,7 @@ bool Engine::Init() {
 	if (!ComponentsFactory::Init()) {
 		Audio::AudioManager::Release();
 		Graphics::GraphicsManager::Release();
-		//Physics::PhysicsManager::Release();
+		Physics::PhysicsManager::Release();
 		//InputManager::Release();
 		//SceneManager::Release();
 		//ScriptManager::Release();
@@ -161,6 +164,7 @@ bool Engine::MainLoop() {
 		_lastFrameTime = time;
 		while (fixedTime >= fixedTimeStep) {
 			_scnManager->fixedUpdate();
+			Physics::PhysicsManager::GetInstance()->update(fixedTimeStep);
 			fixedTime -= fixedTimeStep;
 		}
 
@@ -178,7 +182,7 @@ bool Engine::MainLoop() {
 
 		Audio::AudioManager::GetInstance()->update();
 
-		//Physics::PhysicsManager::GetInstance()->update(_dt);
+		
 
 		Graphics::GraphicsManager::GetInstance()->render();
 //
@@ -297,6 +301,7 @@ bool Engine::MainLoop() {
 	SceneManager::Release();
 	ComponentsFactory::Release();
 	Audio::AudioManager::Release();
+	Physics::PhysicsManager::Release();
 	Graphics::GraphicsManager::Release();
 	return true;
 }

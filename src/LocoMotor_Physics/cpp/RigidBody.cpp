@@ -5,13 +5,22 @@
 #include "BulletVectorConverter.h"
 
 #include "GameObject.h"
+#include "Transform.h"
 
 using namespace LocoMotor;
 using namespace Physics;
 
 LocoMotor::RigidBody::RigidBody() {}
 
-LocoMotor::RigidBody::~RigidBody() {}
+LocoMotor::RigidBody::~RigidBody() {
+	if (_body == nullptr)return;
+	Physics::PhysicsManager::GetInstance()->getDynamicWorld()->removeRigidBody(_body);
+	if (_body && _body->getMotionState()) {
+		delete _body->getMotionState();
+	}
+	delete _body->getCollisionShape();
+	delete _body;
+}
 
 void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 	for (int i = 0; i < params.size(); i++) {
@@ -67,11 +76,11 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 void LocoMotor::RigidBody::awake() {
 	RigidBodyInfo info;
 	info.mass = _mass;
-	info.boxSize = LMVector3(1, 1, 1);
-	info.origin = LMVector3(0, 0, 0);//gameObject->GetTransform()->GetPosition();
-	info.sphereSize = 1;
-	info.capsuleHeight = 1.0f;
-	info.capsuleRadius = 0.5f;
+	info.boxSize = _gameObject->getComponent<Transform>()->GetSize();
+	info.origin = _gameObject->getComponent<Transform>()->GetPosition();
+	info.sphereSize = 0;
+	info.capsuleHeight = 0.0f;
+	info.capsuleRadius = 0.0f;
 	_body = CreateRigidBody(info);
 	_body->setUserPointer(_gameObject);
 	//if (_raycast) UseItAsRaycast();
@@ -80,7 +89,13 @@ void LocoMotor::RigidBody::awake() {
 
 void LocoMotor::RigidBody::start() {}
 
-void LocoMotor::RigidBody::update(float dt) {}
+void LocoMotor::RigidBody::update(float dt) {
+	SetPosition(_gameObject->getComponent<Transform>()->GetPosition());
+	SetRotation(_gameObject->getComponent<Transform>()->GetRotation());
+	_gameObject->getComponent<Transform>()->SetPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
+	std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
+	_gameObject->getComponent<Transform>()->SetRotation(BulletToLm(_body->getWorldTransform().getRotation()));
+}
 
 btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	btCollisionShape* shape = nullptr;
@@ -114,7 +129,7 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	rigidbody->setDamping(0.7f, 0.7f);
 
 	if (isDynamic) {
-		rigidbody->setCcdMotionThreshold(0.000000001f);//0.0000001f
+		rigidbody->setCcdMotionThreshold(0.0001f);//0.0000001f
 		rigidbody->setCcdSweptSphereRadius(0.5f);
 	}
 	return rigidbody;
@@ -224,7 +239,8 @@ void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
 
 
 void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
-	_body->applyTorqueImpulse(LmToBullet(impulse));
+	//_body->applyTorqueImpulse(LmToBullet(impulse));
+	_body->applyCentralImpulse(LmToBullet(impulse));
 }
 
 

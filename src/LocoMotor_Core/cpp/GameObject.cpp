@@ -37,6 +37,7 @@ LocoMotor::GameObject::~GameObject() {
 		cmp->onDestroy();
 		delete cmp;
 		cmp = nullptr;
+		
 	}
 	_components.clear();
 }

@@ -55,6 +55,7 @@
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)temp\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <CustomBuildAfterTargets />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\</OutDir>
@@ -79,6 +80,9 @@
     <PostBuildEvent>
       <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api_d.dll $(SolutionDir)bin</Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api_d.dll $(SolutionDir)bin</Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

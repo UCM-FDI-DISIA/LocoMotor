@@ -12,3 +12,8 @@ btVector3 LmToBullet(const LocoMotor::LMVector3& lmVector) {
 btQuaternion LmToBullet(const LocoMotor::LMQuaternion& LMQuaternion) {
     return btQuaternion((float) LMQuaternion.GetX(), (float) LMQuaternion.GetY(), (float) LMQuaternion.GetZ(), (float) LMQuaternion.GetW());
 }
+
+LocoMotor::LMQuaternion BulletToLm(const btQuaternion& bulletQuaternion)
+{
+    return LocoMotor::LMQuaternion(bulletQuaternion.w(), bulletQuaternion.x(), bulletQuaternion.y(), bulletQuaternion.z());
+}
