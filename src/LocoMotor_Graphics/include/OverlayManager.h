@@ -8,6 +8,8 @@
 #define MOTOR_API __declspec(dllimport)
 #endif
 
+#include <string>
+
 namespace Ogre {
 	class SceneManager;
 	class OverlayManager;
@@ -19,19 +21,6 @@ namespace Ogre {
 namespace LocoMotor {
 
 	namespace Graphics {
-
-		struct AnchorPoint {
-			float x = 0;
-			float y = 0;
-		};
-
-		struct UIPosition {
-			short x = 0;
-			short y = 0;
-		};
-
-		class RenderScene;
-		class UIElement;
 
 		class MOTOR_API OverlayManager {
 		public:
@@ -53,6 +42,9 @@ namespace LocoMotor {
 			static bool IsInitialized();
 
 			void show();
+
+			static void stringToAnchors(const std::string& s, float& x, float& y);
+			static void stringToPosition(const std::string& s, int& x, int& y);
 
 			Ogre::OverlayContainer* getContainer();
 			Ogre::OverlaySystem* getSystem();

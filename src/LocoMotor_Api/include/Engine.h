@@ -16,26 +16,43 @@ namespace LocoMotor {
 
 	class MOTOR_API Engine {
 	public:
-		Engine();
+		
 
 		/// @brief Method to call before calling the InitGame Function in the game dll
 		/// @return if false, abort
-		bool Init();
+		static bool Init();
 
+		/// @brief Returns the instance of the Engine singleton
+		static Engine* GetInstance();
+
+		/// @brief Deletes the instance of the Engine singleton
+		static void Release();
+
+		/// @brief Set the title the game window will display
 		void setWindowName(const std::string& name);
+
+		/// @brief Set a scene to be loaded and started upon the game launching
+		/// @param file: where the scene data is located
+		/// @param name: the name of the scene inside the file
 		void setStartingScene(const std::string& file, const std::string& name);
 
-		/// @brief Dont use it
-		/// @return please
-		bool MainLoop();
+		/// @brief Creates the game window and begins the gameloop, will exit when called the quit method or window is closed
+		bool mainLoop();
+
+		/// @brief Shows a display window showing the message displayed. This is a blocking call, meaning the code will be paused until the window is closed
+		/// @param type: an int indicating type of message: 0 = message, 1 = warning, 2 = error
+		/// @param msg: the text to show at the window
+		/// @return an int indicating which button on the window was pressed: 0 = Ok, 1 = Close Game, -1 window was closed any other way
 		int showWindow(int type,std::string msg);
+
+		/// @brief Method to exit the gameloop cleanly
 		void quit();
 	private:
 
-		/// @brief Method to call from the InitGame function in the game dll
-		/// @param gameName 
-		/// @return 
-		bool StartGameWindow();
+		Engine();
+		~Engine();
+
+		bool init();
 
 		std::string _gameName;
 

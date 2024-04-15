@@ -9,33 +9,33 @@ using namespace LocoMotor;
 LMVector3::LMVector3() : _x(0), _y(0), _z(0) {}
 
 // Constructor initializes vector to specified values
-LMVector3::LMVector3(double x, double y, double z) : _x(x), _y(y), _z(z) {}
+LMVector3::LMVector3(float x, float y, float z) : _x(x), _y(y), _z(z) {}
 
 // Getter functions
 // Get the X value of the Vector
-double LMVector3::GetX() const {
+float LMVector3::getX() const {
 	return _x;
 }
 // Get the Y value of the Vector
-double LMVector3::GetY() const {
+float LMVector3::getY() const {
 	return _y;
 }
 // Get the Z value of the Vector
-double LMVector3::GetZ() const {
+float LMVector3::getZ() const {
 	return _z;
 }
 
 // Setter functions
 // Set the X value of the Vector
-void LMVector3::SetX(double x) {
+void LMVector3::setX(float x) {
 	this->_x = x;
 }
 // Set the Y value of the Vector
-void LMVector3::SetY(double y) {
+void LMVector3::setY(float y) {
 	this->_y = y;
 }
 // Set the Z value of the Vector
-void LMVector3::SetZ(double z) {
+void LMVector3::setZ(float z) {
 	this->_z = z;
 }
 // Sum
@@ -48,7 +48,7 @@ LMVector3 LMVector3::operator+(const LMVector3& other) const {
 	return aux;
 }
 
-LMVector3 LMVector3::operator+(const double& other) const {
+LMVector3 LMVector3::operator+(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x + other,
 		this->_y + other,
@@ -66,7 +66,7 @@ LMVector3 LMVector3::operator-(const LMVector3& other) const {
 
 	return aux;
 }
-LMVector3 LMVector3::operator-(const double& other) const {
+LMVector3 LMVector3::operator-(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x - other,
 		this->_y - other,
@@ -84,7 +84,7 @@ LMVector3 LMVector3::operator*(const LMVector3& other) const {
 	return aux;
 }
 
-LMVector3 LMVector3::operator*(const double& other) const {
+LMVector3 LMVector3::operator*(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x * other,
 		this->_y * other,
@@ -102,7 +102,7 @@ LMVector3 LMVector3::operator/(const LMVector3& other) const {
 
 	return aux;
 }
-LMVector3 LMVector3::operator/(const double& other) const {
+LMVector3 LMVector3::operator/(const float& other) const {
 	LMVector3 aux = LMVector3(
 		this->_x / other,
 		this->_y / other,
@@ -113,31 +113,31 @@ LMVector3 LMVector3::operator/(const double& other) const {
 
 
 // Dot product
-double LMVector3::Dot(const LMVector3& other) const {
+float LMVector3::dot(const LMVector3& other) const {
 	return _x * other._x + _y * other._y + _z * other._z;
 }
 
 // Cross product
-LMVector3 LMVector3::Cross(const LMVector3& other) const {
+LMVector3 LMVector3::cross(const LMVector3& other) const {
 	return LMVector3(_y * other._z - _z * other._y, _z * other._x - _x * other._z, _x * other._y - _y * other._x);
 }
 // Cross product
-LMVector3 LMVector3::Cross(const LMVector3& other, const LMVector3& axis) const {
-	LMVector3 cross = Cross(other);
-	if (cross.Dot(axis) < 0) {
-		cross = cross * -1;
+LMVector3 LMVector3::cross(const LMVector3& other, const LMVector3& axis) const {
+	LMVector3 currentCross = cross(other);
+	if (currentCross.dot(axis) < 0) {
+		currentCross = currentCross * -1;
 	}
-	return cross;
+	return currentCross;
 }
 
 // Magnitude
-double LMVector3::Magnitude() const {
+float LMVector3::magnitude() const {
 	return sqrt(_x * _x + _y * _y + _z * _z);
 }
 
 // Normalize
-void LMVector3::Normalize() {
-	double mag = Magnitude();
+void LMVector3::normalize() {
+	float mag = magnitude();
 	if (mag > 0) {
 		_x /= mag;
 		_y /= mag;
@@ -146,88 +146,88 @@ void LMVector3::Normalize() {
 }
 
 // Angle between two vectors
-double LMVector3::Angle(const LMVector3& other) const {
-	double dot = Dot(other);
-	double mag = Magnitude() * other.Magnitude();
+float LMVector3::angle(const LMVector3& other) const {
+	float currentDot = dot(other);
+	float mag = magnitude() * other.magnitude();
 	if (mag > 0) {
-		return acos(dot / mag);
+		return acos(currentDot / mag);
 	}
 	return 0;
 }
 
 //Angle between two vectors
-double LMVector3::Angle(const LMVector3& other, const LMVector3& axis) const {
-	double angle = Angle(other);
-	LMVector3 cross = Cross(other);
-	if (cross.Dot(axis) < 0) {
-		angle = -angle;
+float LMVector3::angle(const LMVector3& other, const LMVector3& axis) const {
+	float currentAngle = angle(other);
+	LMVector3 currentCross = cross(other);
+	if (currentCross.dot(axis) < 0) {
+		currentAngle = -currentAngle;
 	}
 
-	angle = angle * 180 / M_PI;
+	currentAngle = currentAngle * (float) (180 / M_PI);
 
-	return angle;
+	return currentAngle;
 }
 
 
 //Angle between two vectors in degrees
-double LMVector3::Angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const {
-	double angle = Angle(other, normal);
-	LMVector3 cross = Cross(other, normal);
-	if (cross.Dot(axis) < 0) {
-		angle = -angle;
+float LMVector3::angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const {
+	float currentAngle = angle(other, normal);
+	LMVector3 currentCross = cross(other, normal);
+	if (currentCross.dot(axis) < 0) {
+		currentAngle = -currentAngle;
 	}
 
-	angle = angle * 180 / M_PI;
+	currentAngle = currentAngle * (float) (180.f / M_PI);
 
-	return angle;
+	return currentAngle;
 }
 
 // Rotate a vector around an axis in degrees
-LMVector3 LMVector3::Rotate(const LMVector3& axis, double angle) {
-	LMVector3 cross = axis.Cross(*this);
-	LMVector3 dot = axis * axis.Dot(*this);
-	LMVector3 cross2 = axis.Cross(cross);
-	LMVector3 a = dot + cross * sin(angle * M_PI / 180.) + cross2 * (1 - cos(angle * M_PI / 180.));
+LMVector3 LMVector3::rotate(const LMVector3& axis, float angle) {
+	LMVector3 cross = axis.cross(*this);
+	LMVector3 dot = axis * axis.dot(*this);
+	LMVector3 cross2 = axis.cross(cross);
+	LMVector3 a = dot + cross * ((float) sin(angle * M_PI / 180.)) + cross2 * ((float) (1 - cos(angle * M_PI / 180.)));
 
-	this->_x = a.GetX();
-	this->_y = a.GetY();
-	this->_z = a.GetZ();
+	this->_x = a.getX();
+	this->_y = a.getY();
+	this->_z = a.getZ();
 
 	return a;
 }
 
 //Get the perpendicular vector from two vectors
-LMVector3 LMVector3::Perpendicular(const LMVector3& other) const {
-	return Cross(other).Cross(*this);
+LMVector3 LMVector3::perpendicular(const LMVector3& other) const {
+	return cross(other).cross(*this);
 }
 
 
-LMQuaternion LMVector3::AsRotToQuaternion() const {
+LMQuaternion LMVector3::asRotToQuaternion() const {
 	// Abbreviations for the various angular functions
 
 	// Degree to Radian
 	LMVector3 aux = *this;
-	aux = aux * (M_PI / 180);
+	aux = aux * (float) (M_PI / 180);
 
-	double cr = cos(aux.GetX() * 0.5);
-	double sr = sin(aux.GetX() * 0.5);
-	double cp = cos(aux.GetY() * 0.5);
-	double sp = sin(aux.GetY() * 0.5);
-	double cy = cos(aux.GetZ() * 0.5);
-	double sy = sin(aux.GetZ() * 0.5);
+	double cr = cos(aux.getX() * 0.5);
+	double sr = sin(aux.getX() * 0.5);
+	double cp = cos(aux.getY() * 0.5);
+	double sp = sin(aux.getY() * 0.5);
+	double cy = cos(aux.getZ() * 0.5);
+	double sy = sin(aux.getZ() * 0.5);
 
 
 
 	LMQuaternion q;
-	q.SetW(cr * cp * cy + sr * sp * sy);
-	q.SetX(sr * cp * cy - cr * sp * sy);
-	q.SetY(cr * sp * cy + sr * cp * sy);
-	q.SetZ(cr * cp * sy - sr * sp * cy);
+	q.setW((float) (cr * cp * cy + sr * sp * sy));
+	q.setX((float) (sr * cp * cy - cr * sp * sy));
+	q.setY((float) (cr * sp * cy + sr * cp * sy));
+	q.setZ((float) (cr * cp * sy - sr * sp * cy));
 
 	return q;
 }
 
-LMVector3 LMVector3::StringToVector(const std::string& s) {
+LMVector3 LMVector3::stringToVector(const std::string& s) {
 
 	std::string vectorString = s;
 	unsigned char currAxis = 0;
@@ -246,13 +246,13 @@ LMVector3 LMVector3::StringToVector(const std::string& s) {
 				value = 0.f;
 			}
 			if (currAxis == 0) {
-				result.SetX(value);
+				result.setX(value);
 			}
 			else if (currAxis == 1) {
-				result.SetY(value);
+				result.setY(value);
 			}
 			else if (currAxis == 2) {
-				result.SetZ(value);
+				result.setZ(value);
 			}
 			currAxis++;
 			num = "";
@@ -269,21 +269,21 @@ LMVector3 LMVector3::StringToVector(const std::string& s) {
 		value = 0.0f;
 	}
 	if (currAxis == 2)
-		result.SetZ(value);
+		result.setZ(value);
 
 	return result;
 }
 
-LMVector3 LocoMotor::LMVector3::Lerp(const LMVector3& start, const LMVector3& end, float t) {
-	return LMVector3(start.GetX() + t * (end.GetX() - start.GetX()),
-				   start.GetY() + t * (end.GetY() - start.GetY()),
-				   start.GetZ() + t * (end.GetZ() - start.GetZ()));
+LMVector3 LocoMotor::LMVector3::lerp(const LMVector3& start, const LMVector3& end, float t) {
+	return LMVector3(start.getX() + t * (end.getX() - start.getX()),
+				   start.getY() + t * (end.getY() - start.getY()),
+				   start.getZ() + t * (end.getZ() - start.getZ()));
 }
 
-float LocoMotor::LMVector3::Distance(const LMVector3& v1, const LMVector3& v2) {
-	float dx = v2.GetX() - v1.GetX();
-	float dy = v2.GetY() - v1.GetY();
-	float dz = v2.GetZ() - v1.GetZ();
+float LocoMotor::LMVector3::distance(const LMVector3& v1, const LMVector3& v2) {
+	float dx = v2.getX() - v1.getX();
+	float dy = v2.getY() - v1.getY();
+	float dz = v2.getZ() - v1.getZ();
 	return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
@@ -295,33 +295,33 @@ float LocoMotor::LMVector3::Distance(const LMVector3& v1, const LMVector3& v2) {
 LMQuaternion::LMQuaternion() : _w(1), _x(0), _y(0), _z(0) {}
 
 // Constructor initializes quaternion to specified values
-LMQuaternion::LMQuaternion(double w, double x, double y, double z) : _w(w), _x(x), _y(y), _z(z) {}
+LMQuaternion::LMQuaternion(float w, float x, float y, float z) : _w(w), _x(x), _y(y), _z(z) {}
 
 // Getter functions
-double LMQuaternion::GetW() const {
+float LMQuaternion::getW() const {
 	return _w;
 }
-double LMQuaternion::GetX() const {
+float LMQuaternion::getX() const {
 	return _x;
 }
-double LMQuaternion::GetY() const {
+float LMQuaternion::getY() const {
 	return _y;
 }
-double LMQuaternion::GetZ() const {
+float LMQuaternion::getZ() const {
 	return _z;
 }
 
 //Setter functions
-void LMQuaternion::SetW(double w) {
+void LMQuaternion::setW(float w) {
 	this->_w = w;
 }
-void LMQuaternion::SetX(double x) {
+void LMQuaternion::setX(float x) {
 	this->_x = x;
 }
-void LMQuaternion::SetY(double y) {
+void LMQuaternion::setY(float y) {
 	this->_y = y;
 }
-void LMQuaternion::SetZ(double z) {
+void LMQuaternion::setZ(float z) {
 	this->_z = z;
 }
 
@@ -350,19 +350,19 @@ LMQuaternion LMQuaternion::operator-(const LMQuaternion& other) const {
 
 // Quaternion multiplication
 LMQuaternion LMQuaternion::operator*(const LMQuaternion& other) const {
-	double newW = _w * other._w - _x * other._x - _y * other._y - _z * other._z;
-	double newX = _w * other._x + _x * other._w + _y * other._z - _z * other._y;
-	double newY = _w * other._y - _x * other._z + _y * other._w + _z * other._x;
-	double newZ = _w * other._z + _x * other._y - _y * other._x + _z * other._w;
+	float newW = _w * other._w - _x * other._x - _y * other._y - _z * other._z;
+	float newX = _w * other._x + _x * other._w + _y * other._z - _z * other._y;
+	float newY = _w * other._y - _x * other._z + _y * other._w + _z * other._x;
+	float newZ = _w * other._z + _x * other._y - _y * other._x + _z * other._w;
 	return LMQuaternion(newW, newX, newY, newZ);
 }
 // Scalar multiplication
-LMQuaternion LMQuaternion::operator*(double scalar) const {
+LMQuaternion LMQuaternion::operator*(float scalar) const {
 	return LMQuaternion(_w * scalar, _x * scalar, _y * scalar, _z * scalar);
 }
 
 // Scalar division
-LMQuaternion LMQuaternion::operator/(double scalar) const {
+LMQuaternion LMQuaternion::operator/(float scalar) const {
 	return LMQuaternion(_w / scalar, _x / scalar, _y / scalar, _z / scalar);
 }
 
@@ -382,25 +382,25 @@ LMVector3 LMQuaternion::operator*(const LMVector3& other) const {
 	float num11 = this->_w * num2;
 	float num12 = this->_w * num3;
 	LMVector3 result = LMVector3();
-	result.SetX((1.f - (num5 + num6)) * other.GetX() + (num7 - num12) * other.GetY() + (num8 + num11) * other.GetZ());
-	result.SetY((num7 + num12) * other.GetX() + (1.f - (num4 + num6)) * other.GetY() + (num9 - num10) * other.GetZ());
-	result.SetZ((num8 - num11) * other.GetX() + (num9 + num10) * other.GetY() + (1.f - (num4 + num5)) * other.GetZ());
+	result.setX((1.f - (num5 + num6)) * other.getX() + (num7 - num12) * other.getY() + (num8 + num11) * other.getZ());
+	result.setY((num7 + num12) * other.getX() + (1.f - (num4 + num6)) * other.getY() + (num9 - num10) * other.getZ());
+	result.setZ((num8 - num11) * other.getX() + (num9 + num10) * other.getY() + (1.f - (num4 + num5)) * other.getZ());
 	return result;
 }
 
 // Conjugate
-LMQuaternion LMQuaternion::Conjugate() const {
+LMQuaternion LMQuaternion::conjugate() const {
 	return LMQuaternion(_w, -_x, -_y, -_z);
 }
 
 // Magnitude
-double LMQuaternion::Magnitude() const {
+float LMQuaternion::magnitude() const {
 	return sqrt(_w * _w + _x * _x + _y * _y + _z * _z);
 }
 
 // Normalize
-void LMQuaternion::Normalize() {
-	double mag = Magnitude();
+void LMQuaternion::normalize() {
+	float mag = magnitude();
 	if (mag > 0) {
 		_w /= mag;
 		_x /= mag;
@@ -410,56 +410,56 @@ void LMQuaternion::Normalize() {
 }
 
 //Rotate a quaternion
-LMQuaternion LMQuaternion::Rotate(const LMVector3& axis, double angle) const {
+LMQuaternion LMQuaternion::rotate(const LMVector3& axis, float angle) const {
 	LMQuaternion q;
-	double halfAngle = (angle * (M_PI / 180.0)) / 2.0;
-	double sinHalfAngle = sin(halfAngle);
-	q.SetW(cos(halfAngle));
-	q.SetX(axis.GetX() * sinHalfAngle);
-	q.SetY(axis.GetY() * sinHalfAngle);
-	q.SetZ(axis.GetZ() * sinHalfAngle);
+	float halfAngle = (float) (angle * (M_PI / 180.0f)) / 2.0f;
+	float sinHalfAngle = sin(halfAngle);
+	q.setW(cos(halfAngle));
+	q.setX(axis.getX() * sinHalfAngle);
+	q.setY(axis.getY() * sinHalfAngle);
+	q.setZ(axis.getZ() * sinHalfAngle);
 	return q * (*this);
 }
 
 // Rotate a vector by this quaternion
-LMVector3 LMQuaternion::Rotate(const LMVector3& vector) const {
-	LMQuaternion vectorQuat(0, vector.GetX(), vector.GetY(), vector.GetZ());
-	LMQuaternion result = (*this) * vectorQuat * Conjugate();
-	return LMVector3(result.GetX(), result.GetY(), result.GetZ());
+LMVector3 LMQuaternion::rotate(const LMVector3& vector) const {
+	LMQuaternion vectorQuat(0, vector.getX(), vector.getY(), vector.getZ());
+	LMQuaternion result = (*this) * vectorQuat * conjugate();
+	return LMVector3(result.getX(), result.getY(), result.getZ());
 }
 
 // Up vector of this quaternion
-LMVector3 LMQuaternion::Up() const {
-	return Rotate(LMVector3(0, 1, 0));
+LMVector3 LMQuaternion::up() const {
+	return rotate(LMVector3(0, 1, 0));
 }
 
 // Right vector of this quaternion
-LMVector3 LMQuaternion::Right() const {
-	return Rotate(LMVector3(1, 0, 0));
+LMVector3 LMQuaternion::right() const {
+	return rotate(LMVector3(1, 0, 0));
 }
 
 // Forward vector of this quaternion
-LMVector3 LMQuaternion::Forward() const {
-	return Rotate(LMVector3(0, 0, -1));
+LMVector3 LMQuaternion::forward() const {
+	return rotate(LMVector3(0, 0, -1));
 }
 
-LMVector3 LMQuaternion::ToEuler() const {
+LMVector3 LMQuaternion::toEuler() const {
 	LMVector3 angles;
 
 // roll (x-axis rotation)
-	double sinr_cosp = 2 * (this->_w * this->_x + this->_y * this->_z);
-	double cosr_cosp = 1 - 2 * (this->_x * this->_x + this->_y * this->_y);
-	angles.SetX(std::atan2(sinr_cosp, cosr_cosp));
+	float sinr_cosp = 2 * (this->_w * this->_x + this->_y * this->_z);
+	float cosr_cosp = 1 - 2 * (this->_x * this->_x + this->_y * this->_y);
+	angles.setX(std::atan2(sinr_cosp, cosr_cosp));
 
 	// pitch (y-axis rotation)
-	double sinp = std::sqrt(1 + 2 * (this->_w * this->_y - this->_x * this->_z));
-	double cosp = std::sqrt(1 - 2 * (this->_w * this->_y - this->_x * this->_z));
-	angles.SetY(2 * std::atan2(sinp, cosp) - M_PI / 2);
+	float sinp = std::sqrt(1 + 2 * (this->_w * this->_y - this->_x * this->_z));
+	float cosp = std::sqrt(1 - 2 * (this->_w * this->_y - this->_x * this->_z));
+	angles.setY(2 * std::atan2(sinp, cosp) - (float) M_PI / 2.f);
 
 	// yaw (z-axis rotation)
-	double siny_cosp = 2 * (this->_w * this->_z + this->_x * this->_y);
-	double cosy_cosp = 1 - 2 * (this->_y * this->_y + this->_z * this->_z);
-	angles.SetZ(std::atan2(siny_cosp, cosy_cosp));
+	float siny_cosp = 2 * (this->_w * this->_z + this->_x * this->_y);
+	float cosy_cosp = 1 - 2 * (this->_y * this->_y + this->_z * this->_z);
+	angles.setZ(std::atan2(siny_cosp, cosy_cosp));
 
 	return angles;
 }

@@ -78,7 +78,8 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api_d.dll $(SolutionDir)bin</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api_d.dll $(SolutionDir)bin</Command>
@@ -105,7 +106,8 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY /y  $(SolutionDir)lib\$(Configuration)\LocoMotor_Api.dll $(SolutionDir)bin</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

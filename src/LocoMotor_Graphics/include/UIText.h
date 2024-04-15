@@ -45,10 +45,10 @@ namespace LocoMotor {
 		void setAnchorPoint(float x, float y);
 
 		/// @brief Sets the position of the entity on the UI
-		void setPosition(float x, float y);
+		void setPosition(int x, int y);
 
 		/// @brief Sets the size of the entity on the UI
-		void setDimensions(float w, float h);
+		void setDimensions(int w, int h);
 
 		/// @brief Sets the pivot of the textbox
 		void setPivot(float x, float y);
@@ -65,7 +65,7 @@ namespace LocoMotor {
 
 	protected:
 
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void setParameters(ComponentMap& params) override;
 		void start() override {};
 		void update(float dT) override;
 
@@ -88,7 +88,7 @@ namespace LocoMotor {
 		float _anchorX = 0.5f, _anchorY = 0.5f;
 		float _pivotX = 0.5f, _pivotY = 0.5f;
 		int _positionX = 0, _positionY = 0;
-		int _sizeX = 100, _sizeY = 50;
+		int _sizeX = 50, _sizeY = 50;
 	};
 
 }

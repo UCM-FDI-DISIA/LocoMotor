@@ -14,7 +14,8 @@ LocoMotor::ParticleSystem::ParticleSystem() {
 	_node = nullptr;
 	_particleSystem = nullptr;
 	numOfParticleSystems++;
-	plsyOnStart = false;
+	playOnStart = false;
+	emittingSelf = true;
 }
 
 LocoMotor::ParticleSystem::~ParticleSystem() {
@@ -23,6 +24,8 @@ LocoMotor::ParticleSystem::~ParticleSystem() {
 
 void LocoMotor::ParticleSystem::play()
 {
+	emittingSelf = true;
+	if (!isEnabled()) return;
 	unsigned short numEmitters = _particleSystem->getNumEmitters();
 	for (unsigned short i = 0; i < numEmitters; i++) {
 		_particleSystem->getEmitter(i)->setEnabled(true);
@@ -32,15 +35,21 @@ void LocoMotor::ParticleSystem::play()
 
 void LocoMotor::ParticleSystem::stop()
 {
+	emittingSelf = false;
 	_particleSystem->setEmitting(false);
 }
 
-void LocoMotor::ParticleSystem::onEnable() {}
+void LocoMotor::ParticleSystem::onEnable() {
+	if (_particleSystem != nullptr && isEnabled())
+		_particleSystem->setEmitting(emittingSelf);
+}
 
 void LocoMotor::ParticleSystem::start()
 {
-	if (plsyOnStart)
+	if (playOnStart) {
+		emittingSelf = true;
 		_particleSystem->setEmitting(true);
+	}
 }
 
 void LocoMotor::ParticleSystem::update(float dT) {
@@ -48,14 +57,17 @@ void LocoMotor::ParticleSystem::update(float dT) {
 
 	Transform* tr = _gameObject->getComponent<Transform>();
 
-	_node->setPosition(tr->GetPosition().GetX(), tr->GetPosition().GetY(), tr->GetPosition().GetZ());
+	_node->setPosition(tr->getPosition().getX(), tr->getPosition().getY(), tr->getPosition().getZ());
 
-	_node->setOrientation(tr->GetRotation().GetW(), tr->GetRotation().GetX(), tr->GetRotation().GetY(), tr->GetRotation().GetZ());
+	_node->setOrientation(tr->getRotation().getW(), tr->getRotation().getX(), tr->getRotation().getY(), tr->getRotation().getZ());
 
-	_node->setScale(tr->GetSize().GetX(), tr->GetSize().GetY(), tr->GetSize().GetZ());
+	_node->setScale(tr->getSize().getX(), tr->getSize().getY(), tr->getSize().getZ());
 }
 
-void LocoMotor::ParticleSystem::onDisable() {}
+void LocoMotor::ParticleSystem::onDisable() {
+	if (_particleSystem != nullptr && !isEnabled())
+		_particleSystem->setEmitting(false);
+}
 
 void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 
@@ -68,7 +80,7 @@ void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 			particleName = params[i].second;
 		}
 		else if (params[i].first == "PlayOnStart" || params[i].first == "playOnStart") {
-			plsyOnStart = true;
+			playOnStart = true;
 		}
 	}
 

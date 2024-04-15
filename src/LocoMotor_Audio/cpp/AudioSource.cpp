@@ -74,10 +74,10 @@ void AudioSource::playSound(const char* fileName, int loops, unsigned int loopBe
 
 			//Si no hay ningun canal de audio en uso ya, seteamos la posicion del transform directamente y velocidad 0
 			FMOD_VECTOR newPosition = FMOD_VECTOR();
-			auto& lmPos = _gameObject->getComponent<Transform>()->GetPosition();
-			newPosition.x = lmPos.GetX();
-			newPosition.y = lmPos.GetY();
-			newPosition.z = lmPos.GetZ();
+			auto& lmPos = _gameObject->getComponent<Transform>()->getPosition();
+			newPosition.x = lmPos.getX();
+			newPosition.y = lmPos.getY();
+			newPosition.z = lmPos.getZ();
 
 			channel->set3DAttributes(&newPosition, &vel);
 		}
@@ -120,9 +120,9 @@ void AudioSource::playOneShot(const char* fileName, const LMVector3& position, c
 	unsigned short fail = _man->playSoundwChannel(fileName, &channel);
 
 	FMOD_VECTOR newPosition = FMOD_VECTOR();
-	newPosition.x = position.GetX();
-	newPosition.y = position.GetY();
-	newPosition.z = position.GetZ();
+	newPosition.x = position.getX();
+	newPosition.y = position.getY();
+	newPosition.z = position.getZ();
 	FMOD_VECTOR vel = FMOD_VECTOR(); vel.x = 0; vel.y = 0; vel.z = 0;
 	if (fail != FMOD_OK)
 		channel->set3DAttributes(&newPosition, &vel);
@@ -247,10 +247,10 @@ void LocoMotor::AudioSource::update(float dT) {
 	}
 
 	FMOD_VECTOR newPosition = FMOD_VECTOR();
-	auto& lmPos = _gameObject->getComponent<Transform>()->GetPosition();
-	newPosition.x = lmPos.GetX();
-	newPosition.y = lmPos.GetY();
-	newPosition.z = lmPos.GetZ();
+	auto& lmPos = _gameObject->getComponent<Transform>()->getPosition();
+	newPosition.x = lmPos.getX();
+	newPosition.y = lmPos.getY();
+	newPosition.z = lmPos.getZ();
 
 	FMOD_VECTOR lastPosition = FMOD_VECTOR();
 	it->second.channel->get3DAttributes(&lastPosition, NULL);
