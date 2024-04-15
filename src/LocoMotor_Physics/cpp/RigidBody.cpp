@@ -90,8 +90,8 @@ void LocoMotor::RigidBody::awake() {
 void LocoMotor::RigidBody::start() {}
 
 void LocoMotor::RigidBody::update(float dt) {
-	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
-	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
+	/*SetPosition(_gameObject->getComponent<Transform>()->getPosition());
+	SetRotation(_gameObject->getComponent<Transform>()->getRotation());*/
 	_gameObject->getComponent<Transform>()->setPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
 	std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
 	_gameObject->getComponent<Transform>()->setRotation(BulletToLm(_body->getWorldTransform().getRotation()));
