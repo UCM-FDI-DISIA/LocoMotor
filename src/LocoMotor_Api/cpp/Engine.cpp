@@ -189,8 +189,8 @@ bool Engine::mainLoop() {
 		fixedTime += _dt;
 		_lastFrameTime = time;
 		while (fixedTime >= fixedTimeStep) {
-			_scnManager->fixedUpdate();
 			Physics::PhysicsManager::GetInstance()->update(fixedTimeStep);
+			_scnManager->fixedUpdate();
 			fixedTime -= fixedTimeStep;
 		}
 

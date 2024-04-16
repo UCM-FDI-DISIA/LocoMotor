@@ -99,6 +99,9 @@ Scene = {
             Particle = "Smoke",
             PlayOnStart = ""
         },
+        RigidBody = {
+            mass = 1
+        },
     },
     Player_2 = {
         Transform = {
