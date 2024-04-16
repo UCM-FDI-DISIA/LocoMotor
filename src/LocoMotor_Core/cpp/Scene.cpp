@@ -95,6 +95,7 @@ void Scene::build() {
 		GameObject* gObj = addGameobject(objPair.first);
 		for (auto& cmpPair : objPair.second) {
 			Component* cmp = gObj->addComponent(cmpPair.first);
+			if (cmp == nullptr) continue;
 			cmp->setParameters(cmpPair.second);
 		}
 		if (gObj->getComponent<Transform>() == nullptr) {

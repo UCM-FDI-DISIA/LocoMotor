@@ -7,6 +7,8 @@
 
 #include <cassert>
 
+#include <iostream>
+
 using namespace LocoMotor;
 
 unsigned int Graphics::OverlayManager::_numOfCanvas = 0;
@@ -63,8 +65,9 @@ void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, 
 			try {
 				value = std::stof(num);
 			}
-			catch (const char*) {
+			catch (...) {
 				value = 0.f;
+				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from UI anchor/pivot" << "\033[0m" << std::endl;
 			}
 			if (currAxis == 0) {
 				x = value;
@@ -85,6 +88,7 @@ void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, 
 	}
 	catch (...) {
 		value = 0.0f;
+		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from UI anchor/pivot" << "\033[0m" << std::endl;
 	}
 	if (currAxis == 1)
 		y = value;
@@ -103,8 +107,9 @@ void LocoMotor::Graphics::OverlayManager::stringToPosition(const std::string& s,
 			try {
 				value = std::stoi(num);
 			}
-			catch (const char*) {
+			catch (...) {
 				value = 0;
+				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading an int from UI position/size" << "\033[0m" << std::endl;
 			}
 			if (currAxis == 0) {
 				x = value;
@@ -125,6 +130,7 @@ void LocoMotor::Graphics::OverlayManager::stringToPosition(const std::string& s,
 	}
 	catch (...) {
 		value = 0;
+		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading an int from UI position/size" << "\033[0m" << std::endl;
 	}
 	if (currAxis == 1)
 		y = value;

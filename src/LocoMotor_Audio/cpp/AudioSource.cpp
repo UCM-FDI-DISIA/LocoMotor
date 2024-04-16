@@ -36,7 +36,7 @@ void AudioSource::playSound(const char* fileName, int loops, unsigned int loopBe
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG
-		std::cerr << "Sound '" << fileName << "' is not added to the manager, adding it now\n";
+		std::cerr<< "Sound '" << fileName << "' is not added to the manager, adding it now" << std::endl;
 	#endif // _DEBUG
 		addSound(fileName);
 		snd = _man->getSound(fileName);
@@ -57,7 +57,7 @@ void AudioSource::playSound(const char* fileName, int loops, unsigned int loopBe
 		FMOD_RESULT err = snd->setLoopPoints(std::min(loopBegin, loopEnd), FMOD_TIMEUNIT_MS, std::max(loopBegin, loopEnd), FMOD_TIMEUNIT_MS);
 	#ifdef _DEBUG
 		if (err != FMOD_OK) {
-			std::cerr << "Source error: Trying to play a loop: " << _man->getError(err) << std::endl;
+			std::cerr << "\033[1;31m" << "Source error: Trying to play a loop: " << _man->getError(err) << "\033[0m" << std::endl;
 		}
 	#endif
 		snd->setLoopCount(std::max(-1, loops));
@@ -109,7 +109,7 @@ void AudioSource::playOneShot(const char* fileName, const LMVector3& position, c
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG
-		std::cerr << "Sound " << fileName << " is not added to the manager, adding it now";
+		std::cerr << "\033[1;31m" << "Sound " << fileName << " is not added to the manager, adding it now" << "\033[1;31m" << std::endl;
 	#endif // _DEBUG
 		addSound(fileName);
 		snd = _man->getSound(fileName);
@@ -139,7 +139,7 @@ void AudioSource::playOneShot(const char* fileName, const LMVector3& position, c
 void AudioSource::pauseSound(const char* fileName, bool pause) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
-		std::cerr << "Sound " << fileName << " is not currently playing on this AudioSource, from PauseSound()";
+		std::cerr << "\033[1;31m" << "Sound " << fileName << " is not currently playing on AudioSource in gameObject :" << _gameObject->getName() << "\033[0m" << std::endl;
 	#endif // _DEBUG
 		return;
 	}
@@ -155,7 +155,7 @@ void AudioSource::pause(bool pause) {
 void AudioSource::stopSound(const char* fileName) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
-		std::cerr << "Sound '" << fileName << "' is not currently playing on this AudioSource, from Stop()";
+		std::cerr << "\033[1;31m" << "Sound " << fileName << " is not currently playing on AudioSource in gameObject :" << _gameObject->getName() << "\033[0m" << std::endl;
 	#endif // _DEBUG
 		return;
 	}
@@ -175,7 +175,7 @@ void AudioSource::stop() {
 void AudioSource::setSoundVolume(const char* fileName, const float volume) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
-		std::cerr << "Sound '" << fileName << "' is not currently playing on this AudioSource, from SetVolume()";
+		std::cerr << "\033[1;31m" << "Sound " << fileName << " is not currently playing on AudioSource in gameObject :" << _gameObject->getName() << "\033[0m" << std::endl;
 	#endif // _DEBUG
 	}
 	_chMap[fileName].channel->setVolume(volume);
@@ -191,7 +191,7 @@ void AudioSource::setVolume(const float volume) {
 void AudioSource::setSoundFreq(const char* fileName, const float freqMult) {
 	if (!_chMap[fileName].channel) {
 	#ifdef _DEBUG
-		std::cerr << "Sound " << fileName << " is not currently playing on this AudioSource, from SetSoundFreq()";
+		std::cerr << "\033[1;31m" << "Sound " << fileName << " is not currently playing on AudioSource in gameObject :" << _gameObject->getName() << "\033[0m" << std::endl;
 	#endif // _DEBUG
 	}
 	_chMap[fileName].channel->setFrequency(std::max(0.f, _chMap[fileName].ogFrec * freqMult));
@@ -233,7 +233,6 @@ void LocoMotor::AudioSource::setParameters(ComponentMap& params) {
 
 void LocoMotor::AudioSource::start() {
 	if (_playOnStart != "") {
-		addSound(_playOnStart.c_str());
 		playSound(_playOnStart.c_str());
 	}
 }

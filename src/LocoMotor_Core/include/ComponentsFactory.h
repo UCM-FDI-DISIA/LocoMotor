@@ -36,7 +36,7 @@ namespace LocoMotor {
 		inline Component* createComponent(const std::string& name) {
 			if (_factories.count(name) == 0) {
 			#ifdef _DEBUG
-				std::cerr << "Component of name '" + name + "' is not currently registered, make sure to call register component with the desired name";
+				std::cerr << "\033[1;31m" << "Component of name '" + name + "' is not currently registered, make sure to call register component with the desired name" << "\033[0m" << std::endl;
 			#endif // _DEBUG
 				return nullptr;
 			}
@@ -51,7 +51,7 @@ namespace LocoMotor {
 		void registerComponent(const std::string& name) {
 			if (_factories.count(name) != 0) {
 			#ifdef _DEBUG
-				std::cerr << "Component of name '" + name + "' already registered, use another name";
+				std::cerr << "\033[1;31m" << "Component of name '" + name + "' already registered, use another name" << "\033[1;31m" << std::endl;
 			#endif // _DEBUG
 				return;
 			}

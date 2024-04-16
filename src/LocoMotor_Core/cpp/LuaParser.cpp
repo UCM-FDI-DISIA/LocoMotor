@@ -28,13 +28,15 @@ int LuaParser::readLua(const std::string path) {
 	int scriptLoadStatus = luaL_dofile(_luaState, path.c_str());
 
 	// define error reporter for any Lua error
+	std::cerr << "\033[1;31m";
 	reportErrors(scriptLoadStatus);
+	std::cerr << "\033[0m" << std::endl;
 	return scriptLoadStatus;
 }
 
 std::optional<LocoMotor::SceneMap> LuaParser::loadSceneFromFile(const std::string& path,const std::string& sceneName) {
 	if (readLua(path) != 0) {
-		std::cerr << "No existe el archivo " << path << std::endl;
+		std::cerr << "\033[1;31m" << "Error loading file '" << path << "'\033[0m" << std::endl;
 		return std::nullopt;
 	}
 
@@ -42,7 +44,7 @@ std::optional<LocoMotor::SceneMap> LuaParser::loadSceneFromFile(const std::strin
 	luabridge::LuaRef luaScene = getFromLua(sceneName);
 	lua_pushnil(luaScene);
 	if (luaScene.isNil()) {
-		std::cout << "Escena fue null xdxd\n";
+		std::cout << "\033[1;31m" << "Escena '" << sceneName <<"' fue null" << "\033[0m" << std::endl;
 		return std::nullopt;
 	}
 	while (lua_next(luaScene, 0) != 0) {

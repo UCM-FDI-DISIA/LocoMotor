@@ -2,6 +2,7 @@
 #include "OgreEntity.h"
 #include <OgreMovableObject.h>
 #include "GraphicsManager.h"
+#include <OgreMaterialManager.h>
 #include <OgreSceneManager.h>
 #include <OgreStaticGeometry.h>
 
@@ -54,11 +55,8 @@ void LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
 	if (meshName != "") {
 		setMesh(meshName);
 
-		if (matName != "") {
-			_mesh->setMaterialName(matName);
-		}
-		isSelfVisible = visible;
-		_mesh->setVisible(visible);
+		setMaterial(matName);
+		setVisible(visible);
 	}
 }
 
@@ -113,7 +111,8 @@ void LocoMotor::MeshRenderer::updateAnimation(double dt) {
 
 void LocoMotor::MeshRenderer::start() {
 	if (_gameObject->getComponent<Transform>() == nullptr) {
-		std::cerr << "GameObject with name '" << _gameObject->getName() << "' has no Transform component\n";
+
+		std::cerr << "\033[1;31m" << "GameObject with name '" << _gameObject->getName() << "' has no Transform component" << "\033[0m" << std::endl;
 		return;
 	}
 }
@@ -162,7 +161,12 @@ void LocoMotor::MeshRenderer::setVisible(bool visible) {
 }
 void LocoMotor::MeshRenderer::setMaterial(const std::string& mat) {
 	if (_mesh != nullptr) {
-		_mesh->setMaterialName(mat);
+		if (Ogre::MaterialManager::getSingletonPtr()->resourceExists(mat)) {
+			_mesh->setMaterialName(mat);
+		}
+		else {
+			std::cerr << "\033[1;31m" << "Material of name '" << mat << "' wasn't found in any known .material script: In gameObject '" << _gameObject->getName() << "'" << "\033[0m" << std::endl;
+		}
 	}
 }
 
@@ -178,15 +182,22 @@ void LocoMotor::MeshRenderer::setMesh(const std::string& mesh) {
 		if (_mesh != nullptr) {
 			_node->attachObject(_mesh);
 		}
+		else {
+			std::cerr << "\033[1;31m" << "Mesh in file '" << mesh << "' couldn't be set in gameObject '" << _gameObject->getName() << "'" << "\033[0m" << std::endl;
+		}
+	}
+	else {
+		std::cerr << "\033[1;31m" << "Mesh in file '" << mesh << "' couldn't be found in gameObject '" << _gameObject->getName() << "'" << "\033[0m" << std::endl;
 	}
 
+	if (_mesh == nullptr) return;
 
 	// Inicializar animaciones
 	allAnimations = std::unordered_map<std::string, Ogre::AnimationState*>();
 	if (_mesh->getAllAnimationStates() != nullptr) {
 		Ogre::AnimationStateMap mapa = _mesh->getAllAnimationStates()->getAnimationStates();
 
-		std::cout << " ANIMATIONS LOADED : \n";
+		std::cout << "ANIMATIONS LOADED : \n";
 
 		for (auto it = mapa.begin(); it != mapa.end(); it++) {
 			allAnimations.insert({ it->first, it->second });

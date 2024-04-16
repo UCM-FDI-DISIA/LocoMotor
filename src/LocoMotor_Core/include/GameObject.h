@@ -32,6 +32,8 @@ namespace LocoMotor {
 			}
 			else {
 				Component* comp = factory->createComponent(name);
+				if (comp == nullptr) 
+					return nullptr;
 				comp->init(this, true);
 				_toStart.push(comp);
 				_components.insert({ name, comp });
