@@ -165,13 +165,15 @@ Scene = {
     -- GUNS
     revolver = {
         Transform = {
-            position = "-14 0 0",
+            position = "-10 10 0",
             size = "1.5 1.5 1.5",
             rotation = "115 -130 0"
         },
         MeshRenderer = {
             mesh = "Revolver.mesh",
             material = "Revolver"
+        },
+        Weapon = {
         }
     },
     Bullet = {
