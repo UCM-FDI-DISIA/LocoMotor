@@ -9,6 +9,8 @@ LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& nam
 	}
 	else {
 		Component* comp = factory->createComponent(name);
+		if (comp == nullptr)
+			return nullptr;
 		comp->init(this, true);
 		_toStart.push(comp);
 		_components.insert({ name, comp });
@@ -37,6 +39,7 @@ LocoMotor::GameObject::~GameObject() {
 		cmp->onDestroy();
 		delete cmp;
 		cmp = nullptr;
+		
 	}
 	_components.clear();
 }

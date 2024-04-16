@@ -58,6 +58,86 @@ void LocoMotor::Graphics::OverlayManager::show() {
 	_canvas->show();
 }
 
+void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, float& x, float& y)
+{
+	unsigned char currAxis = 0;
+	std::string num = "";
+	for (const char c : s) {
+		if (c != ' ') {
+			num += c;
+		}
+		else {
+			float value = 0.f;
+			try {
+				value = std::stof(num);
+			}
+			catch (const char*) {
+				value = 0.f;
+			}
+			if (currAxis == 0) {
+				x = value;
+			}
+			else if (currAxis == 1) {
+				y = value;
+			}
+			currAxis++;
+			num = "";
+			if (currAxis == 2) {
+				break;
+			}
+		}
+	}
+	float value = 0.0f;
+	try {
+		value = std::stof(num);
+	}
+	catch (...) {
+		value = 0.0f;
+	}
+	if (currAxis == 1)
+		y = value;
+}
+
+void LocoMotor::Graphics::OverlayManager::stringToPosition(const std::string& s, int& x, int& y)
+{
+	unsigned char currAxis = 0;
+	std::string num = "";
+	for (const char c : s) {
+		if (c != ' ') {
+			num += c;
+		}
+		else {
+			int value = 0;
+			try {
+				value = std::stoi(num);
+			}
+			catch (const char*) {
+				value = 0;
+			}
+			if (currAxis == 0) {
+				x = value;
+			}
+			else if (currAxis == 1) {
+				y = value;
+			}
+			currAxis++;
+			num = "";
+			if (currAxis == 2) {
+				break;
+			}
+		}
+	}
+	int value = 0;
+	try {
+		value = std::stoi(num);
+	}
+	catch (...) {
+		value = 0;
+	}
+	if (currAxis == 1)
+		y = value;
+}
+
 Ogre::OverlayContainer* LocoMotor::Graphics::OverlayManager::getContainer() {
 	return _container;
 }

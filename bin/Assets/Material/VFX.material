@@ -6,7 +6,6 @@ material Smoke {
             depth_write off
             diffuse vertexcolour
             lighting off
-            lighting off
             texture_unit {
                 texture Dust.png
                 tex_address_mode wrap

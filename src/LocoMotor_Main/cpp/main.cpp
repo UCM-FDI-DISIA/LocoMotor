@@ -27,16 +27,15 @@ int LocoMotor_Main(Main_Args) {
 
 	bool dllLoaded = false;
 
-	LocoMotor::Engine* motor = new LocoMotor::Engine();
+	//LocoMotor::Engine* motor = new LocoMotor::Engine();
 
-	if (!motor->Init()) {
-		delete motor;
+	if (!LocoMotor::Engine::Init()) {
 		std::cerr << "\033[1;31m" << "Algo no se inicializó correctamente" << "\033[0m" << std::endl;
 		return -1;
 	}
 
 	//Esto se llamaría desde el código del juego
-	motor->setWindowName("hola ventana de ogre");
+	LocoMotor::Engine::GetInstance()->setWindowName("hola ventana de ogre");
 
 #pragma region Explicit dll loading
 	LPCWSTR dllName;
@@ -58,7 +57,7 @@ int LocoMotor_Main(Main_Args) {
 
 		if (initJuego != NULL) {
 			// La ejecutamoss
-			auto result = initJuego(motor);
+			auto result = initJuego(LocoMotor::Engine::GetInstance());
 			std::cout << "\033[1;36m" << result << "\033[0m" << std::endl;
 		}
 		else {
@@ -83,8 +82,8 @@ int LocoMotor_Main(Main_Args) {
 	}
 #pragma endregion
 
-	if (!motor->MainLoop()) {
-		delete motor;
+	if (!LocoMotor::Engine::GetInstance()->mainLoop()) {
+		LocoMotor::Engine::Release();
 		std::cerr << "\033[1;31m" << "Algo salió mal en el bucle principal" << "\033[0m" << std::endl;
 		return -1;
 	}
@@ -117,7 +116,7 @@ int LocoMotor_Main(Main_Args) {
 		<< "\033[1;32m" << "N" 
 		<< "\033[1;36m" << "A" << "\033[0m" << std::endl;
 
-	delete motor;
+	LocoMotor::Engine::Release();
 	if (dllLoaded) {
 		FreeLibrary(g6Game);
 	}

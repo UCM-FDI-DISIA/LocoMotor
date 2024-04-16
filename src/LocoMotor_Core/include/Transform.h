@@ -23,64 +23,48 @@ namespace LocoMotor {
 		Transform();
 		~Transform();
 		/// @brief Initializes a component for a game object and registers its transform.
-		void initComponent();// override;
+		void initComponent();
 		/// @brief Initializes the position, rotation, and scale of a game object's transform based on input parameters.
 		/// @param params A vector of pairs, where each pair contains a string representing a parameter nameand
 		/// a string representing the value of that parameter.The function uses these parameters to initialize
 		/// the position, rotation, and scale of a transform component.
-		void InitRuntime(LMVector3 initPos = LMVector3(0, 0, 0), LMVector3 initRot = LMVector3(0, 0, 0), LMVector3 initScale = LMVector3(1, 1, 1));
+		void initRuntime(LMVector3 initPos = LMVector3(0, 0, 0), LMVector3 initRot = LMVector3(0, 0, 0), LMVector3 initScale = LMVector3(1, 1, 1));
 
 		/// @brief  Returns the World position of the LocoMotor object.
 		/// @return vector
-		const LMVector3& GetPosition();
-		/// @brief  Returns the World position of the LocoMotor object.
-		/// @return vector
-		const LMVector3& GetLocalPosition();
+		const LMVector3& getPosition();
 		/// @brief Sets the world position of the LocoMotor object.
 		/// @param newPosition The new position 
-		void SetPosition(const LMVector3& newPosition);
-		/// @brief Sets the local position of the LocoMotor object.
-		/// @param newLocalPosition The new local position 
-		void SetLocalPosition(const LMVector3& newLocalPosition);
+		void setPosition(const LMVector3& newPosition);
 
 		/// @brief Returns the rotation of the LocoMotor object.
 		/// @return quaterinion
-		const LMQuaternion& GetRotation();
+		const LMQuaternion& getRotation();
 		/// @brief Returns the Rotation in Euler Degrees of the LocoMotor object.
 		/// @return vector 
-		const LMVector3& GetEulerRotation();
-		/// @brief Returns the rotation of the LocoMotor object.
-		/// @return quaterinion
-		const LMQuaternion& GetLocalRotation();
-		/// @brief Returns the local position of the LocoMotor object.
-		/// @return vector 
-		const LMVector3& GetLocalEulerRotation();
+		LMVector3 getEulerRotation();
 		/// @brief Sets the rotation of the LocoMotor object.
 		/// @param newRotation The new rotation
-		void SetRotation(const LMQuaternion& newRotation);
-		void SetRotation(const LMVector3& newRotation);
-		/// @brief Sets the local rotation of the LocoMotor object (for children)
-		/// @param newRotation The new rotation of the child 
-		void SetLocalRotation(const LMQuaternion& newRotation);
-		void SetLocalRotation(const LMVector3& newRotation);
+		void setRotation(const LMQuaternion& newRotation);
+		void setRotation(const LMVector3& newRotation);
 
 		/// @brief Returns the size of the LocoMotor object.
 		/// @return vector
-		const LMVector3& GetSize();
+		const LMVector3& getSize();
 		/// @brief Sets the size of the LocoMotor object.
 		/// @param newSize The new size
-		void SetSize(const LMVector3& newSize);
+		void setSize(const LMVector3& newSize);
 		/// @brief Sets up a new upward direction for a LocoMotor object by calculating the rotation
 		/// needed to align the current upward direction with the new one.
 		/// @param newUpward A LMVector3 representing the new upward direction to set for the LocoMotor object.
-		void SetUpwards(const LMVector3& newUpward);
+		void setUpwards(const LMVector3& newUpward);
 		/// @brief Sets the forward direction of a LocoMotor object by calculating the rotation needed to
 		/// align the current forward direction with a new given direction.
 		/// @param newForward  A LMVector3 representing the new forward direction that the LocoMotor should face.
-		void SetForward(const LMVector3& newForward);
+		void setForward(const LMVector3& newForward);
 		/// @brief Updates the forward vector of a LocoMotor object.
 		/// @param lookPos A LMVector3 representing the position to look at.
-		void LookAt(const LMVector3& lookPos);
+		void lookAt(const LMVector3& lookPos);
 		/// @brief Sets the forward and upward vectors of a transform to look at a specified position with
 		/// a specified upward direction.
 		/// @param lookPos A LMVector3 representing the position that the LocoMotor's Transform should be
@@ -88,39 +72,19 @@ namespace LocoMotor {
 		/// @param up The "up" parameter is a LMVector3 that represents the direction that is considered "up" in
 		/// the world space.This is used to ensure that the object being transformed maintains a consistent
 		/// orientation, even if it is rotated.
-		void LookAt(const LMVector3& lookPos, const LMVector3& up);
-		
-
-		//CHILDREN
-
-		std::vector<Transform*> childList;
-		/// @brief Adds a Transform as a child; it will inherit t/r/s from this transform
-		/// @param trToAdd transform to add as a child
-		/// @param resetLocal to set the child position same as parent(local = 0,0,0); false by default
-		void AddChild(Transform* trToAdd, bool resetLocal = false);
-		/// @brief Removes a child Transform
-		void RemoveChild(Transform* trToRemove);
-		//Sets a transform as a parent of this Transform
-		void SetParent(Transform* trParent);
-		Transform* GetParent();
+		void lookAt(const LMVector3& lookPos, const LMVector3& up);
 
 	protected:
 
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void setParameters(ComponentMap& params) override;
 		void start() override;
-		/// @brief Updates the source's position and velocity in the world
-		/// @param dt DeltaTime used to calculate the velocity by comparing last position
 		void update(const float dt) override;
 
 	private:
 
 		LMVector3 _position;
-		LMVector3 _localPosition;
 		LMVector3 _scale;
-		LMVector3 _localScale;
 		LMQuaternion _direction;
-		LMQuaternion _localDirection;
-		Transform* parent;
 
 		//OgreWrapper::Node* _gObjNode;
 	};

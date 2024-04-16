@@ -138,7 +138,8 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 	int numOfStrings;
 
 	bank->getStringCount(&numOfStrings);
-	char path[100];
+	const int maxCharsInFiles = 255;
+	char path[maxCharsInFiles];
 
 #ifdef _DEBUG
 	std::cout << "Loading all banks included in Master.strings.bank" << std::endl;
@@ -147,7 +148,8 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 	for (int i = 0; i < numOfStrings; i++) {
 		FMOD_GUID info;
 		int ret;
-		bank->getStringInfo(i, &info, path, 100, &ret);
+		FMOD_RESULT res = bank->getStringInfo(i, &info, path, maxCharsInFiles, &ret);
+		if (res != FMOD_OK) continue;
 
 		std::string retrieved = path;
 		retrieved.shrink_to_fit();

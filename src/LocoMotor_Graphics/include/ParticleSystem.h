@@ -56,7 +56,9 @@ namespace LocoMotor{
 
 		static uint32_t numOfParticleSystems;
 
-		bool plsyOnStart;
+		bool playOnStart;
+
+		bool emittingSelf; 
 
 	};
 }

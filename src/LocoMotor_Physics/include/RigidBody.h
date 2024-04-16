@@ -35,10 +35,11 @@ namespace LocoMotor {
 	public:
 		RigidBody();
 		~RigidBody();
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		void setParameters(ComponentMap& params) override;
 		void awake() override;
 		void start() override;
 		void update(float dt)override;
+		void fixedUpdate()override;
 		/// @brief Add force to the body
 		/// @param force to add
 		void AddForce(LMVector3 force);

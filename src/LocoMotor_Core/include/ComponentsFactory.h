@@ -10,8 +10,11 @@
 #include <functional>
 #include <cassert>
 #include <map>
+#ifdef _DEBUG
+#include <iostream>
+#endif // _DEBUG
 
-//TODO: Programar ComponentsFactory
+
 namespace LocoMotor {
 	class Component;
 	typedef Component* (*CmpFactory)();
@@ -31,7 +34,12 @@ namespace LocoMotor {
 		/// @param name Name of the component type
 		/// @return A newly created Component with sufficient memory allocated for the asked type. You must cast the returned value to the desired type.
 		inline Component* createComponent(const std::string& name) {
-			assert(_factories.count(name) > 0, "That component name is not registered");
+			if (_factories.count(name) == 0) {
+			#ifdef _DEBUG
+				std::cerr << "Component of name '" + name + "' is not currently registered, make sure to call register component with the desired name";
+			#endif // _DEBUG
+				return nullptr;
+			}
 			return _factories[name]();
 		};
 
@@ -41,7 +49,12 @@ namespace LocoMotor {
 		/// @param unique If the component is unique (a component is unique if a given GameObject can only have one instance of it)
 		template <typename T>
 		void registerComponent(const std::string& name) {
-			assert(_factories.count(name) == 0, "That component name is already registered");
+			if (_factories.count(name) != 0) {
+			#ifdef _DEBUG
+				std::cerr << "Component of name '" + name + "' already registered, use another name";
+			#endif // _DEBUG
+				return;
+			}
 			CmpFactory fac = (CmpFactory)[]() {
 				return static_cast<Component*>(new T());
 			};

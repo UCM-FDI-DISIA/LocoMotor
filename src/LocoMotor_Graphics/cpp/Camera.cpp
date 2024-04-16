@@ -50,8 +50,8 @@ void LocoMotor::Camera::SetViewportRatio(int viewportIndex, int modeIndex)
 }
 
 void LocoMotor::Camera::SetClippingPlane(int nearPlane, int farPlane) {
-	_mCamera->setNearClipDistance(nearPlane);
-	_mCamera->setFarClipDistance(farPlane);
+	_mCamera->setNearClipDistance(Ogre::Real(nearPlane));
+	_mCamera->setFarClipDistance(Ogre::Real(farPlane));
 }
 
 void LocoMotor::Camera::setBackgroundColor(float r, float g, float b) {
@@ -85,8 +85,8 @@ void LocoMotor::Camera::setParameters(ComponentMap& params) {
 			}
 		}
 		else if (param.first == "Background" || param.first == "background") {
-			LMVector3 col = LMVector3::StringToVector(param.second);
-			setBackgroundColor(col.GetX(), col.GetY(), col.GetZ());
+			LMVector3 col = LMVector3::stringToVector(param.second);
+			setBackgroundColor(col.getX(), col.getY(), col.getZ());
 		}
 	}
 }
@@ -102,6 +102,7 @@ void LocoMotor::Camera::init()
 	_man = Graphics::GraphicsManager::GetInstance();
 	_node = _man->createNode(_gameObject->getName());
 	_mCamera = _man->getOgreSceneManager()->createCamera(_gameObject->getName() + "_cam");
+	_mCamera->setNearClipDistance(0.1f);
 	_node->attachObject(_mCamera);
 	_target = nullptr;
 	_offset = LMVector3(0, 0, 0);
@@ -115,39 +116,18 @@ void LocoMotor::Camera::update(float dT)
 {
 	if (_gameObject->getComponent<Transform>() == nullptr)return;
 
-	_node->setPosition(_gameObject->getComponent<Transform>()->GetPosition().GetX(), _gameObject->getComponent<Transform>()->GetPosition().GetY(), _gameObject->getComponent<Transform>()->GetPosition().GetZ());
+	LMVector3 pos = _gameObject->getComponent<Transform>()->getPosition();
+	_node->setPosition(pos.getX(), pos.getY(), pos.getZ());
 
 	Ogre::Quaternion quat = Ogre::Quaternion();
-	if (_nodeRotation.GetW() != _gameObject->getComponent<Transform>()->GetRotation().GetW()) {
-		quat.w = _gameObject->getComponent<Transform>()->GetRotation().GetW();
-		_nodeRotation.SetW(_gameObject->getComponent<Transform>()->GetRotation().GetW());
-	}
-	if (_nodeRotation.GetX() != _gameObject->getComponent<Transform>()->GetRotation().GetX()) {
-		quat.x = _gameObject->getComponent<Transform>()->GetRotation().GetX();
-		_nodeRotation.SetX(_gameObject->getComponent<Transform>()->GetRotation().GetX());
-	}
-	if (_nodeRotation.GetY() != _gameObject->getComponent<Transform>()->GetRotation().GetY()) {
-		quat.y = _gameObject->getComponent<Transform>()->GetRotation().GetY();
-		_nodeRotation.SetY(_gameObject->getComponent<Transform>()->GetRotation().GetY());
-	}
-	if (_nodeRotation.GetZ() != _gameObject->getComponent<Transform>()->GetRotation().GetZ()) {
-		quat.z = _gameObject->getComponent<Transform>()->GetRotation().GetZ();
-		_nodeRotation.SetZ(_gameObject->getComponent<Transform>()->GetRotation().GetZ());
-	}
-	_node->rotate(quat, Ogre::Node::TS_LOCAL);
+	quat.w = _gameObject->getComponent<Transform>()->getRotation().getW();
+	quat.x = _gameObject->getComponent<Transform>()->getRotation().getX();
+	quat.y = _gameObject->getComponent<Transform>()->getRotation().getY();
+	quat.z = _gameObject->getComponent<Transform>()->getRotation().getZ();
+	_node->setOrientation(quat);
 
-	if (_nodeScale.GetX() != _gameObject->getComponent<Transform>()->GetSize().GetX()) {
-		_node->scale(_gameObject->getComponent<Transform>()->GetSize().GetX(), 1, 1);
-		_nodeScale.SetX(_gameObject->getComponent<Transform>()->GetSize().GetX());
-	}
-	if (_nodeScale.GetY() != _gameObject->getComponent<Transform>()->GetSize().GetY()) {
-		_node->scale(1, _gameObject->getComponent<Transform>()->GetSize().GetY(), 1);
-		_nodeScale.SetY(_gameObject->getComponent<Transform>()->GetSize().GetY());
-	}
-	if (_nodeScale.GetZ() != _gameObject->getComponent<Transform>()->GetSize().GetZ()) {
-		_node->scale(1, 1, _gameObject->getComponent<Transform>()->GetSize().GetZ());
-		_nodeScale.SetZ(_gameObject->getComponent<Transform>()->GetSize().GetZ());
-	}
+	LMVector3 size = _gameObject->getComponent<Transform>()->getSize();
+	_node->setScale(size.getX(), size.getY(), size.getZ());
 
 	int w = Graphics::GraphicsManager::GetInstance()->getWindowWidth();
 	int h = Graphics::GraphicsManager::GetInstance()->getWindowHeight();

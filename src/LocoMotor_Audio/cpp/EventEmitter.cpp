@@ -51,28 +51,35 @@ void LocoMotor::EventEmitter::setEvent(const char* eventID)
 }
 
 void EventEmitter::play() {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->start();
 }
 
 void EventEmitter::setVolume(float vol) {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->setVolume(vol);
 }
 
 void EventEmitter::setPitch(float pitch) {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->setPitch(pitch);
 }
 
 void EventEmitter::setParameter(const char* paramName, float value) {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->setParameterByName(paramName, value);
 }
 
 float EventEmitter::getParameter(const char* paramName) {
+	if (_currentEvent == nullptr) return 0.f;
 	float val;
-	_currentEvent->getParameterByName(paramName, &val);
+	if (_currentEvent->getParameterByName(paramName, &val) != FMOD_OK)
+		return 0.f;
 	return val;
 }
 
 void EventEmitter::stop() {
+	if (_currentEvent == nullptr) return;
 	_currentEvent->stop(FMOD_STUDIO_STOP_IMMEDIATE);
 }
 
@@ -119,27 +126,27 @@ void LocoMotor::EventEmitter::update(float dT) {
 	FMOD_3D_ATTRIBUTES at;
 	_currentEvent->get3DAttributes(&at);
 
-	LMVector3 newPos = _gameObject->getComponent<Transform>()->GetPosition();
+	LMVector3 newPos = _gameObject->getComponent<Transform>()->getPosition();
 
-	at.velocity.x = (newPos.GetX() - at.position.x) / dT;
-	at.velocity.y = (newPos.GetY() - at.position.y) / dT;
-	at.velocity.z = (newPos.GetZ() - at.position.z) / dT;
+	at.velocity.x = (newPos.getX() - at.position.x) / dT;
+	at.velocity.y = (newPos.getY() - at.position.y) / dT;
+	at.velocity.z = (newPos.getZ() - at.position.z) / dT;
 
-	at.position.x = newPos.GetX();
-	at.position.y = newPos.GetY();
-	at.position.z = newPos.GetZ();
+	at.position.x = newPos.getX();
+	at.position.y = newPos.getY();
+	at.position.z = newPos.getZ();
 
-	LMVector3 forward = _gameObject->getComponent<Transform>()->GetRotation().Forward();
+	LMVector3 forward = _gameObject->getComponent<Transform>()->getRotation().forward();
 
-	at.forward.x = forward.GetX();
-	at.forward.y = forward.GetY();
-	at.forward.z = forward.GetZ();
+	at.forward.x = forward.getX();
+	at.forward.y = forward.getY();
+	at.forward.z = forward.getZ();
 
-	LMVector3 up = _gameObject->getComponent<Transform>()->GetRotation().Up();
+	LMVector3 up = _gameObject->getComponent<Transform>()->getRotation().up();
 
-	at.up.x = up.GetX();
-	at.up.y = up.GetY();
-	at.up.z = up.GetZ();
+	at.up.x = up.getX();
+	at.up.y = up.getY();
+	at.up.z = up.getZ();
 
 	_currentEvent->set3DAttributes(&at);
 }

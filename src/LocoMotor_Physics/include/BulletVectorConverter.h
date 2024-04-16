@@ -11,3 +11,5 @@ LocoMotor::LMVector3 BulletToLm(const btVector3& bulletVector);
 btVector3 LmToBullet(const LocoMotor::LMVector3& lmVector);
 /// @brief Converts an LMQuaternion to Bullet vector
 btQuaternion LmToBullet(const LocoMotor::LMQuaternion& LMQuaternion);
+
+LocoMotor::LMQuaternion BulletToLm(const btQuaternion& bulletQuaternion);

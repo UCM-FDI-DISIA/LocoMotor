@@ -12,7 +12,6 @@
 #include "AudioListener.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
-#include "Light.h"
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
 #include "UIImage.h"
@@ -40,8 +39,22 @@ Engine::Engine() {
 	_exit = false;
 }
 
+Engine::~Engine() {
+
+}
+
 bool Engine::Init() {
-	
+
+	assert(_instance == nullptr);
+	_instance = new Engine();
+	if (!_instance->init()) {
+		delete _instance;
+		_instance = nullptr;
+		return false;
+	}
+	return true;
+}
+bool Engine::init(){
 	if (!Graphics::GraphicsManager::Init()) {
 		return false;
 	}
@@ -59,6 +72,10 @@ bool Engine::Init() {
 	}
 
 	//Physics::PhysicsManager::Init();
+	if (!Physics::PhysicsManager::Init()) {
+		Physics::PhysicsManager::Release();
+		return false;
+	}
 	//PhysicsManager::GetInstance()->SetContactStartCallback(LMcontactStart);
 	//PhysicsManager::GetInstance()->SetContactProcessCallback(LMcontactProcessed);
 	//PhysicsManager::GetInstance()->SetContactEndedCallback(LMcontactExit);
@@ -70,7 +87,7 @@ bool Engine::Init() {
 		Audio::AudioManager::Release();
 		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
-		//Physics::PhysicsManager::Release();
+		Physics::PhysicsManager::Release();
 		//InputManager::Release();
 		//SceneManager::Release();
 		//ScriptManager::Release();
@@ -86,6 +103,7 @@ bool Engine::Init() {
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
+	
 	_scnManager = SceneManager::GetInstance();
 
 	// Inicializar inputManager
@@ -100,8 +118,6 @@ bool Engine::Init() {
 	}
 
 
-
-
 	cmpFac->registerComponent<EventEmitter>("EventEmitter");
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
@@ -109,13 +125,23 @@ bool Engine::Init() {
 	cmpFac->registerComponent<MeshRenderer>("MeshRenderer");
 	cmpFac->registerComponent<ParticleSystem>("ParticleSystem");
 	cmpFac->registerComponent<RigidBody>("RigidBody");
-	cmpFac->registerComponent<Light>("Light");
 	cmpFac->registerComponent<Transform>("Transform");
 	cmpFac->registerComponent<UIText>("UIText");
 	cmpFac->registerComponent<UIImage>("UIImage");
 
 
 	return true;
+}
+
+Engine* LocoMotor::Engine::GetInstance() {
+	assert(_instance != nullptr);
+	return _instance;
+}
+
+void LocoMotor::Engine::Release() {
+	assert(_instance != nullptr);
+	delete _instance;
+	_instance = nullptr;
 }
 
 void LocoMotor::Engine::setWindowName(const std::string& name) {
@@ -127,7 +153,9 @@ void LocoMotor::Engine::setStartingScene(const std::string& file, const std::str
 	_startingSceneName = name;
 }
 
-bool Engine::MainLoop() {
+bool Engine::mainLoop() {
+
+	
 
 	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
 		std::cerr << "Error creating game window" << std::endl;
@@ -171,6 +199,7 @@ bool Engine::MainLoop() {
 		fixedTime += _dt;
 		_lastFrameTime = time;
 		while (fixedTime >= fixedTimeStep) {
+			Physics::PhysicsManager::GetInstance()->update(fixedTimeStep);
 			_scnManager->fixedUpdate();
 			fixedTime -= fixedTimeStep;
 		}
@@ -189,7 +218,7 @@ bool Engine::MainLoop() {
 
 		Audio::AudioManager::GetInstance()->update();
 
-		//Physics::PhysicsManager::GetInstance()->update(_dt);
+		
 
 		Graphics::GraphicsManager::GetInstance()->render();
 //
@@ -308,6 +337,7 @@ bool Engine::MainLoop() {
 	SceneManager::Release();
 	ComponentsFactory::Release();
 	Audio::AudioManager::Release();
+	Physics::PhysicsManager::Release();
 	Scripting::ScriptManager::GetInstance()->test();
 	Scripting::ScriptManager::Release();
 	Graphics::GraphicsManager::Release();
@@ -366,7 +396,6 @@ int Engine::showWindow(int type, std::string msg) {
 	SDL_ShowMessageBox(&messageBoxData, &butId);
 
 	return butId;
-
 }
 
 void Engine::quit() {

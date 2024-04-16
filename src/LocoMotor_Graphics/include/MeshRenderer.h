@@ -63,6 +63,9 @@ namespace LocoMotor {
 		std::string _name;
 		std::string _src;
 		bool _setStatic;
+
+		bool isSelfVisible;
+
 		LMVector3 _nodeScale;
 		LMQuaternion _nodeRotation;
 

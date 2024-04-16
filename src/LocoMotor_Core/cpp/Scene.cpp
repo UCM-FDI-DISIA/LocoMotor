@@ -83,7 +83,7 @@ void Scene::build() {
 		}
 		if (gObj->getComponent<Transform>() == nullptr) {
 			Transform* tr = dynamic_cast<Transform*>(gObj->addComponent("Transform"));
-			tr->InitRuntime();
+			tr->initRuntime();
 		}
 	}
 }
