@@ -256,7 +256,10 @@ void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
 
 
 void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
-	//_body->applyTorqueImpulse(LmToBullet(impulse));
+	_body->applyTorqueImpulse(LmToBullet(impulse));
+}
+
+void LocoMotor::RigidBody::ApplyCentralImpulse(LMVector3 impulse) {
 	_body->applyCentralImpulse(LmToBullet(impulse));
 }
 

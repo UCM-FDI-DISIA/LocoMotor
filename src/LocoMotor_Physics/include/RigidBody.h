@@ -111,6 +111,9 @@ namespace LocoMotor {
 		/// @brief Applies a torque impulse to the body
 		/// @param impulse the impulse to aplly
 		void ApplyTorqueImpulse(LMVector3 impulse);
+		/// @brief Applies a central impulse to the body
+		/// @param impulse the impulse to aplly
+		void ApplyCentralImpulse(LMVector3 impulse);
 		/// @brief Set the friction of this rigidbody
 		/// @param fric the new friction value
 		void SetFriction(float fric);
