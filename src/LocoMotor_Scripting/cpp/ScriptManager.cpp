@@ -21,6 +21,8 @@ ScriptManager::~ScriptManager() {
 	//Close scripts and Lua Context
 }
 
+
+
 bool LocoMotor::Scripting::ScriptManager::initLua() {
 	std::cout << "init Lua" << std::endl;
 	_luaState = luaL_newstate();
@@ -36,15 +38,9 @@ bool LocoMotor::Scripting::ScriptManager::initLua() {
 void LocoMotor::Scripting::ScriptManager::registerToLua() {
 	std::cout << "Registrando clases señores" << std::endl;
 	luabridge::getGlobalNamespace(_luaState)
-		.beginClass<LuaBehaviour>("Polla")
-		.addFunction("update", &LuaBehaviour::update)
-		.addFunction("start", &LuaBehaviour::start)
-		.addFunction("onEnable", &LuaBehaviour::onEnable)
-		.addFunction("onDisable", &LuaBehaviour::onDisable)
-		.addFunction("fixedUpdate", &LuaBehaviour::fixedUpdate)
-		.addFunction("awake", &LuaBehaviour::awake)
-		.addFunction("setParameters", &LuaBehaviour::setParameters)
-		.addFunction("helloWorld", &LuaBehaviour::helloWorld)
+		.beginClass<ScriptManager>("ScriptManager")
+		.addStaticFunction("GetInstance", &ScriptManager::GetInstance)
+		.addFunction("hola", &ScriptManager::hola)
 		.endClass();
 		
 }

@@ -12,6 +12,10 @@ void LocoMotor::LuaBehaviour::helloWorld() {
 	std::cout << "Hola de buenas a le mundo" << std::endl;
 }
 
+LocoMotor::LuaBehaviour* LocoMotor::LuaBehaviour::createBehaviour() {
+	return new LuaBehaviour();
+}
+
 LocoMotor::LuaBehaviour::~LuaBehaviour() {
 	if (_object != nullptr) {
 		delete _object;

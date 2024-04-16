@@ -10,18 +10,22 @@
 class lua_State;
 #include <functional>
 #include <vector>
+#include <iostream>
 namespace LocoMotor {
+	class LuaBehaviour;
 	namespace Scripting {
 		class MOTOR_API ScriptManager {
 		public:
 			static bool Init();
 			static void Release();
 			static ScriptManager* GetInstance();
+			void hola() {
+				std::cout << "HOLA" << std::endl;
+			};
 			void test();
 		private:
 			ScriptManager();
 			~ScriptManager();
-			
 			bool initLua();
 			void registerToLua();
 			static ScriptManager* _instance;

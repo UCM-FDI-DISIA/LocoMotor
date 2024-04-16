@@ -17,6 +17,7 @@ namespace LocoMotor {
 	public:
 		
 		void helloWorld();
+		static LuaBehaviour* createBehaviour();
 	protected:
 		~LuaBehaviour();
 
