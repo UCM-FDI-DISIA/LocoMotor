@@ -74,6 +74,9 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 		else if (params[i].first == "size" || params[i].first == "scale") {
 			 info.boxSize= LMVector3::stringToVector(params[i].second);
 		}
+		else if (params[i].first == "pos" || params[i].first == "center" || params[i].first == "origin") {
+			info.origin = LMVector3::stringToVector(params[i].second);
+		}
 		else if (params[i].first == "sphereSize") {
 			info.sphereSize = std::stof(params[i].second);
 		}
@@ -90,7 +93,9 @@ void LocoMotor::RigidBody::awake() {
 	if (info.boxSize == LMVector3()) {
 		info.boxSize = _gameObject->getComponent<Transform>()->getSize();
 	}
-	info.origin = _gameObject->getComponent<Transform>()->getPosition();
+	if (info.origin == LMVector3()) {
+		info.origin = _gameObject->getComponent<Transform>()->getPosition();
+	}
 	info.sphereSize = 0;
 	info.capsuleHeight = 0.0f;
 	info.capsuleRadius = 0.0f;

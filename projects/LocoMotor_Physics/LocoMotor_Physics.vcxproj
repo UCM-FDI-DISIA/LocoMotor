@@ -98,11 +98,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\LocoMotor_Physics\include\BulletVectorConverter.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Physics\include\CallBackBullet.h" />
     <ClInclude Include="..\..\src\LocoMotor_Physics\include\PhysicsManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Physics\include\RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\BulletVectorConverter.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\CallBackBullet.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\PhysicsManager.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Physics\cpp\RigidBody.cpp" />
   </ItemGroup>
