@@ -167,6 +167,10 @@ void LocoMotor::MeshRenderer::setMaterial(const std::string& mat) {
 }
 
 void LocoMotor::MeshRenderer::setMesh(const std::string& mesh) {
+	if (_node == nullptr) {
+		Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
+		_node = man->createNode(_gameObject->getName());
+	}
 	if (Graphics::GraphicsManager::GetInstance()->getOgreSceneManager() == nullptr)
 		return;
 	if (Ogre::ResourceGroupManager::getSingleton().resourceExistsInAnyGroup(mesh)) {

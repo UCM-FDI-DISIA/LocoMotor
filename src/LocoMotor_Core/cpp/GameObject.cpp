@@ -74,6 +74,7 @@ void LocoMotor::GameObject::update(float dt) {
 		_toEnable.pop();
 	}
 	for (auto& pair : _components) {
+
 		Component* cmp = pair.second;
 		if (cmp->isEnabled()) cmp->update(dt);
 	}
@@ -89,6 +90,14 @@ void LocoMotor::GameObject::fixedUpdate() {
 void LocoMotor::GameObject::init(LocoMotor::Scene* scene, bool active) {
 	_scene = scene;
 	_active = active;
+}
+
+bool LocoMotor::GameObject::hasToBeDestroyed() {
+	return _toDestroyThis;
+}
+
+void LocoMotor::GameObject::setToDestroy() {
+	_toDestroyThis = true;
 }
 
 std::string LocoMotor::GameObject::getName() {

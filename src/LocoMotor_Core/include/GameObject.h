@@ -95,6 +95,11 @@ namespace LocoMotor {
 		/// @param scene Scene which the GO belongs to
 		/// @param active Initial active state of the GameObject
 		void init(LocoMotor::Scene* scene, bool active);
+
+		bool hasToBeDestroyed();
+		void setToDestroy();
+
+		bool _toDestroyThis = false;
 	};
 }
 #endif // !LOCOMOTOR_GAME_OBJECT
