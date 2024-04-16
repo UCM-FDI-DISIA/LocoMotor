@@ -33,6 +33,7 @@ namespace LocoMotor {
 			};
 
 			using ControllerId = int32_t;
+			using ListenerFunction = std::function<void(void)>;
 
 			/// @brief Initializes the InputManager singleton
 			/// @return Whether the initialize went well or not.
@@ -141,12 +142,16 @@ namespace LocoMotor {
 				return -1;
 			}
 
-			//void onConnected() {
-			//	for (const auto& listener : listeners) {
-			//		listener(); // Llama a la función
-			//	}
-			//}
 
+			// Suscribe un metodo para ser notificado cuando se conecte/desconecte un mando
+			void addListener(const ListenerFunction& listener) {
+				listeners.push_back(listener);
+			}
+
+			void onControllersChange() {
+				for (const auto& listener : listeners)
+					listener();
+			}
 
 		protected:
 
@@ -211,8 +216,7 @@ namespace LocoMotor {
 			// Ids de los mandos que se han desconectado este frame
 			std::list<ControllerId> onDisconnectControllers;
 
-
-			std::function<void(void)> listeners;
+			std::vector<ListenerFunction> listeners;
 		};
 	}
 }
