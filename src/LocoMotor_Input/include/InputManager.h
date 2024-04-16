@@ -12,6 +12,7 @@
 #include <vector>
 #include <array>
 #include <unordered_map>
+#include <functional>
 
 union SDL_Event;
 typedef struct _SDL_GameController SDL_GameController;
@@ -140,6 +141,12 @@ namespace LocoMotor {
 				return -1;
 			}
 
+			//void onConnected() {
+			//	for (const auto& listener : listeners) {
+			//		listener(); // Llama a la función
+			//	}
+			//}
+
 
 		protected:
 
@@ -203,6 +210,9 @@ namespace LocoMotor {
 			std::list<ControllerId> onConnectControllers;
 			// Ids de los mandos que se han desconectado este frame
 			std::list<ControllerId> onDisconnectControllers;
+
+
+			std::function<void(void)> listeners;
 		};
 	}
 }
