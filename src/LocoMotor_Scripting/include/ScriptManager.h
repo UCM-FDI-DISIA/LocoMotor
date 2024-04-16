@@ -23,6 +23,7 @@ namespace LocoMotor {
 				std::cout << "HOLA" << std::endl;
 			};
 			void test();
+			LuaBehaviour* createBehaviour();
 		private:
 			ScriptManager();
 			~ScriptManager();

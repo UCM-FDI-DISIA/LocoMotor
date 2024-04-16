@@ -74,6 +74,8 @@ bool Engine::init(){
 	//Physics::PhysicsManager::Init();
 	if (!Physics::PhysicsManager::Init()) {
 		Physics::PhysicsManager::Release();
+		Scripting::ScriptManager::Release();
+		Graphics::GraphicsManager::Release();
 		return false;
 	}
 	//PhysicsManager::GetInstance()->SetContactStartCallback(LMcontactStart);
@@ -84,6 +86,7 @@ bool Engine::init(){
 	//ScriptManager::Init();
 
 	if (!ComponentsFactory::Init()) {
+		Physics::PhysicsManager::Release();
 		Audio::AudioManager::Release();
 		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
@@ -98,6 +101,7 @@ bool Engine::init(){
 	if (!SceneManager::Init()) {
 		ComponentsFactory::Release();
 		cmpFac = nullptr;
+		Physics::PhysicsManager::Release();
 		Audio::AudioManager::Release();
 		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
@@ -111,6 +115,7 @@ bool Engine::init(){
 		SceneManager::Release();
 		ComponentsFactory::Release();
 		cmpFac = nullptr;
+		Physics::PhysicsManager::Release();
 		Audio::AudioManager::Release();
 		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
@@ -128,7 +133,7 @@ bool Engine::init(){
 	cmpFac->registerComponent<Transform>("Transform");
 	cmpFac->registerComponent<UIText>("UIText");
 	cmpFac->registerComponent<UIImage>("UIImage");
-
+	cmpFac->registerComponent<LuaBehaviour>("LuaBehaviour");
 
 	return true;
 }
@@ -336,8 +341,8 @@ bool Engine::mainLoop() {
 	Input::InputManager::Release();
 	SceneManager::Release();
 	ComponentsFactory::Release();
-	Audio::AudioManager::Release();
 	Physics::PhysicsManager::Release();
+	Audio::AudioManager::Release();
 	Scripting::ScriptManager::GetInstance()->test();
 	Scripting::ScriptManager::Release();
 	Graphics::GraphicsManager::Release();
