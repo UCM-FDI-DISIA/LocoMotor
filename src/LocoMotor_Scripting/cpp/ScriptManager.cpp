@@ -18,10 +18,8 @@ ScriptManager* ScriptManager::_instance = nullptr;
 
 ScriptManager::ScriptManager() : _luaState(nullptr) {}
 ScriptManager::~ScriptManager() {
-	//Close scripts and Lua Context
+	lua_close(_luaState);
 }
-
-
 
 bool LocoMotor::Scripting::ScriptManager::initLua() {
 	std::cout << "init Lua" << std::endl;
@@ -47,11 +45,12 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 
 bool ScriptManager::Init() {
 	assert(_instance == nullptr);
-	std::cout << "Init estatico" << std::endl;
 	_instance = new ScriptManager();
-	_instance->initLua();
-	//Lua context initialization
-	//Preload Scripts??
+	if (!_instance->initLua()) {
+		delete _instance;
+		_instance = nullptr;
+		return false;
+	}
 	return true;
 }
 
@@ -70,6 +69,4 @@ void ScriptManager::test() {
 		std::cerr << "Error leyendo script " << lua_tostring(_luaState, -1);
 		return;
 	}
-
-
 }

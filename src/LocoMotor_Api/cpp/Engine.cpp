@@ -41,16 +41,20 @@ Engine::Engine() {
 }
 
 bool Engine::Init() {
-	if (!Scripting::ScriptManager::Init()) {
-		return false;
-	}
 	
 	if (!Graphics::GraphicsManager::Init()) {
 		return false;
 	}
 
-	if (!Audio::AudioManager::Init(true)) {
+	if (!Scripting::ScriptManager::Init()) {
 		Graphics::GraphicsManager::Release();
+		return false;
+	}
+
+	if (!Audio::AudioManager::Init(true)) {
+		Scripting::ScriptManager::Release();
+		Graphics::GraphicsManager::Release();
+		
 		return false;
 	}
 
@@ -64,6 +68,7 @@ bool Engine::Init() {
 
 	if (!ComponentsFactory::Init()) {
 		Audio::AudioManager::Release();
+		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
 		//Physics::PhysicsManager::Release();
 		//InputManager::Release();
@@ -77,6 +82,7 @@ bool Engine::Init() {
 		ComponentsFactory::Release();
 		cmpFac = nullptr;
 		Audio::AudioManager::Release();
+		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
@@ -88,6 +94,7 @@ bool Engine::Init() {
 		ComponentsFactory::Release();
 		cmpFac = nullptr;
 		Audio::AudioManager::Release();
+		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
 		return false;
 	}
@@ -301,9 +308,10 @@ bool Engine::MainLoop() {
 	SceneManager::Release();
 	ComponentsFactory::Release();
 	Audio::AudioManager::Release();
-	Graphics::GraphicsManager::Release();
 	Scripting::ScriptManager::GetInstance()->test();
 	Scripting::ScriptManager::Release();
+	Graphics::GraphicsManager::Release();
+	
 	return true;
 }
 
