@@ -287,6 +287,11 @@ float LocoMotor::LMVector3::distance(const LMVector3& v1, const LMVector3& v2) {
 	return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
+bool LocoMotor::LMVector3::operator==(const LMVector3& other) const
+{
+	return _x == other._x && _y == other._y && _z == other._z;
+}
+
 
 
 //Quaternion class to be used with LocoMotor

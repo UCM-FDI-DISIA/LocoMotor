@@ -197,7 +197,11 @@ Scene = {
         MeshRenderer = {
             mesh = "Platform_01.mesh",
             material = "Platform"
-        }
+        },
+        RigidBody = {
+            mass = 0
+        },
+
     },
     platform_02_left = {
         Transform = {
@@ -209,6 +213,10 @@ Scene = {
             mesh = "Platform_02.mesh",
             material = "Platform"
         }
+        ,
+        RigidBody = {
+            mass = 0
+        },
     },
     platform_02_right = {
         Transform = {
@@ -220,6 +228,10 @@ Scene = {
             mesh = "Platform_02.mesh",
             material = "Platform"
         }
+        ,
+        RigidBody = {
+            mass = 0
+        },
     },
     platform_03_left = {
         Transform = {
@@ -231,6 +243,10 @@ Scene = {
             mesh = "Platform_03.mesh",
             material = "Platform"
         }
+        ,
+        RigidBody = {
+            mass = 0
+        },
     },
     platform_03_right = {
         Transform = {
@@ -242,6 +258,10 @@ Scene = {
             mesh = "Platform_03.mesh",
             material = "Platform"
         }
+        ,
+        RigidBody = {
+            mass = 0
+        },
     },
     platform_04 = {
         Transform = {
@@ -253,6 +273,10 @@ Scene = {
             mesh = "Platform_04.mesh",
             material = "Platform"
         }
+        ,
+        RigidBody = {
+            mass = 0
+        },
     },
     backPlane = {
         Transform = {
@@ -264,6 +288,7 @@ Scene = {
             mesh = "BackPlane.mesh",
             material = "BackPlane"
         }
+        
     },
 
     -- SOUNDS --

@@ -127,6 +127,8 @@ namespace LocoMotor {
 
 		static float distance(const LMVector3& v1, const LMVector3& v2);
 
+		bool operator==(const LMVector3& other) const;
+
 	private:
 		float _x = 0, _y = 0, _z = 0;
 	};

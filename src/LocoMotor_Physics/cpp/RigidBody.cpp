@@ -33,6 +33,7 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 				num = 0.;
 			}
 			_mass = num;
+			info.mass = num;
 		}
 		else if (params[i].first == "damping") {
 			float num = 0.;
@@ -70,13 +71,25 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 		else if (params[i].first == "isTrigger") {
 			_beATrigger = true;
 		}
+		else if (params[i].first == "size" || params[i].first == "scale") {
+			 info.boxSize= LMVector3::stringToVector(params[i].second);
+		}
+		else if (params[i].first == "sphereSize") {
+			info.sphereSize = std::stof(params[i].second);
+		}
+		else if (params[i].first == "capsuleHeight") {
+			info.capsuleHeight = std::stof(params[i].second);
+		}
+		else if (params[i].first == "capsuleRadius") {
+			info.capsuleRadius = std::stof(params[i].second);
+		}
 	}
 }
 
 void LocoMotor::RigidBody::awake() {
-	RigidBodyInfo info;
-	info.mass = _mass;
-	info.boxSize = _gameObject->getComponent<Transform>()->getSize();
+	if (info.boxSize == LMVector3()) {
+		info.boxSize = _gameObject->getComponent<Transform>()->getSize();
+	}
 	info.origin = _gameObject->getComponent<Transform>()->getPosition();
 	info.sphereSize = 0;
 	info.capsuleHeight = 0.0f;
@@ -97,7 +110,7 @@ void LocoMotor::RigidBody::update(float dt) {
 void LocoMotor::RigidBody::fixedUpdate() {
 	_gameObject->getComponent<Transform>()->setPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
 	_gameObject->getComponent<Transform>()->setRotation(BulletToLm(_body->getWorldTransform().getRotation()));
-	std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
+	//std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
 
 }
 

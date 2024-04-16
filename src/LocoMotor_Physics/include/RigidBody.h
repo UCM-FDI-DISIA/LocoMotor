@@ -126,6 +126,7 @@ namespace LocoMotor {
 		int _collisionMask;
 		bool _raycast = false;
 		bool _beATrigger = false;
+		RigidBodyInfo info;
 	};
 }
 #endif // !1
