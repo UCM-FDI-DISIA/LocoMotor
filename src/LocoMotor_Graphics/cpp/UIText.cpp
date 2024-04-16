@@ -1,8 +1,10 @@
 #include "UIText.h"
 #include "GraphicsManager.h"
 #include "OverlayManager.h"
+#include "GameObject.h"
 #include "LMVector.h"
 
+#include "OgreOverlay.h"
 #include "OgreOverlayManager.h"
 #include "OgreOverlayContainer.h"
 #include "OgreMaterialManager.h"
@@ -14,17 +16,16 @@
 
 using namespace LocoMotor;
 
-unsigned int UIText::_numOfTexts = 0;
-
 LocoMotor::UIText::UIText() : _gfxManager(nullptr), _container(nullptr), _overlayMngr(nullptr), _txtElem(nullptr) {
-	_numOfTexts++;
 	_uType = "t";
 	_uTxtName = "New Text";
 }
 
 LocoMotor::UIText::~UIText() {
 	_overlayMngr->destroyOverlayElement(_container);
-	_numOfTexts--;
+	_container = nullptr;
+	Ogre::OverlayManager::getSingletonPtr()->destroy(_overlay->getName());
+	_overlay = nullptr;
 }
 
 void LocoMotor::UIText::setText(std::string text) {
@@ -52,11 +53,14 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
 	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
 
-	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIText" + std::to_string(_numOfTexts)));
+	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_txt");
+
+	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIText_" + _gameObject->getName()));
 	_container->initialise();
 
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 
+	int sortingLayer = 0;
 	std::string text = "New Text";
 	std::string font = "";
 	Ogre::TextAreaOverlayElement::Alignment alignment = Ogre::TextAreaOverlayElement::Alignment::Left;
@@ -75,6 +79,14 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 		}
 		else if (param.first == "Size" || param.first == "size") {
 			Graphics::OverlayManager::stringToPosition(param.second, _sizeX, _sizeY);
+		}
+		else if (param.first == "SortingLayer" || param.first == "sortingLayer") {
+			try {
+				sortingLayer = std::stoi(param.second);
+			}
+			catch (...) {
+				sortingLayer = 0;
+			}
 		}
 		else if (param.first == "Text" || param.first == "text") {
 			text = param.second;
@@ -103,7 +115,7 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 	updatePosition();
 
 	_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(
-		  _overlayMngr->createOverlayElement("TextArea", "UITextElem" + std::to_string(_numOfTexts)));
+		  _overlayMngr->createOverlayElement("TextArea", "UITextElem" + _gameObject->getName()));
 	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
 
 	setFont(font);
@@ -118,7 +130,12 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 	_container->show();
 	_txtElem->show();
 
-	Graphics::OverlayManager::GetInstance()->getContainer()->addChild(_container);
+	if (sortingLayer < 0) sortingLayer = 0;
+	else if (sortingLayer > 650) sortingLayer = 650;
+	_overlay->setZOrder(Ogre::ushort(sortingLayer));
+
+	_overlay->add2D(_container);
+	_overlay->show();
 }
 
 void LocoMotor::UIText::update(float dT) {

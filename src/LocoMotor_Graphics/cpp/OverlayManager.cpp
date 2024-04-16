@@ -12,14 +12,10 @@ using namespace LocoMotor;
 unsigned int Graphics::OverlayManager::_numOfCanvas = 0;
 Graphics::OverlayManager* Graphics::OverlayManager::_instance = nullptr;
 
-Graphics::OverlayManager::OverlayManager() : _canvas(nullptr), _container(nullptr), _ovrsys(nullptr) {}
+Graphics::OverlayManager::OverlayManager() : _ovrsys(nullptr) {}
 
 Graphics::OverlayManager::~OverlayManager() {
 
-	Ogre::OverlayManager::getSingletonPtr()->destroyOverlayElement(_container);
-	_container = nullptr;
-	Ogre::OverlayManager::getSingletonPtr()->destroy(_canvas->getName());
-	_canvas = nullptr;
 	delete _ovrsys;
 	_ovrsys = nullptr;
 }
@@ -52,10 +48,6 @@ void Graphics::OverlayManager::Release() {
 
 bool LocoMotor::Graphics::OverlayManager::IsInitialized() {
 	return _instance != nullptr;
-}
-
-void LocoMotor::Graphics::OverlayManager::show() {
-	_canvas->show();
 }
 
 void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, float& x, float& y)
@@ -138,11 +130,11 @@ void LocoMotor::Graphics::OverlayManager::stringToPosition(const std::string& s,
 		y = value;
 }
 
-Ogre::OverlayContainer* LocoMotor::Graphics::OverlayManager::getContainer() {
-	return _container;
+Ogre::OverlayManager* LocoMotor::Graphics::OverlayManager::getOgreOverlayManager() {
+	return _ogrOverlayManager;
 }
 
-Ogre::OverlaySystem* LocoMotor::Graphics::OverlayManager::getSystem() {
+Ogre::OverlaySystem* LocoMotor::Graphics::OverlayManager::getOgreSystem() {
 	return _ovrsys;
 }
 
@@ -158,12 +150,5 @@ bool Graphics::OverlayManager::init() {
 		return false;
 	}
 
-	_canvas = _aux->create("MainOverlay" + _numOfCanvas);
-
-	_container = static_cast<Ogre::OverlayContainer*>(_aux->createOverlayElement("Panel", "Main" + _numOfCanvas));
-	_container->setPosition(0.0f, 0.0f);
-	_container->setDimensions(1.0f, 1.0f);
-
-	_canvas->add2D(_container);
 	return true;
 }

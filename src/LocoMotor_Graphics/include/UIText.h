@@ -75,10 +75,9 @@ namespace LocoMotor {
 
 		Graphics::GraphicsManager* _gfxManager;
 
+		Ogre::Overlay* _overlay;
 		Ogre::OverlayContainer* _container;
 		Ogre::OverlayManager* _overlayMngr;
-
-		static unsigned int _numOfTexts;
 
 		Ogre::TextAreaOverlayElement* _txtElem;
 		std::string _uFont;

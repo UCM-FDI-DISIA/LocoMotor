@@ -1,21 +1,24 @@
 #include "UIImage.h"
+#include "GameObject.h"
+#include "LMVector.h"
 #include "GraphicsManager.h"
 #include "OverlayManager.h"
 
+#include "OgreOverlay.h"
 #include "OgreOverlayManager.h"
 #include "OgreOverlayContainer.h"
 #include "OgreMaterialManager.h"
 
 using namespace LocoMotor;
 
-unsigned int UIImage::_numOfImages = 0;
-
 LocoMotor::UIImage::UIImage() : _gfxManager(nullptr), _container(nullptr), _overlayMngr(nullptr) {
-	_numOfImages++;
 }
 
 LocoMotor::UIImage::~UIImage() {
 	_overlayMngr->destroyOverlayElement(_container);
+	_container = nullptr;
+	Ogre::OverlayManager::getSingletonPtr()->destroy(_overlay->getName());
+	_overlay = nullptr;
 }
 
 void LocoMotor::UIImage::setImage(const std::string& nImage) {
@@ -31,12 +34,15 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
 	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
 
-	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIImage" + std::to_string(_numOfImages)));
+	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_img");
+
+	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIImage" + _gameObject->getName()));
 	_container->initialise();
 
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 
 	std::string imageName = "";
+	int sortingLayer = 0;
 
 	for (auto& param : params) {
 		if (param.first == "Anchor" || param.first == "anchor") {
@@ -51,6 +57,14 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 		else if (param.first == "Size" || param.first == "size") {
 			Graphics::OverlayManager::stringToPosition(param.second, _sizeX, _sizeY);
 		}
+		else if (param.first == "SortingLayer" || param.first == "sortingLayer") {
+			try {
+				sortingLayer = std::stoi(param.second);
+			}
+			catch (...) {
+				sortingLayer = 0;
+			}
+		}
 		else if (param.first == "Image" || param.first == "image") {
 			imageName = param.second;
 		}
@@ -62,9 +76,12 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 	setImage(imageName);
 
-	//_container->setColour(Ogre::ColourValue::Green);
+	if (sortingLayer < 0) sortingLayer = 0;
+	else if (sortingLayer > 650) sortingLayer = 650;
+	_overlay->setZOrder(Ogre::ushort(sortingLayer));
 
-	Graphics::OverlayManager::GetInstance()->getContainer()->addChild(_container);
+	_overlay->add2D(_container);
+	_overlay->show();
 }
 
 void LocoMotor::UIImage::update(float dT) {

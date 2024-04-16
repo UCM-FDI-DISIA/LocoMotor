@@ -41,13 +41,11 @@ namespace LocoMotor {
 			/// @brief Returns true if there is an instance of the singleton active
 			static bool IsInitialized();
 
-			void show();
-
 			static void stringToAnchors(const std::string& s, float& x, float& y);
 			static void stringToPosition(const std::string& s, int& x, int& y);
 
-			Ogre::OverlayContainer* getContainer();
-			Ogre::OverlaySystem* getSystem();
+			Ogre::OverlayManager* getOgreOverlayManager();
+			Ogre::OverlaySystem* getOgreSystem();
 
 		private:
 
@@ -55,8 +53,7 @@ namespace LocoMotor {
 
 			Ogre::OverlaySystem* _ovrsys;
 
-			Ogre::Overlay* _canvas;
-			Ogre::OverlayContainer* _container;
+			Ogre::OverlayManager* _ogrOverlayManager;
 
 			static OverlayManager* _instance;
 

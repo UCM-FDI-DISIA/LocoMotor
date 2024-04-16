@@ -66,10 +66,9 @@ namespace LocoMotor {
 
 		Graphics::GraphicsManager* _gfxManager;
 
+		Ogre::Overlay* _overlay;
 		Ogre::OverlayContainer* _container;
 		Ogre::OverlayManager* _overlayMngr;
-
-		static unsigned int _numOfImages;
 
 		float _anchorX = 0.5f, _anchorY = 0.5f;
 		float _pivotX = 0.5f, _pivotY = 0.5f;
