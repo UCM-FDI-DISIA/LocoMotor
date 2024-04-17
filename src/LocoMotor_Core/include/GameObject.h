@@ -72,6 +72,16 @@ namespace LocoMotor {
 
 		/// @brief Gets the gameobject name
 		std::string getName();
+
+		/// @brief This method is automatically called the first frame this gameobject collides
+		/// with another gameobject
+		void OnCollisionEnter(GameObject* other);
+		/// @brief This method is automatically called every frame this gameobject collides
+		/// with another gameobject
+		void OnCollisionStay(GameObject* other);
+		/// @brief This method is automatically called the first frame this gameobject no longer 
+		/// collides with another gameobject
+		void OnCollisionExit(GameObject* other);
 	private:
 		
 		std::unordered_map<std::string, Component*> _components;

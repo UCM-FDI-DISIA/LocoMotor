@@ -103,3 +103,24 @@ void LocoMotor::GameObject::setToDestroy() {
 std::string LocoMotor::GameObject::getName() {
 	return _gobjName;
 }
+
+void LocoMotor::GameObject::OnCollisionEnter(GameObject* other) {
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		if (cmp->isEnabled()) cmp->OnCollisionEnter(other);
+	}
+}
+
+void LocoMotor::GameObject::OnCollisionStay(GameObject* other) {
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		if (cmp->isEnabled()) cmp->OnCollisionStay(other);
+	}
+}
+
+void LocoMotor::GameObject::OnCollisionExit(GameObject* other) {
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		if (cmp->isEnabled()) cmp->OnCollisionExit(other);
+	}
+}

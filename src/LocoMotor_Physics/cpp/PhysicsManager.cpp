@@ -2,6 +2,7 @@
 #include "assert.h"
 #include "btBulletCollisionCommon.h"
 #include "btBulletDynamicsCommon.h"
+#include "CallBackBullet.h"
 using namespace LocoMotor;
 using namespace Physics;
 PhysicsManager* PhysicsManager::_instance = nullptr;
@@ -70,5 +71,9 @@ bool LocoMotor::Physics::PhysicsManager::init() {
 	_dynamicWorld = new btDiscreteDynamicsWorld(_dispatcher, _overlappingPairCache, _solver, _collisionConfiguration);
 	//Set default gravity
 	_dynamicWorld->setGravity(btVector3(0, -9.8f, 0));
+	gContactStartedCallback = LMcontactStart;
+	gContactProcessedCallback = LMcontactProcessed;
+	gContactEndedCallback = LMcontactExit;
+
 	return true;
 }
