@@ -14,6 +14,7 @@ LocoMotor::RigidBody::RigidBody() {}
 
 LocoMotor::RigidBody::~RigidBody() {
 	if (_body == nullptr)return;
+	_body->setUserPointer(nullptr);
 	Physics::PhysicsManager::GetInstance()->getDynamicWorld()->removeRigidBody(_body);
 	if (_body && _body->getMotionState()) {
 		delete _body->getMotionState();
