@@ -45,6 +45,7 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 	std::string imageName = "";
 	int sortingLayer = 0;
+	float rotation = 0.f;
 
 	for (auto& param : params) {
 		if (param.first == "Anchor" || param.first == "anchor") {
@@ -67,6 +68,14 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 				sortingLayer = 0;
 			}
 		}
+		else if (param.first == "Rotation" || param.first == "rotation") {
+			try {
+				rotation = std::stof(param.second);
+			}
+			catch (...) {
+				rotation = 0.f;
+			}
+		}
 		else if (param.first == "Image" || param.first == "image") {
 			imageName = param.second;
 		}
@@ -78,11 +87,11 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 	setImage(imageName);
 
-	if (sortingLayer < 0) sortingLayer = 0;
-	else if (sortingLayer > 650) sortingLayer = 650;
-	_overlay->setZOrder(Ogre::ushort(sortingLayer));
+	setSortingLayer(sortingLayer);
+	setRotation(rotation);
 
 	_overlay->add2D(_container);
+
 	_overlay->show();
 }
 
@@ -112,6 +121,16 @@ void LocoMotor::UIImage::setPivot(float w, float h) {
 	_pivotX = w;
 	_pivotY = h;
 	updatePosition();
+}
+
+void LocoMotor::UIImage::setSortingLayer(int layer) {
+	if (layer < 0) layer = 0;
+	else if (layer > 650) layer = 650;
+	_overlay->setZOrder(Ogre::ushort(layer));
+}
+
+void LocoMotor::UIImage::setRotation(float radians) {
+	_overlay->setRotate(Ogre::Radian(radians));
 }
 
 void LocoMotor::UIImage::show() {

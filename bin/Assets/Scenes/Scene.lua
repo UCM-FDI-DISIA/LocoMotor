@@ -56,6 +56,7 @@ Scene = {
             position = "-10 10",
             pivot = "1 0",
             size = "20 25",
+            rotation = "0.1",
             text = "hola ijos de puta, les mando un saludo desde lua",
             font = "Heavitas",
             alignment = "r",

@@ -55,12 +55,19 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 
 	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_txt");
 
-	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIText_" + _gameObject->getName()));
+	_container = static_cast<Ogre::OverlayContainer*>(
+		_overlayMngr->createOverlayElement("Panel", "UIText_" + _gameObject->getName()));
 	_container->initialise();
 
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 
+	_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(
+		  _overlayMngr->createOverlayElement("TextArea", "UITextElem" + _gameObject->getName()));
+
+	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
+
 	int sortingLayer = 0;
+	float rotation = 0.f;
 	std::string text = "New Text";
 	std::string font = "";
 	Ogre::TextAreaOverlayElement::Alignment alignment = Ogre::TextAreaOverlayElement::Alignment::Left;
@@ -86,6 +93,14 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 			}
 			catch (...) {
 				sortingLayer = 0;
+			}
+		}
+		else if (param.first == "Rotation" || param.first == "rotation") {
+			try {
+				rotation = std::stof(param.second);
+			}
+			catch (...) {
+				rotation = 0.f;
 			}
 		}
 		else if (param.first == "Text" || param.first == "text") {
@@ -114,10 +129,6 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 
 	updatePosition();
 
-	_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(
-		  _overlayMngr->createOverlayElement("TextArea", "UITextElem" + _gameObject->getName()));
-	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
-
 	setFont(font);
 	setText(text);
 	_txtElem->setCharHeight(Ogre::Real(_sizeY));
@@ -130,11 +141,11 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 	_container->show();
 	_txtElem->show();
 
-	if (sortingLayer < 0) sortingLayer = 0;
-	else if (sortingLayer > 650) sortingLayer = 650;
-	_overlay->setZOrder(Ogre::ushort(sortingLayer));
+	setSortingLayer(sortingLayer);
+	setRotation(rotation);
 
 	_overlay->add2D(_container);
+
 	_overlay->show();
 }
 
@@ -164,6 +175,16 @@ void LocoMotor::UIText::setPivot(float x, float y) {
 	_pivotX = x;
 	_pivotY = y;
 	updatePosition();
+}
+
+void LocoMotor::UIText::setSortingLayer(int layer) {
+	if (layer < 0) layer = 0;
+	else if (layer > 650) layer = 650;
+	_overlay->setZOrder(Ogre::ushort(layer));
+}
+
+void LocoMotor::UIText::setRotation(float radians) {
+	_overlay->setRotate(Ogre::Radian(radians));
 }
 
 void LocoMotor::UIText::setAlignment(TextAlignment a) {

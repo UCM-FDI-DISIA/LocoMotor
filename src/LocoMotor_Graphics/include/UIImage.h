@@ -43,6 +43,13 @@ namespace LocoMotor {
 		/// @brief Sets the pivot of the image
 		void setPivot(float x, float y);
 
+		/// @brief Sets the new sorting layer of the element, the higher the number the more priotity it will have
+		/// @param layer: A number, only values between 0 and 650 are sorted between them
+		void setSortingLayer(int layer);
+
+		/// @brief Sets the rotation of this element, with the pivot located in the center of the screen in radians
+		void setRotation(float radians);
+
 		/// @brief Shows/turns visible the entity on the UI
 		void show();
 
