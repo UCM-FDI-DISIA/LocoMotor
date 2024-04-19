@@ -126,16 +126,19 @@ namespace LocoMotor {
 			void RumbleController(ControllerId controllerId, const float& intensity, const float& durationInSec);
 
 
-
+			// Devuelve los id de todos los mandos que se hayan desconectado este frame
+			const std::list<ControllerId>& getCurrentlyConnectedControllers() {
+				return _controllers;
+			}
 
 			// Devuelve los id de todos los mandos que se hayan conectado este frame
-			std::list<ControllerId> getOnConnectControllers() {
-				return onConnectControllers;
+			const std::list<ControllerId>& getOnConnectControllers() {
+				return _connectedControllers;
 			}
 
 			// Devuelve los id de todos los mandos que se hayan desconectado este frame
-			std::list<ControllerId> getOnDisconnectControllers() {
-				return onDisconnectControllers;
+			const std::list<ControllerId>& getOnDisconnectControllers() {
+				return _disconnectedControllers;
 			}
 
 			static ControllerId invalidControllerId() {
@@ -145,11 +148,11 @@ namespace LocoMotor {
 
 			// Suscribe un metodo para ser notificado cuando se conecte/desconecte un mando
 			void addListener(const ListenerFunction& listener) {
-				listeners.push_back(listener);
+				_listeners.push_back(listener);
 			}
 
 			void onControllersChange() {
-				for (const auto& listener : listeners)
+				for (const auto& listener : _listeners)
 					listener();
 			}
 
@@ -209,14 +212,17 @@ namespace LocoMotor {
 
 
 			// Contiene todos los mandos conectados actualmente segun su identificador de sdl
-			std::unordered_map<ControllerId, LMController> connectedControllers;
+			std::unordered_map<ControllerId, LMController> _currentControllers;
+
+			// Contiene los Ids de los mandos, ordenados por orden de conexion
+			std::list<ControllerId> _controllers;
 
 			// Ids de los mandos que se han conectado este frame
-			std::list<ControllerId> onConnectControllers;
+			std::list<ControllerId> _connectedControllers;
 			// Ids de los mandos que se han desconectado este frame
-			std::list<ControllerId> onDisconnectControllers;
+			std::list<ControllerId> _disconnectedControllers;
 
-			std::vector<ListenerFunction> listeners;
+			std::vector<ListenerFunction> _listeners;
 		};
 	}
 }

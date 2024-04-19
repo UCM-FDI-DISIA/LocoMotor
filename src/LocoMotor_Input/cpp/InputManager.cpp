@@ -82,15 +82,15 @@ std::pair<int, int> InputManager::GetMousePos() {
 
 	// BUTTONS
 bool InputManager::GetButtonDown(ControllerId controllerId, const int& buttonCode) {
-	return connectedControllers[controllerId]._controllerButtons[buttonCode].down;
+	return _currentControllers[controllerId]._controllerButtons[buttonCode].down;
 }
 
 bool InputManager::GetButton(ControllerId controllerId, const int& buttonCode) {
-	return connectedControllers[controllerId]._controllerButtons[buttonCode].isPressed;
+	return _currentControllers[controllerId]._controllerButtons[buttonCode].isPressed;
 }
 
 bool InputManager::GetButtonUp(ControllerId controllerId, const int& buttonCode) {
-	return connectedControllers[controllerId]._controllerButtons[buttonCode].up;
+	return _currentControllers[controllerId]._controllerButtons[buttonCode].up;
 }
 
 	// JOYSTICKS
@@ -99,16 +99,16 @@ float InputManager::GetJoystickValue(ControllerId controllerId, const int& joyst
 	if (joystickIndex == 0) {
 
 		if (axis == Horizontal)
-			return connectedControllers[controllerId]._joystickAxis[0];
+			return _currentControllers[controllerId]._joystickAxis[0];
 		else if (axis == Vertical)
-			return connectedControllers[controllerId]._joystickAxis[1];
+			return _currentControllers[controllerId]._joystickAxis[1];
 	}
 	else if (joystickIndex == 1) {
 
 		if (axis == Horizontal)
-			return connectedControllers[controllerId]._joystickAxis[2];
+			return _currentControllers[controllerId]._joystickAxis[2];
 		else if (axis == Vertical)
-			return connectedControllers[controllerId]._joystickAxis[3];
+			return _currentControllers[controllerId]._joystickAxis[3];
 	}
 	return 0.f;
 }
@@ -116,7 +116,7 @@ float InputManager::GetJoystickValue(ControllerId controllerId, const int& joyst
 	// TRIGGER
 float InputManager::GetTriggerValue(ControllerId controllerId, const int& triggerIndex) {
 	if (triggerIndex == 0 || triggerIndex == 1)
-		return connectedControllers[controllerId]._triggersValue[triggerIndex];
+		return _currentControllers[controllerId]._triggersValue[triggerIndex];
 		//return _triggersValue[triggerIndex];
 	else
 		return 0.0f;
@@ -138,8 +138,8 @@ bool InputManager::RegisterEvents() {
 	ResetControllerInputs();
 
 	// RESETEAR LISTAS DE MANDOS
-	onConnectControllers.clear();
-	onDisconnectControllers.clear();
+	_connectedControllers.clear();
+	_disconnectedControllers.clear();
 
 
 	// Recoger todos los eventos de esta ejecucion y procesarlos uno a uno
@@ -224,14 +224,14 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 
 		int buttonCode = event.cbutton.button;
 		ControllerId id = 0;
-		KeyState& thisButton = connectedControllers[event.jaxis.which]._controllerButtons[buttonCode];
+		KeyState& thisButton = _currentControllers[event.jaxis.which]._controllerButtons[buttonCode];
 
 		// Comprobar si la tecla no esta siendo presionada actualmente
 		if (!thisButton.isPressed) {
 			thisButton.down = true;
 			thisButton.isPressed = true;
 
-			connectedControllers[event.jaxis.which]._controllerInputs_ToReset.push_back(buttonCode);
+			_currentControllers[event.jaxis.which]._controllerInputs_ToReset.push_back(buttonCode);
 		}
 	}
 
@@ -239,13 +239,13 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 
 		int buttonCode = event.cbutton.button;
 		ControllerId id = 0;
-		KeyState& thisButton = connectedControllers[event.cdevice.which]._controllerButtons[buttonCode];
+		KeyState& thisButton = _currentControllers[event.cdevice.which]._controllerButtons[buttonCode];
 
 		// Actualizar valores
 		thisButton.isPressed = false;
 		thisButton.up = true;
 
-		connectedControllers[event.jaxis.which]._controllerInputs_ToReset.push_back(buttonCode);
+		_currentControllers[event.jaxis.which]._controllerInputs_ToReset.push_back(buttonCode);
 	}
 
 	if (event.type == SDL_CONTROLLERAXISMOTION) {
@@ -275,10 +275,10 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 
 				normalizedValue *= sign;
 
-				connectedControllers[event.jaxis.which]._joystickAxis[axis] = normalizedValue;
+				_currentControllers[event.jaxis.which]._joystickAxis[axis] = normalizedValue;
 			}
 			else
-				connectedControllers[event.jaxis.which]._joystickAxis[axis] = 0;
+				_currentControllers[event.jaxis.which]._joystickAxis[axis] = 0;
 		}
 
 	}
@@ -293,7 +293,7 @@ void InputManager::ManageControllerEvents(const SDL_Event& event) {
 			float finalValue = std::clamp(auxValue / _TRIGGERSVALUE_MAX, 0.0f, 1.0f);
 
 			if (axis == 0 || axis == 1)
-				connectedControllers[event.jaxis.which]._triggersValue[axis] = finalValue;
+				_currentControllers[event.jaxis.which]._triggersValue[axis] = finalValue;
 		}
 	}
 
@@ -327,16 +327,20 @@ void InputManager::ManageMouseEvents(const SDL_Event& event) {
 
 void InputManager::ControllerDeviceAdded(const ControllerId& controllerAdded) {
 
-	onConnectControllers.push_back(controllerAdded);
+	_controllers.push_back(controllerAdded);
 
-	connectedControllers.insert({ controllerAdded, LMController() });
+	_connectedControllers.push_back(controllerAdded);
+
+	_currentControllers.insert({ controllerAdded, LMController() });
 }
 
 void InputManager::ControllerDeviceRemoved(const ControllerId& controllerRemoved) {
 
-	onDisconnectControllers.push_back(controllerRemoved);
+	_controllers.remove(controllerRemoved);
 
-	connectedControllers.erase(controllerRemoved);
+	_disconnectedControllers.push_back(controllerRemoved);
+
+	_currentControllers.erase(controllerRemoved);
 }
 
 
@@ -372,7 +376,7 @@ void InputManager::ResetMouseInputs() {
 
 void InputManager::ResetControllerInputs() {
 
-	for (auto& pair : connectedControllers) {
+	for (auto& pair : _currentControllers) {
 
 		LMController& thisController = pair.second;
 
