@@ -155,8 +155,6 @@ bool Engine::mainLoop() {
 	}
 
 
-	float _dt;
-	float _lastFrameTime = 0.f;
 
 	// Prueba input
 	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
@@ -169,9 +167,11 @@ bool Engine::mainLoop() {
 	//Transform* cubeTrnsf = nullptr;
 
 
+	float _dt;
+	float _lastFrameTime = clock() / (float) CLOCKS_PER_SEC;
 
 	bool shown = false;
-	float fixedTimeStep = 16;
+	const float fixedTimeStep = 16.666f;
 	float fixedTime = 0.f;
 
 	while (!_exit) {

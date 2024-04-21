@@ -10,10 +10,10 @@ particle_system Smoke
     emitter Point
     { 
         direction 0 0 -1
-        position 1 -2 0
+        position 0.8 -1.8 0
         angle 10
-        emission_rate 8
-        time_to_live 0.8
+        emission_rate 12
+        time_to_live 1.5
         velocity_min 0.5
         velocity_max 1
         colour 1 1 1 1
@@ -22,10 +22,10 @@ particle_system Smoke
     emitter Point
     { 
         direction 0 0 -1
-        position -1 -2 0
+        position -0.8 -1.8 0
         angle 10
-        emission_rate 8
-        time_to_live 0.8
+        emission_rate 12
+        time_to_live 1.5
         velocity_min 0.5
         velocity_max 1
         colour 1 1 1 1
@@ -41,7 +41,7 @@ particle_system Smoke
 
     affector Scaler
     { 
-        rate -15
+        rate -5
     }
 
     affector DirectionRandomiser

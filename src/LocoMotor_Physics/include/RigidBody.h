@@ -40,6 +40,8 @@ namespace LocoMotor {
 		void start() override;
 		void update(float dt)override;
 		void fixedUpdate()override;
+		void prePhysUpdate();
+		void posPhysUpdate();
 		/// @brief Add force to the body
 		/// @param force to add
 		void AddForce(LMVector3 force);

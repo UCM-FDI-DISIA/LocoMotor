@@ -76,6 +76,10 @@ Scene = {
         EventEmitter = {
             EventID = "event:/Music/Level 02",
             Play = ""
+        },
+        MeshRenderer = {
+            mesh = "CubemanMesh.mesh",
+            material = "RedCharacter"
         }
     },
 
@@ -83,7 +87,7 @@ Scene = {
     cube = {
         Transform = {
             position = "0 0 0",
-            size = "2 2 2",
+            size = "1 1 1",
             rotation = "0 0 0"
         },
         MeshRenderer = {
@@ -101,14 +105,13 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = 1,
-            size = "4 4 4"
+            mass = "1"
         },
     },
     Player_2 = {
         Transform = {
             position = "0 0 0",
-            size = "2 2 2",
+            size = "1 1 1",
             rotation = "0 -40 0"
         },
         MeshRenderer = {
@@ -116,12 +119,23 @@ Scene = {
             material = "RedCharacter"
         },
         PlayerController = {
+        },
+        ParticleSystem = {
+            Particle = "GunShot",
+            PlayOnStart = ""
+        },
+        ParticleSystem = {
+            Particle = "Smoke",
+            PlayOnStart = ""
+        },
+        RigidBody = {
+            mass = "1"
         }
     },
     Player_3 = {
         Transform = {
             position = "0 0 0",
-            size = "2 2 2",
+            size = "1 1 1",
             rotation = "0 -40 0"
         },
         MeshRenderer = {
@@ -129,12 +143,23 @@ Scene = {
             material = "GreenCharacter"
         },
         PlayerController = {
+        },
+        ParticleSystem = {
+            Particle = "GunShot",
+            PlayOnStart = ""
+        },
+        ParticleSystem = {
+            Particle = "Smoke",
+            PlayOnStart = ""
+        },
+        RigidBody = {
+            mass = "1"
         }
     },
     Player_4 = {
         Transform = {
             position = "0 0 0",
-            size = "2 2 2",
+            size = "1 1 1",
             rotation = "0 -40 0"
         },
         MeshRenderer = {
@@ -142,6 +167,17 @@ Scene = {
             material = "PurpleCharacter"
         },
         PlayerController = {
+        },
+        ParticleSystem = {
+            Particle = "GunShot",
+            PlayOnStart = ""
+        },
+        ParticleSystem = {
+            Particle = "Smoke",
+            PlayOnStart = ""
+        },
+        RigidBody = {
+            mass = "1"
         }
     },
 
@@ -168,7 +204,7 @@ Scene = {
     revolver = {
         Transform = {
             position = "-10 10 0",
-            size = "1.5 1.5 1.5",
+            size = "1 1 1",
             rotation = "115 -130 0"
         },
         MeshRenderer = {
@@ -177,18 +213,6 @@ Scene = {
         },
         Weapon = {
         }
-    },
-    Bullet = {
-        Transform = {
-            position = "0 0 0",
-            size = "2 2 2",
-            rotation = "0 0 0"
-        },
-        MeshRenderer = {
-            mesh = "Bullet.mesh",
-            material = "Bullet"
-        },
-        Bullet = { }
     },
 
     -- PLATFORMS --
@@ -205,7 +229,7 @@ Scene = {
     },
     platform_02_left = {
         Transform = {
-            position = "-16 8 -16",
+            position = "-16 7.8 -16",
             size = "13 13 13",
             rotation = "0 0 0"
         },
@@ -216,7 +240,7 @@ Scene = {
     },
     platform_02_right = {
         Transform = {
-            position = "16 8 -16",
+            position = "16 7.8 -16",
             size = "13 13 13",
             rotation = "0 0 0"
         },
@@ -274,7 +298,7 @@ Scene = {
     -- COLLISION --
     platform_01_collision = {
         Transform = {
-            position = "0 -3 0",
+            position = "0 -4 0",
             size = "25 5 25",
             rotation = "0 0 0"
         },
@@ -282,11 +306,11 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = { mass = 0, size = "25 5 25"  },
     },
     platform_02_left_collision = {
         Transform = {
-            position = "-16 -2 -16",
+            position = "-16 -1.8 -16",
             size = "8 10 8",
             rotation = "0 0 0"
         },
@@ -294,11 +318,14 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = {
+            mass = 0,
+            size = "8 10 8"
+        }
     },
     platform_02_right_collision = {
         Transform = {
-            position = "16 -2 -16",
+            position = "16 -1.8 -16",
             size = "8 10 8",
             rotation = "0 0 0"
         },
@@ -306,7 +333,10 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = {
+            mass = 0,
+            size = "8 10 8"
+        }
     },
     platform_03_left_collision = {
         Transform = {
@@ -318,7 +348,10 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = {
+            mass = 0,
+            size = "5 5 16"
+        }
     },
     platform_03_right_collision = {
         Transform = {
@@ -330,7 +363,10 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = {
+            mass = 0,
+            size = "5 5 16"
+        }
     },
     platform_03_left_2_collision = {
         Transform = {
@@ -342,7 +378,10 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = {
+            mass = 0,
+            size = "3 5 5"
+        }
     },
     platform_03_right_2_collision = {
         Transform = {
@@ -354,11 +393,14 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
+        RigidBody = {
+            mass = 0,
+            size = "3 5 5"
+        }
     },
     platform_04_collision = {
         Transform = {
-            position = "0 7 -16",
+            position = "0 7.2 -16",
             size = "8 1 5",
             rotation = "0 0 0"
         },
@@ -366,17 +408,9 @@ Scene = {
         --     mesh = "DebugCube.mesh",
         --     material = "DebugCube"
         -- },
-        RigidBody = { mass = 0 },
-    },
-
-
-
-
-
-    Objectytdyuyfdyry = {
-        AudioSource = {
-            Volume = 1,
-            PlayOnAwake = "Assets/Sounds/prueba.wav"
+        RigidBody = {
+            mass = 0,
+            size = "8 1 5"
         }
     }
 }

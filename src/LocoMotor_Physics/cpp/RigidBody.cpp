@@ -10,7 +10,9 @@
 using namespace LocoMotor;
 using namespace Physics;
 
-LocoMotor::RigidBody::RigidBody() {}
+LocoMotor::RigidBody::RigidBody() {
+	info = RigidBodyInfo();
+}
 
 LocoMotor::RigidBody::~RigidBody() {
 	if (_body == nullptr)return;
@@ -88,36 +90,33 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 			info.capsuleRadius = std::stof(params[i].second);
 		}
 	}
+	_body = CreateRigidBody(info);
+	_body->setUserPointer(_gameObject);
 }
 
 void LocoMotor::RigidBody::awake() {
-	if (info.boxSize == LMVector3()) {
-		info.boxSize = _gameObject->getComponent<Transform>()->getSize();
-	}
-	if (info.origin == LMVector3()) {
-		info.origin = _gameObject->getComponent<Transform>()->getPosition();
-	}
-	info.sphereSize = 0;
-	info.capsuleHeight = 0.0f;
-	info.capsuleRadius = 0.0f;
-	_body = CreateRigidBody(info);
-	_body->setUserPointer(_gameObject);
-	//if (_raycast) UseItAsRaycast();
-	//if (_beATrigger) BeATrigger();
+	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
+	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
 }
 
 void LocoMotor::RigidBody::start() {}
 
 void LocoMotor::RigidBody::update(float dt) {
+}
+
+void LocoMotor::RigidBody::fixedUpdate() {
+
+}
+
+void LocoMotor::RigidBody::prePhysUpdate() {
 	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
 	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
 }
 
-void LocoMotor::RigidBody::fixedUpdate() {
+void LocoMotor::RigidBody::posPhysUpdate() {
 	_gameObject->getComponent<Transform>()->setPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
 	_gameObject->getComponent<Transform>()->setRotation(BulletToLm(_body->getWorldTransform().getRotation()));
 	//std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
-
 }
 
 btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
@@ -160,7 +159,7 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 
 LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 	type = 0;
-	boxSize = LMVector3();
+	boxSize = LMVector3(1.f, 1.f, 1.f);
 	sphereSize = 0.f;
 	capsuleRadius = 0.f;
 	capsuleHeight = 0.f;

@@ -47,9 +47,6 @@ void LocoMotor::Transform::initRuntime(LMVector3 initPos, LMVector3 initRot, LMV
 }
 
 void LocoMotor::Transform::start() {
-	setPosition(_position);
-	setRotation(_direction);
-	setSize(_scale);
 }
 
 void LocoMotor::Transform::update(const float dt) {}
