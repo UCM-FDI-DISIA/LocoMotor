@@ -101,7 +101,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = 1
+            mass = 1,
+            size = "4 4 4"
         },
     },
     Player_2 = {
@@ -181,7 +182,7 @@ Scene = {
         Transform = {
             position = "0 0 0",
             size = "2 2 2",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Bullet.mesh",
@@ -195,91 +196,67 @@ Scene = {
         Transform = {
             position = "0 0 0",
             size = "13 13 13",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Platform_01.mesh",
             material = "Platform"
-        },
-        RigidBody = {
-            mass = 0
-        },
-
+        }
     },
     platform_02_left = {
         Transform = {
             position = "-16 8 -16",
             size = "13 13 13",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Platform_02.mesh",
             material = "Platform"
         }
-        ,
-        RigidBody = {
-            mass = 0
-        },
     },
     platform_02_right = {
         Transform = {
             position = "16 8 -16",
             size = "13 13 13",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Platform_02.mesh",
             material = "Platform"
         }
-        ,
-        RigidBody = {
-            mass = 0
-        },
     },
     platform_03_left = {
         Transform = {
             position = "-16 4 4",
             size = "13 13 13",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Platform_03.mesh",
             material = "Platform"
         }
-        ,
-        RigidBody = {
-            mass = 0
-        },
     },
     platform_03_right = {
         Transform = {
             position = "16 4 4",
             size = "-13 13 13",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Platform_03.mesh",
             material = "Platform"
         }
-        ,
-        RigidBody = {
-            mass = 0
-        },
     },
     platform_04 = {
         Transform = {
             position = "0 6 -18",
             size = "-13 13 13",
-            rotation = "0 0 0" -- "0 -40 0" 
+            rotation = "0 0 0"
         },
         MeshRenderer = {
             mesh = "Platform_04.mesh",
             material = "Platform"
         }
-        ,
-        RigidBody = {
-            mass = 0
-        },
     },
     backPlane = {
         Transform = {
@@ -291,10 +268,111 @@ Scene = {
             mesh = "BackPlane.mesh",
             material = "BackPlane"
         }
-        
     },
 
-    -- SOUNDS --
+
+    -- COLLISION --
+    platform_01_collision = {
+        Transform = {
+            position = "0 -3 0",
+            size = "25 5 25",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_02_left_collision = {
+        Transform = {
+            position = "-16 -2 -16",
+            size = "8 10 8",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_02_right_collision = {
+        Transform = {
+            position = "16 -2 -16",
+            size = "8 10 8",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_03_left_collision = {
+        Transform = {
+            position = "-19 0 8",
+            size = "5 5 16",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_03_right_collision = {
+        Transform = {
+            position = "19 0 8",
+            size = "5 5 16",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_03_left_2_collision = {
+        Transform = {
+            position = "-11 0 19",
+            size = "3 5 5",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_03_right_2_collision = {
+        Transform = {
+            position = "11 0 19",
+            size = "3 5 5",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+    platform_04_collision = {
+        Transform = {
+            position = "0 7 -16",
+            size = "8 1 5",
+            rotation = "0 0 0"
+        },
+        -- MeshRenderer = {
+        --     mesh = "DebugCube.mesh",
+        --     material = "DebugCube"
+        -- },
+        RigidBody = { mass = 0 },
+    },
+
+
+
+
+
     Objectytdyuyfdyry = {
         AudioSource = {
             Volume = 1,
