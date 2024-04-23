@@ -160,6 +160,10 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	if (_collisionMask > 0 && _collisionMask<16) {//Bullet solo admite hasta 16 mask
 		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = 1 << _collisionMask;
 	}
+	if (_beATrigger) {
+		rigidbody->setCollisionFlags(rigidbody->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
+	rigidbody->setGravity({ 0,_gravity,0 });
 	return rigidbody;
 }
 
