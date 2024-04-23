@@ -167,6 +167,7 @@ LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 	mass = 0.f;
 }
 void LocoMotor::RigidBody::AddForce(LMVector3 force) {
+	_body->activate();
 	_body->applyCentralForce(LmToBullet(force));
 }
 void LocoMotor::RigidBody::SetRotation(LMQuaternion rot) {
@@ -236,6 +237,7 @@ LMVector3 LocoMotor::RigidBody::GetLinearVelocity() {
 	return BulletToLm(_body->getLinearVelocity());
 }
 void LocoMotor::RigidBody::SetLinearVelocity(LMVector3 newLinearVelocity) {
+	_body->activate();
 	_body->setLinearVelocity(LmToBullet(newLinearVelocity));
 }
 
@@ -256,15 +258,18 @@ LMVector3 LocoMotor::RigidBody::GetAngularVelocity() {
 
 
 void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
+	_body->activate();
 	_body->setAngularVelocity(LmToBullet(newAngularVelocity));
 }
 
 
 void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
+	_body->activate();
 	_body->applyTorqueImpulse(LmToBullet(impulse));
 }
 
 void LocoMotor::RigidBody::ApplyCentralImpulse(LMVector3 impulse) {
+	_body->activate();
 	_body->applyCentralImpulse(LmToBullet(impulse));
 }
 
