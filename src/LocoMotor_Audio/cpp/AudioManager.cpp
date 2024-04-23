@@ -162,9 +162,10 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 			std::cout << "Loading bank at: " << retrieved.substr(5).append(".bank").insert(0, fmodPath) << std::endl;
 		#endif
 			auto result = _studioSys->loadBankFile(retrieved.substr(5).append(".bank").insert(0, fmodPath).c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &toLoad);
-
+		#ifdef _DEBUG
 			if (result != FMOD_OK)
 				std::cerr << "\033[1;31m" << "Couldn't find '" << retrieved.substr(5).append(".bank").insert(0, fmodPath) << "'" << "\033[0m" << std::endl;
+		#endif
 		}
 	}
 }
