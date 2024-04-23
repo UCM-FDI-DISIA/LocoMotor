@@ -122,6 +122,51 @@ material CrossMaterial {
     }
 }
 
+material CrossMaterialBlue {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit {
+                texture CrossBlue.png
+            }
+        }
+    }
+}
+material CrossMaterialRed {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit {
+                texture CrossRed.png
+            }
+        }
+    }
+}
+material CrossMaterialGreen {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit {
+                texture CrossGreen.png
+            }
+        }
+    }
+}
+material CrossMaterialPurple {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit {
+                texture CrossPurple.png
+            }
+        }
+    }
+}
+
 material DebugCube {
     technique {
         pass {
