@@ -194,6 +194,12 @@ Scene = {
             rotation = "0 0 0"
         },
         GameplayManager = {
+        },
+        Spawner = {
+            spawnpoint1 ="-15 10 0",
+            spawnpoint2 ="15 10 0",
+            spawnpoint3 ="5 10 10",
+            spawnpoint4 ="5 10 -10"
         }
     },
     LocalMultiplayerManager = {
