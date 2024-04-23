@@ -16,25 +16,27 @@ namespace LocoMotor {
 	class LuaBehaviour : public Component {
 	
 		friend class Scripting::ScriptManager;
-	protected:
+	public:
+		LuaBehaviour();
 		~LuaBehaviour();
-
+	protected:
 		void awake() override {};
 		void onEnable() override {};
-		void start() override {};
-		void update(float dt) override {};
+		void start() override;
+		void update(float dt) override ;
 		void fixedUpdate() override {};
 		void onDisable() override {};
 		void onDestroy() override {};
 
-		void setParameters(ComponentMap& params) override {};
+		void setParameters(ComponentMap& params) override;
 	private:
-		LuaBehaviour();
+		bool initBehaviour();
 		inline void setLuaContext(lua_State* state) {
 			_luaState = state;
 		}
 		//??
 		lua_State* _luaState;
+		luabridge::LuaRef* obj = nullptr;
 		luabridge::LuaRef* _luaUpdate;
 		luabridge::LuaRef* _luaEnable;
 		luabridge::LuaRef* _luaStart;
@@ -42,8 +44,7 @@ namespace LocoMotor {
 		luabridge::LuaRef* _luaFixed;
 		luabridge::LuaRef* _luaDisable;
 		luabridge::LuaRef* _luaDestroy;
-		std::unordered_map<std::string, luabridge::LuaRef*> _methods;
-		std::unordered_map<std::string, luabridge::LuaRef*> _properties;
+		std::string _name;
 
 	};
 }

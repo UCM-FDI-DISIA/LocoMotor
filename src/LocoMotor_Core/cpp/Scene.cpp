@@ -94,9 +94,7 @@ void Scene::build() {
 	for (auto& objPair : _sceneDef) {
 		GameObject* gObj = addGameobject(objPair.first);
 		for (auto& cmpPair : objPair.second) {
-			Component* cmp = gObj->addComponent(cmpPair.first);
-			if (cmp == nullptr) continue;
-			cmp->setParameters(cmpPair.second);
+			Component* cmp = gObj->addComponentWithParams(cmpPair.first, cmpPair.second);
 		}
 		if (gObj->getComponent<Transform>() == nullptr) {
 			Transform* tr = dynamic_cast<Transform*>(gObj->addComponent("Transform"));

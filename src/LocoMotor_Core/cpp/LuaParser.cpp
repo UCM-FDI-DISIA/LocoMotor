@@ -50,13 +50,15 @@ std::optional<LocoMotor::SceneMap> LuaParser::loadSceneFromFile(const std::strin
 	while (lua_next(luaScene, 0) != 0) {
 		std::string gObjName = lua_tostring(luaScene, -2);
 		luabridge::LuaRef entity = luaScene[gObjName];
+		
 		ObjectMap obj = getObject(entity);
 		sc.insert({ gObjName,obj });
+		lua_pop(luaScene, 1);
 		if (obj.empty()) {
 			//TODO: ERROR NO BLOQUANTE
-			continue;
+			
 		}
-		lua_pop(luaScene, 1);
+		
 	}
 	
 

@@ -22,6 +22,7 @@
 #include "LMVector.h"
 #include "LuaParser.h"
 #include "ScriptManager.h"
+#include "LuaBehaviour.h"
 
 #include <iostream>
 #include <SDL_messagebox.h>
@@ -171,26 +172,13 @@ bool Engine::mainLoop() {
 		_scnManager->changeScene(_startingSceneName);
 	}
 
-
-
-	// Prueba input
-	Input::InputManager::ControllerId firstController = Input::InputManager::invalidControllerId();
-	Input::InputManager::ControllerId secondController = Input::InputManager::invalidControllerId();
-	Input::InputManager::ControllerId thirdController = Input::InputManager::invalidControllerId();
-
-	//// Prueba animaciones
-	//GameObject* cubeGO = nullptr;
-	//MeshRenderer* mainMesh = nullptr;
-	//Transform* cubeTrnsf = nullptr;
-
-
 	float _dt;
 	float _lastFrameTime = clock() / (float) CLOCKS_PER_SEC;
 
 	bool shown = false;
 	const float fixedTimeStep = 16.666f;
 	float fixedTime = 0.f;
-
+	_scnManager->loadScene("Assets/Scenes/Prueba.lua", "scene");
 	while (!_exit) {
 		if (_scnManager->getActiveScene() == nullptr) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;
@@ -227,7 +215,6 @@ bool Engine::mainLoop() {
 	ComponentsFactory::Release();
 	Physics::PhysicsManager::Release();
 	Audio::AudioManager::Release();
-	Scripting::ScriptManager::GetInstance()->test();
 	Scripting::ScriptManager::Release();
 	Graphics::GraphicsManager::Release();
 	

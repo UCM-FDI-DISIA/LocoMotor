@@ -1,7 +1,31 @@
 #include "GameObject.h"
 #include "Component.h"
+#include "Transform.h"
+#include <vector>
+LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& name) {
+	ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
+	if (_components.count(name) > 0) {
+		return _components[name];
+	}
+	else {
+		Component* comp = factory->createComponent(name);
+		if (comp == nullptr) {
+			comp = factory->createComponent("LuaBehaviour");
+			auto params = std::vector<std::pair<std::string, std::string>>();
+			params.push_back({ "scriptName", name });
+			comp->setParameters(params);
+		}
+		comp->init(this, true);
+		_toStart.push(comp);
+		_components.insert({ name, comp });
+		if (name == "Transform") {
+			_transform = static_cast<Transform*>(comp);
+		}
+		return comp;
+	}
+}
 
-LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& name,std::vector<std::pair<std::string, std::string>>& params)
+LocoMotor::Component* LocoMotor::GameObject::addComponentWithParams(const std::string& name,std::vector<std::pair<std::string, std::string>>& params)
 {
 	ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
 	if (_components.count(name) > 0) {
@@ -9,13 +33,18 @@ LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& nam
 	}
 	else {
 		Component* comp = factory->createComponent(name);
-		if (comp == nullptr)
-			return nullptr;
+		if (comp == nullptr) {
+			comp = factory->createComponent("LuaBehaviour");
+			params.insert(params.begin(), { "scriptName", name });
+		}
 		comp->init(this, true);
 		_toStart.push(comp);
 		_components.insert({ name, comp });
 		comp->setParameters(params);
-		return comp;
+		if (name == "Transform"){
+			_transform = static_cast<Transform*>(comp);
+		}
+	return comp;
 	}
 }
 
@@ -28,6 +57,13 @@ void LocoMotor::GameObject::removeComponents(const std::string& name) {
 		_toDestroy.push(comp->second);
 	}
 	_components.erase(comps.first, comps.second);
+}
+
+LocoMotor::Component* LocoMotor::GameObject::getComponentByName(const std::string& name) {
+	if(_components.count(name) == 0)
+		return nullptr;
+
+	return _components[name];
 }
 
 LocoMotor::GameObject::GameObject(std::string name) : _components(), _toEnable(), _toDisable(), _toStart(), _toDestroy(), _scene(nullptr), _transform(nullptr), _active(true), _gobjName(name), shouldCallAwake(true) {}

@@ -27,6 +27,11 @@ namespace LocoMotor {
 		/// @param enable The state to which you want to change the component
 		/// @remarks If the component was in the same state as the parameter given, this method does nothing
 		void setEnabled(bool enable);
+
+		/// @brief
+		inline GameObject* getGameObject() {
+			return _gameObject;
+		}
 	protected:
 
 		virtual ~Component() {};

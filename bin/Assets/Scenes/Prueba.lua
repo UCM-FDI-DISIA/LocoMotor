@@ -1,0 +1,5 @@
+scene = {
+    a = {
+        Prueba = {}
+    }
+}

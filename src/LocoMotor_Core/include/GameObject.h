@@ -24,24 +24,14 @@ namespace LocoMotor {
 		/// @param name Name of the Component type
 		/// @return returns the Component created. If the component was unique and already on the GameObject
 		/// the already created Component will be returned. 
-		
-		Component* addComponent(const std::string& name) {
-			ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
-			if (_components.count(name) > 0) {
-				return _components[name];
-			}
-			else {
-				Component* comp = factory->createComponent(name);
-				if (comp == nullptr) 
-					return nullptr;
-				comp->init(this, true);
-				_toStart.push(comp);
-				_components.insert({ name, comp });
-				return comp;
-			}
-		}
+		Component* addComponent(const std::string& name);
+			
 
-		Component* addComponent(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
+		Component* addComponentWithParams(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
+
+		inline Transform* getTransform() {
+			return _transform;
+		}
 
 		/// @brief This method erases all the components with the given name on the GameObject
 		/// @param name The name of the component to erase
@@ -57,6 +47,8 @@ namespace LocoMotor {
 			}
 			return comp;
 		}
+
+		Component* getComponentByName(const std::string& name);
 		
 		/// @brief This method sets the active state of the GameObject. 
 		/// @param active The new active state of the GameObject
