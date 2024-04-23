@@ -37,6 +37,8 @@ namespace LocoMotor{
 		void play();
 		void stop();
 
+		void setParticle(const std::string& particleName);
+
 	protected:
 
 		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
