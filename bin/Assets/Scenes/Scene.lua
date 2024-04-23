@@ -105,7 +105,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
         },
     },
     Player_2 = {
@@ -129,7 +130,9 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
+            
         }
     },
     Player_3 = {
@@ -153,7 +156,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
         }
     },
     Player_4 = {
@@ -177,7 +181,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
         }
     },
 

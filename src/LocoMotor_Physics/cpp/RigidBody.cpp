@@ -89,6 +89,9 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 		else if (params[i].first == "capsuleRadius") {
 			info.capsuleRadius = std::stof(params[i].second);
 		}
+		else if (params[i].first == "layer" || params[i].first=="mask") {
+			_collisionMask = std::stoi(params[i].second);
+		}
 	}
 	_body = CreateRigidBody(info);
 	_body->setUserPointer(_gameObject);
@@ -153,6 +156,9 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	if (isDynamic) {
 		rigidbody->setCcdMotionThreshold(0.0001f);//0.0000001f
 		rigidbody->setCcdSweptSphereRadius(0.5f);
+	}
+	if (_collisionMask > 0 && _collisionMask<16) {//Bullet solo admite hasta 16 mask
+		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = 1 << _collisionMask;
 	}
 	return rigidbody;
 }

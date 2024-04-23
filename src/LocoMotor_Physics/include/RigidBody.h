@@ -127,8 +127,8 @@ namespace LocoMotor {
 		float _angDamping;
 		bool _gravity;
 		bool _trigger = false;
-		int _collisionGroup;
-		int _collisionMask;
+		int _collisionGroup=0;
+		int _collisionMask=0;
 		bool _raycast = false;
 		bool _beATrigger = false;
 		RigidBodyInfo info;
