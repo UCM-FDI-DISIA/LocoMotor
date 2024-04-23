@@ -35,6 +35,22 @@ void Scene::update(float dt) {
 		//obj.second->StartComp();
 	}
 	_gameObjBufferList.clear();
+
+	std::queue<std::string> destroyedObjs = std::queue<std::string>();
+	int numDestroyed = 0;
+
+	for (auto& obj : _gameObjList) {
+		if (obj.second->hasToBeDestroyed()) {
+			destroyedObjs.push(obj.first);
+			numDestroyed++;
+		}
+	}
+
+	for (auto i = 0; i < numDestroyed; i++) {
+		deleteGameObject(destroyedObjs.front());
+		destroyedObjs.pop();
+	}
+	
 	for (auto& obj : _gameObjList) {
 		obj.second->update(dt);
 	}
@@ -79,6 +95,7 @@ void Scene::build() {
 		GameObject* gObj = addGameobject(objPair.first);
 		for (auto& cmpPair : objPair.second) {
 			Component* cmp = gObj->addComponent(cmpPair.first);
+			if (cmp == nullptr) continue;
 			cmp->setParameters(cmpPair.second);
 		}
 		if (gObj->getComponent<Transform>() == nullptr) {
@@ -100,6 +117,18 @@ void Scene::destroy() {
 void Scene::initialize(const SceneMap& data) {
 	_sceneDef = data;
 	Graphics::GraphicsManager::GetInstance()->createScene(_name);
+}
+
+void LocoMotor::Scene::deleteGameObject(const std::string& name) {
+	if (_gameObjList.count(name) == 0) {
+	#ifdef _DEBUG
+		std::cerr << "No existe un objeto con el nombre " << name << std::endl;
+	#endif // DEBUG
+		return;
+	}
+	delete _gameObjList[name];
+	_gameObjList.erase(name);
+	Graphics::GraphicsManager::GetInstance()->destroyNode(name);
 }
 
 bool Scene::getActiveStatus() {
@@ -145,9 +174,7 @@ void LocoMotor::Scene::removeGameobject(std::string name) {
 	#endif // DEBUG
 		return;
 	}
-	delete _gameObjList[name];
-	_gameObjList.erase(name);
-	Graphics::GraphicsManager::GetInstance()->destroyNode(name);
+	_gameObjList[name]->setToDestroy();
 }
 
 

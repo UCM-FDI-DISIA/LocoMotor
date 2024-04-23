@@ -1,7 +1,11 @@
 #include "PhysicsManager.h"
+#include "RigidBody.h"
+#include "GameObject.h"
+
 #include "assert.h"
 #include "btBulletCollisionCommon.h"
 #include "btBulletDynamicsCommon.h"
+#include "CallBackBullet.h"
 using namespace LocoMotor;
 using namespace Physics;
 PhysicsManager* PhysicsManager::_instance = nullptr;
@@ -24,7 +28,22 @@ void PhysicsManager::Release() {
 }
 
 void LocoMotor::Physics::PhysicsManager::update(double dt) {
-	_dynamicWorld->stepSimulation(dt / 1000.f ,0);
+
+	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
+		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
+		if (rb != nullptr) {
+			rb->getComponent<RigidBody>()->prePhysUpdate();
+		}
+	}
+
+	_dynamicWorld->stepSimulation(dt / 1000.f, 0);
+
+	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
+		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
+		if (rb != nullptr) {
+			rb->getComponent<RigidBody>()->posPhysUpdate();
+		}
+	}
 }
 
 void LocoMotor::Physics::PhysicsManager::setWorldGravity(btVector3 gravity) {
@@ -70,5 +89,9 @@ bool LocoMotor::Physics::PhysicsManager::init() {
 	_dynamicWorld = new btDiscreteDynamicsWorld(_dispatcher, _overlappingPairCache, _solver, _collisionConfiguration);
 	//Set default gravity
 	_dynamicWorld->setGravity(btVector3(0, -9.8f, 0));
+	gContactStartedCallback = LMcontactStart;
+	gContactProcessedCallback = LMcontactProcessed;
+	gContactEndedCallback = LMcontactExit;
+
 	return true;
 }

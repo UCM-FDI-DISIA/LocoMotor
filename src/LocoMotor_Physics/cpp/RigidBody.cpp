@@ -10,10 +10,13 @@
 using namespace LocoMotor;
 using namespace Physics;
 
-LocoMotor::RigidBody::RigidBody() {}
+LocoMotor::RigidBody::RigidBody() {
+	info = RigidBodyInfo();
+}
 
 LocoMotor::RigidBody::~RigidBody() {
 	if (_body == nullptr)return;
+	_body->setUserPointer(nullptr);
 	Physics::PhysicsManager::GetInstance()->getDynamicWorld()->removeRigidBody(_body);
 	if (_body && _body->getMotionState()) {
 		delete _body->getMotionState();
@@ -33,6 +36,7 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 				num = 0.;
 			}
 			_mass = num;
+			info.mass = num;
 		}
 		else if (params[i].first == "damping") {
 			float num = 0.;
@@ -70,35 +74,49 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 		else if (params[i].first == "isTrigger") {
 			_beATrigger = true;
 		}
+		else if (params[i].first == "size" || params[i].first == "scale") {
+			 info.boxSize= LMVector3::stringToVector(params[i].second);
+		}
+		else if (params[i].first == "pos" || params[i].first == "center" || params[i].first == "origin") {
+			info.origin = LMVector3::stringToVector(params[i].second);
+		}
+		else if (params[i].first == "sphereSize") {
+			info.sphereSize = std::stof(params[i].second);
+		}
+		else if (params[i].first == "capsuleHeight") {
+			info.capsuleHeight = std::stof(params[i].second);
+		}
+		else if (params[i].first == "capsuleRadius") {
+			info.capsuleRadius = std::stof(params[i].second);
+		}
 	}
+	_body = CreateRigidBody(info);
+	_body->setUserPointer(_gameObject);
 }
 
 void LocoMotor::RigidBody::awake() {
-	RigidBodyInfo info;
-	info.mass = _mass;
-	info.boxSize = _gameObject->getComponent<Transform>()->getSize();
-	info.origin = _gameObject->getComponent<Transform>()->getPosition();
-	info.sphereSize = 0;
-	info.capsuleHeight = 0.0f;
-	info.capsuleRadius = 0.0f;
-	_body = CreateRigidBody(info);
-	_body->setUserPointer(_gameObject);
-	//if (_raycast) UseItAsRaycast();
-	//if (_beATrigger) BeATrigger();
+	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
+	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
 }
 
 void LocoMotor::RigidBody::start() {}
 
 void LocoMotor::RigidBody::update(float dt) {
+}
+
+void LocoMotor::RigidBody::fixedUpdate() {
+
+}
+
+void LocoMotor::RigidBody::prePhysUpdate() {
 	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
 	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
 }
 
-void LocoMotor::RigidBody::fixedUpdate() {
+void LocoMotor::RigidBody::posPhysUpdate() {
 	_gameObject->getComponent<Transform>()->setPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
 	_gameObject->getComponent<Transform>()->setRotation(BulletToLm(_body->getWorldTransform().getRotation()));
-	std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
-
+	//std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
 }
 
 btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
@@ -141,7 +159,7 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 
 LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 	type = 0;
-	boxSize = LMVector3();
+	boxSize = LMVector3(1.f, 1.f, 1.f);
 	sphereSize = 0.f;
 	capsuleRadius = 0.f;
 	capsuleHeight = 0.f;
@@ -243,7 +261,10 @@ void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
 
 
 void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
-	//_body->applyTorqueImpulse(LmToBullet(impulse));
+	_body->applyTorqueImpulse(LmToBullet(impulse));
+}
+
+void LocoMotor::RigidBody::ApplyCentralImpulse(LMVector3 impulse) {
 	_body->applyCentralImpulse(LmToBullet(impulse));
 }
 

@@ -77,7 +77,7 @@ unsigned short AudioManager::addSound(const char* fileName, bool ui)
 		err = _sys->createSound(fileName, FMOD_3D_WORLDRELATIVE, nullptr, &_soundLib[fileName]);
 
 	if (err != 0) {
-		std::cerr << "AUDIO: File '" << fileName << "' caused fmod exception: " << FMOD_ErrorString(err) << std::endl;
+		std::cerr << "\033[1;31m" << "AUDIO: File '" << fileName << "' wasn't found or is not valid" << "\033[0m" << std::endl;
 	}
 	return err;
 #endif // _DEBUG
@@ -103,7 +103,7 @@ unsigned short AudioManager::playSoundwChannel(const char* id, FMOD::Channel** c
 	FMOD_RESULT err = _sys->playSound(_soundLib[id], _main, true, channel);
 
 	if (err != 0) {
-		std::cerr << "AUDIO: Trying to play sound '" << id << "' caused fmod exception: " << FMOD_ErrorString(err) << std::endl;
+		std::cerr << "\033[1;31m" << "AUDIO: Trying to play sound '" << id << "' caused fmod exception: " << FMOD_ErrorString(err) << "\033[0m" << std::endl;
 	}
 	return err;
 #endif // _DEBUG
@@ -113,7 +113,7 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 
 	if (_studioSys == nullptr) {
 	#ifdef _DEBUG
-		std::cerr << "Studio not initialized, pass a 'true' to the Init to initialize with Studio" << std::endl;
+		std::cerr << "\033[1;31m" << "Studio not initialized, pass a 'true' to the Init to initialize with Studio" << "\033[0m" << std::endl;
 	#endif
 		return;
 	}
@@ -130,7 +130,7 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 
 	if (res != FMOD_OK) {
 	#ifdef _DEBUG
-		std::cerr << "Couldn´t find '" << masterStringPath << "'" << std::endl;
+		std::cerr << "\033[1;31m" << "Couldn´t find '" << masterStringPath << "'" << "\033[0m" << std::endl;
 	#endif
 		return;
 	}
@@ -154,12 +154,17 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 		std::string retrieved = path;
 		retrieved.shrink_to_fit();
 
+		if (retrieved.find("Master.string") != std::string::npos) continue;
+
 		if (retrieved.rfind("bank:", 0) == 0) {
 			FMOD::Studio::Bank* toLoad;
 		#ifdef _DEBUG
 			std::cout << "Loading bank at: " << retrieved.substr(5).append(".bank").insert(0, fmodPath) << std::endl;
 		#endif
-			_studioSys->loadBankFile(retrieved.substr(5).append(".bank").insert(0, fmodPath).c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &toLoad);
+			auto result = _studioSys->loadBankFile(retrieved.substr(5).append(".bank").insert(0, fmodPath).c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &toLoad);
+
+			if (result != FMOD_OK)
+				std::cerr << "\033[1;31m" << "Couldn't find '" << retrieved.substr(5).append(".bank").insert(0, fmodPath) << "'" << "\033[0m" << std::endl;
 		}
 	}
 }

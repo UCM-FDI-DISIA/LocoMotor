@@ -40,6 +40,8 @@ namespace LocoMotor {
 		void start() override;
 		void update(float dt)override;
 		void fixedUpdate()override;
+		void prePhysUpdate();
+		void posPhysUpdate();
 		/// @brief Add force to the body
 		/// @param force to add
 		void AddForce(LMVector3 force);
@@ -111,6 +113,9 @@ namespace LocoMotor {
 		/// @brief Applies a torque impulse to the body
 		/// @param impulse the impulse to aplly
 		void ApplyTorqueImpulse(LMVector3 impulse);
+		/// @brief Applies a central impulse to the body
+		/// @param impulse the impulse to aplly
+		void ApplyCentralImpulse(LMVector3 impulse);
 		/// @brief Set the friction of this rigidbody
 		/// @param fric the new friction value
 		void SetFriction(float fric);
@@ -126,6 +131,7 @@ namespace LocoMotor {
 		int _collisionMask;
 		bool _raycast = false;
 		bool _beATrigger = false;
+		RigidBodyInfo info;
 	};
 }
 #endif // !1

@@ -78,5 +78,8 @@ namespace LocoMotor {
 		SceneMap _sceneDef;
 
 		bool _toDestroy = false;
+
+
+		void deleteGameObject(const std::string& name);
 	};
 }

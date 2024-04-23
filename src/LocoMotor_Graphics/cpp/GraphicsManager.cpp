@@ -116,9 +116,8 @@ void GraphicsManager::setActiveScene(std::string name) {
 			_mShaderGenerator->addSceneManager(it->second);
 			_nodeRoot = it->second->getRootSceneNode();
 
-			it->second->addRenderQueueListener(OverlayManager::GetInstance()->getSystem());
+			it->second->addRenderQueueListener(OverlayManager::GetInstance()->getOgreSystem());
 
-			OverlayManager::GetInstance()->show();
 			return;
 		}
 	}
@@ -147,7 +146,7 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			it->second->destroyAllCameras();
 			it->second->destroyAllParticleSystems();
 
-			it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getSystem());
+			it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getOgreSystem());
 			_mShaderGenerator->removeSceneManager(it->second);
 			_nodeRoot = nullptr;
 			_activeScene = nullptr;
@@ -278,7 +277,7 @@ void GraphicsManager::shutdown() {
 		if (it->second == _activeScene) {
 			_activeScene = nullptr;
 		}
-		it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getSystem());
+		it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getOgreSystem());
 		_root->destroySceneManager(it->second);
 		//delete it->second;
 	}

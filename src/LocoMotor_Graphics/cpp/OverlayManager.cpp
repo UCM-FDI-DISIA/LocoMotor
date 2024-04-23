@@ -7,19 +7,17 @@
 
 #include <cassert>
 
+#include <iostream>
+
 using namespace LocoMotor;
 
 unsigned int Graphics::OverlayManager::_numOfCanvas = 0;
 Graphics::OverlayManager* Graphics::OverlayManager::_instance = nullptr;
 
-Graphics::OverlayManager::OverlayManager() : _canvas(nullptr), _container(nullptr), _ovrsys(nullptr) {}
+Graphics::OverlayManager::OverlayManager() : _ovrsys(nullptr) {}
 
 Graphics::OverlayManager::~OverlayManager() {
 
-	Ogre::OverlayManager::getSingletonPtr()->destroyOverlayElement(_container);
-	_container = nullptr;
-	Ogre::OverlayManager::getSingletonPtr()->destroy(_canvas->getName());
-	_canvas = nullptr;
 	delete _ovrsys;
 	_ovrsys = nullptr;
 }
@@ -54,10 +52,6 @@ bool LocoMotor::Graphics::OverlayManager::IsInitialized() {
 	return _instance != nullptr;
 }
 
-void LocoMotor::Graphics::OverlayManager::show() {
-	_canvas->show();
-}
-
 void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, float& x, float& y)
 {
 	unsigned char currAxis = 0;
@@ -71,8 +65,9 @@ void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, 
 			try {
 				value = std::stof(num);
 			}
-			catch (const char*) {
+			catch (...) {
 				value = 0.f;
+				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from UI anchor/pivot" << "\033[0m" << std::endl;
 			}
 			if (currAxis == 0) {
 				x = value;
@@ -93,6 +88,7 @@ void LocoMotor::Graphics::OverlayManager::stringToAnchors(const std::string& s, 
 	}
 	catch (...) {
 		value = 0.0f;
+		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from UI anchor/pivot" << "\033[0m" << std::endl;
 	}
 	if (currAxis == 1)
 		y = value;
@@ -111,8 +107,9 @@ void LocoMotor::Graphics::OverlayManager::stringToPosition(const std::string& s,
 			try {
 				value = std::stoi(num);
 			}
-			catch (const char*) {
+			catch (...) {
 				value = 0;
+				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading an int from UI position/size" << "\033[0m" << std::endl;
 			}
 			if (currAxis == 0) {
 				x = value;
@@ -133,16 +130,17 @@ void LocoMotor::Graphics::OverlayManager::stringToPosition(const std::string& s,
 	}
 	catch (...) {
 		value = 0;
+		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading an int from UI position/size" << "\033[0m" << std::endl;
 	}
 	if (currAxis == 1)
 		y = value;
 }
 
-Ogre::OverlayContainer* LocoMotor::Graphics::OverlayManager::getContainer() {
-	return _container;
+Ogre::OverlayManager* LocoMotor::Graphics::OverlayManager::getOgreOverlayManager() {
+	return _ogrOverlayManager;
 }
 
-Ogre::OverlaySystem* LocoMotor::Graphics::OverlayManager::getSystem() {
+Ogre::OverlaySystem* LocoMotor::Graphics::OverlayManager::getOgreSystem() {
 	return _ovrsys;
 }
 
@@ -158,12 +156,5 @@ bool Graphics::OverlayManager::init() {
 		return false;
 	}
 
-	_canvas = _aux->create("MainOverlay" + _numOfCanvas);
-
-	_container = static_cast<Ogre::OverlayContainer*>(_aux->createOverlayElement("Panel", "Main" + _numOfCanvas));
-	_container->setPosition(0.0f, 0.0f);
-	_container->setDimensions(1.0f, 1.0f);
-
-	_canvas->add2D(_container);
 	return true;
 }

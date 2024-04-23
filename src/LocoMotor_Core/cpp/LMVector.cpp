@@ -2,6 +2,7 @@
 
 #include "LMVector.h"
 #include <cmath>
+#include <iostream>
 
 using namespace LocoMotor;
 
@@ -244,6 +245,7 @@ LMVector3 LMVector3::stringToVector(const std::string& s) {
 			}
 			catch (const char*) {
 				value = 0.f;
+				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a Vector3" << "\033[0m" << std::endl;
 			}
 			if (currAxis == 0) {
 				result.setX(value);
@@ -267,6 +269,7 @@ LMVector3 LMVector3::stringToVector(const std::string& s) {
 	}
 	catch (...) {
 		value = 0.0f;
+		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a Vector3" << "\033[0m" << std::endl;
 	}
 	if (currAxis == 2)
 		result.setZ(value);
@@ -285,6 +288,11 @@ float LocoMotor::LMVector3::distance(const LMVector3& v1, const LMVector3& v2) {
 	float dy = v2.getY() - v1.getY();
 	float dz = v2.getZ() - v1.getZ();
 	return std::sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+bool LocoMotor::LMVector3::operator==(const LMVector3& other) const
+{
+	return _x == other._x && _y == other._y && _z == other._z;
 }
 
 

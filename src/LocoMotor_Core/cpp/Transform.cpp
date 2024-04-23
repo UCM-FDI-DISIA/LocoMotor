@@ -47,9 +47,6 @@ void LocoMotor::Transform::initRuntime(LMVector3 initPos, LMVector3 initRot, LMV
 }
 
 void LocoMotor::Transform::start() {
-	setPosition(_position);
-	setRotation(_direction);
-	setSize(_scale);
 }
 
 void LocoMotor::Transform::update(const float dt) {}
@@ -79,6 +76,12 @@ void LocoMotor::Transform::setRotation(const LMVector3& newRotation) {
 }
 
 void LocoMotor::Transform::setRotation(const LMQuaternion& newRotation) {
+
+
+	// Si alguno de los valores no es valido, no realizar la operacion
+	if (std::isnan(newRotation.getW()) || std::isnan(newRotation.getX()) || std::isnan(newRotation.getX()) || std::isnan(newRotation.getZ()))
+		return;
+
 	_direction = newRotation;
 	_direction.normalize();
 }

@@ -74,6 +74,7 @@ void LocoMotor::GameObject::update(float dt) {
 		_toEnable.pop();
 	}
 	for (auto& pair : _components) {
+
 		Component* cmp = pair.second;
 		if (cmp->isEnabled()) cmp->update(dt);
 	}
@@ -91,6 +92,35 @@ void LocoMotor::GameObject::init(LocoMotor::Scene* scene, bool active) {
 	_active = active;
 }
 
+bool LocoMotor::GameObject::hasToBeDestroyed() {
+	return _toDestroyThis;
+}
+
+void LocoMotor::GameObject::setToDestroy() {
+	_toDestroyThis = true;
+}
+
 std::string LocoMotor::GameObject::getName() {
 	return _gobjName;
+}
+
+void LocoMotor::GameObject::OnCollisionEnter(GameObject* other) {
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		if (cmp->isEnabled()) cmp->OnCollisionEnter(other);
+	}
+}
+
+void LocoMotor::GameObject::OnCollisionStay(GameObject* other) {
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		if (cmp->isEnabled()) cmp->OnCollisionStay(other);
+	}
+}
+
+void LocoMotor::GameObject::OnCollisionExit(GameObject* other) {
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		if (cmp->isEnabled()) cmp->OnCollisionExit(other);
+	}
 }

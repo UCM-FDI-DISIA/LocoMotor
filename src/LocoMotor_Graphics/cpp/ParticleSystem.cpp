@@ -28,9 +28,11 @@ void LocoMotor::ParticleSystem::play()
 	if (!isEnabled()) return;
 	unsigned short numEmitters = _particleSystem->getNumEmitters();
 	for (unsigned short i = 0; i < numEmitters; i++) {
-		_particleSystem->getEmitter(i)->setEnabled(true);
+		if (!_particleSystem->getEmitter(i)->getEnabled())
+			_particleSystem->getEmitter(i)->setEnabled(true);
 	}
-	_particleSystem->setEmitting(true);
+	if (!_particleSystem->getEmitting())
+		_particleSystem->setEmitting(true);
 }
 
 void LocoMotor::ParticleSystem::stop()
