@@ -97,9 +97,19 @@ void GraphicsManager::createScene(std::string name) {
 		setActiveScene(name);
 }
 
-void GraphicsManager::render() {
-	if (_activeScene == nullptr) return;
-	_root->renderOneFrame();
+bool GraphicsManager::render() {
+	//Si falta la escena no lo consideramos un error fatal, ya que puede que se setee una el proximo frame
+	if (_activeScene == nullptr) return true;
+
+	try {
+		_root->renderOneFrame();
+	}
+	catch (...) {
+		// Se que este mensaje de error es una mierda no se como explicar en una linea todo lo que ocurre ;-;
+		std::cerr << "\033[1;31m" << "Scene wasn't able to render: \n\tMake sure the folder 'GraphicSettings' exists in the same directory as the game and contains all the shaders needed for the game" << "\033[0m" << std::endl;
+		return false;
+	}
+	return true;
 }
 
 Ogre::RenderWindow* GraphicsManager::getRenderWindow() {
@@ -180,11 +190,14 @@ void GraphicsManager::loadResources() {
 		}
 	}
 
-	sec_name = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
-	const Ogre::ResourceGroupManager::LocationList genLocs = Ogre::ResourceGroupManager::getSingleton().getResourceLocationList(sec_name);
+	sec_name = "Essential";
 
-	arch_name = genLocs.front().archive->getName();
-	type_name = genLocs.front().archive->getType();
+	arch_name = "./GraphicSettings";
+	type_name = "FileSystem";
+
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(arch_name, type_name, sec_name);
+
+	const Ogre::ResourceGroupManager::LocationList genLocs = Ogre::ResourceGroupManager::getSingleton().getResourceLocationList(sec_name);
 
 	std::string mRTShaderLibPath = arch_name + "/RTShaderLib";
 	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(mRTShaderLibPath + "/materials" , type_name , sec_name);
@@ -204,6 +217,10 @@ void GraphicsManager::loadResources() {
 			_mMaterialMgrListener = new SGTechniqueResolverListener(_mShaderGenerator);
 			Ogre::MaterialManager::getSingleton().addListener((Ogre::MaterialManager::Listener*) _mMaterialMgrListener);
 		}
+	}
+	else {
+		std::cerr << "\033[1;31m" << "Shaders couldn't be correctly initialized" << "\033[0m" << std::endl;
+		throw 1; //Tenemos que hacer esto para que el try/catch lo pillen
 	}
 
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -315,6 +332,7 @@ Ogre::SceneNode* GraphicsManager::createNode(std::string name) {
 	}
 	Ogre::SceneNode* node = _nodeRoot->createChildSceneNode(name);
 	_sceneNodes.insert({ name,node });
+
 	return node;
 }
 

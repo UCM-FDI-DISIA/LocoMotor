@@ -50,7 +50,7 @@ namespace LocoMotor {
 			///	If the name is already taken, the scene with that name will be returned instead.
 			void createScene(std::string name);
 			/// @brief Renders a frame.
-			void render();
+			bool render();
 			/// @brief Initializes the window
 			/// @param name The Window title
 			/// @return
