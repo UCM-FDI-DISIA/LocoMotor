@@ -71,6 +71,12 @@ namespace LocoMotor {
 
 		void initializeABorrar();
 
+		/// @brief Gets the position of axis X of the entity on the UI
+		int getPositionX();
+
+		/// @brief Gets the position of axis Y of the entity on the UI
+		int getPositionY();
+
 	protected:
 
 		void setParameters(ComponentMap& params) override;

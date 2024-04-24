@@ -67,6 +67,33 @@ Scene = {
             colorBot = "0.2 0 0.9"
         }
     },
+    UIPlayerWin = {
+        UIText = {
+            anchor = ".5 .5",
+            position = "0 -100",
+            pivot = ".5 .5",
+            size = "100 100",
+            text = "BLUE WINS",
+            font = "Heavitas",
+            alignment = "c",
+            colorTop = "0.3294 0.7372 0.8352",
+            colorBot = "0.3294 0.7372 0.8352",
+            sortingLayer = 1
+        }
+    },
+    UIPlayerWinShade = {
+        UIText = {
+            anchor = ".5 .5",
+            position = "0 -95",
+            pivot = ".5 .5",
+            size = "100 100",
+            text = "BLUE WINS",
+            font = "Heavitas",
+            alignment = "c",
+            colorTop = "0 0 0",
+            colorBot = "0 0 0",
+        }
+    },
 
     -- SOUNDS --
     Object = {

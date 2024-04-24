@@ -219,9 +219,20 @@ void LocoMotor::UIText::initializeABorrar() {
 	setParameters(a);
 }
 
+
+int LocoMotor::UIText::getPositionX() {
+	return _positionX;
+}
+
+int LocoMotor::UIText::getPositionY() {
+	return _positionY;
+}
+
 void LocoMotor::UIText::updatePosition() {
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 	int wWidth = _gfxManager->getWindowWidth();
 	int wHeight = _gfxManager->getWindowHeight();
 	_container->setPosition(wWidth * _anchorX + _positionX - (_sizeX * _pivotX), wHeight * _anchorY + _positionY - (_sizeY * _pivotY));
 }
+
+
