@@ -22,9 +22,10 @@ LocoMotor::UIText::UIText() : _gfxManager(nullptr), _container(nullptr), _overla
 }
 
 LocoMotor::UIText::~UIText() {
+	_container->removeChild(_txtElem->getName());
 	_overlayMngr->destroyOverlayElement(_container);
 	_container = nullptr;
-	Ogre::OverlayManager::getSingletonPtr()->destroy(_overlay->getName());
+	_overlayMngr->destroy(_overlay->getName());
 	_overlay = nullptr;
 }
 

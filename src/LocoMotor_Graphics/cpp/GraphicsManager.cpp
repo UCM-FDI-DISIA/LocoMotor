@@ -4,6 +4,7 @@
 #include <OgreRenderWindow.h>
 #include <OgreGpuProgramManager.h>
 #include <OgreShaderGenerator.h>
+#include <OgreOverlayManager.h>
 #include <OgreOverlaySystem.h>
 #include <OgreViewport.h>
 #include <OgreMaterialManager.h>
@@ -145,6 +146,10 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			_sceneNodes.clear();
 			it->second->destroyAllCameras();
 			it->second->destroyAllParticleSystems();
+			it->second->destroyAllAnimations();
+
+			OverlayManager::GetInstance()->getOgreOverlayManager()->destroyAllOverlayElements();
+			OverlayManager::GetInstance()->getOgreOverlayManager()->destroyAll();
 
 			it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getOgreSystem());
 			_mShaderGenerator->removeSceneManager(it->second);
