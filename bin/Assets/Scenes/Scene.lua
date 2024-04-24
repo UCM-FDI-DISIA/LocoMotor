@@ -20,7 +20,8 @@ Scene = {
             position = "-80 100",
             pivot = "0.5 0.5",
             size = "70 70",
-            image = "CrossMaterial"
+            image = "CrossMaterial",
+            sortingLayer = 1
         }
     },
     Cross_02 = {
@@ -29,7 +30,8 @@ Scene = {
             position = "0 100",
             pivot = "0.5 0.5",
             size = "70 70",
-            image = "CrossMaterial"
+            image = "CrossMaterial",
+            sortingLayer = 1
         }
     },
     Cross_03 = {
@@ -38,16 +40,18 @@ Scene = {
             position = "80 100",
             pivot = "0.5 0.5",
             size = "70 70",
-            image = "CrossMaterial"
+            image = "CrossMaterial",
+            sortingLayer = 1
         }
     },
     ScoreBackground = {
         UIImage = {
             anchor = "0.5 0.5",
-            position = "0 300", -- 100
+            position = "0 100",
             pivot = "0.5 0.5",
             size = "375 150",
-            image = "UIMaterial"
+            image = "UIMaterial",
+            sortingLayer = 0
         }
     },
     UICountdown = {
@@ -105,7 +109,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
         },
     },
     Player_2 = {
@@ -129,7 +134,10 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
+            
+            
         }
     },
     Player_3 = {
@@ -153,7 +161,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
         }
     },
     Player_4 = {
@@ -177,7 +186,8 @@ Scene = {
             PlayOnStart = ""
         },
         RigidBody = {
-            mass = "1"
+            mass = "1",
+            layer = "1"
         }
     },
 
@@ -188,6 +198,12 @@ Scene = {
             rotation = "0 0 0"
         },
         GameplayManager = {
+        },
+        Spawner = {
+            spawnpoint1 ="-15 10 0",
+            spawnpoint2 ="15 10 0",
+            spawnpoint3 ="5 10 10",
+            spawnpoint4 ="5 10 -10"
         }
     },
     LocalMultiplayerManager = {

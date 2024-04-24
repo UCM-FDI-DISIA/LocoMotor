@@ -89,6 +89,9 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 		else if (params[i].first == "capsuleRadius") {
 			info.capsuleRadius = std::stof(params[i].second);
 		}
+		else if (params[i].first == "layer" || params[i].first=="mask") {
+			_collisionMask = std::stoi(params[i].second);
+		}
 	}
 	_body = CreateRigidBody(info);
 	_body->setUserPointer(_gameObject);
@@ -154,6 +157,13 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 		rigidbody->setCcdMotionThreshold(0.0001f);//0.0000001f
 		rigidbody->setCcdSweptSphereRadius(0.5f);
 	}
+	if (_collisionMask > 0 && _collisionMask<16) {//Bullet solo admite hasta 16 mask
+		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = 1 << _collisionMask;
+	}
+	if (_beATrigger) {
+		rigidbody->setCollisionFlags(rigidbody->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
+	rigidbody->setGravity({ 0,_gravity,0 });
 	return rigidbody;
 }
 
@@ -167,6 +177,7 @@ LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 	mass = 0.f;
 }
 void LocoMotor::RigidBody::AddForce(LMVector3 force) {
+	_body->activate();
 	_body->applyCentralForce(LmToBullet(force));
 }
 void LocoMotor::RigidBody::SetRotation(LMQuaternion rot) {
@@ -236,6 +247,7 @@ LMVector3 LocoMotor::RigidBody::GetLinearVelocity() {
 	return BulletToLm(_body->getLinearVelocity());
 }
 void LocoMotor::RigidBody::SetLinearVelocity(LMVector3 newLinearVelocity) {
+	_body->activate();
 	_body->setLinearVelocity(LmToBullet(newLinearVelocity));
 }
 
@@ -256,15 +268,18 @@ LMVector3 LocoMotor::RigidBody::GetAngularVelocity() {
 
 
 void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
+	_body->activate();
 	_body->setAngularVelocity(LmToBullet(newAngularVelocity));
 }
 
 
 void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
+	_body->activate();
 	_body->applyTorqueImpulse(LmToBullet(impulse));
 }
 
 void LocoMotor::RigidBody::ApplyCentralImpulse(LMVector3 impulse) {
+	_body->activate();
 	_body->applyCentralImpulse(LmToBullet(impulse));
 }
 

@@ -32,7 +32,10 @@ void LocoMotor::Physics::PhysicsManager::update(double dt) {
 	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
 		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
 		if (rb != nullptr) {
-			rb->getComponent<RigidBody>()->prePhysUpdate();
+			RigidBody* body = rb->getComponent<RigidBody>();
+			if (body) {
+				body->prePhysUpdate();
+			}
 		}
 	}
 
@@ -41,7 +44,10 @@ void LocoMotor::Physics::PhysicsManager::update(double dt) {
 	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
 		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
 		if (rb != nullptr) {
-			rb->getComponent<RigidBody>()->posPhysUpdate();
+			RigidBody* body = rb->getComponent<RigidBody>();
+			if (body) {
+				body->posPhysUpdate();
+			}
 		}
 	}
 }
