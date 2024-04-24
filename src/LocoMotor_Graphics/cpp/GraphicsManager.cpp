@@ -337,7 +337,6 @@ void GraphicsManager::destroyNode(std::string name) {
 	else {
 		_nodeRoot->removeAndDestroyChild(_sceneNodes[name]);
 		_sceneNodes.erase(name);
-		delete _sceneNodes[name];
 	}
 }
 
