@@ -44,6 +44,8 @@ namespace LocoMotor {
 		luabridge::LuaRef* _luaFixed;
 		luabridge::LuaRef* _luaDisable;
 		luabridge::LuaRef* _luaDestroy;
+		luabridge::LuaRef* _luaSetParameters;
+
 		std::string _name;
 
 	};

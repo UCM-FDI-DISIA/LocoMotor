@@ -1,5 +1,7 @@
 scene = {
     a = {
-        Prueba = {}
+        Prueba = {
+            parametro = 0
+        }
     }
 }

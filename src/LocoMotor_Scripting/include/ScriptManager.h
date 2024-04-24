@@ -19,10 +19,7 @@ namespace LocoMotor {
 			static bool Init();
 			static void Release();
 			static ScriptManager* GetInstance();
-			void hola() {
-				std::cout << "HOLA" << std::endl;
-			};
-			void loadScript(const std::string& name, LuaBehaviour* behaviour);
+			bool loadScript(const std::string& name, LuaBehaviour* behaviour);
 		private:
 			ScriptManager();
 			~ScriptManager();

@@ -73,7 +73,7 @@ ScriptManager* LocoMotor::Scripting::ScriptManager::GetInstance() {
 	return _instance;
 }
 
-void LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, LuaBehaviour* behaviour) {
+bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, LuaBehaviour* behaviour) {
 	static const std::string basePath = "Assets/Scripts/";
 	static const std::string luaExtension = ".lua";
 	std::string fullPath = basePath + name + luaExtension;
@@ -82,10 +82,9 @@ void LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, Lu
 			+ "\n" + std::string(lua_tostring(_luaState, -1));
 		std::cerr << error << std::endl;
 		Engine::GetInstance()->showWindow(2, error);
-		Engine::GetInstance()->quit();
-		return;
+		return false;
 	}
 	behaviour->setLuaContext(_luaState);
-	
+	return true;
 }
 
