@@ -228,6 +228,19 @@ int LocoMotor::UIText::getPositionY() {
 	return _positionY;
 }
 
+void LocoMotor::UIText::setColor(LMVector3 color) {
+	setColorTop(color);
+	setColorBottom(color);
+}
+
+void LocoMotor::UIText::setColorTop(LMVector3 color) {
+	_txtElem->setColourTop(Ogre::ColourValue(color.getX(), color.getY(), color.getZ(), 1.f));
+}
+
+void LocoMotor::UIText::setColorBottom(LMVector3 color) {
+	_txtElem->setColourBottom(Ogre::ColourValue(color.getX(), color.getY(), color.getZ(), 1.f));
+}
+
 void LocoMotor::UIText::updatePosition() {
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 	int wWidth = _gfxManager->getWindowWidth();
