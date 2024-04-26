@@ -20,13 +20,16 @@ namespace LocoMotor {
 		LuaBehaviour();
 		~LuaBehaviour();
 	protected:
-		void awake() override {};
-		void onEnable() override {};
+		void awake() override;
+		void onEnable() override;
 		void start() override;
 		void update(float dt) override ;
-		void fixedUpdate() override {};
-		void onDisable() override {};
-		void onDestroy() override {};
+		void fixedUpdate() override;
+		void onDisable() override;
+		void onDestroy() override;
+		void OnCollisionEnter(GameObject* other) override;
+		void OnCollisionStay(GameObject* other) override;
+		void OnCollisionExit(GameObject* other) override;
 
 		void setParameters(ComponentMap& params) override;
 	private:
@@ -37,15 +40,6 @@ namespace LocoMotor {
 		//??
 		lua_State* _luaState;
 		luabridge::LuaRef* obj = nullptr;
-		luabridge::LuaRef* _luaUpdate;
-		luabridge::LuaRef* _luaEnable;
-		luabridge::LuaRef* _luaStart;
-		luabridge::LuaRef* _luaAwake;
-		luabridge::LuaRef* _luaFixed;
-		luabridge::LuaRef* _luaDisable;
-		luabridge::LuaRef* _luaDestroy;
-		luabridge::LuaRef* _luaSetParameters;
-
 		std::string _name;
 
 	};

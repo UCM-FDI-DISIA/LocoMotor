@@ -77,6 +77,11 @@ bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, Lu
 	static const std::string basePath = "Assets/Scripts/";
 	static const std::string luaExtension = ".lua";
 	std::string fullPath = basePath + name + luaExtension;
+
+	
+	
+	
+	luabridge::setGlobal(_luaState, behaviour, "behaviour");
 	if (luaL_dofile(_luaState, fullPath.c_str())) {
 		std::string error = "Interpretation error at component " + name
 			+ "\n" + std::string(lua_tostring(_luaState, -1));

@@ -1,18 +1,21 @@
-Prueba = {}
+
+Prueba = {behaviour = behaviour}
 Prueba.__index = Prueba
 
 function Prueba:new()
     local obj = {}
-    setmetatable(obj, Prueba)
-    return obj
+    setmetatable(obj,Prueba);
+    return obj;
 end
-
 function Prueba:update(dt)
     ---print(dt)
     ---print("Hola Buenas desde el update")
+    
 end
 
 function Prueba:start()
+    print(self.behaviour:gameObject():getName())
+    self:foo()
     ---print("Hola Buenas desde el update")
 end
 
@@ -25,4 +28,6 @@ function Prueba:setParameters(params)
     print(params["parametro"])
 end
 
-PruebaVar = Prueba:new()
+function Prueba:foo()
+    print("Funcion desde lua")
+end
