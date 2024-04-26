@@ -100,6 +100,9 @@ namespace LocoMotor {
 		/// @brief Gets the total torque of the body
 		/// @return Return a LMVector3 of total torque
 		LMVector3 GetTotalTorque();
+		/// @brief Gets the total force of the body
+		/// @return Return a LMVector3 of total torque
+		LMVector3 GetTotalForce();
 		/// @brief Gets the turn velocity of the body
 		/// @return Return a LMVector3 of turn velocity
 		LMVector3 GetTurnVelocity();

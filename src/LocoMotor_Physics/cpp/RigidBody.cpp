@@ -256,6 +256,10 @@ LMVector3 LocoMotor::RigidBody::GetTotalTorque() {
 	return BulletToLm(_body->getTotalTorque());
 }
 
+LMVector3 LocoMotor::RigidBody::GetTotalForce() {
+	return BulletToLm(_body->getTotalForce());
+}
+
 
 LMVector3 LocoMotor::RigidBody::GetTurnVelocity() {
 	return BulletToLm(_body->getTurnVelocity());
