@@ -148,9 +148,9 @@ bool Graphics::OverlayManager::init() {
 
 	_ovrsys = new Ogre::OverlaySystem();
 
-	Ogre::OverlayManager* _aux = Ogre::OverlayManager::getSingletonPtr();
+	_ogrOverlayManager = Ogre::OverlayManager::getSingletonPtr();
 
-	if (_aux == nullptr) {
+	if (_ogrOverlayManager == nullptr) {
 		delete _ovrsys;
 		_ovrsys = nullptr;
 		return false;

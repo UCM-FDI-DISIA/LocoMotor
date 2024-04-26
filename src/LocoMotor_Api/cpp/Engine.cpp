@@ -164,7 +164,7 @@ bool Engine::mainLoop() {
 	
 
 	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
-		std::cerr << "Error creating game window" << std::endl;
+		std::cerr << "\033[1;31m" << "Error creating game window" << "\033[0m" << std::endl;
 		_exit = true;
 	}
 	else if (_startingSceneFile != "" && _startingSceneName != "") {
@@ -205,7 +205,9 @@ bool Engine::mainLoop() {
 
 		Audio::AudioManager::GetInstance()->update();
 
-		Graphics::GraphicsManager::GetInstance()->render();
+		if (!Graphics::GraphicsManager::GetInstance()->render()) {
+			_exit = true;
+		}
 	}
 
 

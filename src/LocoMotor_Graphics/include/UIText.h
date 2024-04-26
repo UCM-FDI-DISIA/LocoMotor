@@ -10,6 +10,7 @@
 
 #include <string>
 #include "Component.h"
+#include "LMVector.h"
 
 namespace Ogre {
 	class OverlayManager;
@@ -71,8 +72,18 @@ namespace LocoMotor {
 
 		void initializeABorrar();
 
-	protected:
+		/// @brief Gets the position of axis X of the entity on the UI
+		int getPositionX();
 
+		/// @brief Gets the position of axis Y of the entity on the UI
+		int getPositionY();
+
+		void setColor(LMVector3 color);
+		void setColorTop(LMVector3 color);
+		void setColorBottom(LMVector3 color);
+
+	protected:
+			
 		void setParameters(ComponentMap& params) override;
 		void start() override {};
 		void update(float dT) override;
