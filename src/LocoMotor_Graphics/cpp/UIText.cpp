@@ -22,9 +22,10 @@ LocoMotor::UIText::UIText() : _gfxManager(nullptr), _container(nullptr), _overla
 }
 
 LocoMotor::UIText::~UIText() {
+	_container->removeChild(_txtElem->getName());
 	_overlayMngr->destroyOverlayElement(_container);
 	_container = nullptr;
-	Ogre::OverlayManager::getSingletonPtr()->destroy(_overlay->getName());
+	_overlayMngr->destroy(_overlay->getName());
 	_overlay = nullptr;
 }
 
@@ -219,9 +220,33 @@ void LocoMotor::UIText::initializeABorrar() {
 	setParameters(a);
 }
 
+
+int LocoMotor::UIText::getPositionX() {
+	return _positionX;
+}
+
+int LocoMotor::UIText::getPositionY() {
+	return _positionY;
+}
+
+void LocoMotor::UIText::setColor(LMVector3 color) {
+	setColorTop(color);
+	setColorBottom(color);
+}
+
+void LocoMotor::UIText::setColorTop(LMVector3 color) {
+	_txtElem->setColourTop(Ogre::ColourValue(color.getX(), color.getY(), color.getZ(), 1.f));
+}
+
+void LocoMotor::UIText::setColorBottom(LMVector3 color) {
+	_txtElem->setColourBottom(Ogre::ColourValue(color.getX(), color.getY(), color.getZ(), 1.f));
+}
+
 void LocoMotor::UIText::updatePosition() {
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 	int wWidth = _gfxManager->getWindowWidth();
 	int wHeight = _gfxManager->getWindowHeight();
 	_container->setPosition(wWidth * _anchorX + _positionX - (_sizeX * _pivotX), wHeight * _anchorY + _positionY - (_sizeY * _pivotY));
 }
+
+

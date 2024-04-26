@@ -20,7 +20,8 @@ Scene = {
             position = "-80 100",
             pivot = "0.5 0.5",
             size = "70 70",
-            image = "CrossMaterial"
+            image = "CrossMaterial",
+            sortingLayer = 1
         }
     },
     Cross_02 = {
@@ -29,7 +30,8 @@ Scene = {
             position = "0 100",
             pivot = "0.5 0.5",
             size = "70 70",
-            image = "CrossMaterial"
+            image = "CrossMaterial",
+            sortingLayer = 1
         }
     },
     Cross_03 = {
@@ -38,30 +40,58 @@ Scene = {
             position = "80 100",
             pivot = "0.5 0.5",
             size = "70 70",
-            image = "CrossMaterial"
+            image = "CrossMaterial",
+            sortingLayer = 1
         }
     },
     ScoreBackground = {
         UIImage = {
             anchor = "0.5 0.5",
-            position = "0 300", -- 100
+            position = "0 100",
             pivot = "0.5 0.5",
             size = "375 150",
-            image = "UIMaterial"
+            image = "UIMaterial",
+            sortingLayer = 0
         }
     },
     UICountdown = {
         UIText = {
-            anchor = "1 0",
-            position = "-10 10",
-            pivot = "1 0",
-            size = "20 25",
-            rotation = "0.1",
-            text = "hola ijos de puta, les mando un saludo desde lua",
+            anchor = ".5 .5",
+            position = "60 -40",
+            pivot = ".5 .5",
+            size = "120 120",
+            text = "3",
             font = "Heavitas",
             alignment = "r",
             colorTop = "0.9 0 0.2",
             colorBot = "0.2 0 0.9"
+        }
+    },
+    UIPlayerWin = {
+        UIText = {
+            anchor = ".5 .5",
+            position = "0 -100",
+            pivot = ".5 .5",
+            size = "100 100",
+            text = "BLUE WINS",
+            font = "Heavitas",
+            alignment = "c",
+            colorTop = "0.3294 0.7372 0.8352",
+            colorBot = "0.3294 0.7372 0.8352",
+            sortingLayer = 1
+        }
+    },
+    UIPlayerWinShade = {
+        UIText = {
+            anchor = ".5 .5",
+            position = "0 -95",
+            pivot = ".5 .5",
+            size = "100 100",
+            text = "BLUE WINS",
+            font = "Heavitas",
+            alignment = "c",
+            colorTop = "0 0 0",
+            colorBot = "0 0 0",
         }
     },
 
@@ -186,7 +216,54 @@ Scene = {
             layer = "1"
         }
     },
+    -- SPAWNPOINTS
+    CharacterSpawnpoint_1 = {
+        Transform = {
+            position = "8 2 8",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        MeshRenderer = {
+            mesh = "DebugCube.mesh",
+            material = "DebugCube"
+        }
+    },
+    CharacterSpawnpoint_2 = {
+        Transform = {
+            position = "-8 2 8",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        MeshRenderer = {
+            mesh = "DebugCube.mesh",
+            material = "DebugCube"
+        }
+    },
+    CharacterSpawnpoint_3 = {
+        Transform = {
+            position = "8 2 -8",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        MeshRenderer = {
+            mesh = "DebugCube.mesh",
+            material = "DebugCube"
+        }
+    },
+    CharacterSpawnpoint_4 = {
+        Transform = {
+            position = "-8 2 -8",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        MeshRenderer = {
+            mesh = "DebugCube.mesh",
+            material = "DebugCube"
+        }
+    },
 
+
+    -- GAME LOGIC --
     GameplayManager = {
         Transform = {
             position = "0 0 0",
@@ -194,6 +271,12 @@ Scene = {
             rotation = "0 0 0"
         },
         GameplayManager = {
+        },
+        Spawner = {
+            spawnpoint1 ="-15 10 0",
+            spawnpoint2 ="15 10 0",
+            spawnpoint3 ="5 10 10",
+            spawnpoint4 ="5 10 -10"
         }
     },
     LocalMultiplayerManager = {

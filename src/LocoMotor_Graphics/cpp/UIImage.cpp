@@ -26,7 +26,9 @@ void LocoMotor::UIImage::setImage(const std::string& nImage) {
 		_container->setMaterialName(nImage);
 	else {
 		_container->setMaterialName(Ogre::MaterialManager::getSingleton().getDefaultMaterial()->getName());
+	#ifdef _DEBUG
 		std::cerr << "\033[1;31m" << "Material '" << nImage << "' wasn't found in any known .material script. UIImage at gameObject: " << _gameObject->getName() << "\033[0m" << std::endl;
+	#endif
 	}
 }
 

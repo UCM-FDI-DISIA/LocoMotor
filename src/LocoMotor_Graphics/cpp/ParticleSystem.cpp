@@ -22,8 +22,7 @@ LocoMotor::ParticleSystem::~ParticleSystem() {
 	numOfParticleSystems--;
 }
 
-void LocoMotor::ParticleSystem::play()
-{
+void LocoMotor::ParticleSystem::play() {
 	emittingSelf = true;
 	if (!isEnabled()) return;
 	unsigned short numEmitters = _particleSystem->getNumEmitters();
@@ -35,9 +34,26 @@ void LocoMotor::ParticleSystem::play()
 		_particleSystem->setEmitting(true);
 }
 
-void LocoMotor::ParticleSystem::stop()
-{
+void LocoMotor::ParticleSystem::stop() {
 	emittingSelf = false;
+	_particleSystem->setEmitting(false);
+}
+
+void LocoMotor::ParticleSystem::setParticle(const std::string& particleName) {
+
+	if (_node == nullptr)
+		_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());
+
+	if (_particleSystem != nullptr) {
+		Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->destroyParticleSystem(_particleSystem->getName());
+		_particleSystem = nullptr;
+	}
+	_particleSystem = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createParticleSystem(_node->getName(), particleName);
+
+	if (_particleSystem == nullptr) return;
+
+	_node->attachObject(_particleSystem);
+
 	_particleSystem->setEmitting(false);
 }
 
@@ -46,8 +62,7 @@ void LocoMotor::ParticleSystem::onEnable() {
 		_particleSystem->setEmitting(emittingSelf);
 }
 
-void LocoMotor::ParticleSystem::start()
-{
+void LocoMotor::ParticleSystem::start() {
 	if (playOnStart) {
 		emittingSelf = true;
 		_particleSystem->setEmitting(true);
