@@ -154,7 +154,7 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	rigidbody->setDamping(0.7f, 0.7f);
 
 	if (isDynamic) {
-		rigidbody->setCcdMotionThreshold(0.0001f);//0.0000001f
+		rigidbody->setCcdMotionThreshold(0.0000001f);//0.0000001f
 		rigidbody->setCcdSweptSphereRadius(0.5f);
 	}
 	if (_collisionMask > 0 && _collisionMask<16) {//Bullet solo admite hasta 16 mask
