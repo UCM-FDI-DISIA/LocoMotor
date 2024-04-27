@@ -32,7 +32,7 @@ void Scene::update(float dt) {
 	//End of loop, once all objects are Updated, add buffered objects
 	for (auto& obj : _gameObjBufferList) {
 		_gameObjList.insert(obj);
-		//obj.second->StartComp();
+		obj.second->awake();
 	}
 	_gameObjBufferList.clear();
 
@@ -67,7 +67,7 @@ void LocoMotor::Scene::fixedUpdate() {
 	//End of loop, once all objects are Updated, add buffered objects
 	for (auto& obj : _gameObjBufferList) {
 		_gameObjList.insert(obj);
-		//obj.second->StartComp();
+		obj.second->awake();
 	}
 	_gameObjBufferList.clear();
 }
@@ -103,6 +103,8 @@ void Scene::build() {
 			tr->initRuntime();
 		}
 	}
+
+	for (auto& gObj : _gameObjList)gObj.second->awake();
 }
 
 void Scene::destroy() {

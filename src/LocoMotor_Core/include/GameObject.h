@@ -9,7 +9,6 @@
 #include <queue>
 #include <unordered_map>
 #include <string>
-#include "ComponentsFactory.h"
 #include "Component.h"
 
 namespace LocoMotor {
@@ -25,21 +24,7 @@ namespace LocoMotor {
 		/// @return returns the Component created. If the component was unique and already on the GameObject
 		/// the already created Component will be returned. 
 		
-		Component* addComponent(const std::string& name) {
-			ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
-			if (_components.count(name) > 0) {
-				return _components[name];
-			}
-			else {
-				Component* comp = factory->createComponent(name);
-				if (comp == nullptr) 
-					return nullptr;
-				comp->init(this, true);
-				_toStart.push(comp);
-				_components.insert({ name, comp });
-				return comp;
-			}
-		}
+		Component* addComponent(const std::string& name);
 
 		Component* addComponent(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
 
@@ -94,8 +79,6 @@ namespace LocoMotor {
 		bool _active;
 		std::string _gobjName;
 
-		bool shouldCallAwake;
-
 		GameObject(std::string name);
 		~GameObject();
 		/// @brief This method is called every frame 
@@ -107,6 +90,8 @@ namespace LocoMotor {
 		/// @param scene Scene which the GO belongs to
 		/// @param active Initial active state of the GameObject
 		void init(LocoMotor::Scene* scene, bool active);
+		/// @brief This method calls the awake method of this GameObject's components
+		void awake();
 
 		bool hasToBeDestroyed();
 		void setToDestroy();

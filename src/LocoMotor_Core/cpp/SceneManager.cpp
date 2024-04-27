@@ -67,8 +67,8 @@ void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
         if (_activeScene != nullptr && _activeScene != _toStart) 
             _activeScene->destroy();
-        _toStart->build();
         _activeScene = _toStart;
+        _toStart->build();
         _toStart = nullptr;
     }
     if (_activeScene == nullptr) return; 
