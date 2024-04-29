@@ -6,6 +6,7 @@
 
 #include "GameObject.h"
 #include "Transform.h"
+#include "math.h"
 
 using namespace LocoMotor;
 using namespace Physics;
@@ -89,8 +90,15 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 		else if (params[i].first == "capsuleRadius") {
 			info.capsuleRadius = std::stof(params[i].second);
 		}
-		else if (params[i].first == "layer" || params[i].first=="mask") {
-			_collisionMask = std::stoi(params[i].second);
+		else if (params[i].first == "group" || params[i].first=="collisionGroup"){
+			int group = std::stoi(params[i].second);
+			if(group >0 && group <30)
+			_collisionGroup = group;
+		}
+		else if (params[i].first == "ignoreGroup") {
+			int group = std::stoi(params[i].second);
+			if (group > 0 && group < 30)
+			_ignoreGroup.push_back(group);
 		}
 	}
 	_body = CreateRigidBody(info);
@@ -98,6 +106,11 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 }
 
 void LocoMotor::RigidBody::awake() {
+	if (_body == nullptr) {
+		info.origin = _gameObject->getComponent<Transform>()->getPosition();
+		_body = CreateRigidBody(info);
+		_body->setUserPointer(_gameObject);
+	}
 	SetPosition(_gameObject->getComponent<Transform>()->getPosition());
 	SetRotation(_gameObject->getComponent<Transform>()->getRotation());
 }
@@ -157,13 +170,23 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 		rigidbody->setCcdMotionThreshold(0.0000001f);//0.0000001f
 		rigidbody->setCcdSweptSphereRadius(0.5f);
 	}
-	if (_collisionMask > 0 && _collisionMask<16) {//Bullet solo admite hasta 16 mask
-		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = 1 << _collisionMask;
+	if (_collisionGroup > 0) {//Bullet solo admite hasta 16 mask
+		rigidbody->getBroadphaseProxy()->m_collisionFilterGroup = pow(2,_collisionGroup+1);
+		
+	}
+	if (_ignoreGroup.size() > 0) {
+		int res = btBroadphaseProxy::AllFilter;
+		for (int i = 0; i < _ignoreGroup.size(); i++) {
+			int pot = pow(2, _ignoreGroup[i] + 1);
+			res = res ^ pot;
+		}
+		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = res;
 	}
 	if (_beATrigger) {
 		rigidbody->setCollisionFlags(rigidbody->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 	}
 	rigidbody->setGravity({ 0,_gravity,0 });
+	rigidbody->setUserPointer(_gameObject);
 	return rigidbody;
 }
 
@@ -232,8 +255,11 @@ int LocoMotor::RigidBody::GetCollisionGroup() {
 
 
 void LocoMotor::RigidBody::SetCollisionMask(int mask) {
-	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
-	proxy->m_collisionFilterMask = 1 << mask;
+	if (_body != nullptr) {
+		btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
+		proxy->m_collisionFilterMask = 1 << mask;
+	}
+	_collisionMask = mask;
 }
 
 
@@ -291,3 +317,12 @@ void LocoMotor::RigidBody::ApplyCentralImpulse(LMVector3 impulse) {
 void LocoMotor::RigidBody::SetFriction(float fric) {
 	_body->setFriction(fric);
 }
+
+void LocoMotor::RigidBody::SetMass(float mass) {
+	info.mass = mass;
+}
+
+void LocoMotor::RigidBody::SetSize(LMVector3 size) {
+	info.boxSize = size;
+}
+
