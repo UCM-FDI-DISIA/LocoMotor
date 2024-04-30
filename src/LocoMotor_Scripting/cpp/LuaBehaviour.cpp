@@ -26,12 +26,13 @@ LocoMotor::LuaBehaviour::~LuaBehaviour() {
 }
 
 void LocoMotor::LuaBehaviour::awake() {
-	luabridge::LuaRef luaAwake = (*obj)["awake"];
-	if (!luaAwake.isFunction()) {
-		
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaAwake = (*obj)["awake"];
+		if (!luaAwake.isFunction()) {
+
+			return;
+		}
 		luaAwake(*obj);
 	}
 	catch (luabridge::LuaException& e) {
@@ -40,12 +41,13 @@ void LocoMotor::LuaBehaviour::awake() {
 }
 
 void LocoMotor::LuaBehaviour::onEnable() {
-	luabridge::LuaRef luaEnable = (*obj)["onEnable"];
-	if (!luaEnable.isFunction()) {
-		
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaEnable = (*obj)["onEnable"];
+		if (!luaEnable.isFunction()) {
+
+			return;
+		}
 		luaEnable(*obj);
 	}
 	catch (luabridge::LuaException& e) {
@@ -55,11 +57,13 @@ void LocoMotor::LuaBehaviour::onEnable() {
 }
 
 void LocoMotor::LuaBehaviour::start() {
-	luabridge::LuaRef luaStart = (*obj)["start"];
-	if (!luaStart.isFunction()) {
-		return;
-	}
+	
+	
 	try {
+		luabridge::LuaRef luaStart = (*obj)["start"];
+		if (!luaStart.isFunction()) {
+			return;
+		}
 		luaStart(*obj);
 	}
 	catch (luabridge::LuaException& e) {
@@ -69,12 +73,13 @@ void LocoMotor::LuaBehaviour::start() {
 }
 
 void LocoMotor::LuaBehaviour::update(float dt) {
-	luabridge::LuaRef luaUpdate = (*obj)["update"];
-	if (!luaUpdate.isFunction()) {
-		
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaUpdate = (*obj)["update"];
+		if (!luaUpdate.isFunction()) {
+
+			return;
+		}
 		luaUpdate(*obj, dt);
 	}
 	catch (luabridge::LuaException& e) {
@@ -84,12 +89,13 @@ void LocoMotor::LuaBehaviour::update(float dt) {
 }
 
 void LocoMotor::LuaBehaviour::fixedUpdate() {
-	luabridge::LuaRef luaFixed = (*obj)["fixedUpdate"];
-	if (!luaFixed.isFunction()) {
-		
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaFixed = (*obj)["fixedUpdate"];
+		if (!luaFixed.isFunction()) {
+
+			return;
+		}
 		luaFixed(*obj);
 	}
 	catch (luabridge::LuaException& e) {
@@ -99,12 +105,13 @@ void LocoMotor::LuaBehaviour::fixedUpdate() {
 }
 
 void LocoMotor::LuaBehaviour::onDisable() {
-	luabridge::LuaRef luaDisable = (*obj)["onDisable"];
-	if (!luaDisable.isFunction()) {
-		
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaDisable = (*obj)["onDisable"];
+		if (!luaDisable.isFunction()) {
+
+			return;
+		}
 		luaDisable(*obj);
 	}
 	catch (luabridge::LuaException& e) {
@@ -114,12 +121,12 @@ void LocoMotor::LuaBehaviour::onDisable() {
 }
 
 void LocoMotor::LuaBehaviour::onDestroy() {
-	luabridge::LuaRef luaDestroy = (*obj)["onDestroy"];
-	if (!luaDestroy.isFunction()) {
-		
-		return;
-	}
 	try {
+		luabridge::LuaRef luaDestroy = (*obj)["onDestroy"];
+		if (!luaDestroy.isFunction()) {
+
+			return;
+		}
 		luaDestroy(*obj);
 	}
 	catch (luabridge::LuaException& e) {
@@ -129,11 +136,12 @@ void LocoMotor::LuaBehaviour::onDestroy() {
 }
 
 void LocoMotor::LuaBehaviour::OnCollisionEnter(GameObject* other) {
-	luabridge::LuaRef luaCollEnter = (*obj)["onCollisionEnter"];
-	if (!luaCollEnter.isFunction()) {
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaCollEnter = (*obj)["onCollisionEnter"];
+		if (!luaCollEnter.isFunction()) {
+			return;
+		}
 		luaCollEnter(*obj, other);
 	}
 	catch (luabridge::LuaException& e) {
@@ -143,11 +151,12 @@ void LocoMotor::LuaBehaviour::OnCollisionEnter(GameObject* other) {
 }
 
 void LocoMotor::LuaBehaviour::OnCollisionStay(GameObject* other) {
-	luabridge::LuaRef luaCollStay = (*obj)["onCollisionStay"];
-	if (!luaCollStay.isFunction()) {
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaCollStay = (*obj)["onCollisionStay"];
+		if (!luaCollStay.isFunction()) {
+			return;
+		}
 		luaCollStay(*obj, other);
 	}
 	catch (luabridge::LuaException& e) {
@@ -157,11 +166,12 @@ void LocoMotor::LuaBehaviour::OnCollisionStay(GameObject* other) {
 }
 
 void LocoMotor::LuaBehaviour::OnCollisionExit(GameObject* other) {
-	luabridge::LuaRef luaCollExit = (*obj)["onCollisionExit"];
-	if (!luaCollExit.isFunction()) {
-		return;
-	}
+	
 	try {
+		luabridge::LuaRef luaCollExit = (*obj)["onCollisionExit"];
+		if (!luaCollExit.isFunction()) {
+			return;
+		}
 		luaCollExit(*obj, other);
 	}
 	catch (luabridge::LuaException& e) {
@@ -195,19 +205,23 @@ void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 	for (auto& param : params) {
 		paramsTable[param.first] = param.second;
 	}
-	luabridge::LuaRef luaSetParams = (*obj)["setParameters"];
-	if (!luaSetParams.isFunction()) {
-		std::cout << "Lua Warning: " << "You must define a function called " << _name << ":setParameters(params) in " << _name << ".lua" << 
-			"if you want to set the parameters from this component from the scene files" << std::endl;
-		return;
-	}
-	try {		
+	try {	
+		luabridge::LuaRef luaSetParams = (*obj)["setParameters"];
+		if (!luaSetParams.isFunction()) {
+			std::cout << "Lua Warning: " << "You must define a function called " << _name << ":setParameters(params) in " << _name << ".lua" <<
+				"if you want to set the parameters from this component from the scene files" << std::endl;
+			return;
+		}
 		luaSetParams(*obj, paramsTable);
 	}
 	catch (luabridge::LuaException e) {
 		std::cout << e.what() << std::endl;;
 	}
 	
+}
+
+luabridge::LuaRef LocoMotor::LuaBehaviour::getScript() const {
+	return *obj;
 }
 
 bool LocoMotor::LuaBehaviour::initBehaviour() {
