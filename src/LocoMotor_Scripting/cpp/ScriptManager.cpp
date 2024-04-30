@@ -65,6 +65,15 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("normalize", &LMVector3::normalize)
 		.endClass()
 
+		.beginClass<LMQuaternion>("Quaternion")
+		.addStaticFunction("new", &LMQuaternion::createQuat)
+		.addProperty("x", &LMQuaternion::getX, &LMQuaternion::setX)
+		.addProperty("y", &LMQuaternion::getY, &LMQuaternion::setY)
+		.addProperty("z", &LMQuaternion::getZ, &LMQuaternion::setZ)
+		.addFunction("magnitude", &LMQuaternion::magnitude)
+		.addFunction("normalize", &LMQuaternion::normalize)
+		.endClass()
+
 		.beginClass<Transform>("Transform")
 		.addProperty("position", &Transform::getPosition, &Transform::setPosition)
 		.addProperty("rotation", &Transform::getRotation, &Transform::setRotation)
@@ -76,7 +85,7 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("addGameObject", &Scene::addGameobject)
 		.addFunction("removeGameObject", &Scene::removeGameobject)
 		.addFunction("getObjectByName", &Scene::getObjectByName)
-		.addProperty("name", &Scene::getSceneName)
+		.addFunction("name", &Scene::getSceneName)
 		.endClass()
 
 		.beginClass<SceneManager>("SceneManager")

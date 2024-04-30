@@ -154,6 +154,15 @@ namespace LocoMotor {
 		/// @brief Create a new Quaternion
 		LMQuaternion(float w, float x, float y, float z);
 
+		/// @brief Hack para crear Quaternions desde lua
+		/// @param w 
+		/// @param x 
+		/// @param y 
+		/// @param z 
+		/// @return 
+		static inline const LMQuaternion& createQuat(float w, float x, float y, float z) {
+			return LMQuaternion(w, x, y, z);
+		}
 		// Getter functions
 		/// @brief Get the W value of the Quaternion
 		float getW() const;
