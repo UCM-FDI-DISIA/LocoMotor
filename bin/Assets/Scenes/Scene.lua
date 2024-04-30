@@ -136,7 +136,8 @@ Scene = {
         },
         RigidBody = {
             mass = "1",
-            layer = "1"
+            group = "1",
+            ignoreGroup = "1"
         },
     },
     Player_2 = {
@@ -161,7 +162,8 @@ Scene = {
         },
         RigidBody = {
             mass = "1",
-            layer = "1"
+            group = "1",
+            ignoreGroup = "1"
             
             
         }
@@ -188,7 +190,8 @@ Scene = {
         },
         RigidBody = {
             mass = "1",
-            layer = "1"
+            group = "1",
+            ignoreGroup = "1"
         }
     },
     Player_4 = {
@@ -213,7 +216,8 @@ Scene = {
         },
         RigidBody = {
             mass = "1",
-            layer = "1"
+            group = "1",
+            ignoreGroup = "1"
         }
     },
     -- SPAWNPOINTS
