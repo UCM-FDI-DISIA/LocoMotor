@@ -75,9 +75,13 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.endClass()
 
 		.beginClass<Transform>("Transform")
-		.addProperty("position", &Transform::getPosition, &Transform::setPosition)
-		.addProperty("rotation", &Transform::getRotation, &Transform::setRotation)
-		.addProperty("size", &Transform::getSize, &Transform::setSize)
+		.addFunction("getPosition",&Transform::getPosition)
+		.addFunction("setPosition", &Transform::setPosition)
+		.addFunction("getRotation", &Transform::getRotation)
+		.addFunction("setRotation", &Transform::setRotation)
+		.addFunction("setSize",&Transform::setSize)
+		.addFunction("getSize", &Transform::getSize)
+		.addFunction("setRotationWithVector", &Transform::setRotationWithVector)
 		.addFunction("getEulerRotation", &Transform::getEulerRotation)
 		.endClass()
 

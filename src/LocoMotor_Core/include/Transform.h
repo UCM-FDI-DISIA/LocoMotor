@@ -32,25 +32,26 @@ namespace LocoMotor {
 
 		/// @brief  Returns the World position of the LocoMotor object.
 		/// @return vector
-		const LMVector3& getPosition() const;
+		const LMVector3& getPosition();
 		/// @brief Sets the world position of the LocoMotor object.
 		/// @param newPosition The new position 
 		void setPosition(const LMVector3& newPosition);
 
 		/// @brief Returns the rotation of the LocoMotor object.
 		/// @return quaterinion
-		const LMQuaternion& getRotation() const;
+		const LMQuaternion& getRotation();
 		/// @brief Returns the Rotation in Euler Degrees of the LocoMotor object.
 		/// @return vector 
 		LMVector3 getEulerRotation();
 		/// @brief Sets the rotation of the LocoMotor object.
 		/// @param newRotation The new rotation
+		
 		void setRotation(const LMQuaternion& newRotation);
-		void setRotation(const LMVector3& newRotation);
+		void setRotationWithVector(const LMVector3& newRotation);
 
 		/// @brief Returns the size of the LocoMotor object.
 		/// @return vector
-		const LMVector3& getSize() const;
+		const LMVector3& getSize();
 		/// @brief Sets the size of the LocoMotor object.
 		/// @param newSize The new size
 		void setSize(const LMVector3& newSize);
