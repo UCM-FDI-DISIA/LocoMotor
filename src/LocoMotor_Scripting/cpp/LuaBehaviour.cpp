@@ -26,7 +26,6 @@ LocoMotor::LuaBehaviour::~LuaBehaviour() {
 }
 
 void LocoMotor::LuaBehaviour::awake() {
-	
 	try {
 		luabridge::LuaRef luaAwake = (*obj)["awake"];
 		if (!luaAwake.isFunction()) {
@@ -188,6 +187,7 @@ void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 				return;
 			}
 			if (!initBehaviour()) {
+				std::cout << _name << "Was not a table" << std::endl;
 				return;
 			}
 			params.erase(it);
@@ -221,14 +221,20 @@ void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 }
 
 luabridge::LuaRef LocoMotor::LuaBehaviour::getScript() const {
+	std::cout << "test "<<_name<<": nil " << obj->isNil() << "test user" << obj->isUserdata() << "test table" << obj->isTable() << std::endl;
 	return *obj;
 }
 
 bool LocoMotor::LuaBehaviour::initBehaviour() {
+	std::cout << _name << std::endl;
 	obj = new luabridge::LuaRef(luabridge::getGlobal(_luaState, _name.c_str()));
-	if (!(*obj).isTable()) {
+	if (!obj->isTable()) {
 		std::cout << "Lua Interpreter Warning: No table called " << _name << " on the lua script " << _name << ".lua" << std::endl;
 		return false;
 	}
+	if(obj->isUserdata()) {
+		std::cout << "userdata" << _name << std::endl;
+	}
+	luabridge::setGlobal(_luaState, *obj, _name.c_str());
 	return true;
 }

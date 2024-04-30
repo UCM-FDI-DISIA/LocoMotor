@@ -18,6 +18,8 @@
 namespace LocoMotor {
 	class Component;
 	typedef Component* (*CmpFactory)();
+	template<typename T>
+	using Transformer = T * (*)(Component*);
 	class MOTOR_API ComponentsFactory {
 	public:
 		/// @brief Initializes the Components Factory instance
@@ -60,6 +62,10 @@ namespace LocoMotor {
 			};
 			_factories.insert({ name,fac });
 		}
+
+		inline bool getRegistered(const std::string name) {
+			return _factories.count(name) > 0;
+		}
 	private:
 		ComponentsFactory() {
 		};
@@ -67,6 +73,7 @@ namespace LocoMotor {
 		};
 		static ComponentsFactory* _instance;
 		std::map<std::string, CmpFactory> _factories;
+		
 	};
 }
 #endif

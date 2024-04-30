@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <string>
 #include "Component.h"
+#include "ComponentsFactory.h"
 
 namespace LocoMotor {
 	class Component;
@@ -36,7 +37,15 @@ namespace LocoMotor {
 		void removeComponents(const std::string& name);
 
 		template <typename T>
-		T* getComponent() {
+		T* getComponent(const std::string& name ="") {
+			if(name == "") { }
+			else if (!ComponentsFactory::GetInstance()->getRegistered(name) && _components.count(name) == 0) {
+				return nullptr;
+			}
+			else if (!ComponentsFactory::GetInstance()->getRegistered(name) && _components.count(name) > 0) {
+				std::cout << name << std::endl;
+				return dynamic_cast<T*>(_components[name]);
+			}
 			auto it = _components.begin();
 			T* comp = nullptr;
 			while (it != _components.end() && comp == nullptr) {
