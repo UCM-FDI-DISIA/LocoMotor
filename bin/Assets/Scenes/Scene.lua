@@ -104,13 +104,20 @@ Scene = {
     },
     Emitter = {
         EventEmitter = {
-            EventID = "event:/Music/Level 02",
+            EventID = "event:/ambience2",
             Play = ""
         },
         MeshRenderer = {
             mesh = "CubemanMesh.mesh",
             material = "RedCharacter"
         }
+    },
+    EmitterDeath = {
+        EventEmitter = {
+            EventID = "event:/PlayerDeath",
+           
+        }
+       
     },
 
         -- CHARACTERS --
@@ -139,6 +146,10 @@ Scene = {
             group = "1",
             ignoreGroup = "1"
         },
+        EventEmitter = {
+            EventID = "event:/Jump",
+            
+        }
     },
     Player_2 = {
         Transform = {
@@ -166,6 +177,10 @@ Scene = {
             ignoreGroup = "1"
             
             
+        },
+        EventEmitter = {
+            EventID = "event:/Jump",
+            
         }
     },
     Player_3 = {
@@ -192,6 +207,10 @@ Scene = {
             mass = "1",
             group = "1",
             ignoreGroup = "1"
+        },
+        EventEmitter = {
+            EventID = "event:/Jump",
+            
         }
     },
     Player_4 = {
@@ -218,6 +237,10 @@ Scene = {
             mass = "1",
             group = "1",
             ignoreGroup = "1"
+        },
+        EventEmitter = {
+            EventID = "event:/Jump",
+            
         }
     },
     -- SPAWNPOINTS

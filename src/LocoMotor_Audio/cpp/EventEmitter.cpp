@@ -25,7 +25,7 @@ EventEmitter::~EventEmitter() {
 
 void LocoMotor::EventEmitter::setEvent(const char* eventID) 
 {
-
+	_studioSys = Audio::AudioManager::GetInstance()->getStudioSystem();
 	if (_studioSys == nullptr) {
 		return;
 	}
