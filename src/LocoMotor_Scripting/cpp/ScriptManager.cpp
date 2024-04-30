@@ -1,6 +1,7 @@
 #include "ScriptManager.h"
 
 #include <cassert>
+#include <functional>
 extern "C" {
 #include <lua.h>
 #include <lauxlib.h>
@@ -10,6 +11,10 @@ extern "C" {
 #include <LuaBridge/LuaBridge.h>
 #include "GameObject.h"
 #include "LuaBehaviour.h"
+#include "Transform.h"
+#include "LMVector.h"
+#include "Scene.h"
+#include "SceneManager.h"
 #include "Engine.h"
 
 using namespace LocoMotor;
@@ -40,6 +45,7 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.beginClass<LuaBehaviour>("LuaBehaviour")
 		.addFunction("gameObject", &LuaBehaviour::getGameObject)
 		.endClass()
+
 		.beginClass<GameObject>("GameObject")
 		.addFunction("transform", &GameObject::getTransform)
 		.addFunction("addComponent", &GameObject::addComponent)
@@ -48,8 +54,37 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("setActive", &GameObject::setActive)
 		.addFunction("removeComponent", &GameObject::removeComponents)
 		.addFunction("getName", &GameObject::getName)
+		.endClass()
+
+		.beginClass<LMVector3>("Vector3")
+		.addStaticFunction("new", &LMVector3::createVector)
+		.addProperty("x", &LMVector3::getX, &LMVector3::setX)
+		.addProperty("y", &LMVector3::getY, &LMVector3::setY)
+		.addProperty("z", &LMVector3::getZ, &LMVector3::setZ)
+		.addFunction("magnitude", &LMVector3::magnitude)
+		.addFunction("normalize", &LMVector3::normalize)
+		.endClass()
+
+		.beginClass<Transform>("Transform")
+		.addProperty("position", &Transform::getPosition, &Transform::setPosition)
+		.addProperty("rotation", &Transform::getRotation, &Transform::setRotation)
+		.addProperty("size", &Transform::getSize, &Transform::setSize)
+		.addFunction("getEulerRotation", &Transform::getEulerRotation)
+		.endClass()
+
+		.beginClass<Scene>("Scene")
+		.addFunction("addGameObject", &Scene::addGameobject)
+		.addFunction("removeGameObject", &Scene::removeGameobject)
+		.addFunction("getObjectByName", &Scene::getObjectByName)
+		.addProperty("name", &Scene::getSceneName)
+		.endClass()
+
+		.beginClass<SceneManager>("SceneManager")
+		.addStaticFunction("Instance", &SceneManager::GetInstance)
+		.addFunction("loadScene", &SceneManager::loadScene)
+		.addFunction("changeScene", &SceneManager::changeScene)
+		.addFunction("getActiveScene", &SceneManager::getActiveScene)
 		.endClass();
-		
 }
 
 bool ScriptManager::Init() {

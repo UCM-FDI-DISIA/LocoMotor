@@ -52,7 +52,7 @@ void LocoMotor::Transform::start() {
 void LocoMotor::Transform::update(const float dt) {}
 
 
-const LocoMotor::LMVector3& LocoMotor::Transform::getPosition() {
+const LocoMotor::LMVector3& LocoMotor::Transform::getPosition() const{
 	return _position;
 }
 
@@ -63,7 +63,7 @@ void LocoMotor::Transform::setPosition(const LMVector3& newPosition) {
 }
 
 //GETTERS
-const LocoMotor::LMQuaternion& LocoMotor::Transform::getRotation() {
+const LocoMotor::LMQuaternion& LocoMotor::Transform::getRotation() const {
 	return _direction;
 }
 LocoMotor::LMVector3 LocoMotor::Transform::getEulerRotation() {
@@ -88,7 +88,7 @@ void LocoMotor::Transform::setRotation(const LMQuaternion& newRotation) {
 
 
 
-const LocoMotor::LMVector3& LocoMotor::Transform::getSize() {
+const LocoMotor::LMVector3& LocoMotor::Transform::getSize() const {
 	return _scale;
 }
 

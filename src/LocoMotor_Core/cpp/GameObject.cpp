@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Component.h"
+#include "ComponentsFactory.h"
 #include "Transform.h"
 #include <vector>
 LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& name) {
@@ -96,14 +97,10 @@ void LocoMotor::GameObject::update(float dt) {
 	}
 	while (!_toStart.empty()) {
 		Component* cmp = _toStart.front();
-		if (shouldCallAwake) {
-			cmp->awake();
-		}
 		cmp->onEnable();
 		cmp->start();
 		_toStart.pop();
 	}
-	shouldCallAwake = false;
 	while (!_toEnable.empty()) {
 		Component* cmp = _toEnable.front();
 		cmp->onEnable();
@@ -126,6 +123,12 @@ void LocoMotor::GameObject::fixedUpdate() {
 void LocoMotor::GameObject::init(LocoMotor::Scene* scene, bool active) {
 	_scene = scene;
 	_active = active;
+}
+
+void LocoMotor::GameObject::awake() {
+	for (auto& cmp : _components) {
+		if (cmp.second->isEnabled())cmp.second->awake();
+	}
 }
 
 bool LocoMotor::GameObject::hasToBeDestroyed() {

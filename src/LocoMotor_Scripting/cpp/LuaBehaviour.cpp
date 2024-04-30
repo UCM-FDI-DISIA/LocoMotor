@@ -211,11 +211,10 @@ void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 }
 
 bool LocoMotor::LuaBehaviour::initBehaviour() {
-	obj = new luabridge::LuaRef(luabridge::getGlobal(_luaState, "this"));
-	if ((*obj).isNil()) {
-		std::cout << "Lua Interpreter Warning: No variable called " << _name << "Var on the lua script " << _name << ".lua" << std::endl;
-		std::cout << "Please define a variable called " << _name << "Var and set it to " << _name << ":new()" << std::endl;
-		//return false;
+	obj = new luabridge::LuaRef(luabridge::getGlobal(_luaState, _name.c_str()));
+	if (!(*obj).isTable()) {
+		std::cout << "Lua Interpreter Warning: No table called " << _name << " on the lua script " << _name << ".lua" << std::endl;
+		return false;
 	}
 	return true;
 }

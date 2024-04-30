@@ -129,6 +129,15 @@ namespace LocoMotor {
 
 		bool operator==(const LMVector3& other) const;
 
+		/// @brief Hack para poder crear un vector con lua
+		/// @param x 
+		/// @param y 
+		/// @param z 
+		/// @return 
+		static inline const LMVector3& createVector(float x, float y, float z) {
+			return LMVector3(x, y, z);
+		}
+
 	private:
 		float _x = 0, _y = 0, _z = 0;
 	};

@@ -100,6 +100,9 @@ namespace LocoMotor {
 		/// @brief Gets the total torque of the body
 		/// @return Return a LMVector3 of total torque
 		LMVector3 GetTotalTorque();
+		/// @brief Gets the total force of the body
+		/// @return Return a LMVector3 of total torque
+		LMVector3 GetTotalForce();
 		/// @brief Gets the turn velocity of the body
 		/// @return Return a LMVector3 of turn velocity
 		LMVector3 GetTurnVelocity();
@@ -119,6 +122,8 @@ namespace LocoMotor {
 		/// @brief Set the friction of this rigidbody
 		/// @param fric the new friction value
 		void SetFriction(float fric);
+		void SetMass(float mass);
+		void SetSize(LMVector3 size);
 	private:
 		btRigidBody* CreateRigidBody(RigidBodyInfo info);
 		float _mass;
@@ -132,6 +137,7 @@ namespace LocoMotor {
 		bool _raycast = false;
 		bool _beATrigger = false;
 		RigidBodyInfo info;
+		std::vector<int> _ignoreGroup;
 	};
 }
 #endif // !1

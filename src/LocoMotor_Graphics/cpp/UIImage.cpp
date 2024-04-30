@@ -3,6 +3,7 @@
 #include "LMVector.h"
 #include "GraphicsManager.h"
 #include "OverlayManager.h"
+#include <iostream>
 
 #include "OgreOverlay.h"
 #include "OgreOverlayManager.h"

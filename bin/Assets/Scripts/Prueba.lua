@@ -16,6 +16,7 @@ end
 function Prueba:start()
     print(self.behaviour:gameObject():getName())
     self:foo()
+    v = Vector3.new(0,0,0)
     ---print("Hola Buenas desde el update")
 end
 

@@ -9,7 +9,6 @@
 #include <queue>
 #include <unordered_map>
 #include <string>
-#include "ComponentsFactory.h"
 #include "Component.h"
 
 namespace LocoMotor {
@@ -26,7 +25,6 @@ namespace LocoMotor {
 		/// the already created Component will be returned. 
 		Component* addComponent(const std::string& name);
 			
-
 		Component* addComponentWithParams(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
 
 		inline Transform* getTransform() {
@@ -85,7 +83,6 @@ namespace LocoMotor {
 		LocoMotor::Transform* _transform;
 		bool _active;
 		std::string _gobjName;
-
 		bool shouldCallAwake;
 
 		GameObject(std::string name);
@@ -99,6 +96,8 @@ namespace LocoMotor {
 		/// @param scene Scene which the GO belongs to
 		/// @param active Initial active state of the GameObject
 		void init(LocoMotor::Scene* scene, bool active);
+		/// @brief This method calls the awake method of this GameObject's components
+		void awake();
 
 		bool hasToBeDestroyed();
 		void setToDestroy();
