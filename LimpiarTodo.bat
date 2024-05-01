@@ -1,9 +1,14 @@
+
+echo Deleting LocoMotor build...
 cd bin
 del /s *.dll
 del /s *.exe
+cd ..
+rmdir /s /q lib
+rmdir /s /q temp
 
 echo Deleting Ogre build...
-cd ..\Dependencies\Ogre\
+cd Dependencies\Ogre\
 rmdir /s /q build
 
 echo Deleting Bullet build...
