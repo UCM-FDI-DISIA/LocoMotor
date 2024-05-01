@@ -43,7 +43,9 @@ namespace LocoMotor {
 				return nullptr;
 			}
 			else if (!ComponentsFactory::GetInstance()->getRegistered(name) && _components.count(name) > 0) {
+			#ifdef _DEBUG
 				std::cout << name << std::endl;
+			#endif // _DEBUG
 				return dynamic_cast<T*>(_components[name]);
 			}
 			auto it = _components.begin();
