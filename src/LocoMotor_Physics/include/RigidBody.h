@@ -122,18 +122,29 @@ namespace LocoMotor {
 		/// @brief Set the friction of this rigidbody
 		/// @param fric the new friction value
 		void SetFriction(float fric);
+		/// @brief Set the mass of this rigidbody
+		/// @param mass the new mass value
 		void SetMass(float mass);
+		/// @brief Set the size of this rigidbody
+		/// @param mass the new size value
 		void SetSize(LMVector3 size);
+		/// @brief Set the linear damping of this rigidbody
+		/// @param linearDamping the new linear damping value
+		void SetLinearDamping(float linearDamping);
+		/// @brief Set the angular damping of this rigidbody
+		/// @param linearDamping the new angular damping value
+		void SetAngularDamping(float angularDamping);
+
 	private:
 		btRigidBody* CreateRigidBody(RigidBodyInfo info);
 		float _mass;
 		btRigidBody* _body;
-		float _damping;
-		float _angDamping;
-		float _gravity=-9.8;
+		float _damping = 5;
+		float _angDamping = 5;
+		float _gravity = -9.8;
 		bool _trigger = false;
-		int _collisionGroup=0;
-		int _collisionMask=0;
+		int _collisionGroup = 0;
+		int _collisionMask = 0;
 		bool _raycast = false;
 		bool _beATrigger = false;
 		RigidBodyInfo info;

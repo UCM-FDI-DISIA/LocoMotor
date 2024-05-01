@@ -27,6 +27,7 @@ LocoMotor::RigidBody::~RigidBody() {
 }
 
 void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
+
 	for (int i = 0; i < params.size(); i++) {
 		if (params[i].first == "mass") {
 			float num = 0.;
@@ -47,7 +48,7 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 			catch (std::invalid_argument) {
 				num = 0.;
 			}
-			_damping = num;
+			SetLinearDamping(num);
 		}
 		else if (params[i].first == "angDamping") {
 			float num = 0.;
@@ -57,7 +58,7 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 			catch (std::invalid_argument) {
 				num = 0.;
 			}
-			_angDamping = num;
+			SetAngularDamping(num);
 		}
 		else if (params[i].first == "gravity") {
 			float num = 0.;
@@ -324,5 +325,17 @@ void LocoMotor::RigidBody::SetMass(float mass) {
 
 void LocoMotor::RigidBody::SetSize(LMVector3 size) {
 	info.boxSize = size;
+}
+
+void LocoMotor::RigidBody::SetLinearDamping(float linearDamping) {
+
+	_damping = linearDamping;
+	_body->setDamping(_damping, _angDamping);
+}
+
+void LocoMotor::RigidBody::SetAngularDamping(float angularDamping) {
+
+	_angDamping = angularDamping;
+	_body->setDamping(_damping, _angDamping);
 }
 
