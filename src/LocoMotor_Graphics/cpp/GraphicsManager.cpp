@@ -98,7 +98,7 @@ void GraphicsManager::createScene(std::string name) {
 }
 
 bool GraphicsManager::render() {
-	//Si falta la escena no lo consideramos un error fatal, ya que puede que se setee una el proximo frame
+	//Si falta la escena no lo consideramos un error fatal
 	if (_activeScene == nullptr) return true;
 
 	try {
