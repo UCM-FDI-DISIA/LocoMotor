@@ -34,8 +34,142 @@ bool InputManager::Init() {
 }
 
 bool InputManager::init() {
-
+	initStrsMaps();
 	return true;
+}
+
+void LocoMotor::Input::InputManager::initStrsMaps() {
+	initScanCodesStr();
+	initControllerStr();
+	initAxisStr();
+}
+
+void LocoMotor::Input::InputManager::initScanCodesStr() {
+	_scanCodeStrs = std::unordered_map<std::string, LMScanCode>();
+	_scanCodeStrs.insert({ "A", LMKS_A });
+	_scanCodeStrs.insert({ "B", LMKS_B });
+	_scanCodeStrs.insert({ "C", LMKS_C });
+	_scanCodeStrs.insert({ "D", LMKS_D });
+	_scanCodeStrs.insert({ "E", LMKS_E });
+	_scanCodeStrs.insert({ "F", LMKS_F });
+	_scanCodeStrs.insert({ "G", LMKS_G });
+	_scanCodeStrs.insert({ "H", LMKS_H });
+	_scanCodeStrs.insert({ "I", LMKS_I });
+	_scanCodeStrs.insert({ "J", LMKS_J });
+	_scanCodeStrs.insert({ "K", LMKS_K });
+	_scanCodeStrs.insert({ "L", LMKS_L });
+	_scanCodeStrs.insert({ "M", LMKS_M });
+	_scanCodeStrs.insert({ "N", LMKS_N });
+	_scanCodeStrs.insert({ "O", LMKS_O });
+	_scanCodeStrs.insert({ "P", LMKS_P });
+	_scanCodeStrs.insert({ "Q", LMKS_Q });
+	_scanCodeStrs.insert({ "R", LMKS_R });
+	_scanCodeStrs.insert({ "S", LMKS_S });
+	_scanCodeStrs.insert({ "T", LMKS_T });
+	_scanCodeStrs.insert({ "U", LMKS_U });
+	_scanCodeStrs.insert({ "V", LMKS_V });
+	_scanCodeStrs.insert({ "W", LMKS_W });
+	_scanCodeStrs.insert({ "X", LMKS_X });
+	_scanCodeStrs.insert({ "Y", LMKS_Y });
+	_scanCodeStrs.insert({ "Z", LMKS_Z });
+	_scanCodeStrs.insert({ "RETURN", LMKS_RETURN });
+	_scanCodeStrs.insert({ "ESCAPE", LMKS_ESCAPE });
+	_scanCodeStrs.insert({ "BACKSPACE", LMKS_BACKSPACE });
+	_scanCodeStrs.insert({ "TAB", LMKS_TAB });
+	_scanCodeStrs.insert({ "SPACE", LMKS_SPACE });
+	_scanCodeStrs.insert({ "MINUS", LMKS_MINUS });
+	_scanCodeStrs.insert({ "EQUALS", LMKS_EQUALS });
+	_scanCodeStrs.insert({ "LEFTBRACKET", LMKS_LEFTBRACKET });
+	_scanCodeStrs.insert({ "RIGHTBRACKET", LMKS_RIGHTBRACKET });
+	_scanCodeStrs.insert({ "BACKSLASH", LMKS_BACKSLASH });
+	_scanCodeStrs.insert({ "SEMICOLON", LMKS_SEMICOLON });
+	_scanCodeStrs.insert({ "APOSTROPHE", LMKS_APOSTROPHE });
+	_scanCodeStrs.insert({ "GRAVE", LMKS_GRAVE });
+	_scanCodeStrs.insert({ "COMMA", LMKS_COMMA });
+	_scanCodeStrs.insert({ "PERIOD", LMKS_PERIOD });
+	_scanCodeStrs.insert({ "SLASH", LMKS_SLASH });
+	_scanCodeStrs.insert({ "CAPSLOCK", LMKS_CAPSLOCK });
+	_scanCodeStrs.insert({ "F1", LMKS_F1 });
+	_scanCodeStrs.insert({ "F2", LMKS_F2 });
+	_scanCodeStrs.insert({ "F3", LMKS_F3 });
+	_scanCodeStrs.insert({ "F4", LMKS_F4 });
+	_scanCodeStrs.insert({ "F5", LMKS_F5 });
+	_scanCodeStrs.insert({ "F6", LMKS_F6 });
+	_scanCodeStrs.insert({ "F7", LMKS_F7 });
+	_scanCodeStrs.insert({ "F8", LMKS_F8 });
+	_scanCodeStrs.insert({ "F9", LMKS_F9 });
+	_scanCodeStrs.insert({ "F10", LMKS_F10 });
+	_scanCodeStrs.insert({ "F11", LMKS_F11});
+	_scanCodeStrs.insert({ "F12", LMKS_F12 });
+	_scanCodeStrs.insert({ "PRINTSCREEN", LMKS_PRINTSCREEN });
+	_scanCodeStrs.insert({ "SCROLLLOCK", LMKS_SCROLLLOCK });
+	_scanCodeStrs.insert({ "PAUSE", LMKS_PAUSE });
+	_scanCodeStrs.insert({ "INSERT", LMKS_INSERT });
+	_scanCodeStrs.insert({ "HOME", LMKS_HOME });
+	_scanCodeStrs.insert({ "PAGEUP", LMKS_PAGEUP });
+	_scanCodeStrs.insert({ "DELETE", LMKS_DELETE });
+	_scanCodeStrs.insert({ "END", LMKS_END });
+	_scanCodeStrs.insert({ "PAGEDOWN", LMKS_PAGEDOWN });
+	_scanCodeStrs.insert({ "RIGHT", LMKS_RIGHT });
+	_scanCodeStrs.insert({ "LEFT", LMKS_LEFT });
+	_scanCodeStrs.insert({ "DOWN", LMKS_DOWN });
+	_scanCodeStrs.insert({ "UP", LMKS_NUMLOCKCLEAR });
+	_scanCodeStrs.insert({ "KP_DIVIDE", LMKS_KP_DIVIDE });
+	_scanCodeStrs.insert({ "KP_MULTIPLY", LMKS_KP_MULTIPLY });
+	_scanCodeStrs.insert({ "KP_MINUS", LMKS_KP_MINUS });
+	_scanCodeStrs.insert({ "KP_PLUS", LMKS_KP_PLUS });
+	_scanCodeStrs.insert({ "KP_ENTER", LMKS_KP_ENTER });
+	_scanCodeStrs.insert({ "KP_1", LMKS_KP_1 });
+	_scanCodeStrs.insert({ "KP_2", LMKS_KP_2 });
+	_scanCodeStrs.insert({ "KP_3", LMKS_KP_3 });
+	_scanCodeStrs.insert({ "KP_4", LMKS_KP_4 });
+	_scanCodeStrs.insert({ "KP_5", LMKS_KP_5 });
+	_scanCodeStrs.insert({ "KP_6", LMKS_KP_6 });
+	_scanCodeStrs.insert({ "KP_7", LMKS_KP_7 });
+	_scanCodeStrs.insert({ "KP_8", LMKS_KP_8 });
+	_scanCodeStrs.insert({ "KP_9", LMKS_KP_9 });
+	_scanCodeStrs.insert({ "KP_0", LMKS_KP_0 });
+	_scanCodeStrs.insert({ "KP_PERIOD", LMKS_KP_PERIOD });
+	_scanCodeStrs.insert({ "LCTRL", LMKS_LCTRL });
+	_scanCodeStrs.insert({ "LSHIFT", LMKS_LSHIFT });
+	_scanCodeStrs.insert({ "LALT", LMKS_LALT });
+	_scanCodeStrs.insert({ "LGUI", LMKS_LGUI });
+	_scanCodeStrs.insert({ "RCTRL", LMKS_RCTRL });
+	_scanCodeStrs.insert({ "RSHIFT", LMKS_RSHIFT });
+	_scanCodeStrs.insert({ "RALT", LMKS_RALT });
+	_scanCodeStrs.insert({ "RGUI", LMKS_RGUI });
+	_scanCodeStrs.insert({ "MODE", LMKS_MODE });
+}
+
+void LocoMotor::Input::InputManager::initControllerStr() {
+	_ctlrCodeStrs = std::unordered_map<std::string, int>();
+	_ctlrCodeStrs.insert({ "CONTROLLER_A", LMC_A });
+	_ctlrCodeStrs.insert({ "CONTROLLER_B", LMC_B });
+	_ctlrCodeStrs.insert({ "CONTROLLER_X", LMC_X });
+	_ctlrCodeStrs.insert({ "CONTROLLER_Y", LMC_Y });
+	_ctlrCodeStrs.insert({ "CONTROLLER_BACK", LMC_BACK });
+	_ctlrCodeStrs.insert({ "CONTROLLER_GUIDE", LMC_GUIDE });
+	_ctlrCodeStrs.insert({ "CONTROLLER_START", LMC_START });
+	_ctlrCodeStrs.insert({ "CONTROLLER_LEFTSTICK", LMC_LEFTSTICK });
+	_ctlrCodeStrs.insert({ "CONTROLLER_RIGHTSTICK", LMC_RIGHTSTICK });
+	_ctlrCodeStrs.insert({ "CONTROLLER_LEFTSHOULDER", LMC_LEFTSHOULDER });
+	_ctlrCodeStrs.insert({ "CONTROLLER_RIGHTSHOULDER", LMC_RIGHTSHOULDER });
+	_ctlrCodeStrs.insert({ "CONTROLLER_DPAD_UP", LMC_DPAD_UP });
+	_ctlrCodeStrs.insert({ "CONTROLLER_DPAD_DOWN", LMC_DPAD_DOWN });
+	_ctlrCodeStrs.insert({ "CONTROLLER_DPAD_LEFT", LMC_DPAD_LEFT });
+	_ctlrCodeStrs.insert({ "CONTROLLER_DPAD_RIGHT", LMC_DPAD_RIGHT });
+	_ctlrCodeStrs.insert({ "CONTROLLER_MISC1", LMC_MISC1 });
+	_ctlrCodeStrs.insert({ "CONTROLLER_PADDLE1", LMC_PADDLE1 });
+	_ctlrCodeStrs.insert({ "CONTROLLER_PADDLE2", LMC_PADDLE2 });
+	_ctlrCodeStrs.insert({ "CONTROLLER_PADDLE3", LMC_PADDLE3 });
+	_ctlrCodeStrs.insert({ "CONTROLLER_PADDLE4", LMC_PADDLE4 });
+	_ctlrCodeStrs.insert({ "CONTROLLER_TOUCHPAD", LMC_TOUCHPAD });
+}
+
+void LocoMotor::Input::InputManager::initAxisStr() {
+	_axisStrs = std::unordered_map<std::string, Axis>();
+	_axisStrs.insert({ "HORIZONTAL", Horizontal });
+	_axisStrs.insert({ "VERTICAL", Vertical });
 }
 
 InputManager* InputManager::GetInstance() {
@@ -429,4 +563,60 @@ void InputManager::RumbleController(ControllerId controllerId, const float& inte
 	}
 	else
 		std::cout << "[ERROR] Could not Rumble controller, it has not Rumble support";
+}
+
+bool LocoMotor::Input::InputManager::GetKeyDownStr(const std::string& scanCode) {
+	if (_scanCodeStrs.count(scanCode) == 0) {
+		std::cout << "Cant recognize scancode " << scanCode << std::endl;
+		return false;
+	}
+	return GetKeyDown(_scanCodeStrs[scanCode]);
+}
+
+bool LocoMotor::Input::InputManager::GetKeyStr(const std::string& scanCode) {
+	if (_scanCodeStrs.count(scanCode) == 0) {
+		std::cout << "Cant recognize scancode " << scanCode << std::endl;
+		return false;
+	}
+	return GetKey(_scanCodeStrs[scanCode]);
+}
+
+bool LocoMotor::Input::InputManager::GetKeyUpStr(const std::string& scanCode) {
+	if (_scanCodeStrs.count(scanCode) == 0) {
+		std::cout << "Cant recognize scancode " << scanCode << std::endl;
+		return false;
+	}
+	return GetKeyUp(_scanCodeStrs[scanCode]);
+}
+
+bool LocoMotor::Input::InputManager::GetButtonDownStr(const ControllerId controllerId, const std::string& buttonCode) {
+	if (_ctlrCodeStrs.count(buttonCode) == 0) {
+		std::cout << "Cant recognize button code " << buttonCode << std::endl;
+		return false;
+	}
+	return GetButtonDown(controllerId, _ctlrCodeStrs[buttonCode]);
+}
+
+bool LocoMotor::Input::InputManager::GetButtonStr(ControllerId controllerId, const std::string& buttonCode) {
+	if (_ctlrCodeStrs.count(buttonCode) == 0) {
+		std::cout << "Cant recognize button code " << buttonCode << std::endl;
+		return false;
+	}
+	return GetButton(controllerId, _ctlrCodeStrs[buttonCode]);
+}
+
+bool LocoMotor::Input::InputManager::GetButtonUpStr(ControllerId controllerId, const std::string& buttonCode) {
+	if (_ctlrCodeStrs.count(buttonCode) == 0) {
+		std::cout << "Cant recognize button code " << buttonCode << std::endl;
+		return false;
+	}
+	return GetButtonUp(controllerId, _ctlrCodeStrs[buttonCode]);
+}
+
+float LocoMotor::Input::InputManager::GetJoystickValueStr(ControllerId controllerId, const int& joystickIndex, const std::string& axis) {
+	if (_axisStrs.count(axis) == 0) {
+		std::cout << "Cant recognize axis " << axis << std::endl;
+		return false;
+	}
+	return GetJoystickValue(controllerId,joystickIndex,_axisStrs[axis]);
 }

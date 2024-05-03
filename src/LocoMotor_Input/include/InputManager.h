@@ -13,6 +13,7 @@
 #include <array>
 #include <unordered_map>
 #include <functional>
+#include <string>
 
 union SDL_Event;
 typedef struct _SDL_GameController SDL_GameController;
@@ -156,6 +157,24 @@ namespace LocoMotor {
 					listener();
 			}
 
+			// Methods for Lua Scripting, since it doesn't support enums
+			/// @brief Returns true only in the frame that key is pressed
+			bool GetKeyDownStr(const std::string& scanCode);
+			/// @brief Returns true when key is pressed
+			bool GetKeyStr(const std::string& scanCode);
+			/// @brief Returns true when key is stop pressed
+			bool GetKeyUpStr(const std::string& scanCode);
+			//Controller
+			/// @brief Returns true only in the frame that controller button is pressed
+			bool GetButtonDownStr(ControllerId controllerId, const std::string& buttonCode);
+			/// @brief Returns true when controller button is pressed
+			bool GetButtonStr(ControllerId controllerId, const std::string& buttonCode);
+			/// @brief Returns true when controller button is stop pressed
+			bool GetButtonUpStr(ControllerId controllerId, const std::string& buttonCode);
+			/// @brief Returns the inclination value of the joystick
+			/// @param joystickIndex 0 -> left joystick | 1 ->right joystick
+			/// @param axis Horizontal o Vertical
+			float GetJoystickValueStr(ControllerId controllerId, const int& joystickIndex, const std::string& axis);
 		protected:
 
 			static InputManager* _instance;
@@ -166,6 +185,10 @@ namespace LocoMotor {
 
 			bool init();
 
+			void initStrsMaps();
+			void initScanCodesStr();
+			void initControllerStr();
+			void initAxisStr();
 
 			struct KeyState {
 				bool down = false;
@@ -223,6 +246,10 @@ namespace LocoMotor {
 			std::list<ControllerId> _disconnectedControllers;
 
 			std::vector<ListenerFunction> _listeners;
+
+			std::unordered_map<std::string, LMScanCode> _scanCodeStrs;
+			std::unordered_map<std::string, int> _ctlrCodeStrs;
+			std::unordered_map<std::string, Axis> _axisStrs;
 		};
 	}
 }

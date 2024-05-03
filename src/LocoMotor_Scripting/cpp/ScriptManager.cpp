@@ -16,6 +16,7 @@ extern "C" {
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Engine.h"
+#include "InputManager.h"
 
 using namespace LocoMotor;
 using namespace LocoMotor::Scripting;
@@ -41,6 +42,7 @@ bool LocoMotor::Scripting::ScriptManager::initLua() {
 
 void LocoMotor::Scripting::ScriptManager::registerToLua() {
 	std::cout << "Registrando clases señores" << std::endl;
+	using namespace LocoMotor::Input;
 	luabridge::getGlobalNamespace(_luaState)
 		.beginClass<LuaBehaviour>("LuaBehaviour")
 		.addFunction("gameObject", &LuaBehaviour::getGameObject)
@@ -83,11 +85,11 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.endClass()
 
 		.beginClass<Transform>("Transform")
-		.addFunction("getPosition",&Transform::getPosition)
+		.addFunction("getPosition", &Transform::getPosition)
 		.addFunction("setPosition", &Transform::setPosition)
 		.addFunction("getRotation", &Transform::getRotation)
 		.addFunction("setRotation", &Transform::setRotation)
-		.addFunction("setSize",&Transform::setSize)
+		.addFunction("setSize", &Transform::setSize)
 		.addFunction("getSize", &Transform::getSize)
 		.addFunction("setRotationWithVector", &Transform::setRotationWithVector)
 		.addFunction("getEulerRotation", &Transform::getEulerRotation)
@@ -105,6 +107,12 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("loadScene", &SceneManager::loadScene)
 		.addFunction("changeScene", &SceneManager::changeScene)
 		.addFunction("getActiveScene", &SceneManager::getActiveScene)
+		.endClass()
+
+		
+		.beginClass<InputManager>("InputManager")
+		.addStaticFunction("Instance", &InputManager::GetInstance)
+		.addFunction("GetKeyDown", &InputManager::GetKeyDownStr)
 		.endClass();
 }
 
