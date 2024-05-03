@@ -70,7 +70,7 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 
 		.beginClass<LMQuaternion>("Quaternion")
 		.addStaticFunction("new", &LMQuaternion::createQuat)
-		.addProperty("x", &LMQuaternion::getW, &LMQuaternion::setW)
+		.addProperty("w", &LMQuaternion::getW, &LMQuaternion::setW)
 		.addProperty("x", &LMQuaternion::getX, &LMQuaternion::setX)
 		.addProperty("y", &LMQuaternion::getY, &LMQuaternion::setY)
 		.addProperty("z", &LMQuaternion::getZ, &LMQuaternion::setZ)

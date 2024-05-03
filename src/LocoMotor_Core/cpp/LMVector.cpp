@@ -243,7 +243,7 @@ LMVector3 LMVector3::stringToVector(const std::string& s) {
 			try {
 				value = std::stof(num);
 			}
-			catch (const char*) {
+			catch (...) {
 				value = 0.f;
 				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a Vector3" << "\033[0m" << std::endl;
 			}
