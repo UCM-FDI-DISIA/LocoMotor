@@ -74,7 +74,7 @@ void AudioSource::playSound(const char* fileName, int loops, unsigned int loopBe
 
 			//Si no hay ningun canal de audio en uso ya, seteamos la posicion del transform directamente y velocidad 0
 			FMOD_VECTOR newPosition = FMOD_VECTOR();
-			auto& lmPos = _gameObject->getComponent<Transform>()->getPosition();
+			auto lmPos = _gameObject->getComponent<Transform>()->getPosition();
 			newPosition.x = lmPos.getX();
 			newPosition.y = lmPos.getY();
 			newPosition.z = lmPos.getZ();
@@ -246,7 +246,7 @@ void LocoMotor::AudioSource::update(float dT) {
 	}
 
 	FMOD_VECTOR newPosition = FMOD_VECTOR();
-	auto& lmPos = _gameObject->getComponent<Transform>()->getPosition();
+	auto lmPos = _gameObject->getComponent<Transform>()->getPosition();
 	newPosition.x = lmPos.getX();
 	newPosition.y = lmPos.getY();
 	newPosition.z = lmPos.getZ();
