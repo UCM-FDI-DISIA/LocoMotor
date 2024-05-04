@@ -58,11 +58,8 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 	registerSound();
 	luabridge::getGlobalNamespace(_luaState)
 		.deriveClass<LuaBehaviour,Component>("LuaBehaviour")
-		//.addFunction("gameObject", &LuaBehaviour::getGameObject)
 		.addFunction("getScript", &LuaBehaviour::getScript)
 		.endClass();
-		
-		
 }
 
 void LocoMotor::Scripting::ScriptManager::registerApi() {
@@ -217,6 +214,16 @@ void LocoMotor::Scripting::ScriptManager::registerInput() {
 		.beginClass<InputManager>("InputManager")
 		.addStaticFunction("Instance", &InputManager::GetInstance)
 		.addFunction("getKeyDown", &InputManager::GetKeyDownStr)
+		.addFunction("getKey", &InputManager::GetKeyStr)
+		.addFunction("getKeyUp", &InputManager::GetKeyUpStr)
+		.addFunction("getButtonDownStr", &InputManager::GetButtonDownStr)
+		.addFunction("getButton", &InputManager::GetButton)
+		.addFunction("getMouseButtonDown", &InputManager::GetMouseButtonDown)
+		.addFunction("getMouseButton", &InputManager::GetMouseButton)
+		.addFunction("getMouseButtonUp", &InputManager::GetMouseButtonUp)
+		.addFunction("getMouseButtonUp", &InputManager::GetMouseButtonDown)
+		.addFunction("getJoystickValue", &InputManager::GetJoystickValueStr)
+		.addFunction("getTriggerValue", &InputManager::GetTriggerValue)
 		.endClass();
 }
 
