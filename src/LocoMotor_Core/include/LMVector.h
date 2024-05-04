@@ -134,7 +134,7 @@ namespace LocoMotor {
 		/// @param y 
 		/// @param z 
 		/// @return 
-		static inline const LMVector3& createVector(float x, float y, float z) {
+		static inline  LMVector3 createVector(float x, float y, float z) {
 			return LMVector3(x, y, z);
 		}
 
@@ -160,7 +160,7 @@ namespace LocoMotor {
 		/// @param y 
 		/// @param z 
 		/// @return 
-		static inline const LMQuaternion& createQuat(float w, float x, float y, float z) {
+		static inline LMQuaternion createQuat(float w, float x, float y, float z) {
 			return LMQuaternion(w, x, y, z);
 		}
 		// Getter functions

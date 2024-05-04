@@ -233,7 +233,6 @@ void LocoMotor::Scripting::ScriptManager::registerPhysics() {
 		.addFunction("addForce", &RigidBody::AddForce)
 		.addFunction("applyCentralImpulse", &RigidBody::ApplyCentralImpulse)
 		.addFunction("applyTorqueImpulse", &RigidBody::ApplyTorqueImpulse)
-		.addFunction("applyCentralImpulse", &RigidBody::ApplyCentralImpulse)
 		.addFunction("useGravity", &RigidBody::UseGravity)
 		.addFunction("freezePosition", &RigidBody::FreezePosition)
 		.addFunction("freezeRotation", &RigidBody::FreezeRotation)
