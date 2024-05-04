@@ -37,9 +37,6 @@ namespace LocoMotor {
 		/// @return A newly created Component with sufficient memory allocated for the asked type. You must cast the returned value to the desired type.
 		inline Component* createComponent(const std::string& name) {
 			if (_factories.count(name) == 0) {
-			#ifdef _DEBUG
-				std::cerr << "\033[1;31m" << "Component of name '" + name + "' is not currently registered, make sure to call register component with the desired name" << "\033[0m" << std::endl;
-			#endif // _DEBUG
 				return nullptr;
 			}
 			return _factories[name]();
