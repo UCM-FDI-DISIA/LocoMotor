@@ -4,10 +4,9 @@
 #include <functional>
 extern "C" {
 #include <lua.h>
-#include <lauxlib.h>
 #include <lualib.h>
+#include <lauxlib.h>
 }
-
 #include <LuaBridge/LuaBridge.h>
 #include "GameObject.h"
 #include "LuaBehaviour.h"
@@ -17,6 +16,16 @@ extern "C" {
 #include "SceneManager.h"
 #include "Engine.h"
 #include "InputManager.h"
+#include "Engine.h"
+#include "RigidBody.h"
+#include "Camera.h"
+#include "MeshRenderer.h"
+#include "UIImage.h"
+#include "UIText.h"
+#include "ParticleSystem.h"
+#include "AudioListener.h"
+#include "AudioSource.h"
+#include "EventEmitter.h"
 
 using namespace LocoMotor;
 using namespace LocoMotor::Scripting;
@@ -41,24 +50,56 @@ bool LocoMotor::Scripting::ScriptManager::initLua() {
 }
 
 void LocoMotor::Scripting::ScriptManager::registerToLua() {
-	std::cout << "Registrando clases señores" << std::endl;
-	using namespace LocoMotor::Input;
+	registerCore();
+	registerApi();
+	registerInput();
+	registerGraphics();
+	registerPhysics();
+	registerSound();
 	luabridge::getGlobalNamespace(_luaState)
-		.beginClass<LuaBehaviour>("LuaBehaviour")
-		.addFunction("gameObject", &LuaBehaviour::getGameObject)
+		.deriveClass<LuaBehaviour,Component>("LuaBehaviour")
+		//.addFunction("gameObject", &LuaBehaviour::getGameObject)
 		.addFunction("getScript", &LuaBehaviour::getScript)
-		.endClass()
-		.beginClass<Component>("Component")
-		.endClass()
+		.endClass();
+		
+		
+}
+
+void LocoMotor::Scripting::ScriptManager::registerApi() {
+	luabridge::getGlobalNamespace(_luaState)
+		.beginClass<Engine>("Engine")
+		.addStaticFunction("Instance", &Engine::GetInstance)
+		.addFunction("showWindow", &Engine::showWindow)
+		.addFunction("quit", &Engine::quit)
+		.endClass();
+}
+
+void LocoMotor::Scripting::ScriptManager::registerCore() {
+	
+	luabridge::getGlobalNamespace(_luaState)
 		.beginClass<GameObject>("GameObject")
 		.addFunction("transform", &GameObject::getTransform)
 		.addFunction("addComponent", &GameObject::addComponent)
 		.addFunction("getBehaviour", &GameObject::getComponent<LuaBehaviour>)
-		.addFunction("getTr", &GameObject::getComponent<Transform>)
+		.addFunction("getRigidBody", &GameObject::getComponent<RigidBody>)
+		.addFunction("getMeshRenderer", &GameObject::getComponent<MeshRenderer>)
+		.addFunction("getParticleSystem", &GameObject::getComponent<Camera>)
+		.addFunction("getEventEmitter", &GameObject::getComponent<ParticleSystem>)
+		.addFunction("getEventEmitter", &GameObject::getComponent<EventEmitter>)
+		.addFunction("getAudioSource", &GameObject::getComponent<AudioSource>)
+		.addFunction("getAudioListener", &GameObject::getComponent<AudioListener>)
+		.addFunction("getUIText", &GameObject::getComponent<UIText>)
+		.addFunction("getUIImage", &GameObject::getComponent<UIImage>)
 		.addFunction("isActive", &GameObject::isActive)
 		.addFunction("setActive", &GameObject::setActive)
 		.addFunction("removeComponent", &GameObject::removeComponents)
 		.addFunction("getName", &GameObject::getName)
+		.endClass()
+
+		.beginClass<Component>("Component")
+		.addFunction("setEnabled", &Component::setEnabled)
+		.addFunction("isEnabled", &Component::isEnabled)
+		.addFunction("gameObject", &Component::getGameObject)
 		.endClass()
 
 		.beginClass<LMVector3>("Vector3")
@@ -68,6 +109,9 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addProperty("z", &LMVector3::getZ, &LMVector3::setZ)
 		.addFunction("magnitude", &LMVector3::magnitude)
 		.addFunction("normalize", &LMVector3::normalize)
+		.addFunction("rotate", &LMVector3::rotate)
+		.addFunction("perpendicular", &LMVector3::perpendicular)
+		.addFunction("asRotToQuaternion", &LMVector3::asRotToQuaternion)
 		.endClass()
 
 		.beginClass<LMQuaternion>("Quaternion")
@@ -84,7 +128,7 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addProperty("forward", &LMQuaternion::forward)
 		.endClass()
 
-		.beginClass<Transform>("Transform")
+		.deriveClass<Transform,Component>("Transform")
 		.addFunction("getPosition", &Transform::getPosition)
 		.addFunction("setPosition", &Transform::setPosition)
 		.addFunction("getRotation", &Transform::getRotation)
@@ -93,6 +137,8 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("getSize", &Transform::getSize)
 		.addFunction("setRotationWithVector", &Transform::setRotationWithVector)
 		.addFunction("getEulerRotation", &Transform::getEulerRotation)
+		.addFunction("setUpwards", &Transform::setUpwards)
+		.addFunction("setForward", &Transform::setForward)
 		.endClass()
 
 		.beginClass<Scene>("Scene")
@@ -107,12 +153,134 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 		.addFunction("loadScene", &SceneManager::loadScene)
 		.addFunction("changeScene", &SceneManager::changeScene)
 		.addFunction("getActiveScene", &SceneManager::getActiveScene)
+		.endClass();
+}
+
+void LocoMotor::Scripting::ScriptManager::registerGraphics() {
+	luabridge::getGlobalNamespace(_luaState)
+		.deriveClass<MeshRenderer, Component>("MeshRenderer")
+		.addFunction("playAnimation", &MeshRenderer::playAnimation)
+		.addFunction("setMaterial", &MeshRenderer::setMaterial)
+		.addFunction("setMesh", &MeshRenderer::setMesh)
+		.addFunction("setVisible", &MeshRenderer::setVisible)
 		.endClass()
 
-		
+		.deriveClass<Camera, Component>("Camera")
+		.addFunction("setBackgroundColor", &Camera::setBackgroundColor)
+		.addFunction("setClippingPlane", &Camera::SetClippingPlane)
+		.addFunction("setFOV", &Camera::SetFOV)
+		.addFunction("setTarget", &Camera::SetTarget)
+		.addFunction("setViewportRatio", &Camera::SetViewportRatio)
+		.endClass()
+
+		.deriveClass<ParticleSystem, Component>("ParticleSystem")
+		.addFunction("play", &ParticleSystem::play)
+		.addFunction("stop", &ParticleSystem::stop)
+		.addFunction("setParticle", &ParticleSystem::setParticle)
+		.endClass()
+
+		.deriveClass<UIImage, Component>("UIImage")
+		.addFunction("setImage", &UIImage::setImage)
+		.addFunction("setAnchorPoint", &UIImage::setAnchorPoint)
+		.addFunction("setPosition", &UIImage::setPosition)
+		.addFunction("setDimensions", &UIImage::setDimensions)
+		.addFunction("setSortingLayer", &UIImage::setSortingLayer)
+		.addFunction("setRotation", &UIImage::setRotation)
+		.addFunction("show", &UIImage::show)
+		.addFunction("hide", &UIImage::hide)
+		.addFunction("getWidth", &UIImage::getWidth)
+		.addFunction("getHeight", &UIImage::getHeight)
+		.endClass()
+
+		.deriveClass<UIText, Component>("UIImage")
+		.addFunction("setText", &UIText::setText)
+		.addFunction("setFont", &UIText::setFont)
+		.addFunction("setAnchorPoint", &UIText::setAnchorPoint)
+		.addFunction("setPosition", &UIText::setPosition)
+		.addFunction("setDimensions", &UIText::setDimensions)
+		.addFunction("setPivot", &UIText::setPivot)
+		.addFunction("setSortingLayer", &UIText::setSortingLayer)
+		.addFunction("setRotation", &UIText::setRotation)
+		.addFunction("show", &UIText::show)
+		.addFunction("hide", &UIText::hide)
+		.addFunction("getPositionX", &UIText::getPositionX)
+		.addFunction("getPositionY", &UIText::getPositionY)
+		.addFunction("setColor", &UIText::setColor)
+		.addFunction("setColorTop", &UIText::setColorTop)
+		.addFunction("setColorBottom", &UIText::setColorBottom)
+		.endClass();
+}
+
+void LocoMotor::Scripting::ScriptManager::registerInput() {
+	using namespace LocoMotor::Input;
+	luabridge::getGlobalNamespace(_luaState)
 		.beginClass<InputManager>("InputManager")
 		.addStaticFunction("Instance", &InputManager::GetInstance)
-		.addFunction("GetKeyDown", &InputManager::GetKeyDownStr)
+		.addFunction("getKeyDown", &InputManager::GetKeyDownStr)
+		.endClass();
+}
+
+void LocoMotor::Scripting::ScriptManager::registerPhysics() {
+	luabridge::getGlobalNamespace(_luaState)
+		.deriveClass<RigidBody, Component>("RigidBody")
+		.addFunction("addForce", &RigidBody::AddForce)
+		.addFunction("applyCentralImpulse", &RigidBody::ApplyCentralImpulse)
+		.addFunction("applyTorqueImpulse", &RigidBody::ApplyTorqueImpulse)
+		.addFunction("applyCentralImpulse", &RigidBody::ApplyCentralImpulse)
+		.addFunction("useGravity", &RigidBody::UseGravity)
+		.addFunction("freezePosition", &RigidBody::FreezePosition)
+		.addFunction("freezeRotation", &RigidBody::FreezeRotation)
+		.addFunction("beATrigger", &RigidBody::BeATrigger)
+		.addFunction("setCollisionGroup", &RigidBody::SetCollisionGroup)
+		.addFunction("getCollisionGroup", &RigidBody::GetCollisionGroup)
+		.addFunction("setCollisionMask", &RigidBody::SetCollisionMask)
+		.addFunction("getCollisionMask", &RigidBody::GetCollisionMask)
+		.addFunction("getLinearVelocity", &RigidBody::GetLinearVelocity)
+		.addFunction("setLinearVelocity", &RigidBody::SetLinearVelocity)
+		.addFunction("getTotalTorque", &RigidBody::GetTotalTorque)
+		.addFunction("getTotalForce", &RigidBody::GetTotalForce)
+		.addFunction("getTurnVelocity", &RigidBody::GetTurnVelocity)
+		.addFunction("getAngularVelocity", &RigidBody::GetAngularVelocity)
+		.addFunction("setAngularVelocity", &RigidBody::SetAngularVelocity)
+		.addFunction("setFriction", &RigidBody::SetFriction)
+		.addFunction("setMass", &RigidBody::SetMass)
+		.addFunction("setSize", &RigidBody::SetSize)
+		.addFunction("setLinearDamping", &RigidBody::SetLinearDamping)
+		.addFunction("setAngularDamping", &RigidBody::SetAngularDamping)
+		.addFunction("setRotation", &RigidBody::SetRotation)
+		.addFunction("setPosition", &RigidBody::SetPosition)
+		.addFunction("setMass", &RigidBody::SetMass)
+		.endClass();
+}
+
+void LocoMotor::Scripting::ScriptManager::registerSound() {
+	luabridge::getGlobalNamespace(_luaState)
+		.deriveClass<AudioListener, Component>("AudioListener")
+		.endClass()
+
+		.deriveClass<AudioSource, Component>("AudioSource")
+		.addFunction("addSound", &AudioSource::addSound)
+		.addFunction("playSounf", &AudioSource::playSound)
+		.addFunction("playOneShot", &AudioSource::playOneShot)
+		.addFunction("playOneShotWithPitch", &AudioSource::playOneShotWithPitch)
+		.addFunction("pauseSound", &AudioSource::pauseSound)
+		.addFunction("pause", &AudioSource::pause)
+		.addFunction("stopSound", &AudioSource::stopSound)
+		.addFunction("stop", &AudioSource::stop)
+		.addFunction("setSoundVolume", &AudioSource::setSoundVolume)
+		.addFunction("setSoundFreq", &AudioSource::setSoundFreq)
+		.addFunction("setFrequency", &AudioSource::setFrequency)
+		.addFunction("setMode2D", &AudioSource::setMode2D)
+		.addFunction("setMode3D", &AudioSource::setMode3D)
+		.endClass()
+
+		.deriveClass<EventEmitter, Component>("EventEmmiter")
+		.addFunction("setEvent", &EventEmitter::setEvent)
+		.addFunction("play", &EventEmitter::play)
+		.addFunction("setPitch", &EventEmitter::setPitch)
+		.addFunction("setParameter", &EventEmitter::setParameter)
+		.addFunction("setVolume", &EventEmitter::setVolume)
+		.addFunction("stop", &EventEmitter::stop)
 		.endClass();
 }
 

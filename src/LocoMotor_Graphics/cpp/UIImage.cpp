@@ -144,11 +144,6 @@ void LocoMotor::UIImage::hide() {
 	_container->hide();
 }
 
-void LocoMotor::UIImage::initializeABorrar() {
-	std::vector<std::pair<std::string, std::string>> a;
-	setParameters(a);
-}
-
 int LocoMotor::UIImage::getWidth() {
 	return _sizeX;
 }

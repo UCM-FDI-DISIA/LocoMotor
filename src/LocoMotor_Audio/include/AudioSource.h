@@ -55,7 +55,7 @@ namespace LocoMotor {
 		/// @param position Position where the sound will come from
 		/// @param volume Volume modifier of the sound
 		/// @param pitch Pitch modifier of the sound
-		void playOneShot(const char* fileName, const LMVector3& position, const float volume, const float pitch);
+		void playOneShotWithPitch(const char* fileName, const LMVector3& position, const float volume, const float pitch);
 
 		/// @brief Pauses a specific sound playing in this source
 		/// @param fileName The sound to play

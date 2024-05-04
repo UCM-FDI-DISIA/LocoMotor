@@ -56,8 +56,6 @@ namespace LocoMotor {
 		/// @brief Hides/turns invisible the entity on the UI
 		void hide();
 
-		void initializeABorrar();
-
 		int getWidth();
 		int getHeight();
 

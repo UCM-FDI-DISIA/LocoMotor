@@ -20,11 +20,18 @@ namespace LocoMotor {
 			static void Release();
 			static ScriptManager* GetInstance();
 			bool loadScript(const std::string& name, LuaBehaviour* behaviour);
+
 		private:
 			ScriptManager();
 			~ScriptManager();
 			bool initLua();
 			void registerToLua();
+			void registerApi();
+			void registerCore();
+			void registerGraphics();
+			void registerInput();
+			void registerPhysics();
+			void registerSound();
 			static ScriptManager* _instance;
 			lua_State* _luaState;
 		};

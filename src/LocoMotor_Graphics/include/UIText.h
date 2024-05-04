@@ -70,8 +70,6 @@ namespace LocoMotor {
 		/// @brief Hides/turns invisible the entity on the UI
 		void hide();
 
-		void initializeABorrar();
-
 		/// @brief Gets the position of axis X of the entity on the UI
 		int getPositionX();
 

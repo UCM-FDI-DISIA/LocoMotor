@@ -214,13 +214,6 @@ void LocoMotor::UIText::hide() {
 	_container->hide();
 }
 
-void LocoMotor::UIText::initializeABorrar() {
-
-	std::vector<std::pair<std::string, std::string>> a;
-	setParameters(a);
-}
-
-
 int LocoMotor::UIText::getPositionX() {
 	return _positionX;
 }
