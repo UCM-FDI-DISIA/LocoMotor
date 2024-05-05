@@ -228,12 +228,22 @@ void LocoMotor::AudioSource::setParameters(ComponentMap& params) {
 
 			}
 		}
+		if (parameter.first == "Loop") {
+			_loops = std::stoi(parameter.second);
+		}
+		if (parameter.first == "LoopStart") {
+			_loopStart = std::stoi(parameter.second);
+		}
+		if (parameter.first == "LoopEnd") {
+			_loopEnd = std::stoi(parameter.second);
+		}
+		
 	}
 }
 
 void LocoMotor::AudioSource::start() {
 	if (_playOnStart != "") {
-		playSound(_playOnStart.c_str());
+		playSound(_playOnStart.c_str(),_loops,_loopStart,_loopEnd);
 	}
 }
 

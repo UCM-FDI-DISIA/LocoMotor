@@ -115,6 +115,10 @@ namespace LocoMotor {
 		int _mode;
 
 		std::string _playOnStart;
+
+		int _loops = 0;
+		int _loopStart = 0;
+		int _loopEnd = 0xffffffff;
 	};
 }
 
