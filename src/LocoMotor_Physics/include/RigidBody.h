@@ -139,9 +139,9 @@ namespace LocoMotor {
 		btRigidBody* CreateRigidBody(RigidBodyInfo info);
 		float _mass;
 		btRigidBody* _body;
-		float _damping = 5;
-		float _angDamping = 5;
-		float _gravity = -9.8;
+		float _damping = 5.f;
+		float _angDamping = 5.f;
+		float _gravity = -9.8f;
 		bool _trigger = false;
 		int _collisionGroup = 0;
 		int _collisionMask = 0;
