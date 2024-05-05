@@ -266,7 +266,7 @@ void LocoMotor::Scripting::ScriptManager::registerSound() {
 
 		.deriveClass<AudioSource, Component>("AudioSource")
 		.addFunction("addSound", &AudioSource::addSound)
-		.addFunction("playSounf", &AudioSource::playSound)
+		.addFunction("playSound", &AudioSource::playSound)
 		.addFunction("playOneShot", &AudioSource::playOneShot)
 		.addFunction("playOneShotWithPitch", &AudioSource::playOneShotWithPitch)
 		.addFunction("pauseSound", &AudioSource::pauseSound)
