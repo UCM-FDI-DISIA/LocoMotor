@@ -211,7 +211,7 @@ void AudioSource::setMode2D() {
 	_mode = FMOD_2D;
 }
 
-void LocoMotor::AudioSource::setParameters(ComponentMap& params) {
+bool LocoMotor::AudioSource::setParameters(ComponentMap& params) {
 	_man = Audio::AudioManager::GetInstance();
 	_chMap = std::unordered_map<const char*, ChannelData>();
 	_volumeMult = 1.f;
@@ -225,7 +225,7 @@ void LocoMotor::AudioSource::setParameters(ComponentMap& params) {
 				_volumeMult = std::stof(parameter.second);
 			}
 			catch (...) {
-
+				_volumeMult = 1;
 			}
 		}
 		if (parameter.first == "Loop") {
@@ -239,6 +239,7 @@ void LocoMotor::AudioSource::setParameters(ComponentMap& params) {
 		}
 		
 	}
+	return true;
 }
 
 void LocoMotor::AudioSource::start() {

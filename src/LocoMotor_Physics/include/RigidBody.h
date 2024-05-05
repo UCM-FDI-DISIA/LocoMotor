@@ -35,7 +35,7 @@ namespace LocoMotor {
 	public:
 		RigidBody();
 		~RigidBody();
-		void setParameters(ComponentMap& params) override;
+		bool setParameters(ComponentMap& params) override;
 		void awake() override;
 		void start() override;
 		void update(float dt)override;

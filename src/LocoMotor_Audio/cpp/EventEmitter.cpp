@@ -83,13 +83,13 @@ void EventEmitter::stop() {
 	_currentEvent->stop(FMOD_STUDIO_STOP_IMMEDIATE);
 }
 
-void LocoMotor::EventEmitter::setParameters(ComponentMap& params) {
+bool LocoMotor::EventEmitter::setParameters(ComponentMap& params) {
 	_studioSys = Audio::AudioManager::GetInstance()->getStudioSystem();
 	if (_studioSys == nullptr) {
 	#ifdef _DEBUG
 		std::cerr << "Attempted to create an EventEmitter component without studio initialized, removing component" << std::endl;
 	#endif
-		return;
+		return false;
 	}
 
 	for (auto& parameter : params) {
@@ -102,13 +102,14 @@ void LocoMotor::EventEmitter::setParameters(ComponentMap& params) {
 					_currentEvent->setVolume(std::stof(parameter.second));
 			}
 			catch (...) {
-
+				_currentEvent->setVolume(1);
 			}
 		}
 		else if (parameter.first == "Start" || parameter.first == "Play") {
 			playOnStart = true;
 		}
 	}
+	return true;
 }
 
 void LocoMotor::EventEmitter::start() {

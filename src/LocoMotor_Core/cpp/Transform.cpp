@@ -21,7 +21,7 @@ void LocoMotor::Transform::initComponent() {
 }
 
 
-void LocoMotor::Transform::setParameters(ComponentMap& params) {
+bool LocoMotor::Transform::setParameters(ComponentMap& params) {
 	//_gameObject->registerTransform(this);
 
 	for (const auto& pair : params) {
@@ -36,6 +36,7 @@ void LocoMotor::Transform::setParameters(ComponentMap& params) {
 			_scale = LMVector3::stringToVector(pair.second);
 		}
 	}
+	return true;
 }
 
 void LocoMotor::Transform::initRuntime(LMVector3 initPos, LMVector3 initRot, LMVector3 initScale) {

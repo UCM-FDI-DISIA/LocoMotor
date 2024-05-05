@@ -14,14 +14,6 @@ LocoMotor::LuaBehaviour::LuaBehaviour() : _luaState(nullptr) {
 }
 
 LocoMotor::LuaBehaviour::~LuaBehaviour() {
-	
-	/*if (_luaUpdate != nullptr) delete _luaUpdate;
-	if (_luaStart != nullptr) delete _luaStart;
-	if (_luaDestroy != nullptr) delete _luaDestroy;
-	if (_luaEnable != nullptr) delete _luaEnable;
-	if (_luaEnable != nullptr) delete _luaDisable;
-	if (_luaAwake != nullptr) delete _luaAwake;
-	if (_luaFixed != nullptr) delete _luaFixed;*/
 	if (obj != nullptr) delete obj;
 }
 
@@ -179,16 +171,16 @@ void LocoMotor::LuaBehaviour::OnCollisionExit(GameObject* other) {
 	}
 }
 
-void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
+bool LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 	for (auto it = params.begin(); it != params.end(); ) {
 		if ((*it).first == "scriptName") {
 			_name = (*it).second;
 			if (!Scripting::ScriptManager::GetInstance()->loadScript(_name, this)) {
-				return;
+				return false;
 			}
 			if (!initBehaviour()) {
-				std::cout << _name << "Was not a table" << std::endl;
-				return;
+				std::cout << _name << " was not a table" << std::endl;
+				return false;
 			}
 			params.erase(it);
 			break;
@@ -198,7 +190,7 @@ void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 			++it;
 		}
 	}
-	if (params.size() == 0) return;
+	if (params.size() == 0) return true;
 	//Si se esta inicializando con parametros (desde la carga de mapas) creo una tabla de lua con los parametros, porque LuaBridge no tiene un
 	//wrapper para poder pasar std::pairs a Lua
 	luabridge::LuaRef paramsTable = luabridge::newTable(_luaState);
@@ -210,13 +202,21 @@ void LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 		if (!luaSetParams.isFunction()) {
 			std::cout << "Lua Warning: " << "You must define a function called " << _name << ":setParameters(params) in " << _name << ".lua" <<
 				"if you want to set the parameters from this component from the scene files" << std::endl;
-			return;
+			return false;
 		}
-		luaSetParams(*obj, paramsTable);
+		luabridge::LuaRef ret = luaSetParams(*obj, paramsTable);
+		if (ret.isBool()) {
+			return ret;
+		}
+		else {
+			std::cout << "Lua Warning: " << _name << ":setParameters should return a boolean. Else it will be assumed to have executed correctly" << std::endl;
+			return true;
+		}
 	}
 	catch (luabridge::LuaException e) {
 		std::cout << e.what() << std::endl;;
 	}
+	return true;
 	
 }
 

@@ -63,7 +63,7 @@ namespace LocoMotor {
 		};
 
 		/// @brief This function is called when the scene loads the parameters of the components
-		virtual void setParameters(ComponentMap& params) = 0;
+		virtual bool setParameters(ComponentMap& params) = 0;
 
 		/// @brief This method is automatically called the first frame the gameobject this component is attached to collides
 		/// with another gameobject

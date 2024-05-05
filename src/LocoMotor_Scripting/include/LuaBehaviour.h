@@ -31,7 +31,7 @@ namespace LocoMotor {
 		void OnCollisionStay(GameObject* other) override;
 		void OnCollisionExit(GameObject* other) override;
 
-		void setParameters(ComponentMap& params) override;
+		bool setParameters(ComponentMap& params) override;
 		luabridge::LuaRef getScript() const;
 	private:
 		bool initBehaviour();

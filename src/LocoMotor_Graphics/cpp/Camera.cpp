@@ -65,7 +65,7 @@ void LocoMotor::Camera::start() {
 	}
 }
 
-void LocoMotor::Camera::setParameters(ComponentMap& params) {
+bool LocoMotor::Camera::setParameters(ComponentMap& params) {
 	init();
 	for (auto& param : params) {
 		if (param.first == "CameraMode") {
@@ -89,6 +89,7 @@ void LocoMotor::Camera::setParameters(ComponentMap& params) {
 			setBackgroundColor(col.getX(), col.getY(), col.getZ());
 		}
 	}
+	return true;
 }
 
 void LocoMotor::Camera::render() {

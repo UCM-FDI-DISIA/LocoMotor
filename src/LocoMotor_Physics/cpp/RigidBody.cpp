@@ -26,7 +26,7 @@ LocoMotor::RigidBody::~RigidBody() {
 	delete _body;
 }
 
-void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
+bool LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 
 	for (int i = 0; i < params.size(); i++) {
 		if (params[i].first == "mass") {
@@ -104,6 +104,7 @@ void LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 	}
 	_body = CreateRigidBody(info);
 	_body->setUserPointer(_gameObject);
+	return true;
 }
 
 void LocoMotor::RigidBody::awake() {

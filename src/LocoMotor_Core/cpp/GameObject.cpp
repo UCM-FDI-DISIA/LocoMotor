@@ -39,9 +39,12 @@ LocoMotor::Component* LocoMotor::GameObject::addComponentWithParams(const std::s
 			params.insert(params.begin(), { "scriptName", name });
 		}
 		comp->init(this, true);
+		if (!comp->setParameters(params)) {
+			delete comp;
+			return nullptr;
+		}
 		_toStart.push(comp);
 		_components.insert({ name, comp });
-		comp->setParameters(params);
 		if (name == "Transform"){
 			_transform = static_cast<Transform*>(comp);
 		}

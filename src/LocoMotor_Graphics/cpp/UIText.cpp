@@ -49,7 +49,7 @@ void LocoMotor::UIText::setFont(std::string nFont) {
 	}
 }
 
-void LocoMotor::UIText::setParameters(ComponentMap& params) {
+bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
 	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
@@ -148,6 +148,7 @@ void LocoMotor::UIText::setParameters(ComponentMap& params) {
 	_overlay->add2D(_container);
 
 	_overlay->show();
+	return true;
 }
 
 void LocoMotor::UIText::update(float dT) {

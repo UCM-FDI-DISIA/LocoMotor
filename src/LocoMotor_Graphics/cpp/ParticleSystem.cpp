@@ -86,7 +86,7 @@ void LocoMotor::ParticleSystem::onDisable() {
 		_particleSystem->setEmitting(false);
 }
 
-void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
+bool LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 
 	_node = Graphics::GraphicsManager::GetInstance()->createNode(_gameObject->getName());
 
@@ -103,10 +103,10 @@ void LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 
 	_particleSystem = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createParticleSystem(_node->getName(), particleName);
 
-	if (_particleSystem == nullptr) return;
+	if (_particleSystem == nullptr) return false;
 
 	_node->attachObject(_particleSystem);
 
 	_particleSystem->setEmitting(false);
-
+	return true;
 }

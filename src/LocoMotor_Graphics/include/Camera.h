@@ -65,7 +65,7 @@ namespace LocoMotor{
 		void init()/* override*/;
 	protected:
 
-		void setParameters(std::vector<std::pair<std::string, std::string>>& params) override;
+		bool setParameters(ComponentMap& params) override;
 		void onEnable() override;
 		void update(float dT) override;
 		// Heredado via Component

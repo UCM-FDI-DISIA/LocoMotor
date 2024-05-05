@@ -28,7 +28,7 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 LocoMotor::MeshRenderer::~MeshRenderer() {
 }
 
-void LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
+bool LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
 	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();
 	_node = man->createNode(_gameObject->getName());
 
@@ -58,6 +58,7 @@ void LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
 		setMaterial(matName);
 		setVisible(visible);
 	}
+	return true;
 }
 
 void LocoMotor::MeshRenderer::awake() {

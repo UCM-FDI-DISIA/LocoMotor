@@ -36,7 +36,7 @@ namespace LocoMotor {
 
 	protected:
 
-		void setParameters(ComponentMap& params) override;
+		bool setParameters(ComponentMap& params) override;
 		void onEnable() override;
 		void start() override;
 		void update(float dT) override;

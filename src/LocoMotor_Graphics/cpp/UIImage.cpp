@@ -33,7 +33,7 @@ void LocoMotor::UIImage::setImage(const std::string& nImage) {
 	}
 }
 
-void LocoMotor::UIImage::setParameters(ComponentMap& params) {
+bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
@@ -96,6 +96,7 @@ void LocoMotor::UIImage::setParameters(ComponentMap& params) {
 	_overlay->add2D(_container);
 
 	_overlay->show();
+	return true;
 }
 
 void LocoMotor::UIImage::update(float dT) {
