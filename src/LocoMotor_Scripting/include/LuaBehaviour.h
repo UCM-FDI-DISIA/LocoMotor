@@ -4,7 +4,7 @@
 #include "Component.h"
 #include <unordered_map>
 #include <string>
-class lua_State;
+struct lua_State;
 namespace luabridge {
 	class LuaRef;
 }

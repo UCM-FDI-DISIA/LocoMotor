@@ -11,7 +11,7 @@
 using namespace LocoMotor;
 using namespace Physics;
 
-LocoMotor::RigidBody::RigidBody() {
+LocoMotor::RigidBody::RigidBody() : _body(nullptr), _mass(1.f) {
 	info = RigidBodyInfo();
 }
 
@@ -173,13 +173,13 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 		rigidbody->setCcdSweptSphereRadius(0.5f);
 	}
 	if (_collisionGroup > 0) {//Bullet solo admite hasta 16 mask
-		rigidbody->getBroadphaseProxy()->m_collisionFilterGroup = pow(2,_collisionGroup+1);
+		rigidbody->getBroadphaseProxy()->m_collisionFilterGroup = (int)pow(2,_collisionGroup+1);
 		
 	}
 	if (_ignoreGroup.size() > 0) {
 		int res = btBroadphaseProxy::AllFilter;
 		for (int i = 0; i < _ignoreGroup.size(); i++) {
-			int pot = pow(2, _ignoreGroup[i] + 1);
+			int pot = (int)pow(2, _ignoreGroup[i] + 1);
 			res = res ^ pot;
 		}
 		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = res;

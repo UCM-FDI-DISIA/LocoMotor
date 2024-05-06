@@ -7,7 +7,7 @@
 #else
 #define MOTOR_API __declspec(dllimport)
 #endif
-class lua_State;
+struct lua_State;
 #include <functional>
 #include <vector>
 #include <iostream>

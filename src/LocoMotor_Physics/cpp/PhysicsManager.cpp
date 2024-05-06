@@ -39,7 +39,7 @@ void LocoMotor::Physics::PhysicsManager::update(double dt) {
 		}
 	}
 
-	_dynamicWorld->stepSimulation(dt / 1000.f, 0);
+	_dynamicWorld->stepSimulation(btScalar(dt / 1000.f), 0);
 
 	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
 		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
