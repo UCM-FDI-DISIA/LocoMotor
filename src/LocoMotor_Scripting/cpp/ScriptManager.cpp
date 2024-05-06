@@ -101,6 +101,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 
 		.beginClass<LMVector3>("Vector3")
 		.addStaticFunction("new", &LMVector3::createVector)
+		.addFunction("__add",(LMVector3 (LMVector3::*)(const LMVector3&) const) &LMVector3::operator+)
+		.addFunction("__sub", (LMVector3 (LMVector3::*)(const LMVector3&) const) &LMVector3::operator-)
 		.addProperty("x", &LMVector3::getX, &LMVector3::setX)
 		.addProperty("y", &LMVector3::getY, &LMVector3::setY)
 		.addProperty("z", &LMVector3::getZ, &LMVector3::setZ)

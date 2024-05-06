@@ -15,11 +15,12 @@ luabridge::LuaRef LuaParser::getFromLua(std::string name) {
 }
 
 void LuaParser::reportErrors(int status) {
-	if (status == 0) {
+	if (status) {
+		// remove error message from Lua state
+		std::cout << std::string(lua_tostring(_luaState, -1)) << std::endl;
+		lua_pop(_luaState, -1);
 		return;
 	}
-	// remove error message from Lua state
-	lua_pop(_luaState, 1);
 }
 
 int LuaParser::readLua(const std::string path) {
