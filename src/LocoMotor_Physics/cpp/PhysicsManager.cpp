@@ -6,6 +6,7 @@
 #include "btBulletCollisionCommon.h"
 #include "btBulletDynamicsCommon.h"
 #include "CallBackBullet.h"
+#include "math.h"
 using namespace LocoMotor;
 using namespace Physics;
 PhysicsManager* PhysicsManager::_instance = nullptr;
@@ -72,6 +73,17 @@ void LocoMotor::Physics::PhysicsManager::setContactEndedCallback(ContactEndedCal
 	//gContactEndedCallback = funtion;
 }
 
+int LocoMotor::Physics::PhysicsManager::getlayerNumber(std::string layer) {
+	if(_layers.find(layer)!=_layers.end())
+	return _layers[layer];
+	else {
+		if (_layerCount < 32) {
+			_layers[layer] = pow(2, _layerCount);
+			_layerCount++;
+		}
+	}
+}
+
 
 LocoMotor::Physics::PhysicsManager::PhysicsManager() : _dynamicWorld(nullptr), _solver(nullptr), _overlappingPairCache(nullptr), _dispatcher(nullptr), _collisionConfiguration(nullptr) {
 
@@ -98,6 +110,8 @@ bool LocoMotor::Physics::PhysicsManager::init() {
 	gContactStartedCallback = LMcontactStart;
 	gContactProcessedCallback = LMcontactProcessed;
 	gContactEndedCallback = LMcontactExit;
-
+	_layers["default"] = 1;
+	_layers["static"] = 2;
+	_layerCount = 2;
 	return true;
 }

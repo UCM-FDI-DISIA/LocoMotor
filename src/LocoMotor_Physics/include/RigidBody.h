@@ -81,16 +81,16 @@ namespace LocoMotor {
 		/// any objects in the physics simulation.
 		/// /// @brief Set the body to be a group of collision , if not set the group is 0
 		/// @param group To set
-		void SetCollisionGroup(int group);
+		void SetCollisionGroup(std::string group);
 		/// @brief Gets the number of rigidbodys group 
 		/// @return The number of group
-		int GetCollisionGroup();
+		std::string GetCollisionGroup();
 		/// @brief Set the mask that want to collide , the number is the group you want to collide
 		/// @param mask The group number
-		void SetCollisionMask(int mask);
+		void ignoreGroup(std::string mask);
 		/// @brief Gets actual collision mask
 		/// @return the number of collsion mask
-		int GetCollisionMask();
+		std::vector<std::string> getIgnoredGroup();
 		/// @brief Gets the linearvelocity of the body
 		/// @return Return a LMVector3 of linear velocity
 		LMVector3 GetLinearVelocity();
@@ -143,12 +143,12 @@ namespace LocoMotor {
 		float _angDamping = 5.f;
 		float _gravity = -9.8f;
 		bool _trigger = false;
-		int _collisionGroup = 0;
+		std::string _collisionGroup = "default";
 		int _collisionMask = 0;
 		bool _raycast = false;
 		bool _beATrigger = false;
 		RigidBodyInfo info;
-		std::vector<int> _ignoreGroup;
+		std::vector<std::string> _ignoreGroup;
 	};
 }
 #endif // !1

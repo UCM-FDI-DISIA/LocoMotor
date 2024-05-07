@@ -6,6 +6,7 @@
 #else
 #define MOTOR_API __declspec(dllimport)
 #endif
+#include <unordered_map>
 class btVector3;
 class btDynamicsWorld;
 class btDefaultCollisionConfiguration;
@@ -40,6 +41,7 @@ namespace LocoMotor{
 			void setContactProcessCallback(ContactProcessedCallback funtion);
 			/// @brief Sets the callback when two body ends contact
 			void setContactEndedCallback(ContactEndedCallback funtion);
+			int getlayerNumber(std::string layer);
 		private:
 			static PhysicsManager* _instance;
 			btDefaultCollisionConfiguration* _collisionConfiguration = nullptr;
@@ -47,6 +49,8 @@ namespace LocoMotor{
 			btBroadphaseInterface* _overlappingPairCache = nullptr;
 			btSequentialImpulseConstraintSolver* _solver = nullptr;
 			btDynamicsWorld* _dynamicWorld = nullptr;
+			int _layerCount;
+			std::unordered_map<std::string, int> _layers;
 			PhysicsManager();
 			~PhysicsManager();
 			bool init();

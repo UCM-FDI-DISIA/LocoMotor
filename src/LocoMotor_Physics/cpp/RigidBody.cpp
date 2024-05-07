@@ -92,14 +92,10 @@ bool LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 			info.capsuleRadius = std::stof(params[i].second);
 		}
 		else if (params[i].first == "group" || params[i].first=="collisionGroup"){
-			int group = std::stoi(params[i].second);
-			if(group >0 && group <30)
-			_collisionGroup = group;
+			_collisionGroup = params[i].second;
 		}
 		else if (params[i].first == "ignoreGroup") {
-			int group = std::stoi(params[i].second);
-			if (group > 0 && group < 30)
-			_ignoreGroup.push_back(group);
+			_ignoreGroup.push_back(params[i].second);
 		}
 	}
 	_body = CreateRigidBody(info);
@@ -134,7 +130,6 @@ void LocoMotor::RigidBody::prePhysUpdate() {
 void LocoMotor::RigidBody::posPhysUpdate() {
 	_gameObject->getComponent<Transform>()->setPosition(BulletToLm(_body->getWorldTransform().getOrigin()));
 	_gameObject->getComponent<Transform>()->setRotation(BulletToLm(_body->getWorldTransform().getRotation()));
-	//std::cout << "X: " << _body->getWorldTransform().getOrigin().x() << "Y: " << _body->getWorldTransform().getOrigin().y() << "Z: " << _body->getWorldTransform().getOrigin().z() << std::endl;
 }
 
 btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
@@ -158,6 +153,9 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 	btVector3 localInertia(0, 0, 0);
 	if (isDynamic)
 		shape->calculateLocalInertia(mass, localInertia);
+	else {
+		_collisionGroup = "static";
+	}
 
 	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
@@ -172,14 +170,11 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 		rigidbody->setCcdMotionThreshold(0.0000001f);//0.0000001f
 		rigidbody->setCcdSweptSphereRadius(0.5f);
 	}
-	if (_collisionGroup > 0) {//Bullet solo admite hasta 16 mask
-		rigidbody->getBroadphaseProxy()->m_collisionFilterGroup = (int)pow(2,_collisionGroup+1);
-		
-	}
+	rigidbody->getBroadphaseProxy()->m_collisionFilterGroup = PhysicsManager::GetInstance()->getlayerNumber(_collisionGroup);
 	if (_ignoreGroup.size() > 0) {
 		int res = btBroadphaseProxy::AllFilter;
 		for (int i = 0; i < _ignoreGroup.size(); i++) {
-			int pot = (int)pow(2, _ignoreGroup[i] + 1);
+			int pot = PhysicsManager::GetInstance()->getlayerNumber(_ignoreGroup[i]);
 			res = res ^ pot;
 		}
 		rigidbody->getBroadphaseProxy()->m_collisionFilterMask = res;
@@ -244,30 +239,31 @@ btRigidBody* LocoMotor::RigidBody::GetBody() {
 void LocoMotor::RigidBody::BeATrigger() {
 	_body->setCollisionFlags(_body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 }
-void LocoMotor::RigidBody::SetCollisionGroup(int group) {
+void LocoMotor::RigidBody::SetCollisionGroup(std::string group) {
 	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
-	proxy->m_collisionFilterGroup = group;
+	proxy->m_collisionFilterGroup = PhysicsManager::GetInstance()->getlayerNumber(group);
 }
 
 
-int LocoMotor::RigidBody::GetCollisionGroup() {
-	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
-	return proxy->m_collisionFilterGroup;
+std::string LocoMotor::RigidBody::GetCollisionGroup() {
+	return _collisionGroup;
 }
 
-
-void LocoMotor::RigidBody::SetCollisionMask(int mask) {
-	if (_body != nullptr) {
-		btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
-		proxy->m_collisionFilterMask = 1 << mask;
+void LocoMotor::RigidBody::ignoreGroup(std::string mask) {
+	_ignoreGroup.push_back(mask);
+	if (_ignoreGroup.size() > 0) {
+		int res = btBroadphaseProxy::AllFilter;
+		for (int i = 0; i < _ignoreGroup.size(); i++) {
+			int pot = PhysicsManager::GetInstance()->getlayerNumber(_ignoreGroup[i]);
+			res = res ^ pot;
+		}
+		_body->getBroadphaseProxy()->m_collisionFilterMask = res;
 	}
-	_collisionMask = mask;
 }
 
 
-int LocoMotor::RigidBody::GetCollisionMask() {
-	btBroadphaseProxy* proxy = _body->getBroadphaseProxy();
-	return proxy->m_collisionFilterMask;
+std::vector<std::string> LocoMotor::RigidBody::getIgnoredGroup() {
+	return _ignoreGroup;
 }
 
 
