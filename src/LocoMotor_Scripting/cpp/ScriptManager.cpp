@@ -1,5 +1,6 @@
 #include "ScriptManager.h"
 
+#include <cmath>
 #include <cassert>
 #include <functional>
 extern "C" {
@@ -57,7 +58,7 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 	registerPhysics();
 	registerSound();
 	luabridge::getGlobalNamespace(_luaState)
-		.deriveClass<LuaBehaviour,Component>("LuaBehaviour")
+		.deriveClass<LuaBehaviour, Component>("LuaBehaviour")
 		.addFunction("getScript", &LuaBehaviour::getScript)
 		.endClass();
 }
@@ -103,6 +104,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addStaticFunction("new", &LMVector3::createVector)
 		.addFunction("__add",(LMVector3 (LMVector3::*)(const LMVector3&) const) &LMVector3::operator+)
 		.addFunction("__sub", (LMVector3 (LMVector3::*)(const LMVector3&) const) &LMVector3::operator-)
+		.addFunction("__mul", (LMVector3(LMVector3::*)(const float&) const) & LMVector3::operator*)
 		.addProperty("x", &LMVector3::getX, &LMVector3::setX)
 		.addProperty("y", &LMVector3::getY, &LMVector3::setY)
 		.addProperty("z", &LMVector3::getZ, &LMVector3::setZ)
@@ -241,8 +243,8 @@ void LocoMotor::Scripting::ScriptManager::registerPhysics() {
 		.addFunction("beATrigger", &RigidBody::BeATrigger)
 		.addFunction("setCollisionGroup", &RigidBody::SetCollisionGroup)
 		.addFunction("getCollisionGroup", &RigidBody::GetCollisionGroup)
-		.addFunction("ignoreGroup", &RigidBody::ignoreGroup)
-		.addFunction("getIgnoredGroup", &RigidBody::getIgnoredGroup)
+		//.addFunction("ignoreGroup", &RigidBody::ignoreGroup)
+		//.addFunction("getIgnoredGroup", &RigidBody::getIgnoredGroup)
 		.addFunction("getLinearVelocity", &RigidBody::GetLinearVelocity)
 		.addFunction("setLinearVelocity", &RigidBody::SetLinearVelocity)
 		.addFunction("getTotalTorque", &RigidBody::GetTotalTorque)
