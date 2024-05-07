@@ -7,6 +7,7 @@
 #define MOTOR_API __declspec(dllimport)
 #endif
 #include <unordered_map>
+#include <string>
 class btVector3;
 class btDynamicsWorld;
 class btDefaultCollisionConfiguration;
