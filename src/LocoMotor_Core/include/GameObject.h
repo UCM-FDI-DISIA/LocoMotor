@@ -113,6 +113,8 @@ namespace LocoMotor {
 		bool hasToBeDestroyed();
 		void setToDestroy();
 
+		void printError(const std::string& method, const std::string& error, const std::string& compName = "");
+
 		bool _toDestroyThis = false;
 	};
 }

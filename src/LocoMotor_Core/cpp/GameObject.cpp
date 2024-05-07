@@ -3,6 +3,7 @@
 #include "ComponentsFactory.h"
 #include "Transform.h"
 #include <vector>
+#include <iostream>
 LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& name) {
 	ComponentsFactory* factory = LocoMotor::ComponentsFactory::GetInstance();
 	if (_components.count(name) > 0) {
@@ -14,7 +15,24 @@ LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& nam
 			comp = factory->createComponent("LuaBehaviour");
 			auto params = ComponentMap();
 			params.push_back({ "scriptName", name });
-			if (!comp->setParameters(params)) {
+			try {
+				if (!comp->setParameters(params)) {
+					delete comp;
+					return nullptr;
+				}
+			}
+			catch (const std::exception& ex) {
+				printError("setParameters", ex.what(), name);
+				delete comp;
+				return nullptr;
+			}
+			catch (const std::string& ex) {
+				printError("setParameters", ex, name);
+				delete comp;
+				return nullptr;
+			}
+			catch (...) {
+				printError("setParameters", "non std exception :)", name);
 				delete comp;
 				return nullptr;
 			}
@@ -91,38 +109,132 @@ void LocoMotor::GameObject::update(float dt) {
 
 	while (!_toDestroy.empty()) {
 		Component* cmp = _toDestroy.front();
-		cmp->onDisable();
-		cmp->onDestroy();
+		try {
+			cmp->onDisable();
+		}
+		catch (const std::exception& ex) {
+			printError("onDisable", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("onDisable", ex);
+		}
+		catch (...) {
+			printError("onDisable", "non std exception :)");
+		}
+		//========
+		try {
+			cmp->onDestroy();
+		}
+		catch (const std::exception& ex) {
+			printError("onDestroy", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("onDestroy", ex);
+		}
+		catch (...) {
+			printError("onDestroy", "non std exception :)");
+		}
 		delete cmp;
 		_toDestroy.pop();
 	}
 	while (!_toDisable.empty()) {
 		Component* cmp = _toDisable.front();
-		cmp->onDisable();
+		try {
+			cmp->onDisable();
+		}
+		catch (const std::exception& ex) {
+			printError("onDisable", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("onDisable", ex);
+		}
+		catch (...) {
+			printError("onDisable", "non std exception :)");
+		}
 		_toDisable.pop();
 	}
 	while (!_toStart.empty()) {
 		Component* cmp = _toStart.front();
-		cmp->onEnable();
-		cmp->start();
+		try {
+			cmp->onEnable();
+		}
+		catch (const std::exception& ex) {
+			printError("onEnable", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("onEnable", ex);
+		}
+		catch (...) {
+			printError("onEnable", "non std exception :)");
+		}
+		//=========
+		try {
+			cmp->start();
+		}
+		catch (const std::exception& ex) {
+			printError("start", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("start", ex);
+		}
+		catch (...) {
+			printError("start", "non std exception :)");
+		}
 		_toStart.pop();
 	}
 	while (!_toEnable.empty()) {
 		Component* cmp = _toEnable.front();
-		cmp->onEnable();
+		try {
+			cmp->onEnable();
+		}
+		catch (const std::exception& ex) {
+			printError("onEnable", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("onEnable", ex);
+		}
+		catch (...) {
+			printError("onEnable", "non std exception :)");
+		}
 		_toEnable.pop();
 	}
 	for (auto& pair : _components) {
 
 		Component* cmp = pair.second;
-		if (cmp->isEnabled()) cmp->update(dt);
+		if (cmp->isEnabled()) {
+			try {
+				cmp->update(dt);
+			}
+			catch (const std::exception& ex) {
+				printError("update", ex.what());
+			}
+			catch (const std::string& ex) {
+				printError("update", ex);
+			}
+			catch (...) {
+				printError("update", "non std exception :)");
+			}
+		}
 	}
 }
 
 void LocoMotor::GameObject::fixedUpdate() {
 	for (auto& pair : _components) {
 		Component* cmp = pair.second;
-		if (cmp->isEnabled()) cmp->fixedUpdate();
+		if (cmp->isEnabled()) {
+			try {
+				cmp->fixedUpdate();
+			}
+			catch (const std::exception& ex) {
+				printError("fixedUpdate", ex.what());
+			}
+			catch (const std::string& ex) {
+				printError("fixedUpdate", ex);
+			}
+			catch (...) {
+				printError("fixedUpdate", "non std exception :)");
+			}
+		}
 	}
 }
 
@@ -133,7 +245,18 @@ void LocoMotor::GameObject::init(LocoMotor::Scene* scene, bool active) {
 
 void LocoMotor::GameObject::awake() {
 	for (auto& cmp : _components) {
-		if (cmp.second->isEnabled())cmp.second->awake();
+		try {
+			cmp.second->awake();
+		}
+		catch (const std::exception& ex) {
+			printError("awake", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("awake", ex);
+		}
+		catch (...) {
+			printError("awake", "non std exception :)");
+		}
 	}
 }
 
@@ -145,6 +268,14 @@ void LocoMotor::GameObject::setToDestroy() {
 	_toDestroyThis = true;
 }
 
+void LocoMotor::GameObject::printError(const std::string& method, const std::string& error, const std::string& compName) {
+
+	if (compName != "")
+		std::cerr << "\033[1;31m" << "Exception while executing '" << method << "' on component '" << compName << "':" << error << "\033[0m" << std::endl;
+	else 
+		std::cerr << "\033[1;31m" << "Exception while executing '" << method << "':" << error << "\033[0m" << std::endl;
+}
+
 std::string LocoMotor::GameObject::getName() {
 	return _gobjName;
 }
@@ -152,20 +283,59 @@ std::string LocoMotor::GameObject::getName() {
 void LocoMotor::GameObject::OnCollisionEnter(GameObject* other) {
 	for (auto& pair : _components) {
 		Component* cmp = pair.second;
-		if (cmp->isEnabled()) cmp->OnCollisionEnter(other);
+		if (cmp->isEnabled()) {
+			try {
+				cmp->OnCollisionEnter(other);
+			}
+			catch (const std::exception& ex) {
+				printError("OnCollisionEnter", ex.what());
+			}
+			catch (const std::string& ex) {
+				printError("OnCollisionEnter", ex);
+			}
+			catch (...) {
+				printError("OnCollisionEnter", "non std exception :)");
+			}
+		}
 	}
 }
 
 void LocoMotor::GameObject::OnCollisionStay(GameObject* other) {
 	for (auto& pair : _components) {
 		Component* cmp = pair.second;
-		if (cmp->isEnabled()) cmp->OnCollisionStay(other);
+		if (cmp->isEnabled()) {
+			try {
+				cmp->OnCollisionStay(other);
+			}
+			catch (const std::exception& ex) {
+				printError("OnCollisionStay", ex.what());
+			}
+			catch (const std::string& ex) {
+				printError("OnCollisionStay", ex);
+			}
+			catch (...) {
+				printError("OnCollisionStay", "non std exception :)");
+			}
+		}
 	}
 }
 
 void LocoMotor::GameObject::OnCollisionExit(GameObject* other) {
 	for (auto& pair : _components) {
 		Component* cmp = pair.second;
-		if (cmp->isEnabled()) cmp->OnCollisionExit(other);
+		if (cmp->isEnabled()) {
+			try {
+				cmp->OnCollisionExit(other);
+			}
+			catch (const std::exception& ex) {
+				printError("OnCollisionExit", ex.what());
+			}
+			catch (const std::string& ex) {
+				printError("OnCollisionExit", ex);
+			}
+			catch (...) {
+				printError("OnCollisionExit", "non std exception :)");
+			}
+		}
 	}
 }
