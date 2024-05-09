@@ -80,7 +80,10 @@ int LocoMotor::Physics::PhysicsManager::getlayerNumber(std::string layer) {
 		if (_layerCount < 32) {
 			_layers[layer] = pow(2, _layerCount);
 			_layerCount++;
+			return _layers[layer];
 		}
+		else //Si ha creado demasiadas capas de collsion que se sobresale de los limites de bullet.
+			return -1; //-1	significa AllFilter , que colisiona con todo.
 	}
 }
 
