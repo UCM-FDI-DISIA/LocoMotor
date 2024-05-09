@@ -24,7 +24,7 @@ namespace LocoMotor {
 		class AudioManager;
 	}
 
-	class MOTOR_API AudioListener : public Component {
+	class AudioListener : public Component {
 
 		friend class Audio::AudioManager;
 

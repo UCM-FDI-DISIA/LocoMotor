@@ -20,7 +20,7 @@ namespace LocoMotor {
 	typedef Component* (*CmpFactory)();
 	template<typename T>
 	using Transformer = T * (*)(Component*);
-	class MOTOR_API ComponentsFactory {
+	class ComponentsFactory {
 	public:
 		/// @brief Initializes the Components Factory instance
 		/// @return This method always returns true.
@@ -29,7 +29,7 @@ namespace LocoMotor {
 		static void Release();
 
 		/// @return The Componenst Factory instance
-		static ComponentsFactory* GetInstance();
+		MOTOR_API static ComponentsFactory* GetInstance();
 
 		/// @brief Creates a component of the give typename, you can provide the type by name or by string
 		/// @tparam T Typename of the component type
@@ -47,7 +47,7 @@ namespace LocoMotor {
 		/// @param name Typename of the component
 		/// @param unique If the component is unique (a component is unique if a given GameObject can only have one instance of it)
 		template <typename T>
-		void registerComponent(const std::string& name) {
+		MOTOR_API void registerComponent(const std::string& name) {
 			if (_factories.count(name) != 0) {
 			#ifdef _DEBUG
 				std::cerr << "\033[1;31m" << "Component of name '" + name + "' already registered, use another name" << "\033[1;31m" << std::endl;
@@ -60,7 +60,7 @@ namespace LocoMotor {
 			_factories.insert({ name,fac });
 		}
 
-		inline bool getRegistered(const std::string name) {
+		MOTOR_API inline bool getRegistered(const std::string name) {
 			return _factories.count(name) > 0;
 		}
 	private:

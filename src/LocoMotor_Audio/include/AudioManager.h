@@ -27,7 +27,7 @@ namespace LocoMotor {
 
 	namespace Audio {
 
-		class MOTOR_API AudioManager {
+		class AudioManager {
 
 		public:
 
@@ -43,13 +43,12 @@ namespace LocoMotor {
 			static bool Init(int numChannels, bool useStudio = false);
 
 			/// @brief Gets the instance to the singleton if it was initialized
-			static AudioManager* GetInstance();
+			MOTOR_API static AudioManager* GetInstance();
 
 			/// @brief Releases everything and deletes the singleton instance
 			static void Release();
 
 			/// @brief Updates the Fmod API to change channel output depending on positions and velocity
-			/// @param deltaTime Bruh
 			/// @return A number that by passing it to GetError(unsigned short) you can get more info if there was an error
 			unsigned short update();
 
@@ -71,7 +70,7 @@ namespace LocoMotor {
 
 			/// @brief Searches the folder for any file named 'Master.strings.bank', and then it searches for all the banks contained in this file in the same folder. Usually by building FMOD Studio in a folder all the banks are placed in the same folder.
 			/// @param fmodPath: path to where the fmod build is located, without placing the '/' character at the end of the path ("Assets/Sounds/FMODStudioBuild")
-			void loadFMODBuild(const char* fmodPath);
+			MOTOR_API void loadFMODBuild(const char* fmodPath);
 
 			/// @brief Gets the FMOD::System object from this manager
 			/// @return The System in question

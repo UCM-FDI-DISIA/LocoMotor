@@ -23,13 +23,13 @@ namespace LocoMotor {
 	namespace Input {
 
 		enum LMScanCode;
-		class MOTOR_API InputManager {
+		class InputManager {
 
 			// Identidicador de mando
 			//using ControllerId = SDL_JoystickID;
 
 		public:
-			enum Axis {
+			enum MOTOR_API Axis {
 				Horizontal, Vertical
 			};
 
@@ -40,7 +40,7 @@ namespace LocoMotor {
 			/// @return Whether the initialize went well or not.
 			static bool Init();
 			/// @brief Returns the instance of the InputManager singleton
-			static InputManager* GetInstance();
+			MOTOR_API static InputManager* GetInstance();
 			/// @brief Deletes the instance of the InputManager singleton
 			static void Release();
 
@@ -48,37 +48,37 @@ namespace LocoMotor {
 
 			// KEYBOARD
 			/// @brief Returns true only in the frame that key is pressed
-			bool GetKeyDown(const LMScanCode& scanCode);
+			MOTOR_API bool GetKeyDown(const LMScanCode& scanCode);
 			/// @brief Returns true when key is pressed
-			bool GetKey(const LMScanCode& scanCode);
+			MOTOR_API bool GetKey(const LMScanCode& scanCode);
 			/// @brief Returns true when key is stop pressed
-			bool GetKeyUp(const LMScanCode& scanCode);
+			MOTOR_API bool GetKeyUp(const LMScanCode& scanCode);
 
 			// MOUSE
 			/// @brief Returns true only in the frame that mouse is pressed
-			bool GetMouseButtonDown(const int& buttonCode);
+			MOTOR_API bool GetMouseButtonDown(const int& buttonCode);
 			/// @brief Returns true when mouse is pressed
-			bool GetMouseButton(const int& buttonCode);
+			MOTOR_API bool GetMouseButton(const int& buttonCode);
 			/// @brief Returns true when mouse is stop pressed
-			bool GetMouseButtonUp(const int& buttonCode);
+			MOTOR_API bool GetMouseButtonUp(const int& buttonCode);
 			/// @brief Returns the position of the mouse in screen
-			std::pair<int, int> GetMousePos();
+			MOTOR_API std::pair<int, int> GetMousePos();
 
 			// Controller
 
 			/// @brief Returns true only in the frame that controller button is pressed
-			bool GetButtonDown(ControllerId controllerId, const int& buttonCode);
+			MOTOR_API bool GetButtonDown(ControllerId controllerId, const int& buttonCode);
 			/// @brief Returns true when controller button is pressed
-			bool GetButton(ControllerId controllerId, const int& buttonCode);
+			MOTOR_API bool GetButton(ControllerId controllerId, const int& buttonCode);
 			/// @brief Returns true when controller button is stop pressed
-			bool GetButtonUp(ControllerId controllerId, const int& buttonCode);
+			MOTOR_API bool GetButtonUp(ControllerId controllerId, const int& buttonCode);
 			/// @brief Returns the inclination value of the joystick
 			/// @param joystickIndex 0 -> left joystick | 1 ->right joystick
 			/// @param axis Horizontal o Vertical
-			float GetJoystickValue(ControllerId controllerId, const int& joystickIndex, const Axis& axis);
+			MOTOR_API float GetJoystickValue(ControllerId controllerId, const int& joystickIndex, const Axis& axis);
 			/// @brief Returns the inclination value of the joystick
 			/// @param triggerIndex 0 -> left trigger | 1 ->right trigger
-			float GetTriggerValue(ControllerId controllerId, const int& triggerIndex);
+			MOTOR_API float GetTriggerValue(ControllerId controllerId, const int& triggerIndex);
 
 
 			// EVENT MANAGER
@@ -121,34 +121,34 @@ namespace LocoMotor {
 			// EXTRA CONTROLLER UTILITY
 
 			/// @brief Sets the controller led in RGB
-			void SetControllerLedColor(ControllerId controllerId, int r, int g, int b);
+			MOTOR_API void SetControllerLedColor(ControllerId controllerId, int r, int g, int b);
 
 			/// @brief Sets the controller rumble with a intensity and a duration in seconds
-			void RumbleController(ControllerId controllerId, const float& intensity, const float& durationInSec);
+			MOTOR_API void RumbleController(ControllerId controllerId, const float& intensity, const float& durationInSec);
 
 
 			// Devuelve los id de todos los mandos que se hayan desconectado este frame
-			const std::list<ControllerId>& getCurrentlyConnectedControllers() {
+			MOTOR_API const std::list<ControllerId>& getCurrentlyConnectedControllers() {
 				return _controllers;
 			}
 
 			// Devuelve los id de todos los mandos que se hayan conectado este frame
-			const std::list<ControllerId>& getOnConnectControllers() {
+			MOTOR_API const std::list<ControllerId>& getOnConnectControllers() {
 				return _connectedControllers;
 			}
 
 			// Devuelve los id de todos los mandos que se hayan desconectado este frame
-			const std::list<ControllerId>& getOnDisconnectControllers() {
+			MOTOR_API const std::list<ControllerId>& getOnDisconnectControllers() {
 				return _disconnectedControllers;
 			}
 
-			static ControllerId invalidControllerId() {
+			MOTOR_API static ControllerId invalidControllerId() {
 				return -1;
 			}
 
 
 			// Suscribe un metodo para ser notificado cuando se conecte/desconecte un mando
-			void addListener(const ListenerFunction& listener) {
+			MOTOR_API void addListener(const ListenerFunction& listener) {
 				_listeners.push_back(listener);
 			}
 
@@ -159,22 +159,22 @@ namespace LocoMotor {
 
 			// Methods for Lua Scripting, since it doesn't support enums
 			/// @brief Returns true only in the frame that key is pressed
-			bool GetKeyDownStr(const std::string& scanCode);
+			MOTOR_API bool GetKeyDownStr(const std::string& scanCode);
 			/// @brief Returns true when key is pressed
-			bool GetKeyStr(const std::string& scanCode);
+			MOTOR_API bool GetKeyStr(const std::string& scanCode);
 			/// @brief Returns true when key is stop pressed
-			bool GetKeyUpStr(const std::string& scanCode);
+			MOTOR_API bool GetKeyUpStr(const std::string& scanCode);
 			//Controller
 			/// @brief Returns true only in the frame that controller button is pressed
-			bool GetButtonDownStr(ControllerId controllerId, const std::string& buttonCode);
+			MOTOR_API bool GetButtonDownStr(ControllerId controllerId, const std::string& buttonCode);
 			/// @brief Returns true when controller button is pressed
-			bool GetButtonStr(ControllerId controllerId, const std::string& buttonCode);
+			MOTOR_API bool GetButtonStr(ControllerId controllerId, const std::string& buttonCode);
 			/// @brief Returns true when controller button is stop pressed
-			bool GetButtonUpStr(ControllerId controllerId, const std::string& buttonCode);
+			MOTOR_API bool GetButtonUpStr(ControllerId controllerId, const std::string& buttonCode);
 			/// @brief Returns the inclination value of the joystick
 			/// @param joystickIndex 0 -> left joystick | 1 ->right joystick
 			/// @param axis Horizontal o Vertical
-			float GetJoystickValueStr(ControllerId controllerId, const int& joystickIndex, const std::string& axis);
+			MOTOR_API float GetJoystickValueStr(ControllerId controllerId, const int& joystickIndex, const std::string& axis);
 		protected:
 
 			static InputManager* _instance;

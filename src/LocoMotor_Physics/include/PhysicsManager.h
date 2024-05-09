@@ -24,16 +24,16 @@ typedef void(*ContactEndedCallback)(btPersistentManifold* const&);
 namespace LocoMotor{
 	namespace Physics{
 
-		class MOTOR_API PhysicsManager {
+		class PhysicsManager {
 		public:
 			static bool Init();
-			static PhysicsManager* GetInstance();
+			MOTOR_API static PhysicsManager* GetInstance();
 			static void Release();
 			/// @brief Update the physics world , steps the physic simulation
 			void update(double dt);
 			/// @brief Sets the worlds gravity
 			/// @param gravity The Vector3 gravity you want to set
-			void setWorldGravity(btVector3 gravity);
+			MOTOR_API void setWorldGravity(btVector3 gravity);
 			/// @brief Gets dynamic World
 			btDynamicsWorld* getDynamicWorld();
 			/// @brief Sets the callback when two body starts contact

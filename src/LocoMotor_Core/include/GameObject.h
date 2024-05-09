@@ -16,7 +16,7 @@ namespace LocoMotor {
 	class Component;
 	class Transform;
 	class Scene;
-	class MOTOR_API GameObject {
+	class GameObject {
 		friend class Scene;
 	public:
 		/// @brief This method adds a new component to the GameObject
@@ -24,20 +24,20 @@ namespace LocoMotor {
 		/// @param name Name of the Component type
 		/// @return returns the Component created. If the component was unique and already on the GameObject
 		/// the already created Component will be returned. 
-		Component* addComponent(const std::string& name);
+		MOTOR_API Component* addComponent(const std::string& name);
 			
-		Component* addComponentWithParams(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
+		MOTOR_API Component* addComponentWithParams(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
 
-		inline Transform* getTransform() {
+		MOTOR_API inline Transform* getTransform() {
 			return _transform;
 		}
 
 		/// @brief This method erases all the components with the given name on the GameObject
 		/// @param name The name of the component to erase
-		void removeComponents(const std::string& name);
+		MOTOR_API void removeComponents(const std::string& name);
 
 		template <typename T>
-		T* getComponent(const std::string& name ="") {
+		MOTOR_API T* getComponent(const std::string& name ="") {
 			if(name == "") { }
 			else if (!ComponentsFactory::GetInstance()->getRegistered(name) && _components.count(name) == 0) {
 				return nullptr;
@@ -57,22 +57,22 @@ namespace LocoMotor {
 			return comp;
 		}
 
-		Component* getComponentByName(const std::string& name);
+		MOTOR_API Component* getComponentByName(const std::string& name);
 		
 		/// @brief This method sets the active state of the GameObject. 
 		/// @param active The new active state of the GameObject
-		inline void setActive(bool active) {
+		MOTOR_API inline void setActive(bool active) {
 			active = _active;
 		};
 
 		/// @brief Returns the active state of the GameObject
 		/// @return 
-		inline bool isActive() {
+		MOTOR_API inline bool isActive() {
 			return _active;
 		};
 
 		/// @brief Gets the gameobject name
-		std::string getName();
+		MOTOR_API std::string getName();
 
 		/// @brief This method is automatically called the first frame this gameobject collides
 		/// with another gameobject

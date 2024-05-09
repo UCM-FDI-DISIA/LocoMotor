@@ -34,14 +34,14 @@ namespace LocoMotor {
 			Ogre::RenderWindow* render = nullptr;
 			SDL_Window* native = nullptr;
 		};
-		class MOTOR_API GraphicsManager {
+		class GraphicsManager {
 		public:
 
 			/// @brief Initializes the GraphicsManager singleton
 			/// @return Whether the initialize went well or not.
 			static bool Init();
 			/// @brief Returns the instance of the GraphicsManager singleton
-			static GraphicsManager* GetInstance();
+			MOTOR_API static GraphicsManager* GetInstance();
 			/// @brief Deletes the instance of the GraphicsManager singleton
 			static void Release();
 			/// @brief Creates a scene, if you try to create a scene with an already used name, the method will return that scene instead.
@@ -64,9 +64,9 @@ namespace LocoMotor {
 			/// @param name The name of the scene to become active
 			void setActiveScene(std::string name);
 			/// @brief Returns the render window height
-			int getWindowHeight();
+			MOTOR_API int getWindowHeight();
 			/// @brief Returns the render window width
-			int getWindowWidth();
+			MOTOR_API int getWindowWidth();
 			/// @brief Deactivates a scene
 			/// @param name The name of the scene
 			void deactivateScene(std::string name);

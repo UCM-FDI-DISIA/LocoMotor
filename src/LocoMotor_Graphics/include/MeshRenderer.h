@@ -27,25 +27,25 @@ namespace LocoMotor {
 		class GraphicsManager;
 	}
 
-	class MOTOR_API MeshRenderer :public LocoMotor::Component {
+	class MeshRenderer :public LocoMotor::Component {
 		friend class Graphics::GraphicsManager;
 	public:
 
 		MeshRenderer();
 		~MeshRenderer();
 		
-		void setMaterial(const std::string& mat);
+		MOTOR_API void setMaterial(const std::string& mat);
 
-		void setMesh(const std::string& mesh);
+		MOTOR_API void setMesh(const std::string& mesh);
 		
 		/// @brief Sets the Mesh renderer visible/invisible
-	    void setVisible(bool visible);
+		MOTOR_API void setVisible(bool visible);
 
-		void init(const std::string& name, const std::string& file, bool istatic);
+		MOTOR_API void init(const std::string& name, const std::string& file, bool istatic);
 
 
-		void playAnimation(const std::string& animationName, bool loop);
-		void updateAnimation(double time);
+		MOTOR_API void playAnimation(const std::string& animationName, bool loop);
+		MOTOR_API void updateAnimation(double time);
 
 	protected:
 

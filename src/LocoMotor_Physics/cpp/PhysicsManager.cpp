@@ -75,10 +75,10 @@ void LocoMotor::Physics::PhysicsManager::setContactEndedCallback(ContactEndedCal
 
 int LocoMotor::Physics::PhysicsManager::getlayerNumber(std::string layer) {
 	if(_layers.find(layer)!=_layers.end())
-	return _layers[layer];
+		return _layers[layer];
 	else {
 		if (_layerCount < 32) {
-			_layers[layer] = pow(2, _layerCount);
+			_layers[layer] = (int)pow(2, _layerCount);
 			_layerCount++;
 			return _layers[layer];
 		}
@@ -88,7 +88,7 @@ int LocoMotor::Physics::PhysicsManager::getlayerNumber(std::string layer) {
 }
 
 
-LocoMotor::Physics::PhysicsManager::PhysicsManager() : _dynamicWorld(nullptr), _solver(nullptr), _overlappingPairCache(nullptr), _dispatcher(nullptr), _collisionConfiguration(nullptr) {
+LocoMotor::Physics::PhysicsManager::PhysicsManager() : _dynamicWorld(nullptr), _solver(nullptr), _overlappingPairCache(nullptr), _dispatcher(nullptr), _collisionConfiguration(nullptr), _layerCount(0) {
 
 }
 
