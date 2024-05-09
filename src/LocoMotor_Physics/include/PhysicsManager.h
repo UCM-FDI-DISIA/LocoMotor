@@ -42,6 +42,8 @@ namespace LocoMotor{
 			void setContactProcessCallback(ContactProcessedCallback funtion);
 			/// @brief Sets the callback when two body ends contact
 			void setContactEndedCallback(ContactEndedCallback funtion);
+			/// @brief Gets the number of a layer in Bullet by name
+			/// @param layer Name of the layer
 			int getlayerNumber(std::string layer);
 		private:
 			static PhysicsManager* _instance;

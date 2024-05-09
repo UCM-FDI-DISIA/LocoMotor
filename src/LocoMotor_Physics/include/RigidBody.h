@@ -72,13 +72,6 @@ namespace LocoMotor {
 		btRigidBody* GetBody();
 		/// @brief Convert the body to be a Trigger(No contact Response)
 		void BeATrigger();
-		/// @brief Methods to return RaycastInfo
-		/// @param from The starting point of the raycast in 3D space.
-		/// @param to The "to" parameter is a 3D vector representing the end point of the raycast. It is the
-		/// point in space where the raycast endsand checks for collisions or intersections with objects in the
-		/// scene.
-		/// @return A boolean value indicating whether a raycast from the "from" point to the "to" point has hit
-		/// any objects in the physics simulation.
 		/// /// @brief Set the body to be a group of collision , if not set the group is 0
 		/// @param group To set
 		void SetCollisionGroup(std::string group);
