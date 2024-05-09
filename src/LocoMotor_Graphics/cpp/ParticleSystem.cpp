@@ -99,6 +99,7 @@ bool LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 				_particleSystem = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createParticleSystem(_node->getName(), particleName);
 			}
 			catch (...) {
+				std::cerr << "ParticleSystem could not be created. " << particleName << ".particle was not found." << std::endl;
 				_particleSystem = nullptr;
 			}
 		}
