@@ -95,13 +95,19 @@ bool LocoMotor::ParticleSystem::setParameters(ComponentMap& params) {
 	for (int i = 0; i < params.size(); i++) {
 		if (params[i].first == "Particle" || params[i].first == "particle") {
 			particleName = params[i].second;
+			try {
+				_particleSystem = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createParticleSystem(_node->getName(), particleName);
+			}
+			catch (...) {
+				_particleSystem = nullptr;
+			}
 		}
 		else if (params[i].first == "PlayOnStart" || params[i].first == "playOnStart") {
 			playOnStart = true;
 		}
 	}
 
-	_particleSystem = Graphics::GraphicsManager::GetInstance()->getOgreSceneManager()->createParticleSystem(_node->getName(), particleName);
+	
 
 	if (_particleSystem == nullptr) return false;
 
