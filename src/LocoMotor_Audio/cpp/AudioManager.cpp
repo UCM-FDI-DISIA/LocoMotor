@@ -201,10 +201,15 @@ AudioManager::~AudioManager()
 	for (auto& snd : _soundLib) {
 		snd.second->release();
 	}
-	_main->release();
+	_main->release(); 
 
-	_sys->close();
-	_sys->release();
+	if (_studioSys != nullptr) {
+		_studioSys->release();
+	}
+	else {
+		_sys->close();
+		_sys->release();
+	}
 }
 
 bool AudioManager::init(int numChannels, bool useStudio)
