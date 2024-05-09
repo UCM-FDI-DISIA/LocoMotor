@@ -8,6 +8,8 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
+#include <iostream>
+
 uint32_t LocoMotor::ParticleSystem::numOfParticleSystems = 0;
 
 LocoMotor::ParticleSystem::ParticleSystem() {
