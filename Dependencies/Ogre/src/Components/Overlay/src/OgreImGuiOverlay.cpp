@@ -24,6 +24,44 @@
 namespace Ogre
 {
 
+static void DrawConfigOption(RenderSystem* rs, const ConfigOption& opt)
+{
+    if(ImGui::BeginCombo(opt.name.c_str(), opt.currentValue.c_str()))
+    {
+        for(const auto& it : opt.possibleValues)
+        {
+            if(ImGui::Selectable(it.c_str(), it == opt.currentValue))
+                rs->setConfigOption(opt.name, it);
+        }
+        ImGui::EndCombo();
+    }
+}
+
+void DrawRenderingSettings(String& rsName)
+{
+    auto root = Root::getSingletonPtr();
+    OgreAssert(root, "Root must be created");
+
+    if(rsName.empty())
+        rsName = root->getRenderSystem()->getName();
+
+    if(ImGui::BeginCombo("Render System", rsName.c_str()))
+    {
+        for(const auto& it : root->getAvailableRenderers())
+        {
+            if(ImGui::Selectable(it->getName().c_str(), it->getName() == rsName))
+                rsName = it->getName();
+        }
+        ImGui::EndCombo();
+    }
+
+    ImGui::SeparatorText("Options");
+
+    auto rs = root->getRenderSystemByName(rsName);
+    for(const auto& it : rs->getConfigOptions())
+        DrawConfigOption(rs, it.second);
+}
+
 ImGuiOverlay::ImGuiOverlay() : Overlay("ImGuiOverlay")
 {
     ImGui::CreateContext();
@@ -80,7 +118,10 @@ void ImGuiOverlay::ImGUIRenderable::createMaterial()
 ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
 {
     FontPtr font = FontManager::getSingleton().getByName(name, group);
-    OgreAssert(font, "font does not exist");
+    if (!font)
+        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
+                    StringUtil::format("Font '%s' not found in group '%s'", name.c_str(), group.c_str()));
+
     OgreAssert(font->getType() == FT_TRUETYPE, "font must be of FT_TRUETYPE");
     DataStreamPtr dataStreamPtr =
         ResourceGroupManager::getSingleton().openResource(font->getSource(), font->getGroup());
@@ -296,6 +337,10 @@ void ImGuiOverlay::ImGUIRenderable::initialise(void)
 //-----------------------------------------------------------------------------------
 ImGuiOverlay::ImGUIRenderable::~ImGUIRenderable()
 {
+    if(mFontTex)
+        TextureManager::getSingleton().remove(mFontTex);
+    if(mMaterial)
+        MaterialManager::getSingleton().remove(mMaterial);
     OGRE_DELETE mRenderOp.vertexData;
     OGRE_DELETE mRenderOp.indexData;
 }

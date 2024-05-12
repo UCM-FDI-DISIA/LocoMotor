@@ -42,6 +42,14 @@ using namespace Ogre;
 
 namespace {
 
+void print_version(void)
+{
+    // OgreMeshUpgrader <Name> (1.10.0) unstable
+    cout << "OgreMeshUpgrader " << OGRE_VERSION_NAME << " "
+         << "(" << OGRE_VERSION_MAJOR << "." << OGRE_VERSION_MINOR << "." << OGRE_VERSION_PATCH << ")"
+         << " " << OGRE_VERSION_SUFFIX << endl;
+}
+
 void help(void)
 {
     cout <<
@@ -49,7 +57,9 @@ R"HELP(Usage: OgreMeshUpgrader [opts] sourcefile [destfile]
 
   Upgrades or downgrades .mesh file versions.
 
+-v             = Display version information
 -pack          = Pack normals and tangents as int_10_10_10_2
+-optvtxcache   = Reorder the indexes to optimise vertex cache utilisation
 -autogen       = Generate autoconfigured LOD. No LOD options needed
 -l lodlevels   = number of LOD levels
 -d loddist     = distance increment to reduce LOD
@@ -81,6 +91,7 @@ struct UpgradeOptions {
     bool dontReorganise;
     bool lodAutoconfigure;
     bool packNormalsTangents;
+    bool optimiseVertexCache;
     unsigned short numLods;
     Real lodDist;
     Real lodPercent;
@@ -123,6 +134,7 @@ UpgradeOptions parseOpts(UnaryOptionList& unOpts, BinaryOptionList& binOpts)
     opts.lodAutoconfigure = unOpts["-autogen"];
     opts.dontReorganise = unOpts["-r"];
     opts.packNormalsTangents = unOpts["-pack"];
+    opts.optimiseVertexCache = unOpts["-optvtxcache"];
 
     // Unary options (true/false options that don't take a parameter)
     if (unOpts["-b"]) {
@@ -426,11 +438,6 @@ struct MeshResourceCreator : public MeshSerializerListener
 
 int main(int numargs, char** args)
 {
-    if (numargs < 2) {
-        help();
-        return -1;
-    }
-
     int retCode = 0;
 
     LogManager logMgr;
@@ -453,6 +460,8 @@ int main(int numargs, char** args)
         unOptList["-autogen"] = false;
         unOptList["-pack"] = false;
         unOptList["-b"] = false;
+        unOptList["-optvtxcache"] = false;
+        unOptList["-v"] = false;
         binOptList["-l"] = "";
         binOptList["-d"] = "";
         binOptList["-p"] = "";
@@ -463,6 +472,19 @@ int main(int numargs, char** args)
         binOptList["-log"] = "OgreMeshUpgrader.log";
 
         int startIdx = findCommandLineOpts(numargs, args, unOptList, binOptList);
+
+		if (unOptList["-v"])
+		{
+			print_version();
+			exit(0);
+		}
+
+        if(numargs < 2 || numargs == startIdx)
+        {
+            help();
+            return -1;
+        }
+
         auto opts = parseOpts(unOptList, binOptList);
 
         logMgr.setDefaultLog(NULL); // swallow startup messages
@@ -549,12 +571,35 @@ int main(int numargs, char** args)
 
         if(opts.packNormalsTangents)
         {
+            logMgr.logMessage("Pack normals and tangents into INT_10_10_10_2...");
             mesh->_convertVertexElement(VES_NORMAL, VET_INT_10_10_10_2_NORM);
             mesh->_convertVertexElement(VES_TANGENT, VET_INT_10_10_10_2_NORM);
+            logMgr.logMessage("Pack normals and tangents into INT_10_10_10_2... success");
         }
 
         if (opts.recalcBounds) {
             recalcBounds(mesh);
+        }
+
+        if(opts.optimiseVertexCache)
+        {
+            logMgr.logMessage("Vertex cache optimization...");
+            VertexCacheProfiler vcp;
+            VertexCacheProfiler vcpnew;
+
+            for (auto s : mesh->getSubMeshes())
+            {
+                if(!s->indexData->indexBuffer)
+                    continue;
+                vcp.profile(s->indexData->indexBuffer);
+                s->indexData->optimiseVertexCacheTriList();
+                vcpnew.profile(s->indexData->indexBuffer);
+                vcp.flush();
+                vcpnew.flush();
+            }
+
+            logMgr.logMessage(StringUtil::format("Vertex cache optimization: ACMR change %.2f -> %.2f",
+                                                 vcp.getAvgCacheMissRatio(), vcpnew.getAvgCacheMissRatio()));
         }
 
         meshSerializer.exportMesh(mesh, dest, opts.targetVersion, opts.endian);

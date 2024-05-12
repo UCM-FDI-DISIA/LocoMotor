@@ -39,7 +39,11 @@
 %csmethodmodifiers Ogre::OverlaySystem::eventOccurred "public";
 #endif
 
-%include "OgreOverlayPrerequisites.h"
+#if SWIG_VERSION == 0x040200
+// https://github.com/swig/swig/issues/2744
+%fragment("SwigPyIterator_T");
+#endif
+
 SHARED_PTR(Font);
 %include "OgreFont.h"
 %include "OgreFontManager.h"
@@ -82,5 +86,6 @@ SHARED_PTR(TextAreaOverlayElement);
 %include "OgreTextAreaOverlayElement.h"
 
 #ifdef HAVE_IMGUI
+%apply Ogre::String* INOUT { Ogre::String& renderSystemName };
 %include "OgreImGuiOverlay.h"
 #endif

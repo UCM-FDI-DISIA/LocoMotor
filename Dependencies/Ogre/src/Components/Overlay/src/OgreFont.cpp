@@ -67,12 +67,6 @@ namespace Ogre
         String doGet(const void* target) const override;
         void doSet(void* target, const String& val) override;
     };
-    class CmdCharSpacer : public ParamCommand
-    {
-    public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
-    };
     class CmdSize : public ParamCommand
     {
     public:
@@ -95,7 +89,6 @@ namespace Ogre
     // Command object for setting / getting parameters
     static CmdType msTypeCmd;
     static CmdSource msSourceCmd;
-    static CmdCharSpacer msCharacterSpacerCmd;
     static CmdSize msSizeCmd;
     static CmdResolution msResolutionCmd;
     static CmdCodePoints msCodePointsCmd;
@@ -125,7 +118,7 @@ namespace Ogre
     Font::Font(ResourceManager* creator, const String& name, ResourceHandle handle,
         const String& group, bool isManual, ManualResourceLoader* loader)
         :Resource (creator, name, handle, group, isManual, loader),
-        mType(FT_TRUETYPE), mTtfSize(0), mTtfResolution(0), mTtfMaxBearingY(0), mAntialiasColour(false)
+        mType(FT_TRUETYPE), mTtfSize(0), mTtfResolution(0), mTtfMaxBearingY(0), mAntialiasColour(true)
     {
 
         if (createParamDictionary("Font"))
@@ -137,9 +130,6 @@ namespace Ogre
             dict->addParameter(
                 ParameterDef("source", "Filename of the source of the font.", PT_STRING),
                 &msSourceCmd);
-            dict->addParameter(
-                ParameterDef("character_spacer", "Spacing between characters to prevent overlap artifacts.", PT_STRING),
-                &msCharacterSpacerCmd);
             dict->addParameter(
                 ParameterDef("size", "True type size", PT_REAL),
                 &msSizeCmd);
@@ -482,6 +472,9 @@ namespace Ogre
                     continue;
                 }
 
+                if(cp == ' ') // should figure out how advance works for stbtt..
+                    idx = stbtt_FindGlyphIndex(&font, '0');
+
                 TRect<int> r;
                 stbtt_GetGlyphBitmapBox(&font, idx, scale, scale, &r.left, &r.top, &r.right, &r.bottom);
 
@@ -535,6 +528,13 @@ namespace Ogre
                 // Advance a column
                 if(width)
                     l += (width + char_spacer);
+
+#ifndef HAVE_FREETYPE
+                if (buffer != NULL)
+                {
+                    STBTT_free(buffer, font.userdata);
+                }
+#endif
             }
         }
 #ifdef HAVE_FREETYPE
@@ -582,12 +582,6 @@ namespace Ogre
         Font* f = static_cast<Font*>(target);
         f->setSource(val);
     }
-    //-----------------------------------------------------------------------
-    String CmdCharSpacer::doGet(const void* target) const
-    {
-        return "1";
-    }
-    void CmdCharSpacer::doSet(void* target, const String& val) {}
     //-----------------------------------------------------------------------
     String CmdSize::doGet(const void* target) const
     {

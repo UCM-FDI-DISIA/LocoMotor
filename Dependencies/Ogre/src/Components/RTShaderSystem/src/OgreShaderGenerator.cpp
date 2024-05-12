@@ -724,7 +724,7 @@ static Technique* findSourceTechnique(const Material& mat, const String& srcTech
     // Find the source technique
     for (auto *t : mat.getTechniques())
     {
-        if (t->getSchemeName() == srcTechniqueSchemeName &&
+        if (t->getSchemeName() == srcTechniqueSchemeName && t->isSupported() &&
             (hasFixedFunctionPass(t) || overProgrammable))
         {
             return t;
@@ -894,7 +894,7 @@ bool ShaderGenerator::removeAllShaderBasedTechniques(const String& materialName,
     return true;
 }
 
-bool ShaderGenerator::cloneShaderBasedTechniques(const Material& srcMat, Material& dstMat)
+bool ShaderGenerator::cloneShaderBasedTechniques(Material& srcMat, Material& dstMat)
 {
     if(&srcMat == &dstMat) return true; // nothing to do
 
@@ -937,6 +937,8 @@ bool ShaderGenerator::cloneShaderBasedTechniques(const Material& srcMat, Materia
     //
     // Clone the render states from source to destination
     //
+
+    srcMat.load(); // ensure supported techniques are loaded
 
     // Check if RTSS techniques exist in the source material
     if (itSrcMatEntry != mMaterialEntriesMap.end())

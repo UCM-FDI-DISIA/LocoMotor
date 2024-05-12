@@ -71,11 +71,7 @@ namespace Ogre {
     {
         StringStream errors;
 
-        if(!Root::getSingleton().getRenderSystem()) {
-            errors << "NULL RenderSystem";
-        } else {
-            mIsSupported = checkGPURules(errors) && checkHardwareSupport(autoManageTextureUnits, errors);
-        }
+        mIsSupported = checkGPURules(errors) && checkHardwareSupport(autoManageTextureUnits, errors);
 
         // Compile for categorised illumination on demand
         clearIlluminationPasses();
@@ -90,14 +86,54 @@ namespace Ogre {
         // Go through each pass, checking requirements
         Passes::iterator i;
         unsigned short passNum = 0;
-        const RenderSystemCapabilities* caps =
-            Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps = nullptr;
+        if (auto rs = Root::getSingleton().getRenderSystem())
+            caps = rs->getCapabilities();
+        else
+        {
+            static RenderSystemCapabilities nullCaps;
+            caps = &nullCaps;
+        }
+
         unsigned short numTexUnits = caps->getNumTextureUnits();
         for (i = mPasses.begin(); i != mPasses.end(); ++i, ++passNum)
         {
             Pass* currPass = *i;
             // Adjust pass index
             currPass->_notifyIndex(passNum);
+
+            const char* err = 0;
+
+            if(currPass->getLineWidth() != 1 && !caps->hasCapability(RSC_WIDE_LINES))
+                err = "line_width > 1";
+            else if(currPass->getPointSize() != 1 && !caps->hasCapability(RSC_POINT_SPRITES))
+                err = "point_size > 1";
+
+            if(err)
+            {
+                compileErrors << "Pass " << passNum << ": " << err << " not supported by RenderSystem";
+                return false;
+            }
+
+            // Check a few fixed-function options in texture layers
+            size_t texUnit = 0;
+            for(const TextureUnitState* tex : currPass->getTextureUnitStates())
+            {
+                if ((tex->getTextureType() == TEX_TYPE_3D) && !caps->hasCapability(RSC_TEXTURE_3D))
+                    err = "Volume";
+
+                if ((tex->getTextureType() == TEX_TYPE_2D_ARRAY) && !caps->hasCapability(RSC_TEXTURE_2D_ARRAY))
+                    err = "Array";
+
+                if (err)
+                {
+                    // Fail
+                    compileErrors << "Pass " << passNum << " Tex " << texUnit << ": " << err
+                                    << " textures not supported by RenderSystem";
+                    return false;
+                }
+                ++texUnit;
+            }
 
             // Check texture unit requirements
             size_t numTexUnitsRequested = currPass->getNumTextureUnitStates();
@@ -113,8 +149,7 @@ namespace Ogre {
                     {
                         // The user disabled auto pass split
                         compileErrors << "Pass " << passNum <<
-                            ": Too many texture units for the current hardware and no splitting allowed."
-                            << std::endl;
+                            ": Too many texture units for the current hardware and no splitting allowed";
                         return false;
                     }
                     else if (currPass->hasVertexProgram())
@@ -122,31 +157,9 @@ namespace Ogre {
                         // Can't do this one, and can't split a programmable pass
                         compileErrors << "Pass " << passNum <<
                             ": Too many texture units for the current hardware and "
-                            "cannot split programmable passes."
-                            << std::endl;
+                            "cannot split programmable passes";
                         return false;
                     }
-                }
-
-                // Check a few fixed-function options in texture layers
-                size_t texUnit = 0;
-                for(const TextureUnitState* tex : currPass->getTextureUnitStates())
-                {
-                    const char* err = 0;
-                    if ((tex->getTextureType() == TEX_TYPE_3D) && !caps->hasCapability(RSC_TEXTURE_3D))
-                        err = "Volume";
-
-                    if ((tex->getTextureType() == TEX_TYPE_2D_ARRAY) && !caps->hasCapability(RSC_TEXTURE_2D_ARRAY))
-                        err = "Array";
-
-                    if (err)
-                    {
-                        // Fail
-                        compileErrors << "Pass " << passNum << " Tex " << texUnit << ": " << err
-                                      << " textures not supported by RenderSystem";
-                        return false;
-                    }
-                    ++texUnit;
                 }
 
                 // We're ok on operations, now we need to check # texture units
@@ -171,10 +184,20 @@ namespace Ogre {
                 }
             }
 
-
+            // try to catch user missing a program early on
+            if (!caps->hasCapability(RSC_FIXED_FUNCTION) && currPass->isProgrammable() &&
+                !currPass->hasGpuProgram(GPT_COMPUTE_PROGRAM))
+            {
+                if (!currPass->hasVertexProgram() ||
+                    (!currPass->hasFragmentProgram() && !currPass->hasGeometryProgram()))
+                {
+                    compileErrors << "Pass " << passNum << ": RenderSystem requires both vertex and fragment programs";
+                    return false;
+                }
+            }
 
             //Check compilation errors for all program types.
-            for (int t = 0; t < 6; t++)
+            for (int t = 0; t < GPT_COUNT; t++)
             {
                 GpuProgramType programType = GpuProgramType(t);
                 if (currPass->hasGpuProgram(programType))
@@ -186,13 +209,12 @@ namespace Ogre {
                             ": " << GpuProgram::getProgramTypeName(programType) + " program " << program->getName()
                             << " cannot be used - ";
                         if (program->hasCompileError() && program->getSource().empty())
-                            compileErrors << "resource not found.";
+                            compileErrors << "resource not found";
                         else if (program->hasCompileError())
-                            compileErrors << "compile error.";
+                            compileErrors << "compile error";
                         else
-                            compileErrors << "not supported.";
+                            compileErrors << "not supported";
 
-                        compileErrors << std::endl;
                         return false;
                     }
                 }
@@ -204,8 +226,15 @@ namespace Ogre {
     //---------------------------------------------------------------------
     bool Technique::checkGPURules(StringStream& errors)
     {
-        const RenderSystemCapabilities* caps =
-            Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps = nullptr;
+        if (auto rs = Root::getSingleton().getRenderSystem())
+            caps = rs->getCapabilities();
+
+        if (!caps && (!mGPUVendorRules.empty() || !mGPUDeviceNameRules.empty()))
+        {
+            errors << "GPU rules failed because the RenderSystem is NULL";
+            return false;
+        }
 
         StringStream includeRules;
         bool includeRulesPresent = false;

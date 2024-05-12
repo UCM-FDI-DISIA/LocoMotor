@@ -4,6 +4,7 @@
 
 #include "OgreApplicationContextBase.h"
 
+#include "OgreOverlayManager.h"
 #include "OgreRoot.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreConfigFile.h"
@@ -19,6 +20,11 @@
 #include "OgreArchiveManager.h"
 
 #include "OgreConfigPaths.h"
+
+#ifdef HAVE_IMGUI
+#include "OgreImGuiOverlay.h"
+#include "OgreImGuiInputListener.h"
+#endif
 
 namespace OgreBites {
 
@@ -249,6 +255,77 @@ void ApplicationContextBase::destroyDummyScene()
     dummyScene->removeRenderQueueListener(mOverlaySystem);
     mWindows[0].render->removeAllViewports();
     mRoot->destroySceneManager(dummyScene);
+}
+
+#ifdef HAVE_IMGUI
+struct ImGuiConfigDialog : Ogre::FrameListener
+{
+    Ogre::String nextRenderer;
+    bool saveConfig;
+
+    bool frameStarted(const Ogre::FrameEvent& evt) override
+    {
+        Ogre::ImGuiOverlay::NewFrame();
+
+        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
+                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
+        auto center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::Begin("Rendering Settings", NULL, flags);
+        Ogre::DrawRenderingSettings(nextRenderer);
+        ImGui::Separator();
+        if (ImGui::Button("Accept"))
+        {
+            Ogre::Root::getSingleton().queueEndRendering();
+            saveConfig = true;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel"))
+            Ogre::Root::getSingleton().queueEndRendering();
+        ImGui::End();
+        return true;
+    }
+};
+#endif
+
+void ApplicationContextBase::runRenderingSettingsDialog()
+{
+#ifndef HAVE_IMGUI
+    OGRE_EXCEPT(Ogre::Exception::ERR_NOT_IMPLEMENTED,
+                "OGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON is required to run the rendering settings dialog");
+#else
+    createRoot();
+    oneTimeConfig();
+    auto rs = getRoot()->getRenderSystem();
+    auto oldVm = rs->getConfigOptions().at("Video Mode").currentValue;
+    rs->setConfigOption("Video Mode", "800 x 600");
+    setup();
+    rs->setConfigOption("Video Mode", oldVm);
+    createDummyScene();
+
+    float vpScale = getDisplayDPI()/96;
+    Ogre::OverlayManager::getSingleton().setPixelRatio(vpScale);
+    auto overlay = initialiseImGui();
+    ImGui::GetIO().FontGlobalScale = std::round(vpScale); // default font does not work with fractional scaling
+    overlay->show();
+
+    addInputListener(getImGuiInputListener());
+
+    ImGuiConfigDialog dialog;
+    getRoot()->addFrameListener(&dialog);
+    getRoot()->startRendering();
+
+    destroyDummyScene();
+    shutdown();
+    mRoot->shutdown();
+    if(dialog.saveConfig)
+    {
+        mRoot->setRenderSystem(mRoot->getRenderSystemByName(dialog.nextRenderer));
+        mRoot->saveConfig();
+    }
+    delete mRoot;
+    mRoot = NULL;
+#endif
 }
 
 void ApplicationContextBase::enableShaderCache() const
@@ -493,6 +570,29 @@ void ApplicationContextBase::locateResources()
 void ApplicationContextBase::loadResources()
 {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+Ogre::ImGuiOverlay* ApplicationContextBase::initialiseImGui()
+{
+#ifndef HAVE_IMGUI
+    OGRE_EXCEPT(Ogre::Exception::ERR_NOT_IMPLEMENTED,
+                "OGRE_BUILD_COMPONENT_OVERLAY_IMGUI=ON is required to use ImGui");
+    return NULL;
+#else
+        if(auto overlay = Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay"))
+            return static_cast<Ogre::ImGuiOverlay*>(overlay);
+
+        auto imguiOverlay = new Ogre::ImGuiOverlay();
+        Ogre::OverlayManager::getSingleton().addOverlay(imguiOverlay); // now owned by overlaymgr
+
+        // handle DPI scaling
+        float vpScale = Ogre::OverlayManager::getSingleton().getPixelRatio();
+        ImGui::GetStyle().ScaleAllSizes(vpScale);
+
+        mImGuiListener.reset(new ImGuiInputListener());
+
+        return imguiOverlay;
+#endif
 }
 
 void ApplicationContextBase::reconfigure(const Ogre::String &renderer, Ogre::NameValuePairList &options)

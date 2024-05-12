@@ -50,12 +50,12 @@ namespace Ogre {
     */
     /** Class representing a node in the scene graph.
 
-            A SceneNode is a type of Node which is used to organise objects in a scene.
-            It has the same hierarchical transformation properties of the generic Node class,
-            but also adds the ability to attach world objects to the node, and stores hierarchical
-            bounding volumes of the nodes in the tree.
-            Child nodes are contained within the bounds of the parent, and so on down the
-            tree, allowing for fast culling.
+        A SceneNode is a type of Node which is used to organise objects in a scene.
+        It has the same hierarchical transformation properties of the generic Node class,
+        but also adds the ability to attach world objects to the node, and stores hierarchical
+        bounding volumes of the nodes in the tree.
+        Child nodes are contained within the bounds of the parent, and so on down the
+        tree, allowing for fast culling.
     */
     class _OgreExport SceneNode : public Node
     {
@@ -162,6 +162,12 @@ namespace Ogre {
         */
         virtual void detachAllObjects(void);
 
+        /** Detaches and destroys all objects attached to this node.
+         *
+         * Does not destroy objects attached to children of this node
+        */
+        void destroyAllObjects(void);
+
         /** Determines whether this node is in the scene graph, i.e.
             whether it's ultimate ancestor is the root scene node.
         */
@@ -194,10 +200,10 @@ namespace Ogre {
 
         /** Internal method which locates any visible objects attached to this node and adds them to the passed in queue.
 
-                Should only be called by a SceneManager implementation, and only after the _updat method has been called to
-                ensure transforms and world bounds are up to date.
-                SceneManager implementations can choose to let the search cascade automatically, or choose to prevent this
-                and select nodes themselves based on some other criteria.
+            Should only be called by a SceneManager implementation, and only after the _updat method has been called to
+            ensure transforms and world bounds are up to date.
+            SceneManager implementations can choose to let the search cascade automatically, or choose to prevent this
+            and select nodes themselves based on some other criteria.
             @param
                 cam The active camera
             @param
@@ -249,7 +255,7 @@ namespace Ogre {
             node but does not destroy it, this method destroys the child
             and all of it's children. 
         @par
-            Use this if you wish to recursively destroy a node as well as 
+            Use this if you wish to recursively destroy a node as well as
             detaching it from it's parent. Note that any objects attached to
             the nodes will be detached but will not themselves be destroyed.
         */
@@ -269,6 +275,31 @@ namespace Ogre {
             node will be detached but will not be destroyed.
         */
         void removeAndDestroyAllChildren(void);
+
+        /** Removes and destroys the child and all movable objects attached to the child,
+         * and does the same to any children of that child node.
+         *
+         * Does **not** destroy animation, textures, meshes associated with those movable objects
+         * */
+        void destroyChildAndObjects(const String& name);
+        ///@overload
+        void destroyChildAndObjects(unsigned short index);
+        ///@overload
+        void destroyChildAndObjects(SceneNode * child);
+
+        /** Destroys everything attatched to or decended from this node
+         * @par
+         * Detaches and destroys all objects attached to this node or
+         * its children.
+         * Removes and destroys all the children of this node
+         * @par
+         * Use this method to complete destroy a node, for example,
+         * if you want to recreate its render tree from scratch.
+         * @par
+         * Does **not** destroy animations, textures, meshes associated with those movable objects
+         * Does not destroy the node itself
+         * */
+        void destroyAllChildrenAndObjects();
 
         /**
          * Load a scene from a file as children of this node

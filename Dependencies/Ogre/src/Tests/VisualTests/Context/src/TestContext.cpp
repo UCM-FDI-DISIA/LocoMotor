@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include "OgreConfigFile.h"
 #include "OgrePlatform.h"
 #include "OgreBitesConfigDialog.h"
+#include <SdkSample.h>
 
 #include <iostream>
 
@@ -82,6 +83,12 @@ TestContext::TestContext(int argc, char** argv) : OgreBites::SampleContext(), mS
     mSummaryOutputDir = binOpt["-o"];
     mHelp = unOpt["-h"] || unOpt["--help"];
 
+    if(mForceConfig)
+    {
+        OgreBites::ApplicationContext ctx(OGRE_VERSION_NAME);
+        ctx.runRenderingSettingsDialog();
+    }
+
     if(mReferenceSetPath.empty())
         mReferenceSetPath = mOutputDir;
 }
@@ -118,6 +125,8 @@ void TestContext::setup()
     desc.name = "OGRE VTest Context";
     mWindow = mRoot->createRenderWindow(desc);
 #endif
+
+    mWindows.push_back({mWindow});
 
     mWindow->setDeactivateOnFocusChange(false);
     
@@ -309,28 +318,11 @@ void TestContext::runSample(OgreBites::Sample* sampleToRun)
     if(sampleToRun)
         LogManager::getSingleton().logMessage("----- Running Visual Test " + sampleToRun->getInfo()["Title"] + " -----");
     SampleContext::runSample(sampleToRun);
-}
-//-----------------------------------------------------------------------
 
-void TestContext::createRoot()
-{
-    // note that we use a separate config file here
-#if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-    mRoot = Ogre::Root::getSingletonPtr();
-#else
-    Ogre::String pluginsPath = Ogre::BLANKSTRING;
-#ifndef OGRE_STATIC_LIB
-    pluginsPath = mFSLayer->getConfigFilePath("plugins.cfg");
-#endif
-    // we use separate config and log files for the tests
-    mRoot = OGRE_NEW Ogre::Root(pluginsPath, mFSLayer->getWritablePath("ogretests.cfg"),
-                                mFSLayer->getWritablePath("ogretests.log"));
-#endif
-
-#ifdef OGRE_STATIC_LIB
-    mStaticPluginLoader.load();
-#endif
-    mOverlaySystem = OGRE_NEW Ogre::OverlaySystem();
+    if(auto sdkSample = dynamic_cast<OgreBites::SdkSample*>(sampleToRun))
+    {
+        sdkSample->_removeTrays();
+    }
 }
 //-----------------------------------------------------------------------
 
@@ -364,15 +356,6 @@ void TestContext::go(OgreBites::Sample* initialSample)
 
 bool TestContext::oneTimeConfig()
 {
-    // if forced, just do it and return
-    if(mForceConfig)
-    {
-        bool temp = mRoot->showConfigDialog(OgreBites::getNativeConfigDialog());
-        if(!temp)
-            mRoot->setRenderSystem(NULL);
-        return temp;
-    }
-
     // try restore
     bool restore = mRoot->restoreConfig();
 

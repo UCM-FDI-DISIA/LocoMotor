@@ -233,19 +233,6 @@ void GLSLProgramWriter::writeMainSourceCode(std::ostream& os, Program* program)
 }
 
 //-----------------------------------------------------------------------
-void GLSLProgramWriter::writeProgramDependencies(std::ostream& os, Program* program)
-{
-    os << "//-----------------------------------------------------------------------------" << std::endl;
-    os << "//                         PROGRAM DEPENDENCIES" << std::endl;
-    os << "//-----------------------------------------------------------------------------" << std::endl;
-    os << "#include <OgreUnifiedShader.h>" << std::endl;
-
-    for (unsigned int i=0; i < program->getDependencyCount(); ++i)
-    {
-        os << "#include \"" << program->getDependency(i) << ".glsl\"" << std::endl;
-    }
-}
-//-----------------------------------------------------------------------
 void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* function, GpuProgramType gpuType)
 {
     const ShaderParameterList& inParams = function->getInputParameters();
@@ -267,6 +254,11 @@ void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* functio
             if(paramContent == Parameter::SPC_POINTSPRITE_COORDINATE)
             {
                 pParam->_rename("gl_PointCoord");
+                continue;
+            }
+            else if(paramContent == Parameter::SPC_POINTSPRITE_SIZE)
+            {
+                // injected by matchVStoPSInterface, but only available in VS
                 continue;
             }
             else if(paramSemantic == Parameter::SPS_POSITION)
@@ -342,14 +334,6 @@ void GLSLProgramWriter::writeOutParameters(std::ostream& os, Function* function,
             else
             {
                 os << "OUT(";
-
-                // In the vertex and fragment program the variable names must match.
-                // Unfortunately now the input params are prefixed with an 'i' and output params with 'o'.
-                // Thats why we rename the params which are used in function atoms
-                String paramName = p->getName();
-                paramName[0] = 'i';
-                p->_rename(paramName);
-
                 writeParameter(os, p);
                 os << ", " << vsOutLocation++ << ")\n";
             }
