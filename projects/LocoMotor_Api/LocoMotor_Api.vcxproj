@@ -61,7 +61,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Scripting\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.0\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Api\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Scripting\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.5\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Api\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -82,7 +82,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Scripting\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.0\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Api\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Scripting\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.5\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Api\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
